@@ -3,6 +3,11 @@
 class HTMLImageElement {
 
     onload!: Function;
+    private $src: string = '';
+
+    get src() {
+        return this.$src;
+    }
 
     set src(value: string) {
         const xhr = new XMLHttpRequest();
@@ -10,8 +15,9 @@ class HTMLImageElement {
         xhr.open('get', value);
         xhr.onload = () => {
             this.onload();
-        }
+        };
         xhr.send();
+        this.$src = value;
     }
 }
 
@@ -25,7 +31,7 @@ class ImageLoader {
         image.onload = () => {
             this.data = { width: 100, height: 100, source: image };
             this.listener();
-        }
+        };
     }
 
     addEventListener(type: string, listener: Function, thisObject: any) {
@@ -44,10 +50,9 @@ class Texture {
     }
 }
 
-
 export function egretMock() {
     global.egret = {
         ImageLoader,
         Texture
-    }
+    };
 }
