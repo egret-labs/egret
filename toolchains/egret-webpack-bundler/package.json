@@ -10,7 +10,7 @@
     "test": "mocha -t 5000"
   },
   "dependencies": {
-    "@egret/eui-compiler": "1.4.9",
+    "@egret/eui-compiler": "workspace:*",
     "@egret/ts-minify-transformer": "workspace:*",
     "copy-webpack-plugin": "^5.1.1",
     "express": "~4.17.1",
