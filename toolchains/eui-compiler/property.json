@@ -191,7 +191,7 @@
     },
     "eui.BitmapLabel": {
         "bottom": "any",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
@@ -207,7 +207,7 @@
         "right": "any",
         "super": "egret.BitmapText",
         "top": "any",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.Button": {
         "icon": "any",
@@ -223,7 +223,7 @@
         "bottom": "any",
         "currentState": "string",
         "enabled": "boolean",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "hostComponentKey": "string",
         "implements": [
             "eui.UIComponent"
@@ -240,7 +240,7 @@
         "skinName": "any",
         "super": "egret.DisplayObjectContainer",
         "top": "any",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.DataGroup": {
         "dataProvider": "eui.ICollection",
@@ -252,7 +252,7 @@
     },
     "eui.EditableText": {
         "bottom": "any",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
@@ -270,13 +270,13 @@
         "right": "any",
         "super": "egret.TextField",
         "top": "any",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.Group": {
         "bottom": "any",
         "currentState": "string",
         "elementsContent": "Array",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "implements": [
             "eui.IViewport"
         ],
@@ -297,7 +297,7 @@
         "super": "egret.DisplayObjectContainer",
         "top": "any",
         "touchThrough": "boolean",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.HScrollBar": {
         "super": "eui.ScrollBarBase"
@@ -310,7 +310,7 @@
     },
     "eui.Image": {
         "bottom": "any",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent"
         ],
@@ -326,7 +326,7 @@
         "source": "string",
         "super": "egret.Bitmap",
         "top": "any",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.ItemRenderer": {
         "data": "any",
@@ -339,7 +339,7 @@
     },
     "eui.Label": {
         "bottom": "any",
-        "horizontalCenter": "any",
+        "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
@@ -356,7 +356,7 @@
         "style": "string",
         "super": "egret.TextField",
         "top": "any",
-        "verticalCenter": "any"
+        "verticalCenter": "number"
     },
     "eui.LayoutBase": {
         "super": "egret.EventDispatcher",
