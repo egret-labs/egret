@@ -398,14 +398,22 @@
     // },
     // 
     {
+      "packageName": "@egret/eui-compiler",
+      "projectFolder": "toolchains/eui-compiler",
+      "reviewCategory": "production",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@egret/ts-minify-transformer",
       "projectFolder": "toolchains/ts-minify-transformer",
-      "reviewCategory": "production"
+      "reviewCategory": "production",
+      "shouldPublish": true
     },
     {
       "packageName": "@egret/egret-webpack-bundler",
       "projectFolder": "toolchains/egret-webpack-bundler",
-      "reviewCategory": "production"
+      "reviewCategory": "production",
+      "shouldPublish": true
     }
   ]
 }
