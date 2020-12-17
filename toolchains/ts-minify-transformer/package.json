@@ -1,0 +1,22 @@
+{
+  "name": "@egret/ts-minify-transformer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+    "fs-extra-plus": "^0.5.18",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "mocha": "^8.0.1",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "mocha -t 5000 ./test/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
