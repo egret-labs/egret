@@ -414,6 +414,12 @@
       "projectFolder": "toolchains/egret-webpack-bundler",
       "reviewCategory": "production",
       "shouldPublish": true
+    },
+    {
+      "packageName": "@egret/assetsmanager",
+      "projectFolder": "packages/assetsmanager",
+      "reviewCategory": "production",
+      "shouldPublish": true
     }
   ]
 }
