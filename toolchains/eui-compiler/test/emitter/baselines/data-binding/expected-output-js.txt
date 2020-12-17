@@ -1,0 +1,26 @@
+skins.MyComponent1 = (function (_super) {
+    __extends(MyComponent1, _super);
+
+    function MyComponent1() {
+        var _this = _super.call(this) || this;
+        _this.skinParts = [];
+        _this.width = 400;
+        _this.height = 300;
+        var a1 = new eui.Button();
+        a1.height = 0;
+        var a2 = new eui.Button();
+        a2.height = 0;
+        a2.width = 0;
+        var a3 = new eui.Button();
+        a3.height = 0;
+         _this.elementsContent = [
+            a1,
+            a2,
+            a3
+        ];
+        eui.Binding.$bindProperties(this, ['hostComponent.test'], [0], a1, 'label');
+        eui.Binding.$bindProperties(this, ['hostComponent.test'], [0], a2, 'label');
+        return _this;
+    }
+    return MyComponent1;
+})(eui.Skin);

@@ -1,0 +1,16 @@
+skins.MyComponent1 = (function (_super) {
+    __extends(MyComponent1, _super);
+    function MyComponent1() {
+        var _this = _super.call(this) || this;
+        _this.skinParts = [];
+        _this.width = 400;
+        _this.height = 300;
+        var a1 = new eui.Group();
+        var a2 = new eui.Label();
+        a2.text = "Label";
+        a1.elementsContent = [a2];
+        _this.elementsContent = [a1];
+        return _this;
+    }
+    return MyComponent1;
+})(eui.Skin);

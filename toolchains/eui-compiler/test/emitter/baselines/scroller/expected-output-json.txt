@@ -1,0 +1,38 @@
+{
+     "skins.MyComponent2": {
+        "$path": "input.exml",
+        "$bs": {
+            "$eleC": [
+                "_Scroller1"
+            ]
+        },
+        "_Scroller1": {
+            "anchorOffsetX": 0,
+            "anchorOffsetY": 0,
+            "height": 148,
+            "scrollPolicyV": "false",
+            "visible": true,
+            "width": 500,
+            "x": 70,
+            "y": 11,
+            "$t": "$eS",
+            "viewport": "_List1"
+        },
+        "_List1": {
+            "anchorOffsetY": 0,
+            "itemRendererSkinName": "skins.GamePetItemRendererSkin",
+            "width": 500,
+            "x": 70,
+            "y": 0,
+            "$t": "$eLs",
+            "layout": "_HorizontalLayout1"
+        },
+        "_HorizontalLayout1": {
+            "gap": 10,
+            "paddingLeft": 2,
+            "verticalAlign": "middle",
+            "$t": "$eHL"
+        },
+        "$sC": "$eSk"
+    }
+}

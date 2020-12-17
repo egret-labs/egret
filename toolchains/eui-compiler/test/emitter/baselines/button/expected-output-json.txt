@@ -1,0 +1,25 @@
+{
+    "skins.MyComponent": {
+        "$path": "input.exml",
+        "$bs": {
+            "$eleC": [
+                "labelDisplay"
+            ]
+        },
+        "labelDisplay": {
+            "bottom": 8,
+            "left": 8,
+            "right": 8,
+            "size": 20,
+            "textAlign": "center",
+            "textColor": 16777215,
+            "top": 8,
+            "verticalAlign": "middle",
+            "$t": "$eL"
+        },
+        "$sP": [
+            "labelDisplay"
+        ],
+        "$sC": "$eSk"
+    }
+}

@@ -1,0 +1,170 @@
+{
+  "name": "@egret/eui-compiler",
+  "entries": [
+    {
+      "version": "1.4.9",
+      "tag": "@egret/eui-compiler_v1.4.9",
+      "date": "Wed, 05 Aug 2020 06:34:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update version"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.8",
+      "tag": "@egret/eui-compiler_v1.4.8",
+      "date": "Mon, 27 Jul 2020 02:50:03 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "添加 data-binding 支持"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.7",
+      "tag": "@egret/eui-compiler_v1.4.7",
+      "date": "Tue, 21 Jul 2020 06:20:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update testcase"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.6",
+      "tag": "@egret/eui-compiler_v1.4.6",
+      "date": "Mon, 06 Jul 2020 09:37:01 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "添加 javascript 输出负数报错的bug"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.5",
+      "tag": "@egret/eui-compiler_v1.4.5",
+      "date": "Sun, 21 Jun 2020 09:40:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "支持发布到 debug / commonjs2 两种模式"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.4",
+      "tag": "@egret/eui-compiler_v1.4.4",
+      "date": "Tue, 09 Jun 2020 08:03:17 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "重构代码，为多 emitter 做准备"
+          },
+          {
+            "comment": "重构 theme 相关代码"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.3",
+      "tag": "@egret/eui-compiler_v1.4.3",
+      "date": "Wed, 03 Jun 2020 08:01:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "eui-compiler不再生成log文件"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.2",
+      "tag": "@egret/eui-compiler_v1.4.2",
+      "date": "Tue, 02 Jun 2020 07:40:46 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "改善报错信息的可读性"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.1",
+      "tag": "@egret/eui-compiler_v1.4.1",
+      "date": "Tue, 02 Jun 2020 06:25:28 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "修复 emit state 相关问题"
+          },
+          {
+            "comment": "优化测试用例"
+          },
+          {
+            "comment": "添加 includeIn 属性支持"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.4.0",
+      "tag": "@egret/eui-compiler_v1.4.0",
+      "date": "Mon, 01 Jun 2020 09:54:27 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "更新AST与状态有关的数据结构"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.3.5",
+      "tag": "@egret/eui-compiler_v1.3.5",
+      "date": "Mon, 01 Jun 2020 08:38:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "修复textColor属性解析错误的bug"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.3.4",
+      "tag": "@egret/eui-compiler_v1.3.4",
+      "date": "Mon, 01 Jun 2020 07:33:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "添加对状态的支持"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.3.3",
+      "tag": "@egret/eui-compiler_v1.3.3",
+      "date": "Mon, 01 Jun 2020 06:15:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "修复生成的皮肤文件报错的问题"
+          }
+        ]
+      }
+    }
+  ]
+}

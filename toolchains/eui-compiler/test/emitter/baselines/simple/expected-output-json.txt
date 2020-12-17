@@ -1,0 +1,28 @@
+{
+    "skins.MyComponent1": {
+        "$path": "input.exml",
+         "$bs": {
+            "width": 400,
+            "$eleC": [
+                "_Group1"
+            ]
+        },
+        "_Group1": {
+            "$t": "$eG",
+            "$eleC": [
+                "image"
+            ]
+        },
+        "image": {
+            "includeInLayout": true,
+            "scale9Grid": "1,1,1,1",
+            "source": "a_png",
+            "width": 100,
+            "$t": "$eI"
+        },
+        "$sP": [
+            "image"
+        ],
+        "$sC": "$eSk"
+    }
+}

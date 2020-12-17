@@ -1,0 +1,30 @@
+{
+  "engineVersion": "5.2.25",
+  "compilerVersion": "5.2.25",
+  "template": {},
+  "eui": {
+    "themes": [
+      "resource/default.thm.json"
+    ]
+  },
+  "target": {
+    "current": "web"
+  },
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "eui"
+    },
+    {
+      "name": "assetsmanager"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "promise"
+    }
+  ]
+}

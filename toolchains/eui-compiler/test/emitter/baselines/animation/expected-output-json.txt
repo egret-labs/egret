@@ -1,0 +1,78 @@
+{
+    "TweenTestSkin": {
+        "$path": "input.exml",
+        "$bs": {
+            "height": 300,
+            "width": 400,
+            "$eleC": [
+                "rect"
+            ]
+        },
+        "_TweenGroup1": {
+            "$t": "egret.tween.TweenGroup",
+            "items": [
+                "_TweenItem1"
+            ]
+        },
+        "_TweenItem1": {
+            "$t": "egret.tween.TweenItem",
+            "target": "",
+            "paths": [
+                "_Set1",
+                "_To1"
+            ]
+        },
+        "_Set1": {
+            "$t": "egret.tween.Set"
+        },
+        "_To1": {
+            "duration": 1250,
+            "$t": "egret.tween.To",
+            "props": "_Object1"
+        },
+        "_Object1": {
+            "x": "",
+            "y": "",
+            "$t": "Object"
+        },
+        "rect": {
+            "anchorOffsetX": 0,
+            "anchorOffsetY": 0,
+            "fillColor": 16711680,
+            "height": 66,
+            "width": 87,
+            "x": 29,
+            "y": 20,
+            "$t": "$eR"
+        },
+        "$sP": [
+            "rect"
+        ],
+        "$b": [
+            {
+                "$bd": [
+                    "rect"
+                ],
+                "$bt": "_TweenItem1",
+                "$bp": "target"
+            },
+            {
+                "$bd": [
+                    231
+                ],
+                "$bt": "_Object1",
+                "$bc": [],
+                "$bp": "x"
+            },
+            {
+                "$bd": [
+                    155
+                ],
+                "$bt": "_Object1",
+                "$bc": [],
+                "$bp": "y"
+            }
+        ],
+        "$sC": "$eSk"
+    }
+}

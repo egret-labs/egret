@@ -1,0 +1,34 @@
+{
+    "skins": {
+        "eui.Button": "exmls/ButtonSkin.exml",
+        "eui.CheckBox": "exmls/CheckBoxSkin.exml",
+        "eui.HScrollBar": "exmls/HScrollBarSkin.exml",
+        "eui.HSlider": "exmls/HSliderSkin.exml",
+        "eui.Panel": "exmls/PanelSkin.exml",
+        "eui.TextInput": "exmls/TextInputSkin.exml",
+        "eui.ProgressBar": "exmls/ProgressBarSkin.exml",
+        "eui.RadioButton": "exmls/RadioButtonSkin.exml",
+        "eui.Scroller": "exmls/ScrollerSkin.exml",
+        "eui.ToggleSwitch": "exmls/ToggleSwitchSkin.exml",
+        "eui.VScrollBar": "exmls/VScrollBarSkin.exml",
+        "eui.VSlider": "exmls/VSliderSkin.exml",
+        "eui.ItemRenderer": "exmls/ItemRendererSkin.exml"
+    },
+    "autoGenerateExmlsList": true,
+    "exmls": [
+        "exmls/ButtonSkin.exml",
+        "exmls/CheckBoxSkin.exml",
+        "exmls/HScrollBarSkin.exml",
+        "exmls/HSliderSkin.exml",
+        "exmls/ItemRendererSkin.exml",
+        "exmls/PanelSkin.exml",
+        "exmls/ProgressBarSkin.exml",
+        "exmls/RadioButtonSkin.exml",
+        "exmls/VScrollBarSkin.exml",
+        "exmls/ScrollerSkin.exml",
+        "exmls/TextInputSkin.exml",
+        "exmls/ToggleSwitchSkin.exml",
+        "exmls/VSliderSkin.exml"
+    ],
+    "path": "exmls.thm.json"
+}

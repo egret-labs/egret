@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent1" width="400" 
+  xmlns:e="http://ns.egret.com/eui">
+  <e:Group>
+    <e:Button>
+      <e:skinName>
+        <e:Skin states="up,down">
+          <e:Image percentHeight="100" percentWidth="100" percentWidth.up="90" percentWidth.down="100"/>
+        </e:Skin>
+      </e:skinName>
+    </e:Button>
+  </e:Group>
+</e:Skin>

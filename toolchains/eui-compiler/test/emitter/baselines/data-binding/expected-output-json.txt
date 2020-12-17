@@ -1,0 +1,46 @@
+{
+    "skins.MyComponent1": {
+        "$path": "input.exml",
+        "$bs": {
+            "height": 300,
+            "width": 400,
+            "$eleC": [
+                "_Button1",
+                "_Button2",
+                "_Button3"
+            ]
+        },
+        "_Button1": {
+            "height": 0,
+            "label": "",
+            "$t": "$eB"
+        },
+        "_Button2": {
+            "height": 0,
+            "label": "",
+            "width": 0,
+            "$t": "$eB"
+        },
+        "_Button3": {
+            "height": 0,
+            "$t": "$eB"
+        },
+        "$b": [
+            {
+                "$bd": [
+                    "hostComponent.test"
+                ],
+                "$bt": "_Button1",
+                "$bp": "label"
+            },
+            {
+                "$bd": [
+                    "hostComponent.test"
+                ],
+                "$bt": "_Button2",
+                "$bp": "label"
+            }
+        ],
+        "$sC": "$eSk"
+    }
+}

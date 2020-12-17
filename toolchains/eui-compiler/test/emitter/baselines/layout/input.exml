@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent"
+	xmlns:e="http://ns.egret.com/eui">
+	<e:Group>
+		<e:layout>
+				<e:HorizontalLayout verticalAlign="middle" gap="10" paddingLeft="2"/>
+			</e:layout>
+	</e:Group>
+</e:Skin>

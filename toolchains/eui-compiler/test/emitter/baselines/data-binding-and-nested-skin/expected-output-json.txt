@@ -1,0 +1,47 @@
+{
+    "skins.MyComponent1": {
+        "$sC": "$eSk",
+        "$path": "input.exml",
+        "$bs": {
+            "width": 400,
+            "$eleC": [
+                "_Group1"
+            ]
+        },
+        "_Group1": {
+            "$t": "$eG",
+            "$eleC": [
+                "_Button1"
+            ]
+        },
+        "_Button1": {
+            "skinName": "skins.MyComponent333333",
+            "$t": "$eB"
+        }
+    },
+    "skins.MyComponent333333": {
+        "$sC": "$eSk",
+        "$bs": {
+            "width": 400,
+            "height": 300,
+            "$eleC": [
+                "_Button1"
+            ]
+        },
+        "_Button1": {
+            "height": 0,
+            "width": 0,
+            "$t": "$eB",
+            "label": ""
+        },
+        "$b": [
+            {
+                "$bd": [
+                    "hostComponent.test"
+                ],
+                "$bt": "_Button1",
+                "$bp": "label"
+            }
+        ]
+    }
+}

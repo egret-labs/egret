@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="TweenTestSkin"
+	 width="400"
+	height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*">
+	<w:Declarations>
+		<tween:TweenGroup>
+			<tween:TweenItem target="{rect}">
+				<tween:Set/>
+				<tween:To duration="1250">
+					<tween:props>
+						<e:Object x="{231}" y="{155}"/>
+					</tween:props>
+				</tween:To>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
+	<e:Rect id="rect" width="87" height="66" x="29" y="20" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xFF0000"/>
+</e:Skin>

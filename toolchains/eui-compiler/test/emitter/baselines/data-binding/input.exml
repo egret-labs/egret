@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent1" width="400" height="300"
+    xmlns:e="http://ns.egret.com/eui"
+    xmlns:w="http://ns.egret.com/wing">
+    <w:Config id="1732d07cdf2"/>
+    <e:Button height='0' label="{test}"/>
+    <e:Button height='0' label="{test}" width='0'/>
+    <e:Button height='0'/>
+    <!-- <e:List> -->
+    <!-- <e:itemRendererSkinName>
+            <e:Skin states="up,down,disabled" minHeight="50" minWidth="100">
+                <e:Image alpha.disabled="0.5" source="button_up_png" source.down="button_down_png"/>
+                <e:Label id="labelDisplay" top="8" bottom="8" left="8" right="8" size="20" fontFamily="Tahoma" textColor="0xFFFFFF" verticalAlign="middle" textAlign="center" text="{data.data}"/>
+            </e:Skin>
+        </e:itemRendererSkinName> -->
+    <!-- <e:ArrayCollection>
+            <e:Array>
+                <e:Object data="1"/>
+                <e:Object data="2"/>
+                <e:Object data="3"/>
+                <e:Object data="4"/>
+            </e:Array>
+        </e:ArrayCollection> -->
+    <!-- </e:List> -->
+</e:Skin>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent2" width="400" 
+	xmlns:e="http://ns.egret.com/eui" states="up,down,disabled">
+
+	<e:Scroller id="avatarGroup" width="500" height="148" anchorOffsetX="0" anchorOffsetY="0" scrollPolicyV="false" visible="true" x="70" horizontalCenter="0" y="11">
+		<e:List id="avatarList" width="500" itemRendererSkinName="skins.GamePetItemRendererSkin" x="70" y="0" anchorOffsetY="0">
+			<e:layout>
+				<e:HorizontalLayout verticalAlign="middle" gap="10" paddingLeft="2"/>
+			</e:layout>
+		</e:List>
+	</e:Scroller>
+</e:Skin>

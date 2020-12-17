@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent1" width="400" 
+  xmlns:e="http://ns.egret.com/eui">
+  <e:Group>
+    <e:Button>
+      <e:skinName>
+        <e:Skin class="skins.MyComponent333333" width="400" height="300"
+          xmlns:e="http://ns.egret.com/eui"
+          xmlns:w="http://ns.egret.com/wing">
+          <w:Config id="1732d07cdf2"/>
+            <e:Button height='0' label="{test}" width='0'/>
+        </e:Skin>
+      </e:skinName>
+    </e:Button>
+  </e:Group>
+</e:Skin>

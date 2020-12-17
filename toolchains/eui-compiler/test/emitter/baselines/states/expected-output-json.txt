@@ -1,0 +1,55 @@
+{
+    "skins.MyComponent2": {
+        "$path": "input.exml",
+        "$bs": {
+            "width": 400,
+            "$eleC": [
+                "_Image1"
+            ],
+            "$sId": [
+                "promptDisplay"
+            ]
+        },
+        "_Image1": {
+            "source": "a_png",
+            "width": 100,
+            "$t": "$eI"
+        },
+        "promptDisplay": {
+            "$t": "$eL"
+        },
+        "$sP": [
+            "promptDisplay"
+        ],
+        "$s": {
+            "up": {},
+            "down": {
+                "$ssP": [
+                    {
+                        "target": "_Image1",
+                        "name": "source",
+                        "value": "button_down_png"
+                    }
+                ]
+            },
+            "disabled": {
+                "$ssP": [
+                    {
+                        "target": "_Image1",
+                        "name": "alpha",
+                        "value": 0.5
+                    }
+                ],
+                "$saI": [
+                    {
+                        "target": "promptDisplay",
+                        "property": "",
+                        "position": 1,
+                        "relativeTo": ""
+                    }
+                ]
+            }
+        },
+        "$sC": "$eSk"
+    }
+}

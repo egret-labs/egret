@@ -1,0 +1,2 @@
+class TweenTestSkin extends eui.Skin {
+}

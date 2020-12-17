@@ -1,0 +1,10 @@
+bin-debug
+bin-release
+libs
+node_modules
+TODO
+*.log
+default.thm.js
+theme.js
+lib
+test-egret-project

@@ -1,0 +1,36 @@
+var TweenTestSkin = function (_super) {
+    __extends(TweenTestSkin, _super);
+    function TweenTestSkin() {
+        var _this = _super.call(this) || this;
+        _this.skinParts = ['rect'];
+        _this.width = 400;
+        _this.height = 300;
+        var a2 = new tween.TweenGroup();
+        var a3 = new tween.TweenItem();
+        var a4 = new tween.Set();
+        var a5 = new tween.To();
+        a5.duration = 1250;
+        var a6 = new eui.Object();
+        a5.props = a6;
+        a3.paths = [
+            a4,
+            a5
+        ];
+        a2.items = [a3];
+        var a7 = new eui.Rect();
+        _this.rect = a7;
+        a7.width = 87;
+        a7.height = 66;
+        a7.x = 29;
+        a7.y = 20;
+        a7.anchorOffsetX = 0;
+        a7.anchorOffsetY = 0;
+        a7.fillColor = 16711680;
+        _this.elementsContent = [a7];
+        eui.Binding.$bindProperties(this, ['rect'], [0], a3, 'target');
+        eui.Binding.$bindProperties(this, [231], [], a6, 'x');
+        eui.Binding.$bindProperties(this, [155], [], a6, 'y');
+        return _this;
+    }
+    return TweenTestSkin;
+}(eui.Skin);

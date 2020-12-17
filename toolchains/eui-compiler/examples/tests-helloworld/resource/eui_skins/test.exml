@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.GameTextInputSkin" minHeight="40" minWidth="300" 
+	xmlns:e="http://ns.egret.com/eui" width="300" height="40">
+	<e:Image left="0" top="0" source="SBm_images024_png" visible="true" width="100%" height="100%" touchEnabled="false"/>
+	<e:EditableText id="textDisplay" verticalCenter="0" left="10" right="10" width="100%" height="24" size="20" textColor="0xffffff" touchEnabled="false" fontFamily="Microsoft YaHei"/>
+	<e:Label id="promptDisplay" verticalCenter="0" left="10" right="10" width="100%" height="24" size="20" touchEnabled="false" textColor="0xffffff" fontFamily="Microsoft YaHei"/>
+</e:Skin>

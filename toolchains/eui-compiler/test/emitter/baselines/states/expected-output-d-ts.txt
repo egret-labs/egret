@@ -1,0 +1,4 @@
+declare module skins {
+    class MyComponent2 extends eui.Skin {
+    }
+}

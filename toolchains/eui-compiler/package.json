@@ -1,0 +1,45 @@
+{
+  "name": "@egret/eui-compiler",
+  "version": "1.4.9",
+  "description": "",
+  "main": "./lib/index.js",
+  "bin": {
+    "eui": "./bin/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "mocha -t 5000 ./test/emitter/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WanderWang/eui-compiler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WanderWang/eui-compiler/issues"
+  },
+  "homepage": "https://github.com/WanderWang/eui-compiler#readme",
+  "typings": "lib/index.d.ts",
+  "devDependencies": {
+    "@types/ajv": "^1.0.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^11.11.3",
+    "mocha": "^6.2.2",
+    "mock-fs": "^4.10.2",
+    "@types/glob": "~7.1.2"
+  },
+  "dependencies": {
+    "ajv": "^6.12.0",
+    "ajv-i18n": "^3.5.0",
+    "args": "^5.0.1",
+    "egret-node-utils": "0.0.7",
+    "escodegen": "^1.14.1",
+    "esprima": "^4.0.1",
+    "glob": "7.1.6",
+    "trim-lines": "^1.1.2",
+    "typescript": "^3.9.7",
+    "xml-js": "^1.6.9"
+  }
+}

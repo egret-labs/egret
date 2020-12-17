@@ -1,0 +1,35 @@
+{
+    "skins.MyComponent1": {
+        "$path": "input.exml",
+        "$bs": {
+            "width": 400,
+            "$eleC": [
+                "_Group1"
+            ]
+        },
+        "_Group1": {
+            "$t": "$eG",
+            "$eleC": [
+                "_Button1"
+            ]
+        },
+        "_Button1": {
+            "$t": "$eB",
+            "skinName": "skins.MyComponent1$Skin1"
+        },
+        "$sC": "$eSk"
+    },
+    "skins.MyComponent1$Skin1": {
+        "$bs": {
+            "$eleC": [
+                "_Image1"
+            ]
+        },
+        "_Image1": {
+            "percentHeight": 100,
+            "percentWidth": 100,
+            "$t": "$eI"
+        },
+        "$sC": "$eSk"
+    }
+}

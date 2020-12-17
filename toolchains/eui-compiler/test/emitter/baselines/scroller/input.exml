@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.MyComponent2"
+	xmlns:e="http://ns.egret.com/eui" >
+
+	<e:Scroller  width="500" height="148" anchorOffsetX="0" anchorOffsetY="0" scrollPolicyV="false" visible="true" x="70" y="11">
+		<e:List  width="500" itemRendererSkinName="skins.GamePetItemRendererSkin" x="70" y="0" anchorOffsetY="0">
+			<e:layout>
+				<e:HorizontalLayout verticalAlign="middle" gap="10" paddingLeft="2"/>
+			</e:layout>
+		</e:List>
+	</e:Scroller>
+</e:Skin>
