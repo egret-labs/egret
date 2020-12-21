@@ -1,0 +1,1 @@
+Exml Error: classname should start with `skins.`, which value is `RestaurantAISkin`
