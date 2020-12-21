@@ -131,3 +131,7 @@ let maxLoadingThread: number = 4;
 export function setMaxLoadingThread(thread: number): void {
     maxLoadingThread = thread;
 }
+
+export function setMaxRetryTimes(retry: number): void {
+
+}
