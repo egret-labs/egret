@@ -82,8 +82,8 @@ describe('legacy-api', () => {
         assert.ok(texture, 'load-texture-success');
     });
     it('get-group-byName', async () => {
-        await RES.loadConfig("default.res.json", "http://localhost:3000/static");
-        const result = await RES.getGroupByName("preload");
+        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        const result = await RES.getGroupByName('preload');
         assert.deepEqual(result, ['1_jpg', '1_json'], 'get-group-byName-success');
     });
 });
