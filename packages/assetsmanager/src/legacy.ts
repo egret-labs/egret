@@ -124,6 +124,9 @@ export function getGroupByName(name: string) {
     throw new Error('missing groupName ' + name);
 }
 
+/**
+ * @deprecated
+ */
 export function createGroup(name: string, keys: string[], override: boolean = false) {
     if (override === void 0) { override = false; }
     const store = getStore();
