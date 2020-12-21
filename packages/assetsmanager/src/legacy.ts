@@ -1,5 +1,5 @@
 import { merge } from 'rxjs';
-import { map, mergeAll } from 'rxjs/operators';
+import { map, mergeAll, scan } from 'rxjs/operators';
 import { getResourceInfo, initConfig, load } from '.';
 import { getCache, getStore } from './store';
 import { ResourceInfo } from './typings';
@@ -38,12 +38,22 @@ export interface PromiseTaskReporter {
  * @deprecated
  */
 export function loadGroup(groupName: string, priority?: number, reporter?: PromiseTaskReporter) {
+
+    function emitReporter(current: number, v: ResourceInfo) {
+        if (reporter && reporter.onProgress) {
+            reporter.onProgress(current, resourceNames.length, v);
+        }
+        return current + 1;
+    }
+
     const store = getStore();
     const resourceNames = store.config.groups[groupName];
     if (resourceNames) {
         const resources = resourceNames.map((resourceName) => store.config.resources[resourceName]);
-        return merge(resources.map(load)).pipe(
-            mergeAll(2)
+        const loaders = resources.map(load);
+        return merge(loaders).pipe(
+            mergeAll(2),
+            scan(emitReporter, 0)
         ).toPromise();
     }
     throw new Error('missing groupName ' + groupName);
@@ -81,10 +91,16 @@ export function getResAsync(name: string) {
     return load(resource).toPromise();
 }
 
+/**
+ * @deprecated
+ */
 export function hasRes(key: string) {
     return !!getStore().config.resources[key];
 }
 
+/**
+ * @deprecated
+ */
 export function getResByUrl(url: string, listener: Function, thisObject: any, type: string) {
     const resource = { url, name: url, type };
     const subsciption = load(resource).pipe(
@@ -94,6 +110,9 @@ export function getResByUrl(url: string, listener: Function, thisObject: any, ty
     });
 }
 
+/**
+ * @deprecated
+ */
 export function getGroupByName(name: string) {
     const store = getStore();
     const resourceNames = store.config.groups[name];
