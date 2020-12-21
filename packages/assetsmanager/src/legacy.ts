@@ -53,7 +53,7 @@ export function loadGroup(groupName: string, priority?: number, reporter?: Promi
         const resources = resourceNames.map((resourceName) => store.config.resources[resourceName]);
         const loaders = resources.map(load);
         return merge(loaders).pipe(
-            mergeAll(2),
+            mergeAll(maxLoadingThread),
             scan(emitReporter, 0)
         ).toPromise();
     }
@@ -121,4 +121,13 @@ export function getGroupByName(name: string) {
         return resourceNames;
     }
     throw new Error('missing groupName ' + name);
+}
+
+let maxLoadingThread: number = 4;
+/**
+ * 
+ * @deprecated
+ */
+export function setMaxLoadingThread(thread: number): void {
+    maxLoadingThread = thread;
 }

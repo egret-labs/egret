@@ -6,11 +6,13 @@ import { describe, it } from 'mocha';
 import { destory, initConfig } from '../src';
 import * as RES from '../src/legacy';
 import { egretMock } from './egret-mock';
+import { apply, clearHitCheck, getCount } from './server-hit-check';
 
 egretMock();
 global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 const app = new Koa();
+apply(app);
 app.use(koaStatic({ dir: __dirname }));
 let server: Server;
 
@@ -52,6 +54,7 @@ describe('legacy-api', () => {
         server.close();
     });
     afterEach(() => {
+        clearHitCheck();
         destory();
     });
     it('check-url', () => {
@@ -96,5 +99,16 @@ describe('legacy-api', () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
         const result = await RES.getGroupByName('preload');
         assert.deepEqual(result, ['1_jpg', '1_json'], 'get-group-byName-success');
+    });
+    it('get-group-retry', async () => {
+        try {
+            await RES.loadConfig('error.res.json', 'http://localhost:3000/static');
+
+        }
+        catch (e) {
+
+        }
+        const hitCount = getCount('/static/error.res.json');
+        assert.equal(hitCount, 1);
     });
 });
