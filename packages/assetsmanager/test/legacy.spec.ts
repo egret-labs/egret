@@ -5,6 +5,7 @@ import koaStatic from 'koa-simple-static';
 import { describe, it } from 'mocha';
 import { destory, initConfig } from '../src';
 import * as RES from '../src/legacy';
+import { getStore } from '../src/store';
 import { egretMock } from './egret-mock';
 import { apply, clearHitCheck, getCount } from './server-hit-check';
 
@@ -111,4 +112,15 @@ describe('legacy-api', () => {
         const hitCount = getCount('/static/error.res.json');
         assert.equal(hitCount, 1);
     });
+    it('create-group-true', async () => {
+        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
+        assert.deepEqual(getStore().config.groups, { preload: ['1_jpg', '1_json', '1_txt'] }, 'create-group-true-success');
+    });
+    it('create-group-false', async () => {
+        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], false);
+        assert.deepEqual(getStore().config.groups, { preload: ['1_jpg', '1_json'] }, 'create-group-false-success');
+    });
 });
+

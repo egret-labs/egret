@@ -17,6 +17,7 @@ class EuiParser {
         const data = convert.xml2js(filecontent) as convert.Element;
         const rootExmlElement = data.elements!.find(e => e.name === 'e:Skin')!;
         const skinNode = this.createSkinNode(rootExmlElement);
+        this.check(skinNode);
         return skinNode;
     }
 
@@ -60,7 +61,7 @@ class EuiParser {
                             namespaceMapping[name] = match[1] + '.';
                         }
                     }
-                    else if(value == '*'){
+                    else if (value == '*') {
                         namespaceMapping[name] = '';
                     }
                 }
@@ -193,6 +194,35 @@ class EuiParser {
             }
         }
         return node;
+    }
+
+    private check(rootNode: any) {
+
+        checkClassName(rootNode);
+        checkAttribute(rootNode.attributes);
+        for (const child of rootNode.children) {
+            this.check(child);
+        }
+
+        function checkClassName(rootNode: AST_Skin) {
+            if (rootNode.fullname) {
+                const value = rootNode.fullname;
+                const reg = /^skins\./;
+                if (!value.match(reg)) {
+                    error(`Exml Error: classname should start with \`skins.\`, which value is \`${rootNode.fullname}\``);
+                }
+            }
+        }
+
+        function checkAttribute(attributes: any[]) {
+            for (const attr of attributes) {
+
+            }
+        }
+
+        function error(message: string) {
+            throw (message);
+        }
     }
 
 }
