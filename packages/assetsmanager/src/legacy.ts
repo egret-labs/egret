@@ -40,10 +40,11 @@ export interface PromiseTaskReporter {
 export function loadGroup(groupName: string, priority?: number, reporter?: PromiseTaskReporter) {
 
     function emitReporter(current: number, v: ResourceInfo) {
+        current += 1;
         if (reporter && reporter.onProgress) {
             reporter.onProgress(current, resourceNames.length, v);
         }
-        return current + 1;
+        return current;
     }
 
     const store = getStore();

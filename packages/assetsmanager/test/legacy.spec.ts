@@ -81,6 +81,17 @@ describe('legacy-api', () => {
         const texture = RES.getRes('1_jpg');
         assert.ok(texture, 'load-texture-success');
     });
+    it('load-group-reporter', async () => {
+        let localCurrent = 0;
+        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.loadGroup('preload', 0, {
+            onProgress: (current, total) => {
+                localCurrent++;
+                assert.equal(total, 2);
+                assert.equal(current, localCurrent);
+            }
+        });
+    });
     it('get-group-byName', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
         const result = await RES.getGroupByName('preload');
