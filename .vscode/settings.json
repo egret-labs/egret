@@ -3,5 +3,6 @@
         {
             "pattern": "./packages/*/"
         }
-    ]
+    ],
+    "files.eol": "\n"
 }
