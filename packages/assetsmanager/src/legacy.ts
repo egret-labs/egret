@@ -100,3 +100,13 @@ export function getResByUrl(url: string, listener: Function, thisObject: any, ty
         subsciption.unsubscribe();
     })
 }
+
+
+export function getGroupByName(name: string) {
+    const store = getStore();
+    const resourceNames = store.config.groups[name];
+    if (resourceNames) {
+        return resourceNames;
+    }
+    throw new Error('missing groupName ' + name);
+}
