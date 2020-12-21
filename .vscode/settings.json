@@ -1,0 +1,8 @@
+{
+    "eslint.workingDirectories": [
+        {
+            "pattern": "./packages/*/"
+        }
+    ],
+    "files.eol": "\n"
+}
