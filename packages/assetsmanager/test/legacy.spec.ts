@@ -7,11 +7,13 @@ import { destory, initConfig } from '../src';
 import * as RES from '../src/legacy';
 import { getStore } from '../src/store';
 import { egretMock } from './egret-mock';
+import { apply, clearHitCheck, getCount } from './server-hit-check';
 
 egretMock();
 global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 const app = new Koa();
+apply(app);
 app.use(koaStatic({ dir: __dirname }));
 let server: Server;
 
@@ -53,6 +55,7 @@ describe('legacy-api', () => {
         server.close();
     });
     afterEach(() => {
+        clearHitCheck();
         destory();
     });
     it('check-url', () => {
@@ -98,6 +101,17 @@ describe('legacy-api', () => {
         const result = await RES.getGroupByName('preload');
         assert.deepEqual(result, ['1_jpg', '1_json'], 'get-group-byName-success');
     });
+    it('get-group-retry', async () => {
+        try {
+            await RES.loadConfig('error.res.json', 'http://localhost:3000/static');
+
+        }
+        catch (e) {
+
+        }
+        const hitCount = getCount('/static/error.res.json');
+        assert.equal(hitCount, 3);
+    });
     it('create-group-true', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
         await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
@@ -109,3 +123,4 @@ describe('legacy-api', () => {
         assert.deepEqual(getStore().config.groups, { preload: ['1_jpg', '1_json'] }, 'create-group-false-success');
     });
 });
+
