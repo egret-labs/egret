@@ -1,8 +1,8 @@
-import { timer } from 'rxjs';
-import { delay, delayWhen, retryWhen, scan, tap } from 'rxjs/operators';
+import { merge } from 'rxjs';
+import { map, mergeAll, tap } from 'rxjs/operators';
 import { getLoader } from './processors';
 import { getCache, getStore, initStore } from './store';
-import { ResourceConfigFile, ResourceInfo } from './typings';
+import { ResourceConfig, ResourceConfigFile, ResourceInfo } from './typings';
 
 export function destory() {
     initStore();
@@ -25,16 +25,6 @@ export function initConfig(resourceRoot: string, config: ResourceConfigFile) {
 
 export function load(resource: ResourceInfo) {
     return getLoader(resource.type)(resource).pipe(
-        retryWhen((errors) => errors.pipe(
-            // 输出错误信息
-            tap(console.log),
-            scan((acc, curr) => {
-                if (acc > 2) {
-                    throw curr;
-                }
-                return acc + 1;
-            }, 1),
-            delay(100))),
         tap((v) => getCache()[resource.name] = v)
     );
 }
@@ -45,14 +35,4 @@ export function getResourceInfo(key: string) {
         throw new Error('error res name');
     };
     return result;
-}
-
-type Configure = {
-    maxRetry: number;
-}
-
-let globalConfig: Configure;
-
-export function configure(config: { maxRetry: number }) {
-    globalConfig = config;
 }

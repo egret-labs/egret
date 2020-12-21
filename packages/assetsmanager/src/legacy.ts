@@ -6,6 +6,7 @@ import { ResourceInfo } from './typings';
 
 export { getResourceInfo } from '.';
 
+
 /**
  * 资源组的加载进度提示
  * @deprecated
@@ -53,7 +54,7 @@ export function loadGroup(groupName: string, priority?: number, reporter?: Promi
         const resources = resourceNames.map((resourceName) => store.config.resources[resourceName]);
         const loaders = resources.map(load);
         return merge(loaders).pipe(
-            mergeAll(maxLoadingThread),
+            mergeAll(2),
             scan(emitReporter, 0)
         ).toPromise();
     }
@@ -127,9 +128,7 @@ export function getGroupByName(name: string) {
  * @deprecated
  */
 export function createGroup(name: string, keys: string[], override: boolean = false) {
-    if (override === void 0) {
-        override = false;
-    };
+    if (override === void 0) { override = false; }
     const store = getStore();
     if ((!override && store.config.groups[name]) || !keys || keys.length == 0) {
         return false;
@@ -148,5 +147,3 @@ export function createGroup(name: string, keys: string[], override: boolean = fa
     store.config.groups[name] = group;
     return true;
 }
-
-const maxLoadingThread = 4;
