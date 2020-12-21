@@ -1,0 +1,4 @@
+declare module skins {
+    class RestaurantAISkin extends eui.Skin {
+    }
+}

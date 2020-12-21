@@ -2,7 +2,7 @@ import * as codegen from 'escodegen';
 import { BaseEmitter } from '.';
 import { AST_Attribute, AST_Node, AST_NodeBase, AST_Skin, AST_STATE, AST_Binding } from "../exml-ast";
 import { EmitterHost } from './host';
-
+import { namespaceMapping } from '../util/parser';
 
 
 
@@ -169,6 +169,11 @@ export class JavaScriptEmitter extends BaseEmitter {
 
 
     private emitNode(node: AST_Node, host: EmitterHost) {
+        const reg = /^([\u4E00-\u9FA5A-Za-z0-9_]+)\.([\u4E00-\u9FA5A-Za-z0-9_]+)$/;
+        const match = (node as any).type.match(reg);
+        if (match && namespaceMapping.hasOwnProperty(match[1])) {
+            (node as any).type = namespaceMapping[match[1]] + match[2];
+        }
         const context = createVarIndexIdentifier(node)
         // if (node.type.indexOf('w.') > -1) {
         //     this.emitAttributes(context, node, host)
@@ -201,6 +206,7 @@ export class JavaScriptEmitter extends BaseEmitter {
                 )
             )
         }
+
         this.emitAttributes(context, node, host)
         this.emitChildren(context, node, host);
     }
@@ -250,7 +256,6 @@ export class JavaScriptEmitter extends BaseEmitter {
     private emitAttributes(context: JS_AST.Identifier, node: AST_NodeBase, host: EmitterHost) {
         if ((node as any).type) {
             if ((node as any).type.indexOf('w.') == -1) {
-
                 for (const attribute of node.attributes) {
                     this.writeToBody(this.emitAttribute(context, attribute, host))
                 };
@@ -276,7 +281,6 @@ export class JavaScriptEmitter extends BaseEmitter {
     }
 
     private emitAttribute(context: JS_AST.Identifier, attribute: AST_Attribute, host: EmitterHost): JS_AST.Node {
-
         const emitterFunction = this.mapping[attribute.type];
         if (!emitterFunction) {
             console.error("找不到", attribute.key, attribute.type, attribute.value);
@@ -338,10 +342,15 @@ function createVarIndexIdentifier(node: AST_Node) {
 
 function emitComponentName(type: string) {
     const arr = type.split('.');
-    return createMemberExpression(
-        createIdentifier(arr[0]),
-        createIdentifier(arr[1])
-    )
+    if (arr.length > 1) {
+        return createMemberExpression(
+            createIdentifier(arr[0]),
+            createIdentifier(arr[1])
+        );
+    }
+    else {
+        return createIdentifier(type);
+    }
 }
 
 function emitElementsContent(context: string, ids: JS_AST.Identifier[], propertyKey: string) {

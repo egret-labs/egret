@@ -1,0 +1,28 @@
+{
+    "skins.RestaurantAISkin": {
+        "$sC": "$eSk",
+        "$path": "input.exml",
+        "$bs": {
+            "width": 640,
+            "height": 350,
+            "$eleC": [
+                "_Group1"
+            ]
+        },
+        "_Group1": {
+            "$t": "$eG",
+            "$eleC": [
+                "_TableYuanLiao1",
+                "_TableYuanLiao2"
+            ]
+        },
+        "_TableYuanLiao1": {
+            "skinName": "skins.TableYuanLiaoSkin",
+            "$t": "$eSk"
+        },
+        "_TableYuanLiao2": {
+            "skinName": "skins.TableYuanLiaoSkin",
+            "$t": "$eSk"
+        }
+    }
+}

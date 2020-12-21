@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.RestaurantAISkin" width="640" height="350" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="abc.*" xmlns:ns2="dfg.*">
+    <e:Group>
+        <ns1:TableYuanLiao skinName="skins.TableYuanLiaoSkin"/>
+        <ns2:TableYuanLiao skinName="skins.TableYuanLiaoSkin"/>
+    </e:Group>
+
+</e:Skin>

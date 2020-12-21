@@ -4,6 +4,7 @@ import { getTypings } from './typings';
 
 let skinParts: string[] = [];
 
+export let namespaceMapping = {};
 
 class EuiParser {
 
@@ -49,6 +50,20 @@ class EuiParser {
         for (let key in rootExmlElement.attributes) {
 
             if (key === 'class' || key.indexOf("xmlns") >= 0) {
+                if (key.indexOf("xmlns") >= 0) {
+                    const value = rootExmlElement.attributes[key];
+                    const reg = /^([\u4E00-\u9FA5A-Za-z0-9_]+)\.\*$/;
+                    const name = key.split(':')[1];
+                    if (reg.test(value as string)) {
+                        const match = (value as string).match(reg);
+                        if (match) {
+                            namespaceMapping[name] = match[1] + '.';
+                        }
+                    }
+                    else if(value == '*'){
+                        namespaceMapping[name] = '';
+                    }
+                }
                 continue;
             }
             const value = rootExmlElement.attributes[key] as string;
