@@ -6,6 +6,7 @@ import { ResourceInfo } from './typings';
 
 export { getResourceInfo } from '.';
 
+
 /**
  * 资源组的加载进度提示
  * @deprecated
@@ -101,4 +102,25 @@ export function getGroupByName(name: string) {
         return resourceNames;
     }
     throw new Error('missing groupName ' + name);
+}
+
+export function createGroup(name: string, keys: string[], override: boolean = false) {
+    if (override === void 0) { override = false; }
+    const store = getStore();
+    if ((!override && store.config.groups[name]) || !keys || keys.length == 0) {
+        return false;
+    }
+    let group: string[] = [];
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        if (store.config.groups[key]) {
+            const groupInfo = store.config.groups[key];
+            group = group.concat(groupInfo);
+        }
+        else {
+            group.push(key);
+        }
+    }
+    store.config.groups[name] = group;
+    return true;
 }
