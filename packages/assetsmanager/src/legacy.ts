@@ -6,7 +6,6 @@ import { ResourceInfo } from './typings';
 
 export { getResourceInfo } from '.';
 
-
 /**
  * 资源组的加载进度提示
  * @deprecated

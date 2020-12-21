@@ -110,7 +110,7 @@ describe('legacy-api', () => {
 
         }
         const hitCount = getCount('/static/error.res.json');
-        assert.equal(hitCount, 1);
+        assert.equal(hitCount, 3);
     });
     it('create-group-true', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');

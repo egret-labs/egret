@@ -1,5 +1,5 @@
 import { timer } from 'rxjs';
-import { delay, delayWhen, retryWhen, tap } from 'rxjs/operators';
+import { delay, delayWhen, retryWhen, scan, tap } from 'rxjs/operators';
 import { getLoader } from './processors';
 import { getCache, getStore, initStore } from './store';
 import { ResourceConfigFile, ResourceInfo } from './typings';
@@ -25,10 +25,16 @@ export function initConfig(resourceRoot: string, config: ResourceConfigFile) {
 
 export function load(resource: ResourceInfo) {
     return getLoader(resource.type)(resource).pipe(
-        // retryWhen((errors) => errors.pipe(
-        //     // 输出错误信息
-        //     tap(console.log),
-        //     delay(100))),
+        retryWhen((errors) => errors.pipe(
+            // 输出错误信息
+            tap(console.log),
+            scan((acc, curr) => {
+                if (acc > 2) {
+                    throw curr;
+                }
+                return acc + 1;
+            }, 1),
+            delay(100))),
         tap((v) => getCache()[resource.name] = v)
     );
 }
