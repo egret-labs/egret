@@ -22,6 +22,7 @@ export class Lexer {
             const value = char.text;
             const value1 = value + this.viewChar(1).text;
             const value2 = value + this.viewChar(2).text;
+            const value3 = value + this.viewChar(3).text;
             // 跳过空白符
             if (!isString && space.includes(value)) {
                 if (identifierBuffer) {
@@ -31,11 +32,11 @@ export class Lexer {
                 continue;
             }
             // 跳过注释
-            else if (!isString && value2 === '<!') {
+            else if (!isString && value3 === '<!--') {
                 while (this.viewChar(3).text !== '-->') {
                     this.getChar(1);
                 }
-                this.getChar(2);
+                this.getChar(3);
                 continue;
             }
             // 处理界符
@@ -59,6 +60,10 @@ export class Lexer {
                 if (length > 0) {
                     char.text += this.getChar(length).text;
                 }
+                if (identifierBuffer) {
+                    this.createToken(CharacterType.Identifier, identifierBuffer);
+                    identifierBuffer = null;
+                }
                 // 闭界符
                 if ((DelimiterMapping[text] && !Quotation.includes(text)) || (
                     Quotation.includes(text) && isString
@@ -81,10 +86,6 @@ export class Lexer {
                 else {
                     char.text = text;
                     this.delimiterStack.push(char);
-                    if (identifierBuffer) {
-                        this.createToken(CharacterType.Identifier, identifierBuffer);
-                        identifierBuffer = null;
-                    }
                     if (Quotation.includes(text)) {
                         isString = true;
                     }
@@ -113,6 +114,7 @@ export class Lexer {
             }
             // identifier
             else {
+                if(value === '\t') continue;
                 if (!identifierBuffer) {
                     identifierBuffer = char;
                 }

@@ -24,6 +24,7 @@ describe('parser-lexer', () => {
             const lexer = new Lexer(content);
             const result = lexer.analysis();
             const expect = fs.readFileSync('token.json', 'utf-8');
+            // fs.writeFileSync('output.json',JSON.stringify(result,null,4))
             assert.deepEqual(JSON.stringify(result, null, 4), expect);
 
         })
