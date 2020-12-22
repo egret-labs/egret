@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import { BaseEmitter } from '.';
 import { AST_Node, AST_NodeBase, AST_Skin } from '../exml-ast';
 
@@ -120,7 +121,7 @@ export class JSONEmitter extends BaseEmitter {
     }
 
     setBaseState(node: AST_NodeBase, json: any, key: string = '$bs', skinNode: AST_NodeBase) {
-        const base = {};
+        const base: any = {};
         if (key.indexOf('w.') < 0) {
             json[key] = base;
             for (const attr of node.attributes) {
@@ -278,15 +279,12 @@ export class JSONEmitter extends BaseEmitter {
     }
 
     parseValue(value: string | number | boolean | AST_Node | AST_Skin, skinNode: AST_NodeBase) {
-        if (!value.attributes && !value.children) {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
             return value;
         }
-        if (value.type) {
-            const id = this.parseNode(value as AST_Node);
-            this.setBaseState(value as AST_Node, this.elementContents, id, skinNode);
-            return id;
-        }
-        return value;
+        const id = this.parseNode(value as AST_Node);
+        this.setBaseState(value as AST_Node, this.elementContents, id, skinNode);
+        return id;
     }
 
     convertType(type: string) {

@@ -1,5 +1,7 @@
 export interface AST_NodeBase {
 
+    type: string;
+
     attributes: AST_Attribute[];
 
     children: AST_Node[];

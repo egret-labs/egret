@@ -9,27 +9,14 @@ export { getResourceInfo } from '.';
 /**
  * 资源组的加载进度提示
  * @deprecated
- * @version Egret 5.2
- * @language zh_CN
  */
 export interface PromiseTaskReporter {
-    /**
-     * Progress callback, asynchronous execution, load number and order have nothing to do
-     * @param current The number of currently loaded
-     * @param total Total resources required in the current resource bundle
-     * @param resItem currently loading resource information
-     * @version Egret 5.2
-     * @platform Web,Native
-     * @language en_US
-     */
+
     /**
      * 进度回调，异步执行，加载数目和顺序无关
      * @param current 当前已经加载数目
      * @param total 当前资源包内需要资源总数
      * @param resItem 当前加载资源信息
-     * @version Egret 5.2
-     * @platform Web,Native
-     * @language zh_CN
      */
     onProgress?(current: number, total: number, resItem: ResourceInfo | undefined): void;
 }
@@ -150,3 +137,66 @@ export function createGroup(name: string, keys: string[], override: boolean = fa
 }
 
 const maxLoadingThread = 4;
+
+export function addEventListener(type: string, listener: Function, thisObject: any) {
+
+}
+
+/**
+ * @deprecated
+ */
+export namespace ResourceItem {
+
+    /**
+     * XML 文件。
+     * @deprecated
+     */
+    export const TYPE_XML = 'xml';
+
+    /**
+     * 图片文件。
+     * @deprecated
+     */
+    export const TYPE_IMAGE = 'image';
+
+    /**
+     * 二进制文件。
+     * @deprecated
+     */
+    export const TYPE_BIN = 'bin';
+    /**
+     * 文本文件。
+     * @deprecated
+     */
+    export const TYPE_TEXT = 'text';
+
+    /**
+     * JSON 文件。
+     * @deprecated
+     */
+    export const TYPE_JSON = 'json';
+
+    /**
+     * SpriteSheet 文件。
+     * @deprecated
+     */
+    export const TYPE_SHEET = 'sheet';
+
+    /**
+     * BitmapTextSpriteSheet 文件。
+     * @deprecated
+     */
+    export const TYPE_FONT = 'font';
+
+    /**
+     * 声音文件。
+     * @deprecated
+     */
+    export const TYPE_SOUND = 'sound';
+
+    /**
+     * TTF字体文件。
+     * @deprecated
+     */
+    export const TYPE_TTF = 'ttf';
+}

@@ -43,7 +43,7 @@ class EuiParser {
             attributes: [],
             states: [],
             bindings: []//[{ target: 'a1', templates: ["hostComponent.data.data"], chainIndex: [0], property: 'text' }]
-        };
+        } as any as AST_Skin;
 
         this.walkAST_Node(rootExmlElement);
         for (const key in rootExmlElement.attributes) {
