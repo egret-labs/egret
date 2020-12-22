@@ -15,7 +15,7 @@
         "super": "egret.SpriteSheet"
     },
     "egret.BitmapText": {
-        "font": "Object",
+        "font": "string",
         "letterSpacing": "number",
         "lineSpacing": "number",
         "smoothing": "boolean",
