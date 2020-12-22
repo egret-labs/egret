@@ -10,7 +10,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "mocha -t 5000 ./test/emitter/index.js",
-    "test:error": "mocha -t 5000 ./test/error/index.js"
+    "test:error": "mocha -t 5000 ./test/error/index.js",
+    "test:lexer": "mocha -t 5000 ./test/parser/lexer/index.js"
   },
   "repository": {
     "type": "git",
