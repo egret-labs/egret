@@ -1,14 +1,10 @@
 import * as codegen from 'escodegen';
 import { BaseEmitter } from '.';
-import { AST_Attribute, AST_Node, AST_NodeBase, AST_Skin, AST_STATE, AST_Binding } from "../exml-ast";
+import { AST_Attribute, AST_Node, AST_NodeBase, AST_Skin, AST_STATE, AST_Binding } from '../exml-ast';
 import { EmitterHost } from './host';
 import { namespaceMapping } from '../util/parser';
 
-
-
 export class JavaScriptEmitter extends BaseEmitter {
-
-
 
     private mapping: { [index: string]: EmitterFunction } = {
         number: createNumberOrBooleanLiteral,
@@ -37,12 +33,12 @@ export class JavaScriptEmitter extends BaseEmitter {
     }
 
     emitSkinNode(filename: string, skinNode: AST_Skin) {
-        let ast = this.generateJavaScriptAST(skinNode);
+        const ast = this.generateJavaScriptAST(skinNode);
         try {
             const text = codegen.generate(
                 ast
-            )
-            this.javascript += text + "\n";
+            );
+            this.javascript += text + '\n';
             this.javascript += `
     generateEUI.paths['${filename}'] = ${skinNode.namespace}.${skinNode.classname};
             `;
@@ -66,11 +62,9 @@ export class JavaScriptEmitter extends BaseEmitter {
 
         const states: { name: string, items: (AST_STATE & { context: number })[] }[] = [];
 
-
-
         if (skinNode.states) {
             for (const stateName of skinNode.states) {
-                states.push({ name: stateName, items: [] })
+                states.push({ name: stateName, items: [] });
             }
         }
 
@@ -79,30 +73,28 @@ export class JavaScriptEmitter extends BaseEmitter {
                 ids.push(node.id);
             }
 
-            for (let stateAttribute of node.stateAttributes) {
-                let arr = states.find(s => s.name === stateAttribute.name)!;
-                arr.items.push(Object.assign({}, stateAttribute, { context: node.varIndex }))
+            for (const stateAttribute of node.stateAttributes) {
+                const arr = states.find((s) => s.name === stateAttribute.name)!;
+                arr.items.push(Object.assign({}, stateAttribute, { context: node.varIndex }));
             }
 
             node.children.forEach(visitChildren);
 
         }
 
-        visitChildren(skinNode as any as AST_Node)
+        visitChildren(skinNode as any as AST_Node);
 
         const className = createIdentifier(skinNode.classname);
         const namespace = skinNode.namespace ? createIdentifier(skinNode.namespace) : null;
         this.writeToBody(emitSkinPart(ids));
         const context = createIdentifier('_this');
-        this.emitAttributes(context, skinNode, host)
+        this.emitAttributes(context, skinNode, host);
         this.emitChildren(context, skinNode, host);
 
-
-        for (let binding of skinNode.bindings) {
-            const result = this.emitBinding(binding)
+        for (const binding of skinNode.bindings) {
+            const result = this.emitBinding(binding);
             this.writeToBody(result);
         }
-
 
         if (skinNode.states.length > 0) {
             this.writeToBody(
@@ -110,11 +102,11 @@ export class JavaScriptEmitter extends BaseEmitter {
                     createAssignmentExpression(
                         createMemberExpression(context, createIdentifier('states')),
                         createArray(
-                            states.map(s => {
+                            states.map((s) => {
                                 return createNewExpression(
                                     createMemberExpression(
                                         createIdentifier('eui'),
-                                        createIdentifier("State")
+                                        createIdentifier('State')
                                     ),
                                     [
                                         createStringLiteral(s.name),
@@ -122,51 +114,50 @@ export class JavaScriptEmitter extends BaseEmitter {
                                             if (item.type === 'set') {
                                                 return createNewExpression(
                                                     createMemberExpression(
-                                                        createIdentifier("eui"),
-                                                        createIdentifier("SetProperty")
+                                                        createIdentifier('eui'),
+                                                        createIdentifier('SetProperty')
                                                     ),
                                                     [
                                                         createStringLiteral(`a${item.context}`),
                                                         createStringLiteral(item.attribute.key),
                                                         this.mapping[item.attribute.type](item.attribute.value, host)
                                                     ]
-                                                )
+                                                );
                                             }
                                             else {
                                                 return createNewExpression(
                                                     createMemberExpression(
-                                                        createIdentifier("eui"),
-                                                        createIdentifier("AddItems")
+                                                        createIdentifier('eui'),
+                                                        createIdentifier('AddItems')
                                                     ),
                                                     [
                                                         createStringLiteral(`a${item.context}`),
-                                                        createStringLiteral(""),
+                                                        createStringLiteral(''),
                                                         createNumberOrBooleanLiteral(1),
-                                                        createStringLiteral("")
+                                                        createStringLiteral('')
                                                         // createStringLiteral(item.attribute.key),
                                                         // this.mapping[item.attribute.type](item.attribute.value)
                                                     ]
-                                                )
+                                                );
                                             }
 
                                         }))
                                     ]
-                                )
+                                );
                             })
                         )
                     )
                 )
-            )
+            );
         }
         const body = namespace ?
             createExpressionStatment(
                 createAssignmentExpression(
                     createMemberExpression(namespace, className),
                     createClass(className, this.body, host)
-                )) : createVariableDeclaration(className, createClass(className, this.body, host))
-        return body
+                )) : createVariableDeclaration(className, createClass(className, this.body, host));
+        return body;
     }
-
 
     private emitNode(node: AST_Node, host: EmitterHost) {
         const reg = /^([\u4E00-\u9FA5A-Za-z0-9_]+)\.([\u4E00-\u9FA5A-Za-z0-9_]+)$/;
@@ -174,7 +165,7 @@ export class JavaScriptEmitter extends BaseEmitter {
         if (match && namespaceMapping.hasOwnProperty(match[1])) {
             (node as any).type = namespaceMapping[match[1]] + match[2];
         }
-        const context = createVarIndexIdentifier(node)
+        const context = createVarIndexIdentifier(node);
         // if (node.type.indexOf('w.') > -1) {
         //     this.emitAttributes(context, node, host)
         //     this.emitChildren(context, node, host);
@@ -190,24 +181,24 @@ export class JavaScriptEmitter extends BaseEmitter {
             this.writeToBody(
                 createExpressionStatment(
                     createAssignmentExpression(
-                        createMemberExpression(createIdentifier("_this"), createIdentifier(node.id)),
+                        createMemberExpression(createIdentifier('_this'), createIdentifier(node.id)),
                         context
                     )
                 )
-            )
+            );
         }
         if (node.stateAttributes.length > 0) {
             this.writeToBody(
                 createExpressionStatment(
                     createAssignmentExpression(
-                        createMemberExpression(createIdentifier("_this"), context),
+                        createMemberExpression(createIdentifier('_this'), context),
                         context
                     )
                 )
-            )
+            );
         }
 
-        this.emitAttributes(context, node, host)
+        this.emitAttributes(context, node, host);
         this.emitChildren(context, node, host);
     }
 
@@ -215,28 +206,28 @@ export class JavaScriptEmitter extends BaseEmitter {
         if (node.children.length == 0) {
             return;
         }
-        for (let child of node.children) {
+        for (const child of node.children) {
             if (child.type.indexOf('w.') == -1) {
 
-                this.emitNode(child, host)
+                this.emitNode(child, host);
             }
             else {
-                for (let _child of child.children) {
-                    const context = createVarIndexIdentifier(_child)
+                for (const _child of child.children) {
+                    const context = createVarIndexIdentifier(_child);
                     //this.emitChildren(context, _child, host)
-                    this.emitNode(_child, host)
+                    this.emitNode(_child, host);
                 }
             }
         }
 
-        let children = node.children.map(node => {
+        let children = node.children.map((node) => {
             if (node.type.indexOf('w.') == -1) {
-                return createVarIndexIdentifier(node)
+                return createVarIndexIdentifier(node);
             }
             else {
                 return null;
             }
-        })
+        });
         children = children.filter(function (s) {
             return s;
         });
@@ -253,31 +244,30 @@ export class JavaScriptEmitter extends BaseEmitter {
                 propertyKey = 'viewport';
             }
         }
-        this.writeToBody(emitElementsContent(context.name, children as JS_AST.Identifier[], propertyKey))
+        this.writeToBody(emitElementsContent(context.name, children as JS_AST.Identifier[], propertyKey));
     }
 
     private emitAttributes(context: JS_AST.Identifier, node: AST_NodeBase, host: EmitterHost) {
         if ((node as any).type) {
             if ((node as any).type.indexOf('w.') == -1) {
                 for (const attribute of node.attributes) {
-                    this.writeToBody(this.emitAttribute(context, attribute, host))
+                    this.writeToBody(this.emitAttribute(context, attribute, host));
                 };
             }
         }
         else {
             for (const attribute of node.attributes) {
-                this.writeToBody(this.emitAttribute(context, attribute, host))
+                this.writeToBody(this.emitAttribute(context, attribute, host));
             };
         }
     }
 
     private createNewObject(value: AST_Node, host: EmitterHost): JS_AST.Node {
 
-        const varIndexIdentifer = createIdentifier(`a${value.varIndex}`)
+        const varIndexIdentifer = createIdentifier(`a${value.varIndex}`);
         this.emitNode(value, host);
-        return varIndexIdentifer
+        return varIndexIdentifer;
     }
-
 
     private writeToBody(node: JS_AST.Node) {
         this.body.push(node);
@@ -286,7 +276,7 @@ export class JavaScriptEmitter extends BaseEmitter {
     private emitAttribute(context: JS_AST.Identifier, attribute: AST_Attribute, host: EmitterHost): JS_AST.Node {
         const emitterFunction = this.mapping[attribute.type];
         if (!emitterFunction) {
-            console.error("找不到", attribute.key, attribute.type, attribute.value);
+            console.error('找不到', attribute.key, attribute.type, attribute.value);
             process.exit(1);
             return null as any as JS_AST.Node;
         }
@@ -299,13 +289,13 @@ export class JavaScriptEmitter extends BaseEmitter {
                     ),
                     emitterFunction(attribute.value, host)
                 )
-            )
+            );
         }
     }
 
     private emitBinding(binding: AST_Binding) {
 
-        const words = binding.templates.map(item => {
+        const words = binding.templates.map((item) => {
             const result = Number(item);
             if (isNaN(result)) {
                 return item;
@@ -315,32 +305,33 @@ export class JavaScriptEmitter extends BaseEmitter {
             }
         });
         const keys = binding.chainIndex;
-        let elements: any[] = [];
-        let index: any[] = [];
+        const elements: any[] = [];
+        const index: any[] = [];
         for (const word of words) {
-            elements.push(createStringLiteral(word as string))
+            elements.push(createStringLiteral(word as string));
         }
         for (const key of keys) {
-            index.push(createNumberOrBooleanLiteral(key))
+            index.push(createNumberOrBooleanLiteral(key));
         }
         const result = createExpressionStatment(createCallExpression(
             createMemberExpression(
                 { type: 'Identifier', name: 'eui.Binding' },
                 { type: 'Identifier', name: '$bindProperties' }
-            ), [
-            createThis(),
-            createArray(elements),
-            createArray(index),
-            createIdentifier(binding.target),
-            createStringLiteral(binding.property)
-        ]))
+            ),
+            [
+                createThis(),
+                createArray(elements),
+                createArray(index),
+                createIdentifier(binding.target),
+                createStringLiteral(binding.property)
+            ]));
         return result;
 
     }
 }
 
 function createVarIndexIdentifier(node: AST_Node) {
-    return createIdentifier(`a${node.varIndex}`)
+    return createIdentifier(`a${node.varIndex}`);
 }
 
 function emitComponentName(type: string) {
@@ -370,46 +361,38 @@ function emitElementsContent(context: string, ids: JS_AST.Identifier[], property
                 createIdentifier(propertyKey)),
             id
         )
-    )
+    );
 }
-
 
 function emitCreateNode(varIndex: JS_AST.Identifier, componentName: JS_AST.Node) {
     return {
-        type: "VariableDeclaration",
+        type: 'VariableDeclaration',
         declarations: [
             {
-                type: "VariableDeclarator",
+                type: 'VariableDeclarator',
                 id: varIndex,
                 init: createNewExpression(
                     componentName, []
                 )
             }
         ],
-        kind: "var"
-    }
+        kind: 'var'
+    };
 }
-
 
 function emitSkinPart(skins: string[]): JS_AST.Node {
     return createExpressionStatment(
         createAssignmentExpression(
             createMemberExpression(
-                createIdentifier("_this"),
-                createIdentifier("skinParts"),
+                createIdentifier('_this'),
+                createIdentifier('skinParts'),
             ),
             createArray(skins.map(createStringLiteral))
         )
-    )
+    );
 }
 
 type EmitterFunction = (value: any, host: EmitterHost) => JS_AST.Node
-
-
-
-
-
-
 
 namespace JS_AST {
 
@@ -418,13 +401,13 @@ namespace JS_AST {
     }
 
     export type Identifier = {
-        type: "Identifier",
+        type: 'Identifier',
         name: string
     }
 
     export type MemberExpression = {
 
-        type: "MemberExpression",
+        type: 'MemberExpression',
         computed: false,
         object: Node,
         property: Node
@@ -432,26 +415,25 @@ namespace JS_AST {
     }
 
     export type Literal = {
-        type: "Literal",
+        type: 'Literal',
         value: any,
         raw: any
     }
 }
 
-
 function createArray(elements: JS_AST.Node[]) {
     return {
-        type: "ArrayExpression",
+        type: 'ArrayExpression',
         elements
-    }
+    };
 }
 
 function createStringLiteral(value: string): JS_AST.Literal {
     return {
-        type: "Literal",
+        type: 'Literal',
         value,
-        raw: "\"" + value + "\""
-    }
+        raw: '"' + value + '"'
+    };
 }
 
 function createSkinName(value: AST_Skin, host: EmitterHost) {
@@ -468,26 +450,26 @@ function createNumberOrBooleanLiteral(value: number | boolean): any {
     if (typeof value === 'number') {
         if (value < 0 || (value === 0 && 1 / value < 0)) {
             return {
-                "type": "UnaryExpression",
-                "operator": "-",
-                "argument": {
-                    type: "Literal",
+                'type': 'UnaryExpression',
+                'operator': '-',
+                'argument': {
+                    type: 'Literal',
                     value: -value,
                     raw: -value.toString()
                 },
-                "prefix": true
-            }
+                'prefix': true
+            };
         }
     }
     return {
-        type: "Literal",
+        type: 'Literal',
         value,
         raw: value.toString()
-    }
+    };
 }
 
 function createNewRectangle(value: string) {
-    const args = value.split(",").map((v) => parseInt(v));
+    const args = value.split(',').map((v) => parseInt(v));
     return createNewExpression(
         createMemberExpression(
             createIdentifier('egret'), createIdentifier('Rectangle')
@@ -498,76 +480,75 @@ function createNewRectangle(value: string) {
             createNumberOrBooleanLiteral(args[2]),
             createNumberOrBooleanLiteral(args[3])
         ]
-    )
+    );
 }
 
 function createNewExpression(callee: JS_AST.Node, args: JS_AST.Node[]) {
     return {
-        type: "NewExpression",
+        type: 'NewExpression',
         callee: callee,
         arguments: args
-    }
+    };
 }
 
 function createExpressionStatment(expression: JS_AST.Node) {
     return {
-        "type": "ExpressionStatement",
-        "expression": expression
-    }
+        'type': 'ExpressionStatement',
+        'expression': expression
+    };
 }
 
 function createAssignmentExpression(left: JS_AST.Node, right: JS_AST.Node) {
     return {
-        "type": "AssignmentExpression",
-        "operator": "=",
-        "left": left,
-        "right": right
-    }
+        'type': 'AssignmentExpression',
+        'operator': '=',
+        'left': left,
+        'right': right
+    };
 }
 
 function createMemberExpression(object: JS_AST.Identifier, property: JS_AST.Identifier) {
     return {
-        "type": "MemberExpression",
-        "computed": false,
-        "object": object,
-        "property": property
-    }
+        'type': 'MemberExpression',
+        'computed': false,
+        'object': object,
+        'property': property
+    };
 }
-
 
 function createIdentifier(name: string): JS_AST.Identifier {
     return {
-        "type": "Identifier",
+        'type': 'Identifier',
         name
-    }
+    };
 }
 
 function createProgram(body: JS_AST.Node[]) {
     return {
-        "type": "Program",
+        'type': 'Program',
         body,
-        "sourceType": "script"
-    }
+        'sourceType': 'script'
+    };
 }
 
 function createVariableDeclaration(left: JS_AST.Identifier, right: any) {
     return {
-        "type": "VariableDeclaration",
-        "declarations": [
+        'type': 'VariableDeclaration',
+        'declarations': [
             {
-                "type": "VariableDeclarator",
-                "id": left,
-                "init": right
+                'type': 'VariableDeclarator',
+                'id': left,
+                'init': right
             }
         ],
-        "kind": "var"
-    }
+        'kind': 'var'
+    };
 }
 
 function createThis() {
     return {
-        "type": "ThisExpression"
-    }
+        'type': 'ThisExpression'
+    };
 }
 
 function createClass(className: JS_AST.Identifier, constractorBody: any[], host: EmitterHost) {
@@ -575,104 +556,102 @@ function createClass(className: JS_AST.Identifier, constractorBody: any[], host:
     const superCall = createVariableDeclaration(
         createIdentifier('_this'),
         {
-            "type": "LogicalExpression",
-            "operator": "||",
-            "left": {
-                "type": "CallExpression",
-                "callee": createMemberExpression(
+            'type': 'LogicalExpression',
+            'operator': '||',
+            'left': {
+                'type': 'CallExpression',
+                'callee': createMemberExpression(
                     createIdentifier('_super'),
                     createIdentifier('call')
                 ),
-                "arguments": [
+                'arguments': [
                     createThis()
                 ]
             },
-            "right": createThis()
+            'right': createThis()
         }
     );
 
-
     const returnStatement: any = {
-        "type": "ReturnStatement",
-        "argument": createIdentifier("_this")
+        'type': 'ReturnStatement',
+        'argument': createIdentifier('_this')
     };
 
     const fullConstractorBody = [superCall].concat(constractorBody).concat([returnStatement]);
 
     const functionArguments = [
         createMemberExpression(
-            createIdentifier("eui"),
-            createIdentifier("Skin")
+            createIdentifier('eui'),
+            createIdentifier('Skin')
         )
     ];
 
     const extendExpression = {
-        "type": "ExpressionStatement",
-        "expression": {
-            "type": "CallExpression",
-            "callee": {
-                "type": "Identifier",
-                "name": "__extends"
+        'type': 'ExpressionStatement',
+        'expression': {
+            'type': 'CallExpression',
+            'callee': {
+                'type': 'Identifier',
+                'name': '__extends'
             },
-            "arguments": [
+            'arguments': [
                 className,
                 {
-                    "type": "Identifier",
-                    "name": "_super"
+                    'type': 'Identifier',
+                    'name': '_super'
                 }
             ]
         }
     };
 
     const classAsFunction = {
-        "type": "FunctionDeclaration",
-        "id": className,
-        "params": [],
-        "body": {
-            "type": "BlockStatement",
-            "body": fullConstractorBody
+        'type': 'FunctionDeclaration',
+        'id': className,
+        'params': [],
+        'body': {
+            'type': 'BlockStatement',
+            'body': fullConstractorBody
         },
-        "generator": false,
-        "expression": false,
-        "async": false
+        'generator': false,
+        'expression': false,
+        'async': false
     };
 
     const returnExpression = {
-        "type": "ReturnStatement",
-        "argument": className
+        'type': 'ReturnStatement',
+        'argument': className
     };
     const body = ([extendExpression] as any[]).concat(host.list).concat([classAsFunction, returnExpression]);
     return {
-        "type": "CallExpression",
-        "callee": {
-            "type": "FunctionExpression",
-            "id": null,
-            "params": [
+        'type': 'CallExpression',
+        'callee': {
+            'type': 'FunctionExpression',
+            'id': null,
+            'params': [
                 {
-                    "type": "Identifier",
-                    "name": "_super"
+                    'type': 'Identifier',
+                    'name': '_super'
                 }
             ],
-            "body": {
-                "type": "BlockStatement",
-                "body": body
+            'body': {
+                'type': 'BlockStatement',
+                'body': body
             },
-            "generator": false,
-            "expression": false,
-            "async": false
+            'generator': false,
+            'expression': false,
+            'async': false
         },
-        "arguments": functionArguments
-    }
+        'arguments': functionArguments
+    };
 }
 
 function createCallExpression(callee: JS_AST.Node, args: JS_AST.Node[]) {
     return {
-        type: "CallExpression",
+        type: 'CallExpression',
         callee: callee,
         arguments: args
-    }
+    };
 }
-
 
 const extendsHelper = `
 var __extends = (this && this.__extends) || (function () {
@@ -689,7 +668,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 
-`
+`;
 
 function euiHelper(skins: any) {
     return `
@@ -698,5 +677,5 @@ function euiHelper(skins: any) {
     generateEUI.paths = {};
     generateEUI.styles = undefined;
     generateEUI.skins = ${JSON.stringify(skins)};
-    `
+    `;
 }
