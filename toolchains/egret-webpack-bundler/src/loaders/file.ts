@@ -6,13 +6,12 @@ export class CachedFile {
     public filePath: string;
     private hash: string;
 
-    constructor(filePath: string, private compiler: import("webpack").Compiler) {
+    constructor(filePath: string, private compiler: import('webpack').Compiler) {
         this.filePath = filePath;
 
-
         const existed = existedInFileSystem(compiler.inputFileSystem, filePath);
-        const data = existed ? this.compiler.inputFileSystem.readFileSync(filePath) : "";
-        this.hash = existed ? crypto.createHash('md5').update(data.toString()).digest("hex") : "";
+        const data = existed ? this.compiler.inputFileSystem.readFileSync(filePath) : '';
+        this.hash = existed ? crypto.createHash('md5').update(data.toString()).digest('hex') : '';
 
         // this.hash = !fs.existsSync(filePath) ? '' : crypto.createHash('md5')
         //     .update(fs.readFileSync(filePath).toString())

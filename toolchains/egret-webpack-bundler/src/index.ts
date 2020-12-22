@@ -10,18 +10,17 @@ import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
 import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
-const middleware = require("webpack-dev-middleware");
+const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
-
 
 export type WebpackBundleOptions = {
 
     /**
      * 设置发布的库为 library.js 还是 library.min.js
      */
-    libraryType: "debug" | "release"
+    libraryType: 'debug' | 'release'
 
     /**
      * 编译宏常量定义
@@ -47,7 +46,7 @@ export type WebpackBundleOptions = {
          * modern 模式为完全ES6 Module的方式，底层实现采用 ts-loader
          * legacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理
          */
-        mode: "legacy" | "modern",
+        mode: 'legacy' | 'modern',
 
         /**
          * 编译采用的 tsconfig.json 路径，默认为 tsconfig.json
@@ -85,27 +84,26 @@ export type WebpackDevServerOptions = {
     open?: boolean
 }
 
-
 export class EgretWebpackBundler {
 
     emitter: ((filename: string, data: Buffer) => void) | null = null;
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(private projectRoot: string, private target: string) {
 
     }
 
-
     startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
         const libraryType = 'debug';
-        const scripts = getLibsFileList('web', this.projectRoot, libraryType)
+        const scripts = getLibsFileList('web', this.projectRoot, libraryType);
         const webpackStatsOptions = { colors: true, modules: false };
-        const webpackConfig = generateConfig(this.projectRoot, options, this.target, true)
+        const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
         const compiler = webpack(webpackConfig);
         const compilerApp = express();
         compilerApp.use(allowCrossDomain);
         const middlewareOptions: any = {
             stats: webpackStatsOptions,
-            publicPath: undefined,
+            publicPath: undefined
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
         const port = options.port || 3000;
@@ -113,7 +111,7 @@ export class EgretWebpackBundler {
         compilerApp.use(express.static(this.projectRoot));
         const manifestContent = JSON.stringify(
             { initial: scripts, game: ['main.js'] }, null, '\t'
-        )
+        );
         fs.writeFileSync(path.join(this.projectRoot, 'manifest.json'), manifestContent, 'utf-8');
         if (options.open) {
             openUrl(`http://localhost:${port}/index.html`);
@@ -134,11 +132,10 @@ export class EgretWebpackBundler {
 
             if (this.emitter) {
 
-                for (let script of scripts) {
+                for (const script of scripts) {
                     const content = fs.readFileSync(path.join(this.projectRoot, script));
                     this.emitter(script, content);
                 }
-
 
                 compiler.outputFileSystem = {
 
@@ -150,23 +147,23 @@ export class EgretWebpackBundler {
                     },
 
                     rmdir: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null)
+                        callback(null);
                     },
 
                     unlink: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null)
+                        callback(null);
                     },
                     join: path.join,
 
                     writeFile: (p: string, data: any, callback: (err: Error | undefined | null) => void) => {
-                        const relativePath = path.relative(webpackConfig.output?.path!, p).split("\\").join("/");
-                        this.emitter!(relativePath, data)
-                        callback(null)
+                        const relativePath = path.relative(webpackConfig.output?.path!, p).split('\\').join('/');
+                        this.emitter!(relativePath, data);
+                        callback(null);
                     }
-                }
+                };
             }
-            compiler.run(handler)
-        })
+            compiler.run(handler);
+        });
 
     }
 }
@@ -179,17 +176,17 @@ export function generateConfig(
 
 ): webpack.Configuration {
 
-    context = context.split("/").join(path.sep);
+    context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
-    const mode = devServer ? "development" : "production";
+    const mode = devServer ? 'development' : 'production';
 
     let config: webpack.Configuration = {
-        stats: "minimal",
+        stats: 'minimal',
         entry: './src/Main.ts',
         target: 'web',
         mode,
         context,
-        devtool: needSourceMap ? "source-map" : false,
+        devtool: needSourceMap ? 'source-map' : false,
         output: {
             path: path.resolve(context, 'dist'),
             filename: 'main.js'
@@ -198,10 +195,10 @@ export function generateConfig(
             rules: []
         },
         resolve: {
-            extensions: [".ts", ".js"]
+            extensions: ['.ts', '.js']
         },
         optimization: {
-            minimize: false,
+            minimize: false
         },
         plugins: []
     };
@@ -228,17 +225,17 @@ function genrateWebpackConfig_subpackages(config: webpack.Configuration, options
     if (!options.subpackages) {
         return config;
     }
-    const items = options.subpackages.map(subpackage => {
+    const items = options.subpackages.map((subpackage) => {
         return {
             name: subpackage.name,
-            filename: subpackage.name + ".js",
+            filename: subpackage.name + '.js',
             test: (module: any) => {
-                return subpackage.matcher(module.resource)
+                return subpackage.matcher(module.resource);
             },
-            chunks: "initial",
-            minSize: 0,
-        }
-    })
+            chunks: 'initial',
+            minSize: 0
+        };
+    });
 
     config.optimization = {
         splitChunks: {
@@ -246,8 +243,8 @@ function genrateWebpackConfig_subpackages(config: webpack.Configuration, options
                 default: false
             }
         }
-    }
-    for (let item of items) {
+    };
+    for (const item of items) {
         (config.optimization.splitChunks as any).cacheGroups[item.name] = item;
     }
     return config;
@@ -255,8 +252,7 @@ function genrateWebpackConfig_subpackages(config: webpack.Configuration, options
 
 function generateWebpackConfig_typescript(config: webpack.Configuration, options: WebpackBundleOptions, needSourceMap: boolean) {
 
-
-    const compilerOptions: import("typescript").CompilerOptions = {
+    const compilerOptions: import('typescript').CompilerOptions = {
         sourceMap: needSourceMap,
         importHelpers: false,
         noEmitHelpers: true
@@ -267,9 +263,8 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
     const srcLoaderRule: webpack.RuleSetRule = {
         test: /\.tsx?$/,
         include: path.join(config.context!, 'src'),
-        loader: require.resolve('./loaders/src-loader'),
+        loader: require.resolve('./loaders/src-loader')
     };
-
 
     const typescriptLoaderRule: webpack.RuleSetRule = {
         test: /\.tsx?$/,
@@ -281,7 +276,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
             getCustomTransformers: function (program: ts.Program) {
                 return {
                     before: [
-                        emitClassName(),
+                        emitClassName()
                     ]
                 };
                 // if (options.typescript?.minify) {
@@ -302,7 +297,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
 
             }
         }
-    }
+    };
 
     if (options.typescript?.mode === 'modern') {
         plugins.push(new ForkTsCheckerPlugin());
@@ -314,9 +309,8 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         plugins.push(new SrcLoaderPlugin());
         rules.push(typescriptLoaderRule);
     }
-    plugins.push(new webpack.BannerPlugin({ banner: polyfill, raw: true }))
+    plugins.push(new webpack.BannerPlugin({ banner: polyfill, raw: true }));
 }
-
 
 function generateWebpackConfig_exml(config: webpack.Configuration, options: WebpackBundleOptions) {
 
@@ -332,17 +326,17 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
             //         workers: 2,
             //     },
             // },
-            require.resolve("./loaders/exml"),
-        ],
+            require.resolve('./loaders/exml')
+        ]
     };
 
     if (options.exml?.watch) {
         // rules.push(srcLoaderRule);
         config.module!.rules.push(exmlLoaderRule);
-        config.plugins!.push(new ThemePlugin({}))
+        config.plugins!.push(new ThemePlugin({}));
         config.watchOptions = {
             ignored: /exml.e.d.ts/
-        }
+        };
     }
 }
 
@@ -355,14 +349,12 @@ function generateWebpackConfig_html(config: webpack.Configuration, options: Webp
             new HtmlWebpackPlugin({
                 inject: false,
                 template: options.html.templateFilePath
-            }))
+            }));
     }
 }
 
-
-
 function allowCrossDomain(req: express.Request, res: express.Response, next: express.NextFunction) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Origin', '*');
     next();
 }
 
@@ -372,12 +364,11 @@ function startExpressServer(compilerApp: express.Express, port: number) {
             .listen(port, () => {
                 resolve();
             })
-            .on("error", () => {
+            .on('error', () => {
                 reject();
             });
     });
 }
-
 
 const polyfill = `
 
@@ -590,4 +581,4 @@ return value;
 var __reflect = function(p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-`
+`;

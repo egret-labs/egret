@@ -2,7 +2,7 @@ import * as cp from 'child_process';
 import * as path from 'path';
 
 export function openUrl(url: string, browserName?: string) {
-    var command;
+    let command;
 
     switch (process.platform) {
         case 'darwin':
@@ -30,7 +30,7 @@ export function openUrl(url: string, browserName?: string) {
             }
             break;
     }
-    executeCommand(command + ' "' + url + '"')
+    executeCommand(command + ' "' + url + '"');
 }
 
 export async function executeCommand(command: string, options = {}) {
@@ -38,5 +38,5 @@ export async function executeCommand(command: string, options = {}) {
         cp.exec(command, options, (error, stdout, stderr) => {
             resolve();
         });
-    })
+    });
 }
