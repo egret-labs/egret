@@ -199,12 +199,13 @@ class EuiParser {
     private check(rootNode: any) {
 
         checkClassName(rootNode);
+        if (rootNode.type === 'eui.Scroller') checkScroller(rootNode);
         checkAttribute(rootNode.attributes);
         for (const child of rootNode.children) {
             this.check(child);
         }
 
-        function checkClassName(rootNode: AST_Skin) {
+        function checkClassName(rootNode: any) {
             if (rootNode.fullname) {
                 const value = rootNode.fullname;
                 const reg = /^skins\./;
@@ -217,6 +218,17 @@ class EuiParser {
         function checkAttribute(attributes: any[]) {
             for (const attr of attributes) {
 
+            }
+        }
+
+        function checkScroller(rootNode: any) {
+            const length = rootNode.children.length;
+            if (length > 1) {
+                error(`Exml Error: eui.Scroller can have only one child, where has ${length}`);
+            }
+            const type = length > 0 ? rootNode.children[0].type : '';
+            if (length == 1 && type !== 'eui.Group') {
+                error(`Exml Error: eui.Scroller's child type should be \`eui.Group\`, which type is \`${type}\``);
             }
         }
 

@@ -249,6 +249,9 @@ export class JavaScriptEmitter extends BaseEmitter {
             else if (type.indexOf('TweenItem') > -1) {
                 propertyKey = 'paths';
             }
+            else if (type.indexOf('Scroller') > -1) {
+                propertyKey = 'viewport';
+            }
         }
         this.writeToBody(emitElementsContent(context.name, children as JS_AST.Identifier[], propertyKey))
     }
@@ -354,13 +357,18 @@ function emitComponentName(type: string) {
 }
 
 function emitElementsContent(context: string, ids: JS_AST.Identifier[], propertyKey: string) {
+    let id: any = null;
+    if (propertyKey === 'viewport') {
+        id = createIdentifier(ids[0].name);
+    }
+    else {
+        id = createArray(ids);
+    }
     return createExpressionStatment(
         createAssignmentExpression(
             createMemberExpression(createIdentifier(context),
                 createIdentifier(propertyKey)),
-            createArray(
-                ids
-            )
+            id
         )
     )
 }
