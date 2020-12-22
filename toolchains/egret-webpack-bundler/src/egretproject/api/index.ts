@@ -1,8 +1,7 @@
-import { createInstallerLibrary } from "./installer-proxy";
-import { createLauncherLibrary } from "./launcher-proxy";
+import { createInstallerLibrary } from './installer-proxy';
+import { createLauncherLibrary } from './launcher-proxy';
 
 export type LauncherAPI = {
-
 
     getAllEngineVersions(): { [version: string]: { version: string, root: string } };
 
@@ -13,7 +12,6 @@ export type LauncherAPI = {
     getUserID(): string;
 
     sign(templatePath: string, uid: string): void;
-
 
 }
 
@@ -34,5 +32,4 @@ function createAPI() {
         return createInstallerLibrary();
     }
 }
-
 

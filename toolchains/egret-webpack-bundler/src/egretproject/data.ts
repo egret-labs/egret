@@ -2,31 +2,30 @@ import * as fs from 'fs';
 import * as _path from 'path';
 import { getApi } from './api';
 
-
-export type Target_Type = "web" | "native" | "mygame" | "wxgame" | "baidugame" | "qgame" | "oppogame" | "vivogame" | 'bricks' | 'ios' | 'android' | "any" | "none"
+export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
 export type EgretProperty = {
-    "engineVersion": string,
-    "compilerVersion"?: string,
-    "modules": EgretPropertyModule[],
-    "target"?: {
-        "current": string
+    'engineVersion': string,
+    'compilerVersion'?: string,
+    'modules': EgretPropertyModule[],
+    'target'?: {
+        'current': string
     }
-    "template"?: {
+    'template'?: {
 
     },
-    "wasm"?: {
+    'wasm'?: {
 
     },
-    "native"?: {
-        "path_ignore"?: string[];
+    'native'?: {
+        'path_ignore'?: string[];
     },
-    "publish"?: {
-        "web": number,
-        "native": number,
-        "path": string;
+    'publish'?: {
+        'web': number,
+        'native': number,
+        'path': string;
     },
-    "egret_version"?: string;
+    'egret_version'?: string;
 }
 
 export type EgretPropertyModule = {
@@ -34,7 +33,6 @@ export type EgretPropertyModule = {
     version?: string,
     path?: string;
 }
-
 
 export type Package_JSON = {
 
@@ -64,37 +62,36 @@ type SourceCode = {
     platform: Target_Type
 }
 
-
 class EgretProjectData {
     private egretProperties: EgretProperty = {
         modules: [],
-        target: { current: "web" },
-        engineVersion: "1"
+        target: { current: 'web' },
+        engineVersion: '1'
 
     };
 
-    projectRoot = "";
+    projectRoot = '';
     init(projectRoot: string) {
         this.projectRoot = projectRoot;
         this.reload();
     }
 
     hasEUI() {
-        return this.egretProperties.modules.some(m => m.name == "eui");
+        return this.egretProperties.modules.some((m) => m.name == 'eui');
     }
 
     reload() {
-        let egretPropertiesPath = this.getFilePath("egretProperties.json");
+        const egretPropertiesPath = this.getFilePath('egretProperties.json');
         if (fs.existsSync(egretPropertiesPath)) {
-            const content = fs.readFileSync(egretPropertiesPath, 'utf-8')
+            const content = fs.readFileSync(egretPropertiesPath, 'utf-8');
             this.egretProperties = JSON.parse(content);
             let useGUIorEUI = 0;
-            for (let m of this.egretProperties.modules) {
+            for (const m of this.egretProperties.modules) {
                 //兼容小写
-                if (m.name == "dragonbones") {
-                    m.name = "dragonBones";
+                if (m.name == 'dragonbones') {
+                    m.name = 'dragonBones';
                 }
-                if (m.name == "gui" || m.name == "eui") {
+                if (m.name == 'gui' || m.name == 'eui') {
                     useGUIorEUI++;
                 }
             }
@@ -116,7 +113,7 @@ class EgretProjectData {
     }
 
     getReleaseRoot() {
-        var p = "bin-release";
+        const p = 'bin-release';
         return p;
         //return file.joinPath(egret.args.projectDir, p);
     }
@@ -135,7 +132,7 @@ class EgretProjectData {
     }
 
     getCurrentTarget() {
-        return "web"
+        return 'web';
         // if (globals.hasKeys(this.egretProperties, ["target", "current"])) {
         //     return this.egretProperties.target.current;
         // }
@@ -150,9 +147,9 @@ class EgretProjectData {
     }
 
     private getModulePath2(m: EgretPropertyModule) {
-        let p = m.path;
+        const p = m.path;
         if (!p) {
-            const engineVersion = m.version || this.egretProperties.engineVersion
+            const engineVersion = m.version || this.egretProperties.engineVersion;
             const versions = launcher.getEgretToolsInstalledByVersion(engineVersion);
             return _path.join(versions, 'build', m.name);
         }
@@ -162,34 +159,34 @@ class EgretProjectData {
 
     private getAbsolutePath(p: string) {
         if (_path.isAbsolute(p)) {
-            return p.split("\\").join("/")
+            return p.split('\\').join('/');
         }
-        return _path.join(this.projectRoot, p).split("\\").join("/");
+        return _path.join(this.projectRoot, p).split('\\').join('/');
     }
 
     private getModulePath(m: EgretPropertyModule) {
-        let modulePath = this.getModulePath2(m)
+        let modulePath = this.getModulePath2(m);
         modulePath = this.getAbsolutePath(modulePath);
         let name = m.name;
         if (this.isWasmProject()) {
-            if (name == "egret" || name == "eui" || name == "dragonBones" || name == "game") {
-                name += "-wasm";
+            if (name == 'egret' || name == 'eui' || name == 'dragonBones' || name == 'game') {
+                name += '-wasm';
             }
         }
-        let searchPaths = [
-            _path.join(modulePath, "bin", name),
-            _path.join(modulePath, "bin"),
-            _path.join(modulePath, "build", name),
+        const searchPaths = [
+            _path.join(modulePath, 'bin', name),
+            _path.join(modulePath, 'bin'),
+            _path.join(modulePath, 'build', name),
             _path.join(modulePath)
         ];
         // if (m.path) {
         //     searchPaths.push(modulePath)
         // }
         if (this.isWasmProject()) {
-            searchPaths.unshift(_path.join(modulePath, "bin-wasm"));
-            searchPaths.unshift(_path.join(modulePath, "bin-wasm", name));
+            searchPaths.unshift(_path.join(modulePath, 'bin-wasm'));
+            searchPaths.unshift(_path.join(modulePath, 'bin-wasm', name));
         }
-        let dir = searchPath(searchPaths)!;
+        const dir = searchPath(searchPaths)!;
         return dir;
     }
 
@@ -201,31 +198,31 @@ class EgretProjectData {
         if (platform == 'ios' || platform == 'android') {
             platform = 'web';
         }
-        let result = this.egretProperties.modules.map(m => {
-            let name = m.name;
-            let sourceDir = this.getModulePath(m);
+        const result = this.egretProperties.modules.map((m) => {
+            const name = m.name;
+            const sourceDir = this.getModulePath(m);
             let targetDir = _path.join(this.getLibraryFolder(), name);
-            let relative = _path.relative(this.getProjectRoot(), sourceDir);
-            if (relative.indexOf("..") == -1 && !_path.isAbsolute(relative)) { // source 在项目中
+            const relative = _path.relative(this.getProjectRoot(), sourceDir);
+            if (relative.indexOf('..') == -1 && !_path.isAbsolute(relative)) { // source 在项目中
                 targetDir = sourceDir;
             }
-            targetDir = ((_path.relative(this.getProjectRoot(), targetDir)) + _path.sep).split("\\").join("/");
-            let source = [
-                _path.join(sourceDir, name + ".js").split("\\").join("/"),
-                _path.join(sourceDir, name + "." + platform + ".js").split("\\").join("/")
+            targetDir = ((_path.relative(this.getProjectRoot(), targetDir)) + _path.sep).split('\\').join('/');
+            const source = [
+                _path.join(sourceDir, name + '.js').split('\\').join('/'),
+                _path.join(sourceDir, name + '.' + platform + '.js').split('\\').join('/')
             ].filter(fs.existsSync);
 
-            let target: SourceCode[] = source.map(s => {
-                let debug = _path.join(targetDir, _path.basename(s)).split("\\").join("/");
-                let release = _path.join(targetDir, _path.basename(s, '.js') + '.min.js').split("\\").join("/");
+            const target: SourceCode[] = source.map((s) => {
+                const debug = _path.join(targetDir, _path.basename(s)).split('\\').join('/');
+                const release = _path.join(targetDir, _path.basename(s, '.js') + '.min.js').split('\\').join('/');
                 return {
                     debug,
                     release,
                     platform
-                }
+                };
             });
             return { name, target, sourceDir, targetDir };
-        })
+        });
         return result;
     }
 
@@ -234,7 +231,7 @@ class EgretProjectData {
     }
 
     getResources(): string[] {
-        return ["resource"];
+        return ['resource'];
     }
 
     get useTemplate(): boolean {
@@ -252,9 +249,7 @@ class EgretProjectData {
     }
 }
 
-
 export const projectData = new EgretProjectData();
-
 
 class EgretLauncherProxy {
 
@@ -270,9 +265,9 @@ class EgretLauncherProxy {
     }
 }
 
-export var launcher = new EgretLauncherProxy();
+export const launcher = new EgretLauncherProxy();
 function searchPath(searchPaths: string[]): string | null {
-    for (let s of searchPaths) {
+    for (const s of searchPaths) {
         if (fs.existsSync(s)) {
             return s;
         }
