@@ -71,9 +71,7 @@ export default class ThemePlugin {
         //     content += '\nif (module.hot) { module.hot.accept(); }';
         //   }
         const beforeRun = async (_compiler: webpack.Compiler, callback: Function) => {
-            compiler.hooks.compilation.tap(pluginName, (compilation: webpack.compilation.Compilation) => {
-                compilation.errors = [];
-            });
+            this.errors = [];
             try {
                 const euiCompiler = new EuiCompiler(compiler.context, 'debug');
                 const result = euiCompiler.emit();
@@ -91,13 +89,17 @@ export default class ThemePlugin {
             }
             catch (error) {
                 // // 写入错误信息
-                compiler.hooks.compilation.tap(pluginName, (compilation: webpack.compilation.Compilation) => {
-                    compilation.errors.push(error);
-                });
+                this.errors.push(error);
                 callback();
             }
 
         };
+
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation: webpack.compilation.Compilation) => {
+            if (this.errors.length) {
+                compilation.errors.push(...this.errors);
+            }
+        });
 
         compiler.hooks.watchRun.tapAsync(pluginName, beforeRun);
         compiler.hooks.beforeRun.tapAsync(pluginName, beforeRun);

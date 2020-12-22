@@ -359,7 +359,7 @@ function allowCrossDomain(req: express.Request, res: express.Response, next: exp
 }
 
 function startExpressServer(compilerApp: express.Express, port: number) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         compilerApp
             .listen(port, () => {
                 resolve();
