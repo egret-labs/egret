@@ -1,12 +1,10 @@
-import { BaseEmitter } from ".";
-import { AST_Node, AST_NodeBase, AST_Skin } from "../exml-ast";
-
+import { BaseEmitter } from '.';
+import { AST_Node, AST_NodeBase, AST_Skin } from '../exml-ast';
 
 type OutputDataFormat_State = {
     $ssP?: { target: string, name: string, value: any }[],
     $saI?: { target: string, property: string, position: number, relativeTo: string }[]
 }
-
 
 type OutputDataFormat = {
 
@@ -14,7 +12,7 @@ type OutputDataFormat = {
 
     $sP?: string[]
 
-    $sC: "$eSk"
+    $sC: '$eSk'
 
     $s?: {
         [stateName: string]: OutputDataFormat_State
@@ -28,37 +26,37 @@ export class JSONEmitter extends BaseEmitter {
     } = { $b: [] };
 
     private euiNormalizeNames = {
-        "$eBL": "eui.BitmapLabel",
-        "$eB": "eui.Button",
-        "$eCB": "eui.CheckBox",
-        "$eC": "eui.Component",
-        "$eDG": "eui.DataGroup",
-        "$eET": "eui.EditableText",
-        "$eG": "eui.Group",
-        "$eHL": "eui.HorizontalLayout",
-        "$eHSB": "eui.HScrollBar",
-        "$eHS": "eui.HSlider",
-        "$eI": "eui.Image",
-        "$eL": "eui.Label",
-        "$eLs": "eui.List",
-        "$eP": "eui.Panel",
-        "$ePB": "eui.ProgressBar",
-        "$eRB": "eui.RadioButton",
-        "$eRBG": "eui.RadioButtonGroup",
-        "$eRa": "eui.Range",
-        "$eR": "eui.Rect",
-        "$eRAl": "eui.RowAlign",
-        "$eS": "eui.Scroller",
-        "$eT": "eui.TabBar",
-        "$eTI": "eui.TextInput",
-        "$eTL": "eui.TileLayout",
-        "$eTB": "eui.ToggleButton",
-        "$eTS": "eui.ToggleSwitch",
-        "$eVL": "eui.VerticalLayout",
-        "$eV": "eui.ViewStack",
-        "$eVSB": "eui.VScrollBar",
-        "$eVS": "eui.VSlider",
-        "$eSk": "eui.Skin"
+        '$eBL': 'eui.BitmapLabel',
+        '$eB': 'eui.Button',
+        '$eCB': 'eui.CheckBox',
+        '$eC': 'eui.Component',
+        '$eDG': 'eui.DataGroup',
+        '$eET': 'eui.EditableText',
+        '$eG': 'eui.Group',
+        '$eHL': 'eui.HorizontalLayout',
+        '$eHSB': 'eui.HScrollBar',
+        '$eHS': 'eui.HSlider',
+        '$eI': 'eui.Image',
+        '$eL': 'eui.Label',
+        '$eLs': 'eui.List',
+        '$eP': 'eui.Panel',
+        '$ePB': 'eui.ProgressBar',
+        '$eRB': 'eui.RadioButton',
+        '$eRBG': 'eui.RadioButtonGroup',
+        '$eRa': 'eui.Range',
+        '$eR': 'eui.Rect',
+        '$eRAl': 'eui.RowAlign',
+        '$eS': 'eui.Scroller',
+        '$eT': 'eui.TabBar',
+        '$eTI': 'eui.TextInput',
+        '$eTL': 'eui.TileLayout',
+        '$eTB': 'eui.ToggleButton',
+        '$eTS': 'eui.ToggleSwitch',
+        '$eVL': 'eui.VerticalLayout',
+        '$eV': 'eui.ViewStack',
+        '$eVSB': 'eui.VScrollBar',
+        '$eVS': 'eui.VSlider',
+        '$eSk': 'eui.Skin'
     };
 
     private elementContents: any = {};
@@ -74,14 +72,14 @@ export class JSONEmitter extends BaseEmitter {
     emitHeader(themeData: any): void {
     }
     emitSkinNode(filename: string, skinNode: AST_Skin): void {
-        let json = {};
+        const json = {};
         this.elementContents = {};
         this.elementIds = [];
         this.skinParts = [];
         this.nodeMap = {};
         const key = skinNode.fullname;
         const item: OutputDataFormat = {
-            $sC: "$eSk",
+            $sC: '$eSk',
             $path: filename
         };
         json[key] = item;
@@ -106,7 +104,7 @@ export class JSONEmitter extends BaseEmitter {
 
         if (this.otherNodeMap.length > 0) {
             for (const child of this.otherNodeMap) {
-                const result = this.createSkinName(child)
+                const result = this.createSkinName(child);
                 const key = Object.keys(result)[0];
                 delete result[key].$path;
                 delete result[key].$s;
@@ -115,12 +113,11 @@ export class JSONEmitter extends BaseEmitter {
         }
 
         if (this.addBingdingJson.$b.length > 0) {
-            json[skinNode.fullname] = Object.assign(json[skinNode.fullname], this.addBingdingJson)
+            json[skinNode.fullname] = Object.assign(json[skinNode.fullname], this.addBingdingJson);
         }
         this.jsonContent = JSON.stringify(json, null, 4);
 
     }
-
 
     setBaseState(node: AST_NodeBase, json: any, key: string = '$bs', skinNode: AST_NodeBase) {
         const base = {};
@@ -129,16 +126,16 @@ export class JSONEmitter extends BaseEmitter {
             for (const attr of node.attributes) {
                 base[attr.key] = this.parseValue(attr.value, skinNode);
             }
-            if (node["type"]) {
-                base['$t'] = this.convertType(node["type"]);
+            if (node.type) {
+                base.$t = this.convertType(node.type);
             }
-            for (let binding of (skinNode as AST_Skin).bindings) {
-                if (node['type']) {
+            for (const binding of (skinNode as AST_Skin).bindings) {
+                if (node.type) {
                     // const type = node['type'].replace("eui.", "_");
                     // const keyWord = key.replace(type, "a");
                     //if (keyWord === binding.target) {
                     if ((node as any).varIndex == binding.target.replace('a', '')) {
-                        const array = binding.templates.map(item => {
+                        const array = binding.templates.map((item) => {
                             const result = Number(item);
                             if (isNaN(result)) {
                                 return item;
@@ -146,23 +143,23 @@ export class JSONEmitter extends BaseEmitter {
                             else {
                                 return result;
                             }
-                        })
+                        });
                         if (binding.templates.length == 1 && binding.chainIndex.length == 1) {
                             this.addBingdingJson.$b.push({
-                                "$bd": array,
-                                "$bt": key,
-                                "$bp": binding.property
+                                '$bd': array,
+                                '$bt': key,
+                                '$bp': binding.property
                             });
                         }
                         else {
                             this.addBingdingJson.$b.push({
-                                "$bd": array,
-                                "$bt": key,
-                                "$bp": binding.property,
-                                "$bc": binding.chainIndex
+                                '$bd': array,
+                                '$bt': key,
+                                '$bp': binding.property,
+                                '$bc': binding.chainIndex
                             });
                         }
-                        json[key][binding.property] = "";
+                        json[key][binding.property] = '';
                     }
                 }
             }
@@ -170,7 +167,6 @@ export class JSONEmitter extends BaseEmitter {
 
         const elementContents: string[] = [];
         const sIds: string[] = [];
-
 
         for (const child of node.children) {
             const id = this.parseNode(child);
@@ -192,7 +188,7 @@ export class JSONEmitter extends BaseEmitter {
             }
         }
         elementContents.length > 0 && (base[prop] = elementContents);
-        sIds.length > 0 && (base['$sId'] = sIds);
+        sIds.length > 0 && (base.$sId = sIds);
     }
 
     setStates(skinNode: AST_Skin, json: OutputDataFormat) {
@@ -229,9 +225,9 @@ export class JSONEmitter extends BaseEmitter {
                         }
                         json[attr.name].$saI!.push({
                             target,
-                            property: "",
+                            property: '',
                             position: 1,
-                            relativeTo: ""
+                            relativeTo: ''
                         });
                     }
                 } break;
@@ -282,10 +278,10 @@ export class JSONEmitter extends BaseEmitter {
     }
 
     parseValue(value: string | number | boolean | AST_Node | AST_Skin, skinNode: AST_NodeBase) {
-        if (!value["attributes"] && !value["children"]) {
+        if (!value.attributes && !value.children) {
             return value;
         }
-        if (value["type"]) {
+        if (value.type) {
             const id = this.parseNode(value as AST_Node);
             this.setBaseState(value as AST_Node, this.elementContents, id, skinNode);
             return id;
@@ -299,20 +295,20 @@ export class JSONEmitter extends BaseEmitter {
                 return key;
             }
         }
-        if (type.indexOf("Object") >= 0) {
-            return "Object"
+        if (type.indexOf('Object') >= 0) {
+            return 'Object';
         }
-        else if (type.indexOf("tween") >= 0) {
-            return "egret." + type.replace(":", ".");
+        else if (type.indexOf('tween') >= 0) {
+            return 'egret.' + type.replace(':', '.');
         }
         else {
-            return "$eSk";
+            return '$eSk';
         }
     }
 
     catchClass(nodeMap: any) {
         if (nodeMap.attributes) {
-            for (let child of nodeMap.attributes) {
+            for (const child of nodeMap.attributes) {
                 if (child.type == 'skinName') {
                     this.otherNodeMap.push(child);
                     const value = child.value.fullname;
@@ -329,8 +325,8 @@ export class JSONEmitter extends BaseEmitter {
             }
         }
         if (nodeMap.children) {
-            for (let child of nodeMap.children) {
-                this.catchClass(child)
+            for (const child of nodeMap.children) {
+                this.catchClass(child);
             }
         }
     }

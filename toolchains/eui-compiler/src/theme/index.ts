@@ -13,7 +13,6 @@ export interface ThemeData {
 
 }
 
-
 export class ThemeFile {
 
     data: ThemeData;
@@ -26,10 +25,10 @@ export class ThemeFile {
         const json = JSON.parse(jsonContent) as ThemeData;
         this.data = json;
         const duplicate = json.exmls.filter((item, index, array) => {
-            return array.lastIndexOf(item) !== array.indexOf(item)
-        })
+            return array.lastIndexOf(item) !== array.indexOf(item);
+        });
         if (duplicate.length > 0) {
-            console.log(`存在相同的皮肤文件`, duplicate)
+            console.log('存在相同的皮肤文件', duplicate);
             process.exit(1);
         }
     }
@@ -45,7 +44,7 @@ export class ThemeFile {
         this._preloads = exmls.filter((value) => value.preload).map((value) => value.filename);
         this.getDependence(exmls);
         theme.exmls.sort((a, b) => a.localeCompare(b));
-        theme.exmls = this.sortExmls(exmls.map(item => item.filename));
+        theme.exmls = this.sortExmls(exmls.map((item) => item.filename));
     }
 
     private getDependence(exmls: any[]) {
@@ -53,7 +52,7 @@ export class ThemeFile {
         for (const exml of exmls) {
             if (exml.filename in dependenceMap) continue;
 
-            const skinNode = generateAST(exml.contents)
+            const skinNode = generateAST(exml.contents);
             const classes: string[] = ['eui:Skin'];
             for (const child of skinNode.children) {
                 classes.push(...this.getDependenceClasses(child));
@@ -61,7 +60,6 @@ export class ThemeFile {
             dependenceMap[exml.filename] = classes.filter((value, index, arr) => arr.indexOf(value) === index);
         }
     }
-
 
     private getDependenceClasses(node: AST_Node) {
         const result = [node.type];
@@ -72,8 +70,8 @@ export class ThemeFile {
     }
 
     private sortExmls(exmls: string[]) {
-        const result: string[] = []
-        const preloads = this._preloads
+        const result: string[] = [];
+        const preloads = this._preloads;
         for (const filename of exmls) {
             if (preloads.indexOf(filename) > -1) {
                 this.sortFileName(filename, result);

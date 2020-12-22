@@ -1,20 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-
 type PropertyTypings = {
     [className: string]: {
         [propertyKey: string]: string
     }
 }
 
-
 let property: PropertyTypings;
 
 export function getTypings(className: string, propertyKey: string) {
 
     if (propertyKey === 'id') {
-        return "id";
+        return 'id';
     }
     let typings = property[className];
     let type: string;
@@ -44,10 +42,10 @@ export function getTypings(className: string, propertyKey: string) {
 }
 
 export function initTypings() {
-    const filename = path.resolve(__dirname, "../../", "property.json")
+    const filename = path.resolve(__dirname, '../../', 'property.json');
     const content = fs.readFileSync(filename, 'utf-8');
     property = JSON.parse(content);
-    for (let className in property) {
+    for (const className in property) {
         const typings = property[className];
         if (typings.super) {
 

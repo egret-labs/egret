@@ -1,5 +1,5 @@
-import { BaseEmitter } from ".";
-import { AST_Skin } from "../exml-ast";
+import { BaseEmitter } from '.';
+import { AST_Skin } from '../exml-ast';
 
 export class DeclarationEmitter extends BaseEmitter {
 

@@ -33,7 +33,6 @@ export interface AST_Binding {
     chainIndex: number[];
 }
 
-
 export interface AST_Skin extends AST_NodeBase {
 
     namespace: string;
@@ -67,13 +66,11 @@ export interface AST_Attribute {
     value: number | boolean | string | AST_Node | AST_Skin
 }
 
-
 export type AST_STATE = AST_STATE_ADD | AST_STATE_MODIFY_PROPERTY
-
 
 export interface AST_STATE_MODIFY_PROPERTY {
 
-    type: "set",
+    type: 'set',
 
     attribute: AST_Attribute,
 
@@ -82,7 +79,7 @@ export interface AST_STATE_MODIFY_PROPERTY {
 
 export interface AST_STATE_ADD {
 
-    type: "add",
+    type: 'add',
     name: string
 }
 

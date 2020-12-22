@@ -3,40 +3,36 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ThemeFile } from './theme';
 
-let localize = require('ajv-i18n/localize/zh');
-
+const localize = require('ajv-i18n/localize/zh');
 
 let projectRoot = '';
-let egretProperties: EgretProperties
-
-
+let egretProperties: EgretProperties;
 
 const schema = {
-    "type": "object",
-    "required": ["eui"],
-    "properties": {
-        "eui": {
-            "required": ["themes"],
-            "type": "object",
-            "properties": {
-                "themes": {
-                    "type": "array", items: {
-                        "type": "string"
+    'type': 'object',
+    'required': ['eui'],
+    'properties': {
+        'eui': {
+            'required': ['themes'],
+            'type': 'object',
+            'properties': {
+                'themes': {
+                    'type': 'array',
+                    items: {
+                        'type': 'string'
                     }
-                },
+                }
             }
         }
     }
-}
-
+};
 
 class EgretPropertiesError extends Error {
 
     constructor(filepath, message) {
-        super(filepath + " " + message);
+        super(filepath + ' ' + message);
     }
 }
-
 
 type EgretProperties = {
     eui: {
@@ -45,9 +41,7 @@ type EgretProperties = {
     }
 }
 
-
 export function initilize(root: string) {
-
 
     projectRoot = root;
     parseEgretProperties();
@@ -59,10 +53,10 @@ function getJson(filepath) {
     }
     const content = fs.readFileSync(filepath, 'utf-8');
     try {
-        return JSON.parse(content)
+        return JSON.parse(content);
     }
     catch (e) {
-        throw new EgretPropertiesError(filepath, '不是有效的JSON文件')
+        throw new EgretPropertiesError(filepath, '不是有效的JSON文件');
     }
 }
 
@@ -74,9 +68,9 @@ function parseEgretProperties() {
     if (!egretProperties.eui) {
         egretProperties.eui = {
             themes: [
-                "resource/default.thm.json"
+                'resource/default.thm.json'
             ]
-        }
+        };
     }
     const valid = validate(egretProperties);
 
@@ -91,16 +85,15 @@ function parseEgretProperties() {
 
 export function getThemes() {
     const themes = egretProperties.eui.themes;
-    return themes.map(t => {
+    return themes.map((t) => {
         const themeFile = new ThemeFile(projectRoot, t);
         return themeFile;
-    })
+    });
 }
 
 export function getFilePathRelativeProjectRoot(p: string) {
-    return path.join(projectRoot, p).split("\\").join("/")
+    return path.join(projectRoot, p).split('\\').join('/');
 }
-
 
 export function getEgretProperties() {
     return egretProperties;
