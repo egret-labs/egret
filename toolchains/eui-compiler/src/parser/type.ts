@@ -5,7 +5,7 @@ export enum CharacterType {
     Equal, // = 3
 };
 
-export const DelimiterMapping = {
+export const CloseDelimiterMapping = {
     '>': '<',
     '>_': '</',
     '/>': '<',
@@ -14,6 +14,21 @@ export const DelimiterMapping = {
     '"': '"',
     '\'': '\''
 };
+
+export const OpenDelimiterMapping = {
+    '<': '>',
+    '</': '>',
+    '<_': '/>',
+    '<?': '?>',
+    '<!--': '-->',
+    '"': '"',
+    '\'': '\''
+};
+
+export const AttributeDelimiter = [
+    '"',
+    "'"
+];
 
 export const space = [
     ' ',
@@ -25,7 +40,7 @@ export const Delimiters = [
     '<',
     '<?',
     '</',
-    '<!',
+    '<!--',
     '>',
     '/>',
     '?>',
