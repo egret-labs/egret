@@ -15,4 +15,18 @@ declare namespace egret {
         height: number,
         source: any
     }
+
+    export class Event {
+
+        type: string;
+
+        constructor(type: string)
+    }
+
+    export class EventDispatcher {
+
+        addEventListener(type: string, listener: Function, thisObject: any): void;
+        removeEventListener(type: string, listener: Function, thisObject: any): void
+        dispatch(event: Event): void;
+    }
 }

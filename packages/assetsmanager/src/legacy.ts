@@ -138,8 +138,37 @@ export function createGroup(name: string, keys: string[], override: boolean = fa
 
 const maxLoadingThread = 4;
 
-export function addEventListener(type: string, listener: Function, thisObject: any) {
+const eventDispatcher = new egret.EventDispatcher();
 
+/**
+ * @deprecated
+ */
+export function addEventListener(type: string, listener: Function, thisObject: any) {
+    eventDispatcher.addEventListener(type, listener, thisObject);
+}
+
+/**
+ * @deprecated
+ */
+export function removeEventListener(type: string, listener: Function, thisObject: any) {
+    eventDispatcher.removeEventListener(type, listener, thisObject);
+}
+
+/**
+ * @deprecated
+ */
+function dispatchEvent(event: ResourceEvent) {
+    eventDispatcher.dispatch(event);
+}
+
+export class ResourceEvent extends egret.Event {
+
+    static ITEM_LOAD_ERROR = 'itemLoadError';
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(type: string) {
+        super(type);
+    }
 }
 
 /**
