@@ -20,6 +20,11 @@
             "url": "1.json",
             "type": "text",
             "name": "1_txt"
+        },
+        {
+            "url": "num2.fnt",
+            "type": "font",
+            "name": "num2_fnt"
         }
     ]
 }

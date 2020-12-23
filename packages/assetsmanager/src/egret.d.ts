@@ -16,6 +16,11 @@ declare namespace egret {
         source: any
     }
 
+    export class BitmapFont {
+
+        constructor(texture: Texture, config: any)
+    }
+
     export class Event {
 
         type: string;

@@ -1,6 +1,8 @@
 ///<reference path="egret.d.ts"/>
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs/operators';
+import { getResourceInfo } from '.';
+import { getStore } from './store';
 import { ResourceInfo } from './typings';
 
 export type Processor = (resource: ResourceInfo) => Observable<any>
@@ -25,13 +27,105 @@ const textureProcessor: Processor = (resource) => getLoader('bitmapdata')(resour
     })
 );
 
+// return host.load(resource, 'text').then(function (data) {
+//     var config;
+//     try {
+//         config = JSON.parse(data);
+//     }
+//     catch (e) {
+//         config = data;
+//     }
+//     var imageName;
+//     if (typeof config === 'string') {
+//         imageName = fontGetTexturePath(resource.url, config);
+//     }
+//     else {
+//         imageName = getRelativePath(resource.url, config.file);
+//     }
+//     var r = host.resourceConfig.getResource(RES.nameSelector(imageName));
+//     if (!r) {
+//         r = { name: imageName, url: imageName, type: 'image', root: resource.root };
+//     }
+//     // var texture: egret.Texture = await host.load(r);
+//     return host.load(r).then(function (texture) {
+//         var font = new egret.BitmapFont(texture, config);
+//         font["$resourceInfo"] = r;
+//         // todo refactor
+//         host.save(r, texture);
+//         return font;
+//     }, function (e) {
+//         host.remove(r);
+//         throw e;
+//     });
+// });
+function convertToJson<T>(data: string | T): T {
+    if (typeof data === 'string') {
+        return JSON.parse(data);
+    }
+    else {
+        return data;
+    }
+}
+
+function getRelativePath(url: string, file: string) {
+    if (file.indexOf('://') != -1) {
+        return file;
+    }
+    url = url.split('\\').join('/');
+    const params = url.match(/#.*|\?.*/);
+    let paramUrl = '';
+    if (params) {
+        paramUrl = params[0];
+    }
+    const index = url.lastIndexOf('/');
+    if (index != -1) {
+        url = url.substring(0, index + 1) + file;
+    }
+    else {
+        url = file;
+    }
+    return url + paramUrl;
+}
+
+const nameSelector = (url: string) => {
+    const x = url.split('/').pop()!;
+    return x.split('.').join('_');
+};
+
+type FontJson = {
+    file: string,
+    frames: {
+        [index: string]: { x: number, y: number, w: number, h: number, offX: number, offY: number, sourceW: number, sourceH: number }[]
+    }
+}
+
+const fontProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
+    map((data) => convertToJson<FontJson>(data)),
+    mergeMap((config) => {
+        const imageUrl = getRelativePath(resource.url, config.file);
+        const imageName = nameSelector(imageUrl);
+        const hasRes = !!getStore().config.resources[imageName];
+        const r = hasRes ? getResourceInfo(imageName) : { name: imageUrl, url: imageUrl, type: 'image' };
+        return forkJoin([of(config), getLoader('image')(r)]);
+    }),
+    tap((v) => {
+        const [config, texture] = v;
+        const font = new egret.BitmapFont(texture, config);
+        return font;
+    })
+
+);
+
 export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<any> } = {
     text: textProcessor,
     json: jsonProcessor,
     bitmapdata: bitmapdataProcessor,
-    image: textureProcessor
+    image: textureProcessor,
+    font: fontProcessor
 };
 
+export function getLoader(type: 'image'): (resource: ResourceInfo) => Observable<egret.Texture>
+export function getLoader(type: string): (resource: ResourceInfo) => Observable<any>
 export function getLoader(type: string) {
     const loader = loaders[type];
     if (!loader) {

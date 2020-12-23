@@ -72,11 +72,20 @@ class EventDispatcher {
     }
 }
 
+class BitmapFont {
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(texture: Texture, config: any) {
+
+    }
+}
+
 export function egretMock() {
     global.egret = {
         ImageLoader,
         Texture,
         Event,
-        EventDispatcher
+        EventDispatcher,
+        BitmapFont
     };
 }
