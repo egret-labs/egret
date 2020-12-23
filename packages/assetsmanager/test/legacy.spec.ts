@@ -135,7 +135,7 @@ describe('legacy-api', () => {
     it('load-font', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
         const font = await RES.getResAsync('num2_fnt');
-        assert.ok(font, 'font加载正确');
+        assert.isTrue(font instanceof egret.BitmapFont, 'font加载正确');
     });
 });
 

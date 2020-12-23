@@ -108,7 +108,7 @@ const fontProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
         const r = hasRes ? getResourceInfo(imageName) : { name: imageUrl, url: imageUrl, type: 'image' };
         return forkJoin([of(config), getLoader('image')(r)]);
     }),
-    tap((v) => {
+    map((v) => {
         const [config, texture] = v;
         const font = new egret.BitmapFont(texture, config);
         return font;
