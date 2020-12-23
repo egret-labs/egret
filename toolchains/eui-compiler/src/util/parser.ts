@@ -1,8 +1,8 @@
-import { ErrorPrinter } from '../parser/printError';
-import { xml2js } from '../parser/index';
 import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
+import { Element, Mapping } from '../parser/ast-type';
+import { xml2js } from '../parser/index';
+import { ErrorPrinter } from '../parser/printError';
 import { getTypings } from './typings';
-import { Element, RootExmlElement, Mapping } from '../parser/ast-type';
 
 const skinParts: string[] = [];
 
