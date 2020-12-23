@@ -1,28 +1,31 @@
 import { CharacterType, CloseDelimiterMapping, space, Delimiters, Equal, Quotation } from './type';
-
+import { Token } from './ast-type';
 
 export class Lexer {
 
     private rawText: string[] = [];
     private line = 1;
     private column = 0;
-    private delimiterStack: any[] = [];
-    private tokens: any[] = [];
+    private delimiterStack: Token[] = [];
+    private tokens: Token[] = [];
+    private printer: Function = () => { };
+    private hasChar = false;
 
-    constructor(content: string) {
+    constructor(content: string, printer: Function) {
         this.rawText = content.split('');
+        this.printer = printer;
     }
 
-    public analysis(): any[] {
+    public analysis(): Token[] {
         let isString = false;
-        let stringBuffer: any = null; // 存字符串的第一位
-        let identifierBuffer: any = null;
+        let stringBuffer: Token | null = null; // 存字符串的第一位
+        let identifierBuffer: Token | null = null;
         while (this.rawText.length > 0) {
             const char = this.getChar(1);
-            const value = char.text;
-            const value1 = value + this.viewChar(1).text;
-            const value2 = value + this.viewChar(2).text;
-            const value3 = value + this.viewChar(3).text;
+            const value = char.value;
+            const value1 = value + this.viewChar(1).value;
+            const value2 = value + this.viewChar(2).value;
+            const value3 = value + this.viewChar(3).value;
             // 跳过空白符
             if (!isString && space.includes(value)) {
                 if (identifierBuffer) {
@@ -33,7 +36,7 @@ export class Lexer {
             }
             // 跳过注释
             else if (!isString && value3 === '<!--') {
-                while (this.viewChar(3).text !== '-->') {
+                while (this.viewChar(3).value !== '-->') {
                     this.getChar(1);
                 }
                 this.getChar(3);
@@ -59,7 +62,7 @@ export class Lexer {
                 }
                 if (length > 0) {
                     const nextChar = this.getChar(length);
-                    char.text += nextChar.text;
+                    char.value += nextChar.value;
                     char.endColumn = nextChar.endColumn;
                     char.endLine = nextChar.endLine;
                 }
@@ -73,11 +76,11 @@ export class Lexer {
                 )) {
                     const lastDelimiter = this.viewTop(this.delimiterStack);
                     if (lastDelimiter &&
-                        (CloseDelimiterMapping[text] === lastDelimiter.text || CloseDelimiterMapping[text + '_'] === lastDelimiter.text)) {
+                        (CloseDelimiterMapping[text] === lastDelimiter.value || CloseDelimiterMapping[text + '_'] === lastDelimiter.value)) {
                         this.delimiterStack.pop();
-                        if (Quotation.includes(lastDelimiter.text)) {
+                        if (Quotation.includes(lastDelimiter.value)) {
                             isString = false;
-                            this.createToken(CharacterType.Word, stringBuffer);
+                            this.createToken(CharacterType.Word, stringBuffer!);
                             stringBuffer = null;
                         }
                     }
@@ -87,7 +90,7 @@ export class Lexer {
                 }
                 // 开界符
                 else {
-                    char.text = text;
+                    char.value = text;
                     this.delimiterStack.push(char);
                     if (Quotation.includes(text)) {
                         isString = true;
@@ -103,7 +106,7 @@ export class Lexer {
                     stringBuffer = char;
                 }
                 else {
-                    stringBuffer.text += value;
+                    stringBuffer.value += value;
                     stringBuffer.endLine = char.endLine;
                     stringBuffer.endColumn = char.endColumn;
                 }
@@ -125,7 +128,7 @@ export class Lexer {
                     identifierBuffer = char;
                 }
                 else {
-                    identifierBuffer.text += value;
+                    identifierBuffer.value += value;
                     identifierBuffer.endLine = char.endLine;
                     identifierBuffer.endColumn = char.endColumn;
                 }
@@ -136,7 +139,7 @@ export class Lexer {
             this.sendError(char, 'unexpected char');
         }
         if (this.delimiterStack.length !== 0) {
-            this.sendError(this.delimiterStack.pop(), 'expect close delimiter');
+            this.sendError(this.delimiterStack.pop()!, 'expect close delimiter');
         }
 
         return this.tokens;
@@ -148,22 +151,32 @@ export class Lexer {
         let endLine = -1;
         let endColumn = -1;
 
-        let text = '';
+        let value = '';
         if (length > this.rawText.length) {
             length = this.rawText.length;
         }
         for (let i = 0; i < length; i++) {
             const char = this.rawText.shift();
-            text += char;
-            this.column++;
+            value += char;
+            if (char === '\t' && this.hasChar) {
+                this.column += 8 - this.column % 8;
+            }
+            else if (char === '\t') {
+                this.column += 8;
+            }
+            else {
+                this.column++;
+                this.hasChar = true;
+            }
             endColumn = this.column + 1;
             endLine = this.line;
-            if (char == '\n') {
+            if (char === '\n') {
                 this.line++;
                 this.column = 0;
+                this.hasChar = false;
             }
         }
-        return { text, startLine, startColumn, endLine, endColumn };
+        return { value, startLine, startColumn, endLine, endColumn };
     }
 
     private viewChar(length: number) {
@@ -172,37 +185,38 @@ export class Lexer {
         // let endLine = -1;
         // let endColumn = -1;
 
-        let text = '';
+        let value = '';
         if (length > this.rawText.length) {
-            text = this.rawText.join('');
+            value = this.rawText.join('');
         }
         else {
             for (let i = 0; i < length; i++) {
-                text += this.rawText[i];
+                value += this.rawText[i];
             }
         }
 
-        return { text, line, column };
+        return { value, line, column };
     }
 
-    private viewTop(arr: any[]) {
+    private viewTop(arr: Token[]) {
         return arr[arr.length - 1];
     }
 
-    private createToken(type: number, char: any) {
+    private createToken(type: number, char: Token) {
         const node = {
             type,
             startLine: char.startLine,
             startColumn: char.startColumn,
             endLine: char.endLine,
             endColumn: char.endColumn,
-            value: char.text
+            value: char.value
         }
         this.tokens.push(node);
     }
 
-    private sendError(char: any, message: string) {
-        console.log(char);
-        throw (message);
+    private sendError(char: Token, message: string) {
+        // console.log(char);
+        // throw (message);
+        this.printer(message, char.startColumn, char.startLine);
     }
 }

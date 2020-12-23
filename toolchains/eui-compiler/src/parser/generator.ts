@@ -1,26 +1,24 @@
 import { delimiter } from 'path';
+import { Attribute, Element, RootExmlElement, Token } from './ast-type';
 import { AttributeDelimiter, CharacterType, CloseDelimiterMapping, Delimiters, OpenDelimiterMapping } from './type';
 
 export class Generator {
 
-    private tokens: any[] = [];
-    private root: {
-        declaration: any,
-        elements: any[]
-    } = {
-            declaration: {},
-            elements: []
-        };
+    private tokens: Token[] = [];
+    private root: RootExmlElement = { declaration: { attributes: [] }, elements: [] };
     private delimiterStack: string[] = [];
+    private printer: Function = () => { };
 
-    constructor(tokens: any[]) {
+
+    constructor(tokens: Token[], printer: Function) {
         this.tokens = tokens;
+        this.printer = printer;
     }
 
     public generate() {
         // let isAttribute = false;
         while (this.tokens.length > 0) {
-            const token = this.getToken();
+            const token = this.getToken()!;
             const value = token.value;
             if (token.type === CharacterType.Delimiters) {
                 if (OpenDelimiterMapping.hasOwnProperty(value) &&
@@ -36,14 +34,6 @@ export class Generator {
                         this.root.elements.push(element);
                     }
                 }
-                // else if (CloseDelimiterMapping.hasOwnProperty(value) &&
-                //     (CloseDelimiterMapping[value] === this.viewTop(this.delimiterStack) ||
-                //         CloseDelimiterMapping[value + '_'] === this.viewTop(this.delimiterStack))) {
-                //     this.delimiterStack.pop();
-                //     if (['>', '/>'].includes(value)) {
-
-                //     }
-                // }
             }
             else {
                 this.sendError('unexpected toke 1', token);
@@ -55,12 +45,12 @@ export class Generator {
 
     private parseDeclaration() {
         let dec: { attributes: any[] } = { attributes: [] };
-        const id = this.getToken();
+        const id = this.getToken()!;
         if (id.value !== 'xml') {
             this.sendError('unexpected token 2', id);
         }
         dec.attributes = this.parseAttributes();
-        const close = this.getToken();
+        const close = this.getToken()!;
         if (close.value !== '?>') {
             this.sendError('unexpected close delimiter', close);
         }
@@ -69,11 +59,11 @@ export class Generator {
     }
 
     private parseAttributes() {
-        let attribute: { key: any, value: any } = { key: null, value: null };
-        let attributes: { key: any, value: any }[] = [];
-        let equal = null;
+        let attribute: Attribute = { key: null, value: null };
+        let attributes: Attribute[] = [];
+        let equal: Token | null = null;
         while (this.viewToken().type !== CharacterType.Delimiters) {
-            const token = this.getToken();
+            const token = this.getToken()!;
             const type = token.type;
             const value = token.value;
             const startColumn = token.startColumn;
@@ -129,16 +119,18 @@ export class Generator {
     }
 
     private parseElement() {
-        let element: {
-            name: any,
-            elements: any[],
-            attributes: { key: any, value: any }[]
-        } = {
-            name: {},
+        let element: Element = {
+            name: {
+                startColumn: -1,
+                startLine: -1,
+                endColumn: -1,
+                endLine: -1,
+                value: ''
+            },
             elements: [],
             attributes: []
         };
-        const name = this.getToken();
+        const name = this.getToken()!;
         if (name.type !== CharacterType.Identifier) {
             this.sendError('unexpected token 5', name);
         }
@@ -150,14 +142,14 @@ export class Generator {
             endColumn: name.endColumn
         };
         element.attributes = this.parseAttributes();
-        const close = this.getToken(); // closeDelimiter
+        const close = this.getToken()!; // closeDelimiter
         if (close.type === CharacterType.Delimiters && close.value === '/>') {
             // <  />  without children
             this.delimiterStack.pop();
             return element;
         }
 
-        let start = this.getToken();
+        let start = this.getToken()!;
         if (start.type !== CharacterType.Delimiters) {
             this.sendError('unexpected token 6', start);
         }
@@ -167,7 +159,7 @@ export class Generator {
                 this.delimiterStack.push(start.value);
                 const child = this.parseElement();
                 element.elements.push(child);
-                start = this.getToken();
+                start = this.getToken()!;
                 if (start.type !== CharacterType.Delimiters) {
                     this.sendError('unexpected token 8', start);
                 }
@@ -176,14 +168,14 @@ export class Generator {
 
         // </ > end
         if (start.value === '</') {
-            const tag = this.getToken();
+            const tag = this.getToken()!;
             if (tag.type !== CharacterType.Identifier) {
                 this.sendError('unexpected token 7', name);
             }
             if (tag.value !== name.value) {
                 this.sendError('unexpected close tag', tag);
             }
-            const next = this.getToken();
+            const next = this.getToken()!;
             if (next.type !== CharacterType.Delimiters) {
                 this.sendError('unexpected token 8', name);
             }
@@ -199,12 +191,13 @@ export class Generator {
         return this.tokens[0];
     }
 
-    private viewTop(arr: any[]) {
+    private viewTop(arr: string[]) {
         return arr[arr.length - 1];
     }
 
     private sendError(message: string, token: any) {
-        console.log(token)
-        throw (message)
+        // console.log(token)
+        // throw (message)
+        this.printer(message, token.startColumn, token.startLine);
     }
 }
