@@ -1,15 +1,17 @@
+
 import { assert } from 'chai';
 import { Server } from 'http';
 import Koa from 'koa';
 import koaStatic from 'koa-simple-static';
 import { describe, it } from 'mocha';
 import { destory, initConfig } from '../src';
-import * as RES from '../src/legacy';
-import { getStore } from '../src/store';
 import { egretMock } from './egret-mock';
+egretMock(); //TODO
+import { RES } from '../src/legacy';
+import { getStore } from '../src/store';
+
 import { apply, clearHitCheck, getCount } from './server-hit-check';
 
-egretMock();
 global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 const app = new Koa();
