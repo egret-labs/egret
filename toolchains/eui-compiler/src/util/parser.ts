@@ -1,6 +1,10 @@
-import * as convert from 'xml-js';
+import { ErrorPrinter } from "../parser/printError";
+import { xml2js } from '../parser/index';
 import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
 import { getTypings } from './typings';
+import { Element, RootExmlElement, Mapping } from "../parser/ast-type";
+
+
 
 const skinParts: string[] = [];
 
@@ -12,24 +16,27 @@ class EuiParser {
     private skinNameIndex = 1;
     private varIndex = 0;
 
-    parseText(filecontent: string): AST_Skin {
-        const data = convert.xml2js(filecontent) as convert.Element;
-        const rootExmlElement = data.elements!.find((e) => e.name === 'e:Skin')!;
+    private printer: Function = () => { };
+
+    parseText(filecontent: string, filePath: string): AST_Skin {
+        const errorPrinter = new ErrorPrinter(filecontent, filePath);
+        const printer = errorPrinter.printError.bind(errorPrinter);
+        this.printer = printer;
+        const rawTree = xml2js(filecontent, printer);
+        const rootExmlElement = rawTree.elements.find((e) => e.name!.value === 'e:Skin')!;
         const skinNode = this.createSkinNode(rootExmlElement);
-        this.check(skinNode);
+        this.check(skinNode, this.printer);
         return skinNode;
     }
 
-    createSkinNode(rootExmlElement: convert.Element) {
+    private createSkinNode(rootExmlElement: Element) {
         this.varIndex = 0;
         const childrenExmlElement = getExmlChildren(rootExmlElement);
 
-        const isRootSkin = rootExmlElement &&
-            rootExmlElement.attributes &&
-            rootExmlElement.attributes.class;
+        const classToken = rootExmlElement.attributes.find((e) => e.key!.value === 'class')!;
 
-        const fullname = isRootSkin ? rootExmlElement.attributes!.class as string : `skins.MyComponent1$Skin${this.skinNameIndex}`;
-        // : `TestSkin${this.skinNameIndex++}`;
+        const isRootSkin = rootExmlElement && classToken;
+        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${this.skinNameIndex}`;
         const x = fullname.split('.');
         const namespace = x[1] ? x[0] : '';
         const classname = x[1] ? x[1] : x[0];
@@ -42,15 +49,27 @@ class EuiParser {
             children: [],
             attributes: [],
             states: [],
-            bindings: []//[{ target: 'a1', templates: ["hostComponent.data.data"], chainIndex: [0], property: 'text' }]
+            bindings: [],//[{ target: 'a1', templates: ["hostComponent.data.data"], chainIndex: [0], property: 'text' }]
+            mapping: {}
         } as any as AST_Skin;
+        if (isRootSkin) {
+            this.currentSkinNode.mapping['fullname'] = classToken.value;
+            if (x[1]) {
+                this.currentSkinNode.mapping['namespace'] = classToken.value;
+                this.currentSkinNode.mapping['classname'] = classToken.value;
+            }
+            else {
+                this.currentSkinNode.mapping['classname'] = classToken.value;
+            }
+        }
 
         this.walkAST_Node(rootExmlElement);
-        for (const key in rootExmlElement.attributes) {
 
+        for (const child of rootExmlElement.attributes) {
+            const key = child.key!.value;
+            let value = child.value!.value;
             if (key === 'class' || key.indexOf('xmlns') >= 0) {
                 if (key.indexOf('xmlns') >= 0) {
-                    const value = rootExmlElement.attributes[key];
                     const reg = /^([\u4E00-\u9FA5A-Za-z0-9_]+)\.\*$/;
                     const name = key.split(':')[1];
                     if (reg.test(value as string)) {
@@ -65,7 +84,7 @@ class EuiParser {
                 }
                 continue;
             }
-            const value = rootExmlElement.attributes[key] as string;
+            value = value as string;
             if (key === 'states') {
                 this.currentSkinNode.states = value.split(',');
                 continue;
@@ -74,23 +93,23 @@ class EuiParser {
             if (!type) {
                 continue;
             }
-            const attribute = createAttribute(key, type, value);
+            const attribute = createAttribute(key, type, value, {
+                key: child.key!,
+                value: child.value!
+            });
             this.currentSkinNode.attributes.push(attribute);
-
         }
 
         for (const childElement of childrenExmlElement) {
-
             const child = this.createAST_Node(childElement);
             if (child) {
                 this.currentSkinNode.children.push(child);
             }
-
         }
         return this.currentSkinNode;
     }
 
-    private walkAST_Node(nodeExmlElement: convert.Element) {
+    private walkAST_Node(nodeExmlElement: Element) {
         const type = getClassNameFromEXMLElement(nodeExmlElement);
         if (skinParts.indexOf(type) == -1) {
             skinParts.push(type.toUpperCase());
@@ -101,9 +120,9 @@ class EuiParser {
         }
     }
 
-    private createAST_Node(nodeExmlElement: convert.Element): AST_Node | null {
+    private createAST_Node(nodeExmlElement: Element): AST_Node | null {
 
-        if (nodeExmlElement.name === 'w:Config') {
+        if (nodeExmlElement.name!.value === 'w:Config') {
             return null;
         }
 
@@ -117,14 +136,16 @@ class EuiParser {
             attributes: [],
             stateAttributes: [],
             varIndex: this.varIndex,
-            id: null
+            id: null,
+            mapping: { type: nodeExmlElement.name }
         };
 
         createAST_Attributes(node, nodeExmlElement, this.currentSkinNode, this.varIndex);
 
         for (const element of childrenExmlElement) {
             let nodeType: AST_Node_Name_And_Type;
-            if (type === 'eui.Scroller' && element.name === 'e:List') {
+            let helper = false;
+            if (type === 'eui.Scroller' && element.name!.value === 'e:List') {
                 nodeType = {
                     namespace: 'e',
                     name: 'viewport',
@@ -132,7 +153,8 @@ class EuiParser {
                 };
             }
             else {
-                nodeType = getNodeType(element.name!);
+                helper = true;
+                nodeType = getNodeType(element.name!.value);
             }
             // NodeElement的children中
             // 不一定全是 node.children
@@ -145,13 +167,18 @@ class EuiParser {
             }
             else {
                 const key = nodeType.name;
+                let mapping = {};
+                if (helper) {
+                    mapping['key'] = element.name;
+                }
                 if (key === 'skinName' || key === 'itemRendererSkinName') {
                     const parser = new EuiParser();
                     const value = parser.createSkinNode(element.elements![0]);
                     const attribute: AST_Attribute = {
                         type: key,
                         key,
-                        value
+                        value,
+                        mapping
                     };
                     node.attributes.push(attribute);
                 }
@@ -159,7 +186,8 @@ class EuiParser {
                     const attribute: AST_Attribute = {
                         type: 'object',
                         key: key,
-                        value: this.createAST_Node(element)!
+                        value: this.createAST_Node(element)!,
+                        mapping
                     };
                     node.attributes.push(attribute);
                 }
@@ -167,10 +195,10 @@ class EuiParser {
                     const attribute: AST_Attribute = {
                         type: 'object',
                         key: key,
-                        value: this.createAST_Node(element.elements![0])!
+                        value: this.createAST_Node(element.elements![0])!,
+                        mapping
                     };
                     node.attributes.push(attribute);
-
                 }
                 else if (key === 'props') {
                     for (const obj of element.elements as any) {
@@ -178,7 +206,8 @@ class EuiParser {
                         const attribute: AST_Attribute = {
                             type: 'object',
                             key: key,
-                            value: value!
+                            value: value!,
+                            mapping
                         };
                         node.attributes.push(attribute);
                     }
@@ -186,56 +215,67 @@ class EuiParser {
                 else {
                     throw new Error(`missing ${key}`);
                 }
-
             }
         }
         return node;
     }
 
-    private check(rootNode: any) {
 
-        checkClassName(rootNode);
-        if (rootNode.type === 'eui.Scroller') checkScroller(rootNode);
+    private check(rootNode: AST_Skin | AST_Node, printer: Function) {
+
+        checkClassName(rootNode as AST_Skin);
+        if (rootNode.type === 'eui.Scroller') checkScroller(rootNode as AST_Node);
         checkAttribute(rootNode.attributes);
         for (const child of rootNode.children) {
-            this.check(child);
+            this.check(child, printer);
         }
 
-        function checkClassName(rootNode: any) {
+        function checkClassName(rootNode: AST_Skin) {
             if (rootNode.fullname) {
                 const value = rootNode.fullname;
                 const reg = /^skins\./;
                 if (!value.match(reg)) {
-                    error(`Exml Error: classname should start with \`skins.\`, which value is \`${rootNode.fullname}\``);
+                    const column = rootNode.mapping.fullname.startColumn;
+                    const line = rootNode.mapping.fullname.startLine;
+                    error(`Exml Error: classname should start with \`skins.\`, which value is \`${rootNode.fullname}\``, column, line);
                 }
             }
         }
 
-        function checkAttribute(attributes: any[]) {
+        function checkAttribute(attributes: AST_Attribute[]) {
             for (const attr of attributes) {
 
             }
         }
 
-        function checkScroller(rootNode: any) {
+        function checkScroller(rootNode: AST_Node) {
             const length = rootNode.children.length;
             if (length > 1) {
-                error(`Exml Error: eui.Scroller can have only one child, where has ${length}`);
+                const child = rootNode.children[0];
+                const column = child.mapping.type.startColumn;
+                const line = child.mapping.type.startLine;
+                error(`Exml Error: eui.Scroller can have only one child, where has ${length}`, column, line);
             }
             const type = length > 0 ? rootNode.children[0].type : '';
             if (length == 1 && type !== 'eui.Group') {
-                error(`Exml Error: eui.Scroller's child type should be \`eui.Group\`, which type is \`${type}\``);
+                const child = rootNode.children[0];
+                const column = child.mapping.type.startColumn;
+                const line = child.mapping.type.startLine;
+                error(`Exml Error: eui.Scroller's child type should be \`eui.Group\``, column, line);
             }
         }
 
-        function error(message: string) {
-            throw (message);
+        function error(message: string, column: number, line: number) {
+            printer(message, column, line);
         }
     }
-
 }
 
-function formatBinding(value: any, node: any) {
+export function generateAST(filecontent: string, filePath: string = ""): AST_Skin {
+    return new EuiParser().parseText(filecontent, filePath);
+}
+
+function formatBinding(value: string, node: AST_Node) {
 
     const jsKeyWords: string[] = ['null', 'NaN', 'undefined', 'true', 'false'];
     const HOST_COMPONENT = 'hostComponent';
@@ -285,12 +325,8 @@ function formatBinding(value: any, node: any) {
     };
 }
 
-export function generateAST(filecontent: string): AST_Skin {
-    return new EuiParser().parseText(filecontent);
-}
-
-function getClassNameFromEXMLElement(element: convert.Element) {
-    let result = element.name!.replace(/:/g, '.');
+function getClassNameFromEXMLElement(element: Element) {
+    let result = element.name!.value.replace(/:/g, '.');
     const firstWord = result.split('.')[0];
     switch (firstWord) {
         case 'e':
@@ -305,16 +341,10 @@ function getClassNameFromEXMLElement(element: convert.Element) {
     return result;
 }
 
-function getExmlChildren(element: convert.Element) {
+function getExmlChildren(element: Element) {
     const childrenElements = element.elements;
-    if (!childrenElements) {
-        return [];
-    }
-    else {
-        return childrenElements.filter((item) => {
-            return item.type !== 'comment';
-        });
-    };
+
+    return childrenElements;
 }
 
 function getNodeType(name1: string): AST_Node_Name_And_Type {
@@ -328,10 +358,12 @@ function getNodeType(name1: string): AST_Node_Name_And_Type {
     return { namespace, name, type };
 }
 
-function parseStateAttribute(className: string, originKey: string, value: string): AST_STATE {
+
+
+function parseStateAttribute(className: string, originKey: string, value: string, mapping: Mapping): AST_STATE {
     const [key, stateName] = originKey.split('.');
     const type = getTypings(className, key)!;
-    const attribute = createAttribute(key, type, value);
+    const attribute = createAttribute(key, type, value, mapping);
     return {
         type: 'set',
         attribute,
@@ -339,18 +371,16 @@ function parseStateAttribute(className: string, originKey: string, value: string
     };
 }
 
-/**
- * 将NodeElement的 attribute节点转化为Node的Attribute
- * @param nodeElement 
- */
-function createAST_Attributes(node: AST_Node, nodeElement: convert.Element, skinNode: AST_Skin, varIndex: number) {
+
+function createAST_Attributes(node: AST_Node, nodeElement: Element, skinNode: AST_Skin, varIndex: number) {
     const attributes: AST_Attribute[] = [];
     const className = getClassNameFromEXMLElement(nodeElement);
-    for (let key in nodeElement.attributes) {
+    for (const attr of nodeElement.attributes) {
+        let key = attr.key!.value;
         if (key === 'locked') {
             continue;
         }
-        let value = nodeElement.attributes[key] as string;
+        let value = attr.value!.value as string;
         if (value.indexOf('%') >= 0) {
             if (key === 'width') {
                 key = 'percentWidth';
@@ -362,7 +392,10 @@ function createAST_Attributes(node: AST_Node, nodeElement: convert.Element, skin
             }
         }
         if (key.indexOf('.') >= 0) {
-            const stateAttribute = parseStateAttribute(className, key, value);
+            const stateAttribute = parseStateAttribute(className, key, value, {
+                key: attr.key!,
+                value: attr.value!
+            });
             node.stateAttributes.push(stateAttribute);
             continue;
         }
@@ -399,13 +432,16 @@ function createAST_Attributes(node: AST_Node, nodeElement: convert.Element, skin
         if (!type) {
             continue;
         }
-        const attribute = createAttribute(key, type, value);
+        const attribute = createAttribute(key, type, value, {
+            key: attr.key!,
+            value: attr.value!
+        });
         attributes.push(attribute);
     }
     node.attributes = attributes;
 }
 
-function createAttribute(key: string, type: string, attributeValue: any): AST_Attribute {
+function createAttribute(key: string, type: string, attributeValue: string, mapping: Mapping): AST_Attribute {
 
     let value: AST_Attribute['value'] = attributeValue;
     if (type == 'number') {
@@ -430,7 +466,7 @@ function createAttribute(key: string, type: string, attributeValue: any): AST_At
     return {
         type,
         key,
-        value
+        value,
+        mapping
     };
 }
-

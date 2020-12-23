@@ -31,7 +31,7 @@ describe('emitter', () => {
             process.chdir(path.join(baselineDir, dir));
             const content = fs.readFileSync('input.exml', 'utf-8');
             typings.initTypings();
-            const skinNode = parser.generateAST(content)
+            const skinNode = parser.generateAST(content, baselineDir)
             const emitter = new JavaScriptEmitter();
             const result = emitter.generateJavaScriptAST(skinNode);
 
@@ -48,26 +48,26 @@ describe('emitter', () => {
         it(`declaration-emitter-${dir}`, () => {
             process.chdir(path.join(baselineDir, dir));
             const content = fs.readFileSync('input.exml', 'utf-8');
-            const skinNode = parser.generateAST(content)
+            const skinNode = parser.generateAST(content, baselineDir)
             const emitter = new DeclarationEmitter();
             emitter.emitSkinNode('input.exml', skinNode);
             let result = emitter.getResult();
             result = result.split('\r').join('');
             let outputDeclaration = fs.readFileSync("expected-output-d-ts.txt", 'utf-8');
             outputDeclaration = outputDeclaration.split('\r').join('');
-            assert.equal(outputDeclaration, result);
+            assert.equal(result, outputDeclaration);
         })
         //continue;
         it(`json-emitter-${dir}`, () => {
             process.chdir(path.join(baselineDir, dir));
             const content = fs.readFileSync('input.exml', 'utf-8');
-            const skinNode = parser.generateAST(content)
+            const skinNode = parser.generateAST(content, baselineDir)
             const emitter = new JSONEmitter();
             emitter.emitSkinNode('input.exml', skinNode);
             const result = emitter.getResult();
             const outputDeclaration = fs.readFileSync("expected-output-json.txt", 'utf-8');
 
-            assert.deepEqual(JSON.parse(outputDeclaration), JSON.parse(result));
+            assert.deepEqual(JSON.parse(result), JSON.parse(outputDeclaration));
         })
     }
 

@@ -6,8 +6,9 @@ export interface AST_NodeBase {
 
     children: AST_Node[];
 
-    stateAttributes: AST_STATE[]
+    stateAttributes: AST_STATE[];
 
+    mapping: any;
 }
 
 export interface AST_Binding {
@@ -65,7 +66,9 @@ export interface AST_Attribute {
 
     key: string;
 
-    value: number | boolean | string | AST_Node | AST_Skin
+    value: number | boolean | string | AST_Node | AST_Skin;
+
+    mapping: any;
 }
 
 export type AST_STATE = AST_STATE_ADD | AST_STATE_MODIFY_PROPERTY
