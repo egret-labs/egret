@@ -50,9 +50,33 @@ class Texture {
     }
 }
 
+class Event {
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(public type: string) {
+
+    }
+
+}
+
+class EventDispatcher {
+
+    addEventListener(type: string, listener: Function, thisObject: any): void {
+
+    }
+    removeEventListener(type: string, listener: Function, thisObject: any): void {
+
+    }
+    dispatch(event: Event): void {
+
+    }
+}
+
 export function egretMock() {
     global.egret = {
         ImageLoader,
-        Texture
+        Texture,
+        Event,
+        EventDispatcher
     };
 }
