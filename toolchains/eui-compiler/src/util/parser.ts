@@ -34,7 +34,7 @@ class EuiParser {
         const classToken = rootExmlElement.attributes.find((e) => e.key!.value === 'class')!;
 
         const isRootSkin = rootExmlElement && classToken;
-        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${this.skinNameIndex}`;
+        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${this.skinNameIndex++}`;
         const x = fullname.split('.');
         const namespace = x[1] ? x[0] : '';
         const classname = x[1] ? x[1] : x[0];
@@ -165,7 +165,7 @@ class EuiParser {
             }
             else {
                 const key = nodeType.name;
-                const mapping = {};
+                const mapping: any = {};
                 if (helper) {
                     mapping.key = element.name;
                 }
