@@ -135,7 +135,6 @@ export class Lexer {
                 continue;
             }
 
-
             this.sendError(char, 'unexpected char');
         }
         if (this.delimiterStack.length !== 0) {
@@ -210,7 +209,7 @@ export class Lexer {
             endLine: char.endLine,
             endColumn: char.endColumn,
             value: char.value
-        }
+        };
         this.tokens.push(node);
     }
 

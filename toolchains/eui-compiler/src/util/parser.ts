@@ -1,10 +1,8 @@
-import { ErrorPrinter } from "../parser/printError";
+import { ErrorPrinter } from '../parser/printError';
 import { xml2js } from '../parser/index';
 import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
 import { getTypings } from './typings';
-import { Element, RootExmlElement, Mapping } from "../parser/ast-type";
-
-
+import { Element, RootExmlElement, Mapping } from '../parser/ast-type';
 
 const skinParts: string[] = [];
 
@@ -53,13 +51,13 @@ class EuiParser {
             mapping: {}
         } as any as AST_Skin;
         if (isRootSkin) {
-            this.currentSkinNode.mapping['fullname'] = classToken.value;
+            this.currentSkinNode.mapping.fullname = classToken.value;
             if (x[1]) {
-                this.currentSkinNode.mapping['namespace'] = classToken.value;
-                this.currentSkinNode.mapping['classname'] = classToken.value;
+                this.currentSkinNode.mapping.namespace = classToken.value;
+                this.currentSkinNode.mapping.classname = classToken.value;
             }
             else {
-                this.currentSkinNode.mapping['classname'] = classToken.value;
+                this.currentSkinNode.mapping.classname = classToken.value;
             }
         }
 
@@ -167,9 +165,9 @@ class EuiParser {
             }
             else {
                 const key = nodeType.name;
-                let mapping = {};
+                const mapping = {};
                 if (helper) {
-                    mapping['key'] = element.name;
+                    mapping.key = element.name;
                 }
                 if (key === 'skinName' || key === 'itemRendererSkinName') {
                     const parser = new EuiParser();
@@ -220,7 +218,6 @@ class EuiParser {
         return node;
     }
 
-
     private check(rootNode: AST_Skin | AST_Node, printer: Function) {
 
         checkClassName(rootNode as AST_Skin);
@@ -261,7 +258,7 @@ class EuiParser {
                 const child = rootNode.children[0];
                 const column = child.mapping.type.startColumn;
                 const line = child.mapping.type.startLine;
-                error(`Exml Error: eui.Scroller's child type should be \`eui.Group\``, column, line);
+                error('Exml Error: eui.Scroller\'s child type should be `eui.Group`', column, line);
             }
         }
 
@@ -271,7 +268,7 @@ class EuiParser {
     }
 }
 
-export function generateAST(filecontent: string, filePath: string = ""): AST_Skin {
+export function generateAST(filecontent: string, filePath: string = ''): AST_Skin {
     return new EuiParser().parseText(filecontent, filePath);
 }
 
@@ -358,8 +355,6 @@ function getNodeType(name1: string): AST_Node_Name_And_Type {
     return { namespace, name, type };
 }
 
-
-
 function parseStateAttribute(className: string, originKey: string, value: string, mapping: Mapping): AST_STATE {
     const [key, stateName] = originKey.split('.');
     const type = getTypings(className, key)!;
@@ -370,7 +365,6 @@ function parseStateAttribute(className: string, originKey: string, value: string
         name: stateName
     };
 }
-
 
 function createAST_Attributes(node: AST_Node, nodeElement: Element, skinNode: AST_Skin, varIndex: number) {
     const attributes: AST_Attribute[] = [];

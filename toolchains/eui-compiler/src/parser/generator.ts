@@ -9,7 +9,6 @@ export class Generator {
     private delimiterStack: string[] = [];
     private printer: Function = () => { };
 
-
     constructor(tokens: Token[], printer: Function) {
         this.tokens = tokens;
         this.printer = printer;
@@ -44,7 +43,7 @@ export class Generator {
     }
 
     private parseDeclaration() {
-        let dec: { attributes: any[] } = { attributes: [] };
+        const dec: { attributes: any[] } = { attributes: [] };
         const id = this.getToken()!;
         if (id.value !== 'xml') {
             this.sendError('unexpected token 2', id);
@@ -60,7 +59,7 @@ export class Generator {
 
     private parseAttributes() {
         let attribute: Attribute = { key: null, value: null };
-        let attributes: Attribute[] = [];
+        const attributes: Attribute[] = [];
         let equal: Token | null = null;
         while (this.viewToken().type !== CharacterType.Delimiters) {
             const token = this.getToken()!;
@@ -78,7 +77,7 @@ export class Generator {
                         endColumn,
                         endLine,
                         value
-                    }
+                    };
                 }
             }
             else if (type === CharacterType.Word) {
@@ -93,7 +92,7 @@ export class Generator {
                             endColumn,
                             endLine,
                             value
-                        }
+                        };
                         attributes.push(attribute);
                         attribute = { key: null, value: null };
                         equal = null;
@@ -119,7 +118,7 @@ export class Generator {
     }
 
     private parseElement() {
-        let element: Element = {
+        const element: Element = {
             name: {
                 startColumn: -1,
                 startLine: -1,
