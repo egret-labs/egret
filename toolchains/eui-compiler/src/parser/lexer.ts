@@ -1,4 +1,4 @@
-import { CharacterType, DelimiterMapping, space, Delimiters, Equal, Quotation } from './type';
+import { CharacterType, CloseDelimiterMapping, space, Delimiters, Equal, Quotation } from './type';
 
 
 export class Lexer {
@@ -58,19 +58,22 @@ export class Lexer {
                     length = 0;
                 }
                 if (length > 0) {
-                    char.text += this.getChar(length).text;
+                    const nextChar = this.getChar(length);
+                    char.text += nextChar.text;
+                    char.endColumn = nextChar.endColumn;
+                    char.endLine = nextChar.endLine;
                 }
                 if (identifierBuffer) {
                     this.createToken(CharacterType.Identifier, identifierBuffer);
                     identifierBuffer = null;
                 }
                 // 闭界符
-                if ((DelimiterMapping[text] && !Quotation.includes(text)) || (
+                if ((CloseDelimiterMapping[text] && !Quotation.includes(text)) || (
                     Quotation.includes(text) && isString
                 )) {
                     const lastDelimiter = this.viewTop(this.delimiterStack);
                     if (lastDelimiter &&
-                        (DelimiterMapping[text] === lastDelimiter.text || DelimiterMapping[text + '_'] === lastDelimiter.text)) {
+                        (CloseDelimiterMapping[text] === lastDelimiter.text || CloseDelimiterMapping[text + '_'] === lastDelimiter.text)) {
                         this.delimiterStack.pop();
                         if (Quotation.includes(lastDelimiter.text)) {
                             isString = false;
@@ -90,7 +93,8 @@ export class Lexer {
                         isString = true;
                     }
                 }
-                this.createToken(CharacterType.Delimiters, char);
+                if (!Quotation.includes(text))
+                    this.createToken(CharacterType.Delimiters, char);
                 continue;
             }
             // 存入字符
@@ -100,6 +104,8 @@ export class Lexer {
                 }
                 else {
                     stringBuffer.text += value;
+                    stringBuffer.endLine = char.endLine;
+                    stringBuffer.endColumn = char.endColumn;
                 }
                 continue;
             }
@@ -114,12 +120,14 @@ export class Lexer {
             }
             // identifier
             else {
-                if(value === '\t') continue;
+                if (value === '\t') continue;
                 if (!identifierBuffer) {
                     identifierBuffer = char;
                 }
                 else {
                     identifierBuffer.text += value;
+                    identifierBuffer.endLine = char.endLine;
+                    identifierBuffer.endColumn = char.endColumn;
                 }
                 continue;
             }
@@ -135,32 +143,34 @@ export class Lexer {
     }
 
     private getChar(length: number) {
-        const line = this.line;
-        const column = this.column + 1;
+        const startLine = this.line;
+        const startColumn = this.column + 1;
+        let endLine = -1;
+        let endColumn = -1;
 
         let text = '';
         if (length > this.rawText.length) {
-            text = this.rawText.join('');
-            this.rawText = [];
+            length = this.rawText.length;
         }
-        else {
-            for (let i = 0; i < length; i++) {
-                const char = this.rawText.shift();
-                text += char;
-                this.column++;
-                if (char == '\n') {
-                    this.line++;
-                    this.column = 0;
-                }
+        for (let i = 0; i < length; i++) {
+            const char = this.rawText.shift();
+            text += char;
+            this.column++;
+            endColumn = this.column + 1;
+            endLine = this.line;
+            if (char == '\n') {
+                this.line++;
+                this.column = 0;
             }
         }
-
-        return { text, line, column };
+        return { text, startLine, startColumn, endLine, endColumn };
     }
 
     private viewChar(length: number) {
         const line = this.line;
         const column = this.column;
+        // let endLine = -1;
+        // let endColumn = -1;
 
         let text = '';
         if (length > this.rawText.length) {
@@ -182,8 +192,10 @@ export class Lexer {
     private createToken(type: number, char: any) {
         const node = {
             type,
-            line: char.line,
-            column: char.column,
+            startLine: char.startLine,
+            startColumn: char.startColumn,
+            endLine: char.endLine,
+            endColumn: char.endColumn,
             value: char.text
         }
         this.tokens.push(node);
