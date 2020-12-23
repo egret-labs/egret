@@ -8,10 +8,12 @@ const skinParts: string[] = [];
 
 export const namespaceMapping = {};
 
+let skinNameIndex = 1;
+
 class EuiParser {
 
     private currentSkinNode!: AST_Skin;
-    private skinNameIndex = 1;
+    // private skinNameIndex = 1;
     private varIndex = 0;
 
     private printer: Function = () => { };
@@ -34,7 +36,9 @@ class EuiParser {
         const classToken = rootExmlElement.attributes.find((e) => e.key!.value === 'class')!;
 
         const isRootSkin = rootExmlElement && classToken;
-        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${this.skinNameIndex++}`;
+
+        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${skinNameIndex++}`;
+
         const x = fullname.split('.');
         const namespace = x[1] ? x[0] : '';
         const classname = x[1] ? x[1] : x[0];
@@ -269,6 +273,7 @@ class EuiParser {
 }
 
 export function generateAST(filecontent: string, filePath: string = ''): AST_Skin {
+    skinNameIndex = 1;
     return new EuiParser().parseText(filecontent, filePath);
 }
 
