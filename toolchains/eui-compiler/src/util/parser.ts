@@ -1,5 +1,5 @@
 import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
-import { Element, Mapping } from '../parser/ast-type';
+import { Element, Mapping, Token } from '../parser/ast-type';
 import { xml2js } from '../parser/index';
 import { ErrorPrinter } from '../parser/printError';
 import { getTypings } from './typings';
@@ -18,6 +18,14 @@ class EuiParser {
 
     private printer: Function = () => { };
 
+    private className = 'MyComponent1';
+
+
+    constructor(className?: string) {
+        if (className)
+            this.className = className;
+    }
+
     parseText(filecontent: string, filePath: string): AST_Skin {
         const errorPrinter = new ErrorPrinter(filecontent, filePath);
         const printer = errorPrinter.printError.bind(errorPrinter);
@@ -34,11 +42,16 @@ class EuiParser {
         const childrenExmlElement = getExmlChildren(rootExmlElement);
 
         const classToken = rootExmlElement.attributes.find((e) => e.key!.value === 'class')!;
+        if (classToken) {
+            const arr = classToken.value!.value.split('.');
+            const c1 = arr[0];
+            const c2 = arr[1];
+            this.className = c2 ? c2 : c1;
+        }
 
         const isRootSkin = rootExmlElement && classToken;
 
-        const fullname = isRootSkin ? classToken.value!.value : `skins.MyComponent1$Skin${skinNameIndex++}`;
-
+        const fullname = isRootSkin ? classToken.value!.value : `skins.${this.className}$Skin${skinNameIndex++}`;
         const x = fullname.split('.');
         const namespace = x[1] ? x[0] : '';
         const classname = x[1] ? x[1] : x[0];
@@ -174,7 +187,7 @@ class EuiParser {
                     mapping.key = element.name;
                 }
                 if (key === 'skinName' || key === 'itemRendererSkinName') {
-                    const parser = new EuiParser();
+                    const parser = new EuiParser(this.className);
                     const value = parser.createSkinNode(element.elements![0]);
                     const attribute: AST_Attribute = {
                         type: key,

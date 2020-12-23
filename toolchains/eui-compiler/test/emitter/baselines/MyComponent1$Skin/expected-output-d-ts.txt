@@ -1,4 +1,4 @@
 declare module skins {
-    class MyComponent1 extends eui.Skin {
+    class Test extends eui.Skin {
     }
 }

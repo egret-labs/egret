@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="skins.MyComponent1" width="400" 
+<e:Skin class="skins.Test" width="400" 
   xmlns:e="http://ns.egret.com/eui">
   <e:Group>
     <e:Button>

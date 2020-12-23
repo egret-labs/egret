@@ -1,8 +1,8 @@
-skins.MyComponent1 = function (_super) {
-    __extends(MyComponent1, _super);
-    skins.MyComponent1$Skin1 = function (_super) {
-        __extends(MyComponent1$Skin1, _super);
-        function MyComponent1$Skin1() {
+skins.Test = function (_super) {
+    __extends(Test, _super);
+    skins.Test$Skin1 = function (_super) {
+        __extends(Test$Skin1, _super);
+        function Test$Skin1() {
             var _this = _super.call(this) || this;
             _this.skinParts = [];
             _this.width = 400;
@@ -14,11 +14,11 @@ skins.MyComponent1 = function (_super) {
             eui.Binding.$bindProperties(this, ['hostComponent.test'], [0], a1, 'label');
             return _this;
         }
-        return MyComponent1$Skin1;
+        return Test$Skin1;
     }(eui.Skin);
-    skins.MyComponent1$Skin2 = function (_super) {
-        __extends(MyComponent1$Skin2, _super);
-        function MyComponent1$Skin2() {
+    skins.Test$Skin2 = function (_super) {
+        __extends(Test$Skin2, _super);
+        function Test$Skin2() {
             var _this = _super.call(this) || this;
             _this.skinParts = [];
             _this.width = 400;
@@ -30,19 +30,19 @@ skins.MyComponent1 = function (_super) {
             eui.Binding.$bindProperties(this, ['hostComponent.test'], [0], a1, 'label');
             return _this;
         }
-        return MyComponent1$Skin2;
+        return Test$Skin2;
     }(eui.Skin);
-    function MyComponent1() {
+    function Test() {
         var _this = _super.call(this) || this;
         _this.skinParts = [];
         _this.width = 400;
         var a1 = new eui.Group();
         var a2 = new eui.Button();
-        a2.skinName = skins.MyComponent1$Skin1;
-        a2.skinName = skins.MyComponent1$Skin2;
+        a2.skinName = skins.Test$Skin1;
+        a2.skinName = skins.Test$Skin2;
         a1.elementsContent = [a2];
         _this.elementsContent = [a1];
         return _this;
     }
-    return MyComponent1;
+    return Test;
 }(eui.Skin);

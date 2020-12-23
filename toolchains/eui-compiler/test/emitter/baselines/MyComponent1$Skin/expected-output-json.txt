@@ -1,5 +1,5 @@
 {
-    "skins.MyComponent1": {
+    "skins.Test": {
         "$sC": "$eSk",
         "$path": "input.exml",
         "$bs": {
@@ -15,11 +15,11 @@
             ]
         },
         "_Button1": {
-            "skinName": "skins.MyComponent1$Skin1",
+            "skinName": "skins.Test$Skin1",
             "$t": "$eB"
         }
     },
-    "skins.MyComponent1$Skin1": {
+    "skins.Test$Skin1": {
         "$sC": "$eSk",
         "$bs": {
             "width": 400,
