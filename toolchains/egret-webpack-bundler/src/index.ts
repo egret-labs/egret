@@ -202,7 +202,7 @@ export function generateConfig(
         optimization: {
             minimize: false
         },
-        plugins: [],
+        plugins: []
     };
     generateWebpackConfig_typescript(config, options, needSourceMap);
     generateWebpackConfig_exml(config, options);
@@ -317,9 +317,9 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
             {
                 test: /\.js$/,
                 use: [require.resolve('source-map-loader')],
-                enforce: "pre"
+                enforce: 'pre'
             }
-        )
+        );
     }
     plugins.push(new webpack.BannerPlugin({ banner: polyfill, raw: true }));
 }
@@ -350,7 +350,6 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
 
     if (options.exml?.watch) {
 
-
     }
 }
 
@@ -367,14 +366,13 @@ function generateWebpackConfig_html(config: webpack.Configuration, options: Webp
     }
 }
 
-
 function generateWebpackConfig_egretProperty(config: webpack.Configuration, options: WebpackBundleOptions, target: string) {
     if (!options.parseEgretProperty) {
         return;
     }
     config.plugins?.push(
         new EgretPropertyPlugin(options)
-    )
+    );
 }
 
 function allowCrossDomain(req: express.Request, res: express.Response, next: express.NextFunction) {
