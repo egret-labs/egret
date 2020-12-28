@@ -32,6 +32,12 @@ export class Generator {
                         const element = this.parseElement();
                         this.root.elements.push(element);
                     }
+                    else {
+                        this.sendError('unexpected delimiter', token);
+                    }
+                }
+                else {
+                    this.sendError('unexpected Delimiter ', token);
                 }
             }
             else {
