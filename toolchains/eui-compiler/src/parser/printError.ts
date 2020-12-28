@@ -12,7 +12,7 @@ export class ErrorPrinter {
 
     printError(message: string, column: number, line: number): void {
         const arr: string[] = [];
-        arr[0] = message;
+        arr[0] = `Error: ${message}`;
         arr[1] = this.fileTextArr[line - 1];
         arr[2] = '';
         for (let i = 0; i < column - 1; i++) {
