@@ -14,14 +14,21 @@ export default class EgretPropertyPlugin {
         const pluginName = this.constructor.name;
         compiler.hooks.emit.tap(pluginName, (compilation) => {
             const scripts = getLibsFileList('web', compiler.context, this.options.libraryType);
-            const manifestContent = JSON.stringify(
-                { initial: scripts, game: ['main.js'] }, null, '\t'
-            );
+            const manifest = { initial: scripts, game: ['main.js'] };
+            const manifestContent = JSON.stringify(manifest, null, '\t');
             const assets = compilation.assets;
-            assets['manifest.json'] = {
-                source: () => manifestContent,
-                size: () => manifestContent.length
-            };
+            updateAssets(assets, 'manifest.json', manifestContent);
+            for (const script of manifest.initial) {
+                updateAssets(assets, script, compiler.inputFileSystem.readFileSync(script));
+            }
         });
     }
+}
+
+function updateAssets(assets: any, filePath: string, content: string | Buffer) {
+
+    assets[filePath] = {
+        source: () => content,
+        size: () => ((typeof content === 'string') ? content.length : content.byteLength)
+    };
 }
