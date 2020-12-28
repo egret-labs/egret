@@ -152,11 +152,11 @@ export function createHttp(url: string) {
         const xhr = new XMLHttpRequest();
         xhr.open('get', url);
         xhr.onerror = (error) => {
-            subscribe.error('error');
+            subscribe.error(new Error('error'));
         };
         xhr.onload = (event) => {
             if (xhr.status >= 400) {
-                subscribe.error('error');
+                subscribe.error(new Error('error'));
             }
             else {
                 subscribe.next(xhr.responseText);
