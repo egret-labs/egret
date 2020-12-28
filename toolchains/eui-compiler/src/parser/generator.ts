@@ -154,25 +154,28 @@ export class Generator {
             return element;
         }
 
-        let start = this.getToken()!;
-        if (start.type !== CharacterType.Delimiters) {
-            this.sendError('unexpected token 6', start);
+        let endTagStart = this.getToken()!;
+        if (!endTagStart) {
+            this.sendError('unclosed tag', name);
+        }
+        if (endTagStart.type !== CharacterType.Delimiters) {
+            this.sendError('unexpected token 6', endTagStart);
         }
         // children
-        else if (start.value === '<') {
-            while (start.value === '<') {
-                this.delimiterStack.push(start.value);
+        else if (endTagStart.value === '<') {
+            while (endTagStart.value === '<') {
+                this.delimiterStack.push(endTagStart.value);
                 const child = this.parseElement();
                 element.elements.push(child);
-                start = this.getToken()!;
-                if (start.type !== CharacterType.Delimiters) {
-                    this.sendError('unexpected token 8', start);
+                endTagStart = this.getToken()!;
+                if (endTagStart.type !== CharacterType.Delimiters) {
+                    this.sendError('unexpected token 8', endTagStart);
                 }
             }
         }
 
         // </ > end
-        if (start.value === '</') {
+        if (endTagStart.value === '</') {
             const tag = this.getToken()!;
             if (tag.type !== CharacterType.Identifier) {
                 this.sendError('unexpected token 7', name);
