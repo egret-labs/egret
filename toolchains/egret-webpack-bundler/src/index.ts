@@ -309,6 +309,15 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         plugins.push(new SrcLoaderPlugin());
         rules.push(typescriptLoaderRule);
     }
+    if (needSourceMap) {
+        rules.push(
+            {
+                test: /\.js$/,
+                use: [require.resolve('source-map-loader')],
+                enforce: "pre"
+            }
+        )
+    }
     plugins.push(new webpack.BannerPlugin({ banner: polyfill, raw: true }));
 }
 
