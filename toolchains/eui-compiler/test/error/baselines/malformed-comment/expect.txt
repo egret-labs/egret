@@ -1,0 +1,5 @@
+Error: malformed comment
+<!--<?xml version='1.0' encoding='utf-8'?>
+^
+at line: 1, column: 1
+at file:

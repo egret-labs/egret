@@ -28,7 +28,7 @@ describe('parser-error', () => {
                 const skinNode = parser.generateAST(content)
             }
             catch (e) {
-                assert.deepEqual(e, result);
+                assert.deepEqual(e.replace(/\t/g,'        ').trim(), result.trim());
             }
 
 

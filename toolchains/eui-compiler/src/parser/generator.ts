@@ -124,6 +124,9 @@ export class Generator {
                 this.sendError('unexpected token 4', token);
             }
         }
+        if (attribute.key) {
+            this.sendError('attribute without value', attribute.key);
+        }
         return attributes;
     }
 

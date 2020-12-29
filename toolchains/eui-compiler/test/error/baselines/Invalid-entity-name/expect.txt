@@ -1,0 +1,5 @@
+Error: Invalid character in tag name
+<e:Ski-n class="skins.GameMainSkin"
+ ^
+at line: 2, column: 2
+at file:
