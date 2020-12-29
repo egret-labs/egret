@@ -19,13 +19,13 @@ export function runInContext(mainJsContent: string, context: any) {
 }
 
 export function compile(projectRoot: string, options: lib.WebpackBundleOptions) {
-    return new Promise<{ store: any, compiler: webpack.Compiler, compilation: webpack.compilation.Compilation }>((resolve, reject) => {
+    return new Promise<{ store: any, compiler: webpack.Compiler, compilation: webpack.compilation.Compilation, report: Function }>((resolve, reject) => {
         const webpackConfig = lib.generateConfig(projectRoot, options, 'web', false);
         let compilation: webpack.compilation.Compilation;
         const compiler = webpack(webpackConfig);
         const handler: webpack.Compiler.Handler = (error, status) => {
-            // console.log(status.toString(webpackConfig.stats));
-            resolve({ store, compiler, compilation });
+
+            resolve({ store, compiler, compilation, report: () => console.log(status.toString(webpackConfig.stats)) });
         };
         const store = {} as any;
 
