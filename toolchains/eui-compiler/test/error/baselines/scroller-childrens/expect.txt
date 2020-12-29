@@ -1,1 +1,5 @@
-Exml Error: eui.Scroller can have only one child, where has 2
+Error: Exml Error: eui.Scroller can have only one child, where has 2
+                <e:Group>
+                 ^
+at line: 6, column: 18
+at file:

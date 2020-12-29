@@ -1,0 +1,5 @@
+Error: `skins.GameMainSkin` has duplicated attribute: `height`
+        height="1136" >
+        ^
+at line: 4, column: 9
+at file:

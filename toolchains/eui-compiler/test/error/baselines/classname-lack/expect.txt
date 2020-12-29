@@ -1,1 +1,5 @@
-Exml Error: classname should start with `skins.`, which value is `RestaurantAISkin`
+Error: Exml Error: classname should start with `skins.`, which value is `RestaurantAISkin`
+<e:Skin class="RestaurantAISkin" width="640" height="350" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="abc.*" xmlns:ns2="dfg.*">
+               ^
+at line: 2, column: 16
+at file:

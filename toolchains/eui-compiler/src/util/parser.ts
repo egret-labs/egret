@@ -248,7 +248,7 @@ class EuiParser {
 
         checkClassName(rootNode as AST_Skin);
         checkID(rootNode as AST_Node);
-        const type = rootNode.type;
+        const type = (rootNode as AST_Skin).fullname ? (rootNode as AST_Skin).fullname : rootNode.type;
         checkType(rootNode as AST_Node);
         if (rootNode.type === 'eui.Scroller') checkScroller(rootNode as AST_Node);
         checkAttribute(rootNode.attributes);
@@ -292,7 +292,7 @@ class EuiParser {
             let keys: string[] = [];
             for (const attr of attributes) {
                 if (keys.includes(attr.key) && attr.key !== 'skinName') {
-                    error(`${type} has duplicated attribute: \`${attr.key}\``, attr.mapping.key);
+                    error(`\`${type}\` has duplicated attribute: \`${attr.key}\``, attr.mapping.key);
                 }
                 else {
                     keys.push(attr.key);
