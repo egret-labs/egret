@@ -1,5 +1,5 @@
 import { delimiter } from 'path';
-import { Attribute, Element, RootExmlElement, Token } from './ast-type';
+import { Attribute, IdCharacter, Element, RootExmlElement, Token, Character } from './ast-type';
 import { AttributeDelimiter, CharacterType, CloseDelimiterMapping, Delimiters, OpenDelimiterMapping } from './type';
 
 export class Generator {
@@ -84,6 +84,10 @@ export class Generator {
                         endLine,
                         value
                     };
+                    this.checkName(attribute.key, 'attribute');
+                }
+                else {
+                    this.sendError('attribute without value', attribute.key);
                 }
             }
             else if (type === CharacterType.Word) {
@@ -139,6 +143,7 @@ export class Generator {
         if (name.type !== CharacterType.Identifier) {
             this.sendError('unexpected token 5', name);
         }
+        this.checkName(name, 'tag');
         element.name = {
             value: name.value,
             startLine: name.startLine,
@@ -148,9 +153,9 @@ export class Generator {
         };
         element.attributes = this.parseAttributes();
         const close = this.getToken()!; // closeDelimiter
+        this.delimiterStack.pop();
         if (close.type === CharacterType.Delimiters && close.value === '/>') {
             // <  />  without children
-            this.delimiterStack.pop();
             return element;
         }
 
@@ -185,7 +190,7 @@ export class Generator {
             }
             const next = this.getToken()!;
             if (next.type !== CharacterType.Delimiters) {
-                this.sendError('unexpected token 8', name);
+                this.sendError('Invalid characters in closing tag', next);
             }
         }
         return element;
@@ -207,5 +212,15 @@ export class Generator {
         // console.log(token)
         // throw (message)
         this.printer(message, token);
+    }
+
+    private checkName(token: Token, label: string) {
+        const arr = token.value.split('');
+        const characters = Character;
+        for (const c of arr) {
+            if (!characters.includes(c)) {
+                this.sendError(`Invalid character in ${label} name`, token);
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@ export class Lexer {
                     this.getChar(1);
                 }
                 if (this.viewChar(3).value !== '-->') {
-                    this.sendError(char, 'Malformed comment');
+                    this.sendError(char, 'malformed comment');
                 }
                 this.getChar(3);
                 continue;
