@@ -2,7 +2,7 @@ import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST
 import { Element, Mapping, Token } from '../parser/ast-type';
 import { xml2js } from '../parser/index';
 import { ErrorPrinter } from '../parser/printError';
-import { getTypings } from './typings';
+import { getTypings, initTypings } from './typings';
 
 const skinParts: string[] = [];
 
@@ -249,9 +249,9 @@ class EuiParser {
                 const value = rootNode.fullname;
                 const reg = /^skins\./;
                 if (!value.match(reg)) {
-                    const column = rootNode.mapping.fullname.startColumn;
-                    const line = rootNode.mapping.fullname.startLine;
-                    error(`Exml Error: classname should start with \`skins.\`, which value is \`${rootNode.fullname}\``, column, line);
+                    // const column = rootNode.mapping.fullname.startColumn;
+                    // const line = rootNode.mapping.fullname.startLine;
+                    error(`Exml Error: classname should start with \`skins.\`, which value is \`${rootNode.fullname}\``, rootNode.mapping.fullname);
                 }
             }
         }
@@ -266,27 +266,32 @@ class EuiParser {
             const length = rootNode.children.length;
             if (length > 1) {
                 const child = rootNode.children[0];
-                const column = child.mapping.type.startColumn;
-                const line = child.mapping.type.startLine;
-                error(`Exml Error: eui.Scroller can have only one child, where has ${length}`, column, line);
+                // const column = child.mapping.type.startColumn;
+                // const line = child.mapping.type.startLine;
+                error(`Exml Error: eui.Scroller can have only one child, where has ${length}`, child.mapping.type);
             }
             const type = length > 0 ? rootNode.children[0].type : '';
             if (length == 1 && type !== 'eui.Group') {
                 const child = rootNode.children[0];
-                const column = child.mapping.type.startColumn;
-                const line = child.mapping.type.startLine;
-                error('Exml Error: eui.Scroller\'s child type should be `eui.Group`', column, line);
+                // const column = child.mapping.type.startColumn;
+                // const line = child.mapping.type.startLine;
+                error('Exml Error: eui.Scroller\'s child type should be `eui.Group`', child.mapping.type);
             }
         }
 
-        function error(message: string, column: number, line: number) {
-            printer(message, column, line);
+        function error(message: string, token: Token) {
+            printer(message, token);
         }
     }
 }
 
-export function generateAST(filecontent: string, filePath: string = ''): AST_Skin {
+export function generateAST(filecontent: string, filePath: string = '', callback: any = null): AST_Skin {
     skinNameIndex = 1;
+    if (callback !== null) {
+        ErrorPrinter.shouldPrint = false;
+        ErrorPrinter.func = callback;
+        initTypings();
+    }
     return new EuiParser().parseText(filecontent, filePath);
 }
 

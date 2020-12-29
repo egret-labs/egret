@@ -41,7 +41,7 @@ export class Generator {
                 }
             }
             else {
-                this.sendError('unexpected toke 1', token);
+                this.sendError(`unexpected toke 1`, token);
             }
         }
 
@@ -206,6 +206,6 @@ export class Generator {
     private sendError(message: string, token: any) {
         // console.log(token)
         // throw (message)
-        this.printer(message, token.startColumn, token.startLine);
+        this.printer(message, token);
     }
 }
