@@ -1,9 +1,7 @@
 import { EuiCompiler } from '@egret/eui-compiler';
 import * as path from 'path';
-// import { SyncHook } from 'tapable';
 import * as webpack from 'webpack';
 import { CachedFile } from './file';
-// import FileCacheWriter from './FileCacheWriter';
 import * as utils from './utils';
 
 interface ThemePluginOptions {
@@ -21,19 +19,15 @@ export default class ThemePlugin {
     }
 
     private errors!: any[];
-    private fs!: webpack.InputFileSystem;
     private compiler!: webpack.Compiler;
     private dirs!: string[];
     private thmJS!: CachedFile;
-    // private thmJSON: FileCacheWriter;
-    // private exmlDeclare: FileCacheWriter;
 
     private buildTimestamp = 0;
 
     public apply(compiler: webpack.Compiler) {
 
         this.errors = [];
-        this.fs = compiler.inputFileSystem;
         this.compiler = compiler;
         this.dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
         const pluginName = this.constructor.name;

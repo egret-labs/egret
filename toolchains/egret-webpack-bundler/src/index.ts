@@ -10,6 +10,7 @@ import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
 import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
+import EgretPropertyPlugin from './plugins/egret-property-plugin';
 const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -70,6 +71,8 @@ export type WebpackBundleOptions = {
      * 自定义的 webpack 配置
      */
     webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
+
+    parseEgretProperty?: boolean
 }
 
 export type WebpackDevServerOptions = {
@@ -120,12 +123,11 @@ export class EgretWebpackBundler {
 
     build(options: WebpackBundleOptions): Promise<void> {
         return new Promise((resolve, reject) => {
-            const webpackStatsOptions = { colors: true, modules: false };
             const scripts = getLibsFileList(this.target as Target_Type, this.projectRoot, options.libraryType);
             const webpackConfig = generateConfig(this.projectRoot, options, this.target, false);
 
             const handler: webpack.Compiler.Handler = (error, status) => {
-                console.log(status.toString(webpackStatsOptions));
+                console.log(status.toString(webpackConfig.stats));
                 resolve();
             };
             const compiler = webpack(webpackConfig);
@@ -181,7 +183,7 @@ export function generateConfig(
     const mode = devServer ? 'development' : 'production';
 
     let config: webpack.Configuration = {
-        stats: 'minimal',
+        stats: { colors: true, modules: false },
         entry: './src/Main.ts',
         target: 'web',
         mode,
@@ -206,6 +208,7 @@ export function generateConfig(
     generateWebpackConfig_exml(config, options);
     generateWebpackConfig_html(config, options, target);
     genrateWebpackConfig_subpackages(config, options);
+    generateWebpackConfig_egretProperty(config, options, target);
     if (target === 'lib') {
         config.output!.library = 'xxx';
         config.output!.libraryTarget = 'umd';
@@ -309,6 +312,15 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         plugins.push(new SrcLoaderPlugin());
         rules.push(typescriptLoaderRule);
     }
+    if (needSourceMap) {
+        rules.push(
+            {
+                test: /\.js$/,
+                use: [require.resolve('source-map-loader')],
+                enforce: 'pre'
+            }
+        );
+    }
     plugins.push(new webpack.BannerPlugin({ banner: polyfill, raw: true }));
 }
 
@@ -330,13 +342,14 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
         ]
     };
 
+    config.module!.rules.push(exmlLoaderRule);
+    config.plugins!.push(new ThemePlugin({}));
+    config.watchOptions = {
+        ignored: /exml.e.d.ts/
+    };
+
     if (options.exml?.watch) {
-        // rules.push(srcLoaderRule);
-        config.module!.rules.push(exmlLoaderRule);
-        config.plugins!.push(new ThemePlugin({}));
-        config.watchOptions = {
-            ignored: /exml.e.d.ts/
-        };
+
     }
 }
 
@@ -351,6 +364,15 @@ function generateWebpackConfig_html(config: webpack.Configuration, options: Webp
                 template: options.html.templateFilePath
             }));
     }
+}
+
+function generateWebpackConfig_egretProperty(config: webpack.Configuration, options: WebpackBundleOptions, target: string) {
+    if (!options.parseEgretProperty) {
+        return;
+    }
+    config.plugins?.push(
+        new EgretPropertyPlugin(options)
+    );
 }
 
 function allowCrossDomain(req: express.Request, res: express.Response, next: express.NextFunction) {
