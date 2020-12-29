@@ -75,7 +75,7 @@ export type WebpackBundleOptions = {
 
     parseEgretProperty?: boolean
 
-    emitResource?: boolean
+    assets?: { files: string[] }
 }
 
 export type WebpackDevServerOptions = {
@@ -380,11 +380,11 @@ function generateWebpackConfig_egretProperty(config: webpack.Configuration, opti
 }
 
 function generateWebpackConfig_resource(config: webpack.Configuration, options: WebpackBundleOptions) {
-    if (!options.emitResource) {
+    if (!options.assets) {
         return;
     }
     config.plugins?.push(
-        new ResourceConfigFilePlugin(options)
+        new ResourceConfigFilePlugin(options.assets)
     );
 }
 

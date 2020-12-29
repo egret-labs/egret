@@ -1,11 +1,12 @@
 import * as webpack from 'webpack';
 import { WebpackBundleOptions } from '..';
 import { createProject } from '../egretproject';
+import * as path from 'path';
 
 export default class ResourceConfigFilePlugin {
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(private options: WebpackBundleOptions) {
+    constructor(private options: { files: string[] }) {
 
     }
 
@@ -27,7 +28,7 @@ export default class ResourceConfigFilePlugin {
         const pluginName = this.constructor.name;
         compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
             const assets = compilation.assets;
-            const filepath = 'resource/default.res.json';
+            const filepath = path.join(compiler.context, this.options.files[0]).split('\\').join('/');
             try {
                 const content = await readFileAsync(filepath);
                 updateAssets(assets, filepath, content);
