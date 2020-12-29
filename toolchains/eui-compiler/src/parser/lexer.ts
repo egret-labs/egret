@@ -216,6 +216,6 @@ export class Lexer {
     private sendError(char: Token, message: string) {
         // console.log(char);
         // throw (message);
-        this.printer(message, char.startColumn, char.startLine);
+        this.printer(message, char);
     }
 }
