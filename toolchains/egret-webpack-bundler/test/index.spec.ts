@@ -5,7 +5,7 @@ const projectRoot = path.join(__dirname, 'simple-project');
 describe('第一个测试', () => {
 
     it('测试 egret.is', async () => {
-        const store = await bundler.compile(projectRoot, { typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        const { store } = await bundler.compile(projectRoot, { typescript: { mode: 'legacy' }, libraryType: 'debug' });
         const context = {} as any;
         bundler.runInContext(store['main.js'], context);
         expect(egret.is(new context.MyComponent(), 'MyComponent')).toBe(true);
@@ -16,7 +16,7 @@ describe('第一个测试', () => {
 
     it('测试全局变量', async () => {
 
-        const store = await bundler.compile(projectRoot, { typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        const { store, compiler } = await bundler.compile(projectRoot, { typescript: { mode: 'legacy' }, libraryType: 'debug' });
         const context = {} as any;
         bundler.runInContext(store['main.js'], context);
         expect(context.doSomething).not.toBeUndefined();
@@ -25,7 +25,7 @@ describe('第一个测试', () => {
     });
 
     it('测试 manifest', async () => {
-        const store = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        const { store, compilation } = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'legacy' }, libraryType: 'debug' });
         const manifestContent = store['manifest.json'].toString();
         const manifest = JSON.parse(manifestContent);
         expect(manifest).toEqual(
@@ -40,6 +40,7 @@ describe('第一个测试', () => {
                     'main.js'
                 ]
             });
+        expect(compilation.errors.length).toEqual(4);
     });
 });
 
