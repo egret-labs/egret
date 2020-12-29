@@ -1,8 +1,8 @@
 import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
-import { Element, Mapping, Token } from '../parser/ast-type';
+import { IdCharacter, Element, Mapping, Token } from '../parser/ast-type';
 import { xml2js } from '../parser/index';
 import { ErrorPrinter } from '../parser/printError';
-import { getTypings, initTypings } from './typings';
+import { EgretElements, getTypings, initTypings, setErrorPrint } from './typings';
 
 const skinParts: string[] = [];
 
@@ -30,8 +30,17 @@ class EuiParser {
         const errorPrinter = new ErrorPrinter(filecontent, filePath);
         const printer = errorPrinter.printError.bind(errorPrinter);
         this.printer = printer;
+        setErrorPrint(printer);
         const rawTree = xml2js(filecontent, printer);
+        if (rawTree.elements.length > 1) {
+            const token = rawTree.elements[1].name!;
+            const name = token.value;
+            this.printer(`another root tag found: \`${name}\``, token);
+        }
         const rootExmlElement = rawTree.elements.find((e) => e.name!.value === 'e:Skin')!;
+        if (!rootExmlElement) {
+            this.printer('expect e:Skin', rawTree.elements[0].name)
+        }
         const skinNode = this.createSkinNode(rootExmlElement);
         this.check(skinNode, this.printer);
         return skinNode;
@@ -104,7 +113,7 @@ class EuiParser {
                 this.currentSkinNode.states = value.split(',');
                 continue;
             }
-            const type = getTypings('eui.Skin', key);
+            const type = getTypings('eui.Skin', key, child.key!);
             if (!type) {
                 continue;
             }
@@ -154,7 +163,6 @@ class EuiParser {
             id: null,
             mapping: { type: nodeExmlElement.name }
         };
-
         createAST_Attributes(node, nodeExmlElement, this.currentSkinNode, this.varIndex);
 
         for (const element of childrenExmlElement) {
@@ -228,7 +236,8 @@ class EuiParser {
                     }
                 }
                 else {
-                    throw new Error(`missing ${key}`);
+                    this.printer('unexpected label name', mapping.key);
+                    // throw new Error(`missing ${key}`);
                 }
             }
         }
@@ -238,11 +247,15 @@ class EuiParser {
     private check(rootNode: AST_Skin | AST_Node, printer: Function) {
 
         checkClassName(rootNode as AST_Skin);
+        checkID(rootNode as AST_Node);
+        const type = rootNode.type;
+        checkType(rootNode as AST_Node);
         if (rootNode.type === 'eui.Scroller') checkScroller(rootNode as AST_Node);
         checkAttribute(rootNode.attributes);
         for (const child of rootNode.children) {
             this.check(child, printer);
         }
+
 
         function checkClassName(rootNode: AST_Skin) {
             if (rootNode.fullname) {
@@ -256,9 +269,34 @@ class EuiParser {
             }
         }
 
-        function checkAttribute(attributes: AST_Attribute[]) {
-            for (const attr of attributes) {
+        function checkID(rootNode: AST_Node) {
+            const id = rootNode.id;
+            if (id) {
+                const arr = id.split('');
+                for (const c of arr) {
+                    if (!IdCharacter.includes(c)) {
+                        error('Invalid character in entity name', rootNode.mapping.id);
+                    }
+                }
+            }
+        }
 
+        function checkType(rootNode: AST_Node) {
+            if (rootNode.type &&
+                (rootNode.type.indexOf('eui.') > -1 && !EgretElements.includes(rootNode.type))) {
+                error('unexpected label name', rootNode.mapping.type);
+            }
+        }
+
+        function checkAttribute(attributes: AST_Attribute[]) {
+            let keys: string[] = [];
+            for (const attr of attributes) {
+                if (keys.includes(attr.key) && attr.key !== 'skinName') {
+                    error(`${type} has duplicated attribute: \`${attr.key}\``, attr.mapping.key);
+                }
+                else {
+                    keys.push(attr.key);
+                }
             }
         }
 
@@ -380,7 +418,7 @@ function getNodeType(name1: string): AST_Node_Name_And_Type {
 
 function parseStateAttribute(className: string, originKey: string, value: string, mapping: Mapping): AST_STATE {
     const [key, stateName] = originKey.split('.');
-    const type = getTypings(className, key)!;
+    const type = getTypings(className, key, mapping.key)!;
     const attribute = createAttribute(key, type, value, mapping);
     return {
         type: 'set',
@@ -428,6 +466,7 @@ function createAST_Attributes(node: AST_Node, nodeElement: Element, skinNode: AS
         }
         if (key === 'id') {
             node.id = value;
+            node.mapping['id'] = attr.value;
             continue;
         }
 
@@ -445,7 +484,7 @@ function createAST_Attributes(node: AST_Node, nodeElement: Element, skinNode: AS
             });
             continue;
         }
-        const type = getTypings(className, key);
+        const type = getTypings(className, key, attr.key!);
         if (!type) {
             continue;
         }

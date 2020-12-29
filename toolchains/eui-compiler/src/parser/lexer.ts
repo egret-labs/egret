@@ -36,8 +36,11 @@ export class Lexer {
             }
             // 跳过注释
             else if (!isString && value3 === '<!--') {
-                while (this.viewChar(3).value !== '-->') {
+                while (this.viewChar(3).value !== '-->' && this.rawText.length > 0) {
                     this.getChar(1);
+                }
+                if (this.viewChar(3).value !== '-->') {
+                    this.sendError(char, 'malformed comment');
                 }
                 this.getChar(3);
                 continue;
@@ -138,7 +141,7 @@ export class Lexer {
             this.sendError(char, 'unexpected char');
         }
         if (this.delimiterStack.length !== 0) {
-            this.sendError(this.delimiterStack.pop()!, 'expect close delimiter');
+            this.sendError(this.delimiterStack.pop()!, 'tag not closed propertly');
         }
 
         return this.tokens;
