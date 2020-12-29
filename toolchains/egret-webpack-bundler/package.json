@@ -7,7 +7,18 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "mocha -t 5000"
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "/test/.*.spec\\.(ts|tsx)$"
   },
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",
@@ -34,8 +45,9 @@
     "@types/node": "^12.11.6",
     "@types/tapable": "^1.0.5",
     "@types/glob": "~7.1.2",
-    "@types/mocha": "~7.0.2",
-    "mocha": "~8.0.1",
-    "@types/minimatch": "~3.0.3"
+    "@types/minimatch": "~3.0.3",
+    "@types/jest": "~26.0.19",
+    "jest": "~26.6.3",
+    "ts-jest": "~26.4.4"
   }
 }
