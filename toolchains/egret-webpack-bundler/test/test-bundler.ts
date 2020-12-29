@@ -1,18 +1,15 @@
-//@ts-check
-const lib = require('../');
-const path = require('path');
-const { fstat } = require('fs');
+import * as lib from '../';
+import * as vm from 'vm';
 
-module.exports.compile = function compile(projectRoot, context) {
+export function compile(projectRoot: string, context: any) {
 
     const bundler = new lib.EgretWebpackBundler(projectRoot, 'web');
-    let store = {};
-    bundler.emitter = (filename, data) => {
-        console.log(filename)
+    const store = {} as any;
+    bundler.emitter = (filename: string, data: any) => {
         store[filename] = data;
-    }
+    };
 
-    return bundler.build({ libraryType: "debug", typescript: { mode: "legacy" } }).then(() => {
+    return bundler.build({ libraryType: 'debug', typescript: { mode: 'legacy' } }).then(() => {
         const mainJsContent = store['main.js'].toString();
         context.console = console;
 
@@ -24,9 +21,8 @@ module.exports.compile = function compile(projectRoot, context) {
         };
         ${mainJsContent}
         `;
-        const vm = require('vm');
         const script = new vm.Script(code);
         script.runInNewContext(context, { displayErrors: true });
         return context;
-    })
+    });
 }
