@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 import { WebpackBundleOptions } from '..';
-import { getLibsFileList, createProject } from '../egretproject';
+import { createProject } from '../egretproject';
 
 export default class EgretPropertyPlugin {
 

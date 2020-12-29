@@ -10,7 +10,7 @@ import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
 import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
-import EgretPropertyPlugin from './plugins/egret-property-plugin';
+import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
