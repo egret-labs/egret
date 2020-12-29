@@ -19,15 +19,14 @@ export function runInContext(mainJsContent: string, context: any) {
 }
 
 export function compile(projectRoot: string, options: lib.WebpackBundleOptions) {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<{ store: any, compiler: webpack.Compiler, compilation: webpack.compilation.Compilation }>((resolve, reject) => {
         const webpackConfig = lib.generateConfig(projectRoot, options, 'web', false);
-
-        const handler: webpack.Compiler.Handler = (error, status) => {
-            console.log(status.toString(webpackConfig.stats));
-            resolve(store);
-        };
+        let compilation: webpack.compilation.Compilation;
         const compiler = webpack(webpackConfig);
-
+        const handler: webpack.Compiler.Handler = (error, status) => {
+            // console.log(status.toString(webpackConfig.stats));
+            resolve({ store, compiler, compilation });
+        };
         const store = {} as any;
 
         compiler.outputFileSystem = {
@@ -54,6 +53,9 @@ export function compile(projectRoot: string, options: lib.WebpackBundleOptions) 
                 callback(null);
             }
         };
+        compiler.hooks.thisCompilation.tap('test', (_c) => {
+            compilation = _c;
+        });
         compiler.run(handler);
     });
 

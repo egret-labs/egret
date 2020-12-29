@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 import { WebpackBundleOptions } from '..';
-import { getLibsFileList } from '../egretproject';
+import { getLibsFileList, createProject } from '../egretproject';
 
 export default class EgretPropertyPlugin {
 
@@ -26,23 +26,27 @@ export default class EgretPropertyPlugin {
 
         const pluginName = this.constructor.name;
         compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
-            const scripts = getLibsFileList('web', compiler.context, this.options.libraryType);
-            const manifest = { initial: scripts, game: ['main.js'] };
-            const manifestContent = JSON.stringify(manifest, null, '\t');
             const assets = compilation.assets;
-            updateAssets(assets, 'manifest.json', manifestContent);
-            for (const script of manifest.initial) {
-                try {
-                    const content = await readFileAsync(script);
-                    updateAssets(assets, script, content);
+            const project = createProject(compiler.context);
+            const egretModules = project.getModulesConfig('web');
+            const initial: string[] = [];
+            for (const m of egretModules) {
+                for (const asset of m.target) {
+                    const filename = this.options.libraryType == 'debug' ? asset.debug : asset.release;
+                    initial.push(filename);
+                    try {
+                        const content = await readFileAsync(filename);
+                        updateAssets(assets, filename, content);
+                    }
+                    catch (e) {
+                        const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
+                        compilation.errors.push({ file: 'egretProperties.json', message });
+                    }
                 }
-                catch (e) {
-                    const message = `文件访问失败:${script}`;
-                    compilation.errors.push({ file: 'egretProperties.json', message });
-                }
-
             }
-
+            const manifest = { initial, game: ['main.js'] };
+            const manifestContent = JSON.stringify(manifest, null, '\t');
+            updateAssets(assets, 'manifest.json', manifestContent);
         });
     }
 }

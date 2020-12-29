@@ -11,3 +11,8 @@ export function getLibsFileList(target: Target_Type, projectRoot: string, mode: 
     });
     return result;
 }
+
+export function createProject(projectRoot: string) {
+    projectData.init(projectRoot);
+    return projectData;
+}

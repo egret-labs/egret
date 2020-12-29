@@ -62,7 +62,7 @@ type SourceCode = {
     platform: Target_Type
 }
 
-class EgretProjectData {
+export class EgretProjectData {
     private egretProperties: EgretProperty = {
         modules: [],
         target: { current: 'web' },
@@ -96,7 +96,6 @@ class EgretProjectData {
                 }
             }
             if (useGUIorEUI >= 2) {
-                process.exit(1);
             }
         }
     }
@@ -108,42 +107,12 @@ class EgretProjectData {
         return this.projectRoot;
     }
 
-    getFilePath(fileName: string) {
+    private getFilePath(fileName: string) {
         return _path.resolve(this.getProjectRoot(), fileName);
-    }
-
-    getReleaseRoot() {
-        const p = 'bin-release';
-        return p;
-        //return file.joinPath(egret.args.projectDir, p);
-    }
-
-    getVersionCode() {
-        return 1;
     }
 
     getVersion() {
         return this.egretProperties.egret_version || this.egretProperties.compilerVersion;
-    }
-
-    getIgnorePath(): Array<any> {
-
-        return [];
-    }
-
-    getCurrentTarget() {
-        return 'web';
-        // if (globals.hasKeys(this.egretProperties, ["target", "current"])) {
-        //     return this.egretProperties.target.current;
-        // }
-        // else {
-
-        // }
-    }
-
-    getCopyExmlList(): Array<string> {
-
-        return [];
     }
 
     private getModulePath2(m: EgretPropertyModule) {
@@ -162,6 +131,10 @@ class EgretProjectData {
             return p.split('\\').join('/');
         }
         return _path.join(this.projectRoot, p).split('\\').join('/');
+    }
+
+    getModules() {
+        return this.egretProperties.modules.map((m) => m.name);
     }
 
     private getModulePath(m: EgretPropertyModule) {
@@ -190,48 +163,46 @@ class EgretProjectData {
         return dir;
     }
 
-    getLibraryFolder() {
+    private getLibraryFolder() {
         return this.getFilePath('libs/modules');
+    }
+
+    getConfigByModule(m: EgretPropertyModule, platform: Target_Type) {
+        const name = m.name;
+        const sourceDir = this.getModulePath(m);
+        let targetDir = _path.join(this.getLibraryFolder(), name);
+        const relative = _path.relative(this.getProjectRoot(), sourceDir);
+        if (relative.indexOf('..') == -1 && !_path.isAbsolute(relative)) { // source 在项目中
+            targetDir = sourceDir;
+        }
+        targetDir = ((_path.relative(this.getProjectRoot(), targetDir)) + _path.sep).split('\\').join('/');
+        const source = [
+            _path.join(sourceDir, name + '.js').split('\\').join('/'),
+            _path.join(sourceDir, name + '.' + platform + '.js').split('\\').join('/')
+        ].filter(fs.existsSync);
+
+        const target: SourceCode[] = source.map((s) => {
+            const debug = _path.join(targetDir, _path.basename(s)).split('\\').join('/');
+            const release = _path.join(targetDir, _path.basename(s, '.js') + '.min.js').split('\\').join('/');
+            return {
+                debug,
+                release,
+                platform
+            };
+        });
+        return { name, target, sourceDir, targetDir };
     }
 
     getModulesConfig(platform: Target_Type) {
         if (platform == 'ios' || platform == 'android') {
             platform = 'web';
         }
-        const result = this.egretProperties.modules.map((m) => {
-            const name = m.name;
-            const sourceDir = this.getModulePath(m);
-            let targetDir = _path.join(this.getLibraryFolder(), name);
-            const relative = _path.relative(this.getProjectRoot(), sourceDir);
-            if (relative.indexOf('..') == -1 && !_path.isAbsolute(relative)) { // source 在项目中
-                targetDir = sourceDir;
-            }
-            targetDir = ((_path.relative(this.getProjectRoot(), targetDir)) + _path.sep).split('\\').join('/');
-            const source = [
-                _path.join(sourceDir, name + '.js').split('\\').join('/'),
-                _path.join(sourceDir, name + '.' + platform + '.js').split('\\').join('/')
-            ].filter(fs.existsSync);
-
-            const target: SourceCode[] = source.map((s) => {
-                const debug = _path.join(targetDir, _path.basename(s)).split('\\').join('/');
-                const release = _path.join(targetDir, _path.basename(s, '.js') + '.min.js').split('\\').join('/');
-                return {
-                    debug,
-                    release,
-                    platform
-                };
-            });
-            return { name, target, sourceDir, targetDir };
-        });
+        const result = this.egretProperties.modules.map((m) => this.getConfigByModule(m, platform));
         return result;
     }
 
-    isWasmProject(): boolean {
+    private isWasmProject(): boolean {
         return false;
-    }
-
-    getResources(): string[] {
-        return ['resource'];
     }
 
     get useTemplate(): boolean {
