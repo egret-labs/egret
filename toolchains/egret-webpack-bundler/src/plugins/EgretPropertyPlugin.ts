@@ -1,11 +1,11 @@
 import * as webpack from 'webpack';
 import { WebpackBundleOptions } from '..';
-import { getLibsFileList, createProject } from '../egretproject';
+import { createProject } from '../egretproject';
 
 export default class EgretPropertyPlugin {
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(private options: WebpackBundleOptions) {
+    constructor(private options: { libraryType: 'debug' | 'release' }) {
 
     }
 

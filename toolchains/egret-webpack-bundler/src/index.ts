@@ -10,7 +10,8 @@ import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
 import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
-import EgretPropertyPlugin from './plugins/egret-property-plugin';
+import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
+import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
 const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -73,6 +74,8 @@ export type WebpackBundleOptions = {
     webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
 
     parseEgretProperty?: boolean
+
+    assets?: { files: string[] }
 }
 
 export type WebpackDevServerOptions = {
@@ -209,6 +212,7 @@ export function generateConfig(
     generateWebpackConfig_html(config, options, target);
     genrateWebpackConfig_subpackages(config, options);
     generateWebpackConfig_egretProperty(config, options, target);
+    generateWebpackConfig_resource(config, options);
     if (target === 'lib') {
         config.output!.library = 'xxx';
         config.output!.libraryTarget = 'umd';
@@ -372,6 +376,15 @@ function generateWebpackConfig_egretProperty(config: webpack.Configuration, opti
     }
     config.plugins?.push(
         new EgretPropertyPlugin(options)
+    );
+}
+
+function generateWebpackConfig_resource(config: webpack.Configuration, options: WebpackBundleOptions) {
+    if (!options.assets) {
+        return;
+    }
+    config.plugins?.push(
+        new ResourceConfigFilePlugin(options.assets)
     );
 }
 
