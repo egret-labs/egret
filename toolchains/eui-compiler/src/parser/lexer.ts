@@ -127,6 +127,8 @@ export class Lexer {
             // identifier
             else {
                 if (value === '\t') continue;
+                if (this.delimiterStack.length == 0)
+                    this.sendError(char, 'text data outside of root node');
                 if (!identifierBuffer) {
                     identifierBuffer = char;
                 }

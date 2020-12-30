@@ -55,7 +55,7 @@ export class ErrorPrinter {
         arr[2] += '^';
         arr[3] = `at line: ${info.line}, column: ${info.column}`;
         arr[4] = `at file: ${this.filePath}`;
-        console.error(arr.join('\n'));
+        // console.error(arr.join('\n'));
     }
 
     private splitMessage(message: string) {
