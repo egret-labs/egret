@@ -328,34 +328,31 @@ export class EuiParser {
 
 
 
-export function generateAST(filecontent: string, filePath: string = '', options: { throwError: boolean } = { throwError: true }): AST_Skin {
+export function generateAST(filecontent: string, filePath: string = ''): AST_Skin {
     skinNameIndex = 1;
     let result: AST_Skin;
     let parser = new EuiParser();
-    if (options.throwError === false) {
-        ErrorPrinter.shouldPrint = false;
-        initTypings();
-        try {
-            result = parser.parseText(filecontent, filePath);
-        }
-        catch (e) {
-            result = {
-                fullname: '',
-                namespace: '',
-                stateAttributes: [],
-                classname: '',
-                children: [],
-                attributes: [],
-                states: [],
-                bindings: [],
-                mapping: {},
-                errors: parser.errors
-            } as any as AST_Skin;
-        }
-    }
-    else {
+
+    ErrorPrinter.shouldPrint = false;
+    initTypings();
+    try {
         result = parser.parseText(filecontent, filePath);
     }
+    catch (e) {
+        result = {
+            fullname: '',
+            namespace: '',
+            stateAttributes: [],
+            classname: '',
+            children: [],
+            attributes: [],
+            states: [],
+            bindings: [],
+            mapping: {},
+            errors: parser.errors
+        } as any as AST_Skin;
+    }
+
     return result;
 }
 
