@@ -48,6 +48,21 @@ export interface AST_Skin extends AST_NodeBase {
 
     bindings: AST_Binding[]
 
+    errors: Error[]
+
+}
+
+export interface Error {
+
+    message: string
+
+    startColumn: number
+
+    startLine: number
+
+    endColumn: number
+
+    endLine: number
 }
 
 export interface AST_Node extends AST_NodeBase {

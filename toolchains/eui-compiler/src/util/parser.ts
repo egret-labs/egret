@@ -1,4 +1,4 @@
-import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD } from '../exml-ast';
+import { AST_Attribute, AST_FullName_Type, AST_Node, AST_Node_Name_And_Type, AST_Skin, AST_STATE, AST_STATE_ADD, Error } from '../exml-ast';
 import { IdCharacter, Element, Mapping, Token } from '../parser/ast-type';
 import { xml2js } from '../parser/index';
 import { ErrorPrinter } from '../parser/printError';
@@ -10,7 +10,7 @@ export const namespaceMapping = {};
 
 let skinNameIndex = 1;
 
-class EuiParser {
+export class EuiParser {
 
     private currentSkinNode!: AST_Skin;
     // private skinNameIndex = 1;
@@ -20,6 +20,7 @@ class EuiParser {
 
     private className = 'MyComponent1';
 
+    public errors: Error[] = [];
 
     constructor(className?: string) {
         if (className)
@@ -27,7 +28,7 @@ class EuiParser {
     }
 
     parseText(filecontent: string, filePath: string): AST_Skin {
-        const errorPrinter = new ErrorPrinter(filecontent, filePath);
+        const errorPrinter = new ErrorPrinter(filecontent, filePath, this);
         const printer = errorPrinter.printError.bind(errorPrinter);
         this.printer = printer;
         setErrorPrint(printer);
@@ -43,6 +44,7 @@ class EuiParser {
         }
         const skinNode = this.createSkinNode(rootExmlElement);
         this.check(skinNode, this.printer);
+        skinNode.errors = this.errors;
         return skinNode;
     }
 
@@ -74,7 +76,8 @@ class EuiParser {
             attributes: [],
             states: [],
             bindings: [],//[{ target: 'a1', templates: ["hostComponent.data.data"], chainIndex: [0], property: 'text' }]
-            mapping: {}
+            mapping: {},
+            errors: []
         } as any as AST_Skin;
         if (isRootSkin) {
             this.currentSkinNode.mapping.fullname = classToken.value;
@@ -323,14 +326,37 @@ class EuiParser {
     }
 }
 
-export function generateAST(filecontent: string, filePath: string = '', callback: any = null): AST_Skin {
+
+
+export function generateAST(filecontent: string, filePath: string = '', options: { throwError: boolean } = { throwError: true }): AST_Skin {
     skinNameIndex = 1;
-    if (callback !== null) {
+    let result: AST_Skin;
+    let parser = new EuiParser();
+    if (options.throwError === false) {
         ErrorPrinter.shouldPrint = false;
-        ErrorPrinter.func = callback;
         initTypings();
+        try {
+            result = parser.parseText(filecontent, filePath);
+        }
+        catch (e) {
+            result = {
+                fullname: '',
+                namespace: '',
+                stateAttributes: [],
+                classname: '',
+                children: [],
+                attributes: [],
+                states: [],
+                bindings: [],
+                mapping: {},
+                errors: parser.errors
+            } as any as AST_Skin;
+        }
     }
-    return new EuiParser().parseText(filecontent, filePath);
+    else {
+        result = parser.parseText(filecontent, filePath);
+    }
+    return result;
 }
 
 function formatBinding(value: string, node: AST_Node) {
