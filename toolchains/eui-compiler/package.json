@@ -1,6 +1,6 @@
 {
   "name": "@egret/eui-compiler",
-  "version": "1.4.9",
+  "version": "2.0.0",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -9,9 +9,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "mocha -t 5000 ./test/emitter/index.js",
-    "test:error": "mocha -t 5000 ./test/error/index.js",
-    "test:lexer": "mocha -t 5000 ./test/parser/lexer/index.js"
+    "test": "mocha -t 5000 ./tests/emitter/index.js",
+    "test:error": "mocha -t 5000 ./tests/error/index.js",
+    "test:lexer": "mocha -t 5000 ./tests/parser/lexer/index.js"
   },
   "repository": {
     "type": "git",
