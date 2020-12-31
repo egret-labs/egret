@@ -334,7 +334,6 @@ export function generateAST(filecontent: string, filePath: string = ''): AST_Ski
     let parser = new EuiParser();
 
     ErrorPrinter.shouldPrint = false;
-    initTypings();
     try {
         result = parser.parseText(filecontent, filePath);
     }
