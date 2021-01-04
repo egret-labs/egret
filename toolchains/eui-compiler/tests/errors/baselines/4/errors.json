@@ -1,0 +1,16 @@
+[
+    {
+        "message": "Error: Invalid characters in closing tag\n</e:Skin a>\n         ^\nat line: 6, column: 10\nat file: \n\n",
+        "startColumn": 10,
+        "startLine": 6,
+        "endColumn": 11,
+        "endLine": 6
+    },
+    {
+        "message": "Error: `skins.GameMainSkin` has duplicated attribute: `height`\n\theight=\"1136\" >\n        ^\nat line: 4, column: 9\nat file: \n\n",
+        "startColumn": 9,
+        "startLine": 4,
+        "endColumn": 15,
+        "endLine": 4
+    }
+]

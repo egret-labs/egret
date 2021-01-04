@@ -38,9 +38,26 @@ export class EuiParser {
             const name = token.value;
             this.printer(`another root tag found: \`${name}\``, token);
         }
-        const rootExmlElement = rawTree.elements.find((e) => e.name!.value === 'e:Skin')!;
+        if (rawTree.elements.length == 0) {
+            const skinNode = {
+                fullname: "",
+                namespace: "",
+                stateAttributes: [],
+                classname: "",
+                children: [],
+                attributes: [],
+                states: [],
+                bindings: [],
+                mapping: {},
+                errors: []
+            } as any as AST_Skin;
+            skinNode.errors = this.errors;
+            return skinNode;
+        }
+        let rootExmlElement = rawTree.elements.find((e) => e.name!.value === 'e:Skin')!;
         if (!rootExmlElement) {
-            this.printer('expect e:Skin', rawTree.elements[0].name)
+            this.printer('expect e:Skin', rawTree.elements[0].name);
+            rootExmlElement = rawTree.elements[0];
         }
         const skinNode = this.createSkinNode(rootExmlElement);
         this.check(skinNode, this.printer);
@@ -338,6 +355,7 @@ export function generateAST(filecontent: string, filePath: string = ''): AST_Ski
         result = parser.parseText(filecontent, filePath);
     }
     catch (e) {
+        // console.log(e)
         result = {
             fullname: '',
             namespace: '',

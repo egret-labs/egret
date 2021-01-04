@@ -1,0 +1,16 @@
+[
+    {
+        "message": "Error: Exml Error: eui.Scroller's child type should be `eui.Group`\n\t\t<e:Group1>\n                 ^\nat line: 6, column: 18\nat file: \n\n",
+        "startColumn": 18,
+        "startLine": 6,
+        "endColumn": 26,
+        "endLine": 6
+    },
+    {
+        "message": "Error: unexpected label name\n\t\t<e:Group1>\n                 ^\nat line: 6, column: 18\nat file: \n\n",
+        "startColumn": 18,
+        "startLine": 6,
+        "endColumn": 26,
+        "endLine": 6
+    }
+]

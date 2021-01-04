@@ -1,0 +1,23 @@
+[
+    {
+        "message": "Error: Invalid character in tag name\n<e:Ski-n class=\"skins.GameMainSkin\"\n ^\nat line: 2, column: 2\nat file: \n\n",
+        "startColumn": 2,
+        "startLine": 2,
+        "endColumn": 9,
+        "endLine": 2
+    },
+    {
+        "message": "Error: expect e:Skin\n<e:Ski-n class=\"skins.GameMainSkin\"\n ^\nat line: 2, column: 2\nat file: \n\n",
+        "startColumn": 2,
+        "startLine": 2,
+        "endColumn": 9,
+        "endLine": 2
+    },
+    {
+        "message": "Error: `skins.GameMainSkin` has duplicated attribute: `height`\n\theight=\"1136\" >\n        ^\nat line: 4, column: 9\nat file: \n\n",
+        "startColumn": 9,
+        "startLine": 4,
+        "endColumn": 15,
+        "endLine": 4
+    }
+]

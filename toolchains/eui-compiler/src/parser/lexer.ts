@@ -143,9 +143,12 @@ export class Lexer {
             this.sendError(char, 'unexpected char');
         }
         if (this.delimiterStack.length !== 0) {
-            this.sendError(this.delimiterStack.pop()!, 'tag not closed propertly');
+            for (const child of this.delimiterStack) {
+                this.sendError(child, 'tag not closed propertly');
+            }
         }
-
+        if (identifierBuffer)
+            this.createToken(CharacterType.Identifier, identifierBuffer);
         return this.tokens;
     }
 
