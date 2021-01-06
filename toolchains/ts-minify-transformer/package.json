@@ -15,8 +15,8 @@
     "@types/node": "~14.14.20"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "build": "tsc --p tsconfig.release.json",
+    "watch": "tsc  --p tsconfig.release.json -w",
     "test": "jest"
   },
   "jest": {
