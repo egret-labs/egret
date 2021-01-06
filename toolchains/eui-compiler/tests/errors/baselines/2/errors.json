@@ -7,20 +7,6 @@
         "endLine": 1
     },
     {
-        "message": "Error: text data outside of root node\n<?xml version='1.0' encoding='utf-8'?>sdf\n                                       ^\nat line: 1, column: 40\nat file: \n\n",
-        "startColumn": 40,
-        "startLine": 1,
-        "endColumn": 41,
-        "endLine": 1
-    },
-    {
-        "message": "Error: text data outside of root node\n<?xml version='1.0' encoding='utf-8'?>sdf\n                                        ^\nat line: 1, column: 41\nat file: \n\n",
-        "startColumn": 41,
-        "startLine": 1,
-        "endColumn": 42,
-        "endLine": 1
-    },
-    {
         "message": "Error: unexpected token\n<?xml version='1.0' encoding='utf-8'?>sdf\n                                      ^\nat line: 1, column: 39\nat file: \n\n",
         "startColumn": 39,
         "startLine": 1,
