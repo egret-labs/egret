@@ -5,17 +5,30 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "fs-extra-plus": "^0.5.18",
-    "path": "^0.12.7"
+    "fs-extra-plus": "^0.5.18"
   },
   "devDependencies": {
-    "mocha": "^8.0.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "jest": "~26.6.3",
+    "ts-jest": "~26.4.4",
+    "@types/jest": "~26.0.19",
+    "@types/node": "~14.14.20"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "mocha -t 5000 ./test/index.js"
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "/tests/index.ts"
   },
   "author": "",
   "license": "ISC"
