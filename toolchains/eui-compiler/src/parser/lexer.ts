@@ -20,6 +20,7 @@ export class Lexer {
         let isString = false;
         let stringBuffer: Token | null = null; // 存字符串的第一位
         let identifierBuffer: Token | null = null;
+        let textOutsideError = false;
         while (this.rawText.length > 0) {
             const char = this.getChar(1);
             const value = char.value;
@@ -127,6 +128,15 @@ export class Lexer {
             // identifier
             else {
                 if (value === '\t') continue;
+                if (this.delimiterStack.length == 0) {
+                    if (!textOutsideError) {
+                        textOutsideError = true;
+                        this.sendError(char, 'text data outside of root node');
+                    }
+                }
+                else {
+                    textOutsideError = false;
+                }
                 if (!identifierBuffer) {
                     identifierBuffer = char;
                 }
@@ -141,9 +151,12 @@ export class Lexer {
             this.sendError(char, 'unexpected char');
         }
         if (this.delimiterStack.length !== 0) {
-            this.sendError(this.delimiterStack.pop()!, 'tag not closed propertly');
+            for (const child of this.delimiterStack) {
+                this.sendError(child, 'tag not closed propertly');
+            }
         }
-
+        if (identifierBuffer)
+            this.createToken(CharacterType.Identifier, identifierBuffer);
         return this.tokens;
     }
 

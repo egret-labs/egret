@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.GameMainSkin"
+	 width="640"
+	height="1136" xmlns:e="http://ns.egret.com/eui">
+	<e:Scroller width="309" height="200" x="125" y="80" anchorOffsetX="0">
+		<e:Group1>
+			<e:Image source="addfanbtn_png" x="116" y="107"/>
+			<e:Image source="addfanbtn_png" x="126" y="117"/>
+			<e:Image source="addfanbtn_png" x="136" y="127"/>
+			<e:Image source="addfanbtn_png" x="146" y="137"/>
+			<e:Image source="addfanbtn_png" x="156" y="147"/>
+			<e:Image source="addfanbtn_png" x="166" y="157"/>
+			<e:Image source="addfanbtn_png" x="176" y="167"/>
+			<e:layout>
+				<e:HorizontalLayout/>
+			</e:layout>
+		</e:Group1>
+	</e:Scroller>
+</e:Skin>

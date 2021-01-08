@@ -37,11 +37,12 @@ export class Generator {
                     }
                 }
                 else {
+                    // console.log(this.delimiterStack)
                     this.sendError('unexpected Delimiter ', token);
                 }
             }
             else {
-                this.sendError(`unexpected toke 1`, token);
+                this.sendError(`unexpected token`, token);
             }
         }
 
@@ -52,7 +53,7 @@ export class Generator {
         const dec: { attributes: any[] } = { attributes: [] };
         const id = this.getToken()!;
         if (id.value !== 'xml') {
-            this.sendError('unexpected token 2', id);
+            this.sendError('unexpected token', id);
         }
         dec.attributes = this.parseAttributes();
         const close = this.getToken()!;
@@ -114,14 +115,14 @@ export class Generator {
             }
             else if (type === CharacterType.Equal) {
                 if (!attribute.key) {
-                    this.sendError('unexpected token 3', token);
+                    this.sendError('unexpected token', token);
                 }
                 else {
                     equal = token;
                 }
             }
             else {
-                this.sendError('unexpected token 4', token);
+                this.sendError('unexpected token', token);
             }
         }
         if (attribute.key) {
@@ -144,7 +145,7 @@ export class Generator {
         };
         const name = this.getToken()!;
         if (name.type !== CharacterType.Identifier) {
-            this.sendError('unexpected token 5', name);
+            this.sendError('unexpected token', name);
         }
         this.checkName(name, 'tag');
         element.name = {
@@ -161,42 +162,56 @@ export class Generator {
             // <  />  without children
             return element;
         }
+        // 如果父标签没有闭合
+        else if (close.type === CharacterType.Delimiters && close.value === '<') {
+            parseChildren_End(close, this);
+            return element;
+        }
 
         let endTagStart = this.getToken()!;
         if (!endTagStart) {
             this.sendError('unclosed tag', name);
         }
-        if (endTagStart.type !== CharacterType.Delimiters) {
-            this.sendError('unexpected token 6', endTagStart);
-        }
+        // if (endTagStart.type !== CharacterType.Delimiters) {
+        //     this.tokens.unshift(endTagStart);
+        //     endTagStart = close;
+        //     // this.sendError('unexpected token', endTagStart);
+        // }
         // children
-        else if (endTagStart.value === '<') {
-            while (endTagStart.value === '<') {
-                this.delimiterStack.push(endTagStart.value);
-                const child = this.parseElement();
-                element.elements.push(child);
-                endTagStart = this.getToken()!;
-                if (endTagStart.type !== CharacterType.Delimiters) {
-                    this.sendError('unexpected token 8', endTagStart);
+        parseChildren_End(endTagStart, this);
+        return element;
+
+        function parseChildren_End(endTagStart: Token, _this) {
+            if (endTagStart.value === '<') {
+                while (endTagStart.value === '<') {
+                    _this.delimiterStack.push(endTagStart.value);
+                    const child = _this.parseElement();
+                    element.elements.push(child);
+                    endTagStart = _this.getToken()!;
+                    if (endTagStart.type !== CharacterType.Delimiters) {
+                        _this.sendError('unexpected token', endTagStart);
+                    }
+                }
+            }
+            if (endTagStart.value === '</') {
+                _this.delimiterStack.push(endTagStart.value);
+                const tag = _this.getToken()!;
+                if (tag.type !== CharacterType.Identifier) {
+                    _this.sendError('unexpected token', name);
+                }
+                if (tag.value !== name.value) {
+                    _this.sendError('unexpected close tag', tag);
+                }
+                let next = _this.getToken();
+                while(next && next.type !== CharacterType.Delimiters){
+                    _this.sendError('Invalid characters in closing tag', next);
+                    next = _this.getToken();
+                }
+                if (next && next.value === '>') {
+                    _this.delimiterStack.pop();
                 }
             }
         }
-
-        // </ > end
-        if (endTagStart.value === '</') {
-            const tag = this.getToken()!;
-            if (tag.type !== CharacterType.Identifier) {
-                this.sendError('unexpected token 7', name);
-            }
-            if (tag.value !== name.value) {
-                this.sendError('unexpected close tag', tag);
-            }
-            const next = this.getToken()!;
-            if (next.type !== CharacterType.Delimiters) {
-                this.sendError('Invalid characters in closing tag', next);
-            }
-        }
-        return element;
     }
 
     private getToken() {

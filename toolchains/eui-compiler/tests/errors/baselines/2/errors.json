@@ -1,0 +1,16 @@
+[
+    {
+        "message": "Error: text data outside of root node\n<?xml version='1.0' encoding='utf-8'?>sdf\n                                      ^\nat line: 1, column: 39\nat file: \n\n",
+        "startColumn": 39,
+        "startLine": 1,
+        "endColumn": 40,
+        "endLine": 1
+    },
+    {
+        "message": "Error: unexpected token\n<?xml version='1.0' encoding='utf-8'?>sdf\n                                      ^\nat line: 1, column: 39\nat file: \n\n",
+        "startColumn": 39,
+        "startLine": 1,
+        "endColumn": 42,
+        "endLine": 1
+    }
+]

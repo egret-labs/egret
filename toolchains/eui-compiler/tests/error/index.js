@@ -24,14 +24,9 @@ describe('parser-error', () => {
             const content = fs.readFileSync('input.exml', 'utf-8');
             const result = fs.readFileSync('expect.txt', 'utf-8');
             typings.initTypings();
-            try {
-                const skinNode = parser.generateAST(content)
-            }
-            catch (e) {
-                assert.deepEqual(e.replace(/\t/g,'        ').trim(), result.trim());
-            }
-
-
+            const skinNode = parser.generateAST(content, '');
+            const err = skinNode.errors.shift();
+            assert.deepEqual(err.message.replace(/\t/g, '        ').trim(), result.trim());
         })
 
     }

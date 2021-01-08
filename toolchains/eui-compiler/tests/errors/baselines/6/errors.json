@@ -1,0 +1,16 @@
+[
+    {
+        "message": "Error: attribute without value\n<e:Skin a class=\"RestaurantAISkin\" width=\"640\" height=\"350\" xmlns:e=\"http://ns.egret.com/eui\" xmlns:ns1=\"abc.*\" xmlns:ns2=\"dfg.*\">\n        ^\nat line: 2, column: 9\nat file: \n\n",
+        "startColumn": 9,
+        "startLine": 2,
+        "endColumn": 10,
+        "endLine": 2
+    },
+    {
+        "message": "Error: attribute key `a` not found in `eui.Skin`\n<e:Skin a class=\"RestaurantAISkin\" width=\"640\" height=\"350\" xmlns:e=\"http://ns.egret.com/eui\" xmlns:ns1=\"abc.*\" xmlns:ns2=\"dfg.*\">\n        ^\nat line: 2, column: 9\nat file: \n\n",
+        "startColumn": 9,
+        "startLine": 2,
+        "endColumn": 10,
+        "endLine": 2
+    }
+]

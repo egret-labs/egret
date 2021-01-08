@@ -12,6 +12,7 @@ import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
+import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -224,6 +225,15 @@ export function generateConfig(
     if (options.webpackConfig) {
         const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
         config = webpackMerge(config, customWebpackConfig);
+    }
+    if (devServer) {
+        return Object.assign(config, {
+            devServer: {
+                useLocalIp: true,
+                host: getNetworkAddress(),
+                disableHostCheck: true
+            }
+        });
     }
     return config;
 }

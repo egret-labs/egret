@@ -36,7 +36,7 @@ function readFile(_path, filesList) {
     });
 }
 
-const res = genFileList(path.resolve(__dirname, '../toolchains')); // __dirname是当前路径，可以修改
+const res = genFileList(path.resolve(__dirname, '../toolchains/eui-compiler/tests')); // __dirname是当前路径，可以修改
 // let res = genFileList('D:/demo/test');
 // console.log(__dirname);
 // console.log(res)

@@ -10,6 +10,7 @@ import { generateAST } from './util/parser';
 import { initTypings } from './util/typings';
 /* eslint-disable global-require */
 export const parser = require('./util/parser') as typeof import('./util/parser');
+export const typeInit = initTypings;
 export const emitter = {
     JavaScriptEmitter,
     JSONEmitter,
