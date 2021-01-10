@@ -31,6 +31,7 @@ importers:
     dependencies:
       '@egret/eui-compiler': 'link:../eui-compiler'
       '@egret/ts-minify-transformer': 'link:../ts-minify-transformer'
+      args: 5.0.1
       copy-webpack-plugin: 5.1.2_webpack@4.44.2
       express: 4.17.1
       fork-ts-checker-webpack-plugin: 4.1.3
@@ -64,6 +65,7 @@ importers:
       '@types/node': ^12.11.6
       '@types/tapable': ^1.0.5
       '@types/webpack': ~4.41.16
+      args: ^5.0.1
       copy-webpack-plugin: ^5.1.1
       express: ~4.17.1
       fork-ts-checker-webpack-plugin: 4.1.3

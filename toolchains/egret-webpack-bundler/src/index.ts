@@ -1,6 +1,7 @@
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ts from 'typescript';
 import webpack from 'webpack';
 import { getLibsFileList } from './egretproject';
 import { Target_Type } from './egretproject/data';
@@ -8,8 +9,6 @@ import SrcLoaderPlugin from './loaders/src-loader/Plugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
-import * as ts from 'typescript';
-import { minifyTransformer } from '@egret/ts-minify-transformer';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
 import { getNetworkAddress } from './utils';
@@ -101,8 +100,6 @@ export class EgretWebpackBundler {
     }
 
     startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
-        const libraryType = 'debug';
-        const scripts = getLibsFileList('web', this.projectRoot, libraryType);
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
         const compiler = webpack(webpackConfig);
@@ -116,10 +113,6 @@ export class EgretWebpackBundler {
         const port = options.port || 3000;
         startExpressServer(compilerApp, port);
         compilerApp.use(express.static(this.projectRoot));
-        const manifestContent = JSON.stringify(
-            { initial: scripts, game: ['main.js'] }, null, '\t'
-        );
-        fs.writeFileSync(path.join(this.projectRoot, 'manifest.json'), manifestContent, 'utf-8');
         if (options.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }
@@ -219,8 +212,8 @@ export function generateConfig(
         config.output!.libraryTarget = 'umd';
     }
     if (options.libraryType === 'debug') {
-        config.plugins!.push(new webpack.NamedModulesPlugin());
-        config.plugins!.push(new webpack.NamedChunksPlugin());
+        config.optimization!.moduleIds = 'named';
+        config.optimization!.chunkIds = 'named';
     }
     if (options.webpackConfig) {
         const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
