@@ -11,7 +11,7 @@ import { openUrl } from './open';
 import * as ts from 'typescript';
 import { minifyTransformer } from '@egret/ts-minify-transformer';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
-import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
+import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
@@ -76,7 +76,7 @@ export type WebpackBundleOptions = {
 
     parseEgretProperty?: boolean
 
-    assets?: { files: string[] }
+    assets?: ResourceConfigFilePluginOptions
 }
 
 export type WebpackDevServerOptions = {

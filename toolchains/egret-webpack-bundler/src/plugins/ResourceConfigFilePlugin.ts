@@ -1,14 +1,28 @@
-import * as webpack from 'webpack';
-import { WebpackBundleOptions } from '..';
-import { createProject } from '../egretproject';
 import * as path from 'path';
-import { json } from 'express';
+import * as webpack from 'webpack';
+import { updateFileTimestamps } from '../loaders/utils';
+
+declare module 'webpack' {
+
+    export interface InputFileSystem {
+        purge?(what: string): void;
+    }
+
+    export interface Compiler {
+
+        watchFileSystem: any
+
+        inputFileSystem: import('webpack').InputFileSystem
+    }
+
+}
+
+export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
 
 export default class ResourceConfigFilePlugin {
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(private options: { files: string[] }) {
-
+    constructor(private options: ResourceConfigFilePluginOptions) {
     }
 
     public apply(compiler: webpack.Compiler) {
@@ -26,19 +40,60 @@ export default class ResourceConfigFilePlugin {
             });
         }
 
+        function readStatAsync(filePath: string) {
+            return new Promise<{ mtimeMs: number }>((resolve, reject) => {
+                compiler.inputFileSystem.stat(filePath, (error, stats) => {
+                    if (error) {
+                        reject(new Error(`文件访问异常:${filePath}`));
+                    }
+                    else {
+                        resolve(stats);
+                    }
+                });
+            });
+        }
+
         const pluginName = this.constructor.name;
+
+        compiler.hooks.watchRun.tap(pluginName, async (compiler, a) => {
+            const keys = Object.keys(compiler.watchFileSystem.watcher.mtimes);
+            for (const key of keys) {
+                updateFileTimestamps(compiler, key);
+            }
+        });
+
+        let mtimeMs = 0;
+
         compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
+
             const assets = compilation.assets;
-            const filepath = path.join(compiler.context, this.options.files[0]).split('\\').join('/');
+            const bundleInfo = this.options[0];
+            const { file, executeBundle } = bundleInfo;
+            const fullFilepath = path.join(compiler.context, file);
+            compilation.fileDependencies.add(fullFilepath);
+
+            const stats = await readStatAsync(fullFilepath);
+            if (mtimeMs === stats.mtimeMs) {
+                return;
+            }
+            mtimeMs = stats.mtimeMs;
             try {
-                const content = await readFileAsync(filepath);
-                const json = parseConfig(filepath, content.toString());
+                const content = await readFileAsync(fullFilepath);
+                const json = parseConfig(file, content.toString());
                 validConfig(json);
-                updateAssets(assets, filepath, content);
+                if (executeBundle) {
+                    for (const resource of json.resources) {
+                        const filepath = 'resource/' + resource.url;
+                        const assetFullPath = path.join(compiler.context, filepath);
+                        const assetbuffer = await readFileAsync(assetFullPath);
+                        updateAssets(assets, filepath, assetbuffer);
+                    }
+                }
+                updateAssets(assets, file, content);
             }
             catch (e) {
                 const message = `\t资源配置处理异常\n\t${e.message}`;
-                compilation.errors.push({ file: filepath, message });
+                compilation.errors.push({ file: file, message });
             }
 
         });
@@ -47,7 +102,7 @@ export default class ResourceConfigFilePlugin {
 
 function updateAssets(assets: any, filePath: string, content: string | Buffer) {
 
-    assets[filePath] = {
+    assets[filePath.split('\\').join('/')] = {
         source: () => content,
         size: () => ((typeof content === 'string') ? content.length : content.byteLength)
     };
