@@ -356,7 +356,7 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
     };
 
     config.module!.rules.push(exmlLoaderRule);
-    config.plugins!.push(new ThemePlugin({}));
+    config.plugins!.push(new ThemePlugin());
     config.watchOptions = {
         ignored: /exml.e.d.ts/
     };

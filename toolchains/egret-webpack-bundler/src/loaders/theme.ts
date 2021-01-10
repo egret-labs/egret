@@ -1,51 +1,37 @@
 import { EuiCompiler } from '@egret/eui-compiler';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import { CachedFile } from './file';
 import * as utils from './utils';
 
-interface ThemePluginOptions {
-    dirs?: string[];
-}
+type ThemePluginOptions = {
+    dirs: string[],
+    output: 'inline' | 'standalone'
+}[]
 
 export default class ThemePlugin {
     private options: Required<ThemePluginOptions>;
 
-    constructor(options: ThemePluginOptions) {
-        this.options = {
-            dirs: ['resource/eui_skins', 'resource/skins'], // 扫描目录
-            ...options
-        };
+    constructor() {
+        this.options = [{
+            dirs: ['resource/eui_skins', 'resource/skins'],
+            output: 'inline'
+        }];
     }
 
     private errors!: any[];
     private compiler!: webpack.Compiler;
-    private thmJS!: CachedFile;
 
     public apply(compiler: webpack.Compiler) {
 
         this.errors = [];
         this.compiler = compiler;
-        const dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
+        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
         const pluginName = this.constructor.name;
         const euiCompiler = new EuiCompiler(compiler.context);
         const theme = euiCompiler.getThemes()[0];
         const outputFilename = theme.filePath.replace('.thm.json', '.thm.js');
         const thmJSPath = path.join(compiler.context, outputFilename);
         utils.addWatchIgnore(compiler, thmJSPath);
-        this.thmJS = new CachedFile(thmJSPath, compiler);
-
-        // if (this.options.thmJSON) {
-        //     const thmJSONPath = path.join(compiler.context, this.options.thmJSON);
-        //     utils.addWatchIgnore(compiler, thmJSONPath);
-        //     // this.thmJSON = new FileCacheWriter(thmJSONPath);
-        // }
-
-        // if (this.options.exmlDeclare) {
-        // const exmlDeclarePath = path.join(compiler.context, this.options.exmlDeclare);
-        // utils.addWatchIgnore(compiler, exmlDeclarePath);
-        // this.exmlDeclare = new FileCacheWriter(exmlDeclarePath);
-        // }
 
         const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
         const themeJsContent = `window.skins = window.skins || {};
