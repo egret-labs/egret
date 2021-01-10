@@ -229,7 +229,6 @@ export function generateConfig(
     if (devServer) {
         return Object.assign(config, {
             devServer: {
-                useLocalIp: true,
                 host: getNetworkAddress(),
                 disableHostCheck: true
             }

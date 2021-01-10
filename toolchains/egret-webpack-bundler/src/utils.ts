@@ -14,6 +14,5 @@ export function getNetworkAddress(): string {
             ips.push(iface.address);
         });
     });
-
     return ips[0];
 }
