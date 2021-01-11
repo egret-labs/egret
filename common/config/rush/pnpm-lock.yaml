@@ -44,6 +44,7 @@ importers:
       typescript: 3.9.7
       webpack: 4.44.2
       webpack-dev-middleware: 3.7.3_webpack@4.44.2
+      webpack-hot-middleware: 2.25.0
       webpack-merge: 4.2.2
     devDependencies:
       '@types/express': 4.17.9
@@ -80,6 +81,7 @@ importers:
       typescript: ^3.8.3
       webpack: ^4.43.0
       webpack-dev-middleware: ~3.7.2
+      webpack-hot-middleware: ~2.25.0
       webpack-merge: ~4.2.2
   ../../toolchains/eui-compiler:
     dependencies:
@@ -1191,6 +1193,13 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==
+  /ansi-html/0.0.7:
+    dev: false
+    engines:
+      '0': node >= 0.8.0
+    hasBin: true
+    resolution:
+      integrity: sha1-gTWEAhliqenm/QOflA0S9WynhZ4=
   /ansi-regex/2.1.1:
     dev: false
     engines:
@@ -3269,6 +3278,10 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-D5JbOMBIR/TVZkubHT+OyT2705QvogUW4IBn6nHd756OwieSF9aDYFj4dv6HHEVGYbHaLETa3WggZYWWMyy3ZQ==
+  /html-entities/1.4.0:
+    dev: false
+    resolution:
+      integrity: sha512-8nxjcBcd8wovbeKx7h3wTji4e6+rhaVuPNpMqwWgnHh+N9ToqsCs6XztWRBPQ+UtzsoMAdKZtUENoVzU/EMtZA==
   /html-escaper/2.0.2:
     dev: true
     resolution:
@@ -6931,6 +6944,15 @@ packages:
       webpack: ^4.0.0 || ^5.0.0
     resolution:
       integrity: sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ==
+  /webpack-hot-middleware/2.25.0:
+    dependencies:
+      ansi-html: 0.0.7
+      html-entities: 1.4.0
+      querystring: 0.2.0
+      strip-ansi: 3.0.1
+    dev: false
+    resolution:
+      integrity: sha512-xs5dPOrGPCzuRXNi8F6rwhawWvQQkeli5Ro48PRuQh8pYPCPmNnltP9itiUPT4xI8oW+y0m59lyyeQk54s5VgA==
   /webpack-log/2.0.0:
     dependencies:
       ansi-colors: 3.2.4

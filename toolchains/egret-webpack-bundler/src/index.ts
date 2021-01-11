@@ -13,6 +13,7 @@ import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
@@ -102,6 +103,14 @@ export class EgretWebpackBundler {
     startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
+
+        const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
+        (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
+        webpackConfig.plugins?.push(
+            new webpack.optimize.OccurrenceOrderPlugin(false),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin()
+        );
         const compiler = webpack(webpackConfig);
         const compilerApp = express();
         compilerApp.use(allowCrossDomain);
@@ -110,6 +119,7 @@ export class EgretWebpackBundler {
             publicPath: undefined
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
+        compilerApp.use(webpackHotMiddleware(compiler));
         const port = options.port || 3000;
         startExpressServer(compilerApp, port);
         compilerApp.use(express.static(this.projectRoot));
@@ -181,7 +191,7 @@ export function generateConfig(
 
     let config: webpack.Configuration = {
         stats: { colors: true, modules: false },
-        entry: './src/Main.ts',
+        entry: { main: ['./src/Main.ts'] },
         target: 'web',
         mode,
         context,
@@ -199,7 +209,9 @@ export function generateConfig(
         optimization: {
             minimize: false
         },
-        plugins: []
+        plugins: [
+
+        ]
     };
     generateWebpackConfig_typescript(config, options, needSourceMap);
     generateWebpackConfig_exml(config, options);
