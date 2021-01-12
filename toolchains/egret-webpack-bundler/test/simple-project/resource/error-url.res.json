@@ -1,0 +1,15 @@
+{
+    "groups": [
+        {
+            "name": "preload",
+            "keys": "1_jpg"
+        }
+    ],
+    "resources": [
+        {
+            "url": "error-url.jpg",
+            "type": "image",
+            "name": "1_jpg"
+        }
+    ]
+}

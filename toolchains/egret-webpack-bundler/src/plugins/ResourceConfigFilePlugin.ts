@@ -71,13 +71,12 @@ export default class ResourceConfigFilePlugin {
             const { file, executeBundle } = bundleInfo;
             const fullFilepath = path.join(compiler.context, file);
             compilation.fileDependencies.add(fullFilepath);
-
-            const stats = await readStatAsync(fullFilepath);
-            if (mtimeMs === stats.mtimeMs) {
-                return;
-            }
-            mtimeMs = stats.mtimeMs;
             try {
+                const stats = await readStatAsync(fullFilepath);
+                if (mtimeMs === stats.mtimeMs) {
+                    return;
+                }
+                mtimeMs = stats.mtimeMs;
                 const content = await readFileAsync(fullFilepath);
                 const json = parseConfig(file, content.toString());
                 validConfig(json);
