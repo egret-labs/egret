@@ -1,6 +1,6 @@
 ///<reference path="egret.d.ts"/>
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { getResourceInfo } from '.';
 import { getStore } from './store';
 import { ResourceInfo } from './typings';
@@ -116,12 +116,39 @@ const fontProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
 
 );
 
+const spriteSheetProcessor: Processor = (resource) => getLoader('json')(resource).pipe(
+    mergeMap((data) => {
+        const imageName = nameSelector(data.file);
+        const hasRes = !!getStore().config.resources[imageName];
+        const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageName, type: 'image' };
+        return forkJoin([of(data), getLoader('image')(r), of(r)]);
+    }),
+    map((v) => {
+        const [data, bitmapData, r] = v;
+        const frames = data.frames;
+        const spriteSheet = new egret.SpriteSheet(bitmapData);
+        spriteSheet.$resourceInfo = r;
+        for (const subkey in frames) {
+            const config = frames[subkey];
+            const texture = spriteSheet.createTexture(subkey, config.x, config.y, config.w, config.h, config.offX, config.offY, config.sourceW, config.sourceH);
+            // if (config.scale9grid) {
+            //     const str = config.scale9grid;
+            //     const list = str.split(',');
+            //     texture.scale9Grid = new egret.Rectangle(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
+            // }
+        }
+        // host.save(r, bitmapData);
+        return spriteSheet;
+    })
+);
+
 export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<any> } = {
     text: textProcessor,
     json: jsonProcessor,
     bitmapdata: bitmapdataProcessor,
     image: textureProcessor,
-    font: fontProcessor
+    font: fontProcessor,
+    spriteSheet: spriteSheetProcessor
 };
 
 export function getLoader(type: 'image'): (resource: ResourceInfo) => Observable<egret.Texture>
