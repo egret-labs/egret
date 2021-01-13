@@ -1,7 +1,10 @@
 {
   "name": "@egret/egret-webpack-bundler",
-  "version": "1.2.11",
+  "version": "2.0.0",
   "description": "",
+  "bin": {
+    "egret-compiler":"./bin/cli.js"
+  },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -23,6 +26,7 @@
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",
     "@egret/ts-minify-transformer": "workspace:*",
+    "args": "^5.0.1",
     "copy-webpack-plugin": "^5.1.1",
     "express": "~4.17.1",
     "fork-ts-checker-webpack-plugin": "4.1.3",
@@ -35,7 +39,8 @@
     "webpack-dev-middleware": "~3.7.2",
     "webpack-merge": "~4.2.2",
     "minimatch": "~3.0.4",
-    "source-map-loader": "~1.1.3"
+    "source-map-loader": "~1.1.3",
+    "webpack-hot-middleware": "~2.25.0"
   },
   "author": "",
   "license": "ISC",

@@ -129,5 +129,10 @@ describe('legacy-api', () => {
         const font = await RES.getResAsync('num2_fnt');
         expect(font).toBeInstanceOf(egret.BitmapFont);
     });
+    it('load-spritesheet', async () => {
+        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        const font = await RES.getResAsync('num2_fnt');
+        expect(font).toBeInstanceOf(egret.BitmapFont);
+    });
 });
 

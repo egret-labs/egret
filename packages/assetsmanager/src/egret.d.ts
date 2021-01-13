@@ -21,6 +21,15 @@ declare namespace egret {
         constructor(texture: Texture, config: any)
     }
 
+    export class SpriteSheet {
+
+        constructor(texture: Texture)
+
+        createTexture(subkey: string, x: number, y: number, w: number, height: number, offX: number, offY: number, sourceW: number, sourceH: number)
+
+        $resourceInfo: any;
+    }
+
     export class Event {
 
         type: string;

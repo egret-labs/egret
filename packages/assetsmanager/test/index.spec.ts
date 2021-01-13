@@ -46,7 +46,7 @@ describe('load', () => {
     it('load-text-success', async () => {
         await expect(
             createHttp('http://localhost:3000/index.spec.ts').toPromise()
-        ).resolves.toContain('load-text-success')
+        ).resolves.toContain('load-text-success');
     });
     it('load-404-file', async () => {
 
@@ -64,12 +64,12 @@ describe('load', () => {
         initConfig('http://localhost:3000/static', createConfig());
         const r = getResourceInfo('1_json');
         const promise = load(r).toPromise();
-        await expect(promise).resolves.toEqual({ name: 'egret' })
+        await expect(promise).resolves.toEqual({ name: 'egret' });
     });
     it('load-text-success', async () => {
         initConfig('http://localhost:3000/static', createConfig());
         const r = getResourceInfo('1_txt');
         const promise = load(r).toPromise();
-        await expect(promise).resolves.toContain("name");
+        await expect(promise).resolves.toContain('name');
     });
 });

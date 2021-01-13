@@ -52,7 +52,6 @@ export default class EgretPropertyPlugin {
 }
 
 function updateAssets(assets: any, filePath: string, content: string | Buffer) {
-
     assets[filePath] = {
         source: () => content,
         size: () => ((typeof content === 'string') ? content.length : content.byteLength)

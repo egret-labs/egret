@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 ///<reference path="../src/egret.d.ts"/>
 
 class HTMLImageElement {
@@ -57,6 +58,20 @@ class Event {
 
     }
 
+}
+
+class SpriteSheet {
+    constructor(private texture: Texture) {
+
+    }
+
+    createTexture(subkey: string, x: number, y: number, w: number, height: number, offX: number, offY: number, sourceW: number, sourceH: number) {
+
+    }
+
+    getTexture(subkey: string) {
+        return new Texture();
+    }
 }
 
 class EventDispatcher {

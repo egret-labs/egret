@@ -1,56 +1,39 @@
 import { EuiCompiler } from '@egret/eui-compiler';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import { CachedFile } from './file';
 import * as utils from './utils';
 
-interface ThemePluginOptions {
-    dirs?: string[];
-}
+type ThemePluginOptions = {
+    dirs: string[],
+    output: 'inline' | 'standalone'
+}[]
 
 export default class ThemePlugin {
     private options: Required<ThemePluginOptions>;
 
-    constructor(options: ThemePluginOptions) {
-        this.options = {
-            dirs: ['resource/eui_skins', 'resource/skins'], // 扫描目录
-            ...options
-        };
+    constructor() {
+        this.options = [{
+            dirs: ['resource/eui_skins', 'resource/skins'],
+            output: 'inline'
+        }];
     }
 
     private errors!: any[];
     private compiler!: webpack.Compiler;
-    private dirs!: string[];
-    private thmJS!: CachedFile;
-
-    private buildTimestamp = 0;
 
     public apply(compiler: webpack.Compiler) {
 
         this.errors = [];
         this.compiler = compiler;
-        this.dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
+        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
         const pluginName = this.constructor.name;
         const euiCompiler = new EuiCompiler(compiler.context);
         const theme = euiCompiler.getThemes()[0];
         const outputFilename = theme.filePath.replace('.thm.json', '.thm.js');
         const thmJSPath = path.join(compiler.context, outputFilename);
         utils.addWatchIgnore(compiler, thmJSPath);
-        this.thmJS = new CachedFile(thmJSPath, compiler);
 
-        // if (this.options.thmJSON) {
-        //     const thmJSONPath = path.join(compiler.context, this.options.thmJSON);
-        //     utils.addWatchIgnore(compiler, thmJSONPath);
-        //     // this.thmJSON = new FileCacheWriter(thmJSONPath);
-        // }
-
-        // if (this.options.exmlDeclare) {
-        // const exmlDeclarePath = path.join(compiler.context, this.options.exmlDeclare);
-        // utils.addWatchIgnore(compiler, exmlDeclarePath);
-        // this.exmlDeclare = new FileCacheWriter(exmlDeclarePath);
-        // }
-
-        const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.dirname(theme.filePath), exml).split('\\').join('/')}");`);
+        const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
         const themeJsContent = `window.skins = window.skins || {};
     window.generateEUI = window.generateEUI || {
       paths: {},
@@ -64,7 +47,8 @@ export default class ThemePlugin {
         //   if (utils.isHot(this.compiler)) {
         //     content += '\nif (module.hot) { module.hot.accept(); }';
         //   }
-        const beforeRun = async (_compiler: webpack.Compiler, callback: Function) => {
+        const beforeRun = async (compilr: webpack.Compiler) => {
+
             this.errors = [];
             try {
                 const euiCompiler = new EuiCompiler(compiler.context, 'debug');
@@ -76,15 +60,20 @@ export default class ThemePlugin {
                 const content = result[0].content;
 
                 fs.writeFileSync(filename, content, 'utf-8');
-                this.thmJS.update(utils.generateContent(themeJsContent));
                 // 更新文件系统缓存状态
-                utils.updateFileTimestamps(this.compiler, this.thmJS.filePath);
-                callback();
+
+                const inlineLoaderRule: webpack.RuleSetRule = {
+                    test: /Main\.ts/,
+                    include: path.join(compilr.context!, 'src'),
+                    loader: require.resolve('./inline-loader'),
+                    options: { content: themeJsContent }
+                };
+
+                compiler.options.module?.rules.push(inlineLoaderRule);
             }
             catch (error) {
                 // // 写入错误信息
                 this.errors.push(error);
-                callback();
             }
 
         };
@@ -95,41 +84,15 @@ export default class ThemePlugin {
             }
         });
 
-        compiler.hooks.watchRun.tapAsync(pluginName, beforeRun);
-        compiler.hooks.beforeRun.tapAsync(pluginName, beforeRun);
-
-        // this.thmJS.update(utils.generateContent(content));
-
-        // // 更新文件系统缓存状态
-        // utils.updateFileTimestamps(this.compiler, this.thmJS.filePath);
-
-        // 扩展
-        // compiler.hooks.themePluginResult = new SyncHook(['themeResult']);
-
-        // const beforeRun = async (_compiler, callback) => {
-        //     if (this.needRebuild(compiler.contextTimestamps)) {
-        //         this.ret = await this.make(); // cached ret
-
-        //         this.generateThmJS(this.ret);
-        //         this.thmJSON && this.generateThmJSON(this.ret);
-        //         this.exmlDeclare && this.generateExmlDeclare(this.ret);
-
-        //         this.buildTimestamp = Date.now();
-        //     }
-
-        //     // invoke themePluginResult
-        //     compiler.hooks.themePluginResult.call(this.ret);
-        //     callback();
-        // };
-
-        // compiler.hooks.watchRun.tapAsync(pluginName, beforeRun);
-        // compiler.hooks.beforeRun.tapAsync(pluginName, beforeRun);
+        compiler.hooks.watchRun.tapPromise(pluginName, beforeRun);
+        compiler.hooks.beforeRun.tapPromise(pluginName, beforeRun);
 
         // 监听文件目录
         compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
-            this.dirs.forEach((item) => {
+            dirs.forEach((item) => {
                 compilation.contextDependencies.add(item);
             });
         });
     }
 }
+

@@ -1,6 +1,7 @@
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ts from 'typescript';
 import webpack from 'webpack';
 import { getLibsFileList } from './egretproject';
 import { Target_Type } from './egretproject/data';
@@ -8,11 +9,11 @@ import SrcLoaderPlugin from './loaders/src-loader/Plugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
-import * as ts from 'typescript';
-import { minifyTransformer } from '@egret/ts-minify-transformer';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
-import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
+import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
+import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
@@ -75,7 +76,7 @@ export type WebpackBundleOptions = {
 
     parseEgretProperty?: boolean
 
-    assets?: { files: string[] }
+    assets?: ResourceConfigFilePluginOptions
 }
 
 export type WebpackDevServerOptions = {
@@ -100,10 +101,16 @@ export class EgretWebpackBundler {
     }
 
     startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
-        const libraryType = 'debug';
-        const scripts = getLibsFileList('web', this.projectRoot, libraryType);
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
+
+        const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
+        (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
+        webpackConfig.plugins?.push(
+            new webpack.optimize.OccurrenceOrderPlugin(false),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin()
+        );
         const compiler = webpack(webpackConfig);
         const compilerApp = express();
         compilerApp.use(allowCrossDomain);
@@ -112,13 +119,10 @@ export class EgretWebpackBundler {
             publicPath: undefined
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
+        compilerApp.use(webpackHotMiddleware(compiler));
         const port = options.port || 3000;
         startExpressServer(compilerApp, port);
         compilerApp.use(express.static(this.projectRoot));
-        const manifestContent = JSON.stringify(
-            { initial: scripts, game: ['main.js'] }, null, '\t'
-        );
-        fs.writeFileSync(path.join(this.projectRoot, 'manifest.json'), manifestContent, 'utf-8');
         if (options.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }
@@ -187,7 +191,7 @@ export function generateConfig(
 
     let config: webpack.Configuration = {
         stats: { colors: true, modules: false },
-        entry: './src/Main.ts',
+        entry: { main: ['./src/Main.ts'] },
         target: 'web',
         mode,
         context,
@@ -205,7 +209,9 @@ export function generateConfig(
         optimization: {
             minimize: false
         },
-        plugins: []
+        plugins: [
+
+        ]
     };
     generateWebpackConfig_typescript(config, options, needSourceMap);
     generateWebpackConfig_exml(config, options);
@@ -218,12 +224,20 @@ export function generateConfig(
         config.output!.libraryTarget = 'umd';
     }
     if (options.libraryType === 'debug') {
-        config.plugins!.push(new webpack.NamedModulesPlugin());
-        config.plugins!.push(new webpack.NamedChunksPlugin());
+        config.optimization!.moduleIds = 'named';
+        config.optimization!.chunkIds = 'named';
     }
     if (options.webpackConfig) {
         const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
         config = webpackMerge(config, customWebpackConfig);
+    }
+    if (devServer) {
+        return Object.assign(config, {
+            devServer: {
+                host: getNetworkAddress(),
+                disableHostCheck: true
+            }
+        });
     }
     return config;
 }
@@ -347,7 +361,7 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
     };
 
     config.module!.rules.push(exmlLoaderRule);
-    config.plugins!.push(new ThemePlugin({}));
+    config.plugins!.push(new ThemePlugin());
     config.watchOptions = {
         ignored: /exml.e.d.ts/
     };
