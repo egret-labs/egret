@@ -190,23 +190,23 @@
         "super": "eui.LayoutBase"
     },
     "eui.BitmapLabel": {
-        "bottom": "any",
+        "bottom": "number",
         "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
         ],
         "includeInLayout": "boolean",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
         "minWidth": "number",
         "percentHeight": "number",
         "percentWidth": "number",
-        "right": "any",
+        "right": "number",
         "super": "egret.BitmapText",
-        "top": "any",
+        "top": "number",
         "verticalCenter": "number"
     },
     "eui.Button": {
@@ -220,7 +220,7 @@
         "super": "eui.ToggleButton"
     },
     "eui.Component": {
-        "bottom": "any",
+        "bottom": "number",
         "currentState": "string",
         "enabled": "boolean",
         "horizontalCenter": "number",
@@ -229,17 +229,17 @@
             "eui.UIComponent"
         ],
         "includeInLayout": "boolean",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
         "minWidth": "number",
         "percentHeight": "number",
         "percentWidth": "number",
-        "right": "any",
+        "right": "number",
         "skinName": "any",
         "super": "egret.DisplayObjectContainer",
-        "top": "any",
+        "top": "number",
         "verticalCenter": "number"
     },
     "eui.DataGroup": {
@@ -251,14 +251,14 @@
         "useVirtualLayout": "boolean"
     },
     "eui.EditableText": {
-        "bottom": "any",
+        "bottom": "number",
         "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
         ],
         "includeInLayout": "boolean",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
@@ -267,13 +267,13 @@
         "percentWidth": "number",
         "prompt": "string",
         "promptColor": "number",
-        "right": "any",
+        "right": "number",
         "super": "egret.TextField",
-        "top": "any",
+        "top": "number",
         "verticalCenter": "number"
     },
     "eui.Group": {
-        "bottom": "any",
+        "bottom": "number",
         "currentState": "string",
         "elementsContent": "Array",
         "horizontalCenter": "number",
@@ -282,20 +282,20 @@
         ],
         "includeInLayout": "boolean",
         "layout": "eui.LayoutBase",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
         "minWidth": "number",
         "percentHeight": "number",
         "percentWidth": "number",
-        "right": "any",
+        "right": "number",
         "scrollEnabled": "boolean",
         "scrollH": "number",
         "scrollV": "number",
         "states": "Array",
         "super": "egret.DisplayObjectContainer",
-        "top": "any",
+        "top": "number",
         "touchThrough": "boolean",
         "verticalCenter": "number"
     },
@@ -309,23 +309,23 @@
         "super": "eui.LinearLayoutBase"
     },
     "eui.Image": {
-        "bottom": "any",
+        "bottom": "number",
         "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent"
         ],
         "includeInLayout": "boolean",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
         "minWidth": "number",
         "percentHeight": "number",
         "percentWidth": "number",
-        "right": "any",
+        "right": "number",
         "source": "string",
         "super": "egret.Bitmap",
-        "top": "any",
+        "top": "number",
         "verticalCenter": "number"
     },
     "eui.ItemRenderer": {
@@ -338,24 +338,24 @@
         "super": "eui.Component"
     },
     "eui.Label": {
-        "bottom": "any",
+        "bottom": "number",
         "horizontalCenter": "number",
         "implements": [
             "eui.UIComponent",
             "eui.IDisplayText"
         ],
         "includeInLayout": "boolean",
-        "left": "any",
+        "left": "number",
         "maxHeight": "number",
         "maxWidth": "number",
         "minHeight": "number",
         "minWidth": "number",
         "percentHeight": "number",
         "percentWidth": "number",
-        "right": "any",
+        "right": "number",
         "style": "string",
         "super": "egret.TextField",
-        "top": "any",
+        "top": "number",
         "verticalCenter": "number"
     },
     "eui.LayoutBase": {

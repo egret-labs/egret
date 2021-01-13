@@ -1,0 +1,15 @@
+skins.RestaurantAISkin = function (_super) {
+    __extends(RestaurantAISkin, _super);
+    function RestaurantAISkin() {
+        var _this = _super.call(this) || this;
+        _this.skinParts = [];
+        var a1 = new eui.Button();
+        a1.top = -1;
+        a1.bottom = -1;
+        a1.left = -1;
+        a1.right = -1;
+        _this.elementsContent = [a1];
+        return _this;
+    }
+    return RestaurantAISkin;
+}(eui.Skin);

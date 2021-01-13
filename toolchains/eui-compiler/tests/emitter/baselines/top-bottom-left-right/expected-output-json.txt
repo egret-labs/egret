@@ -1,0 +1,18 @@
+{
+  "skins.RestaurantAISkin": {
+    "$bs": {
+      "$eleC": [
+        "_Button1"
+      ]
+    },
+    "$path": "input.exml",
+    "$sC": "$eSk",
+    "_Button1": {
+      "$t": "$eB",
+      "bottom": -1,
+      "left": -1,
+      "right": -1,
+      "top": -1
+    }
+  }
+}

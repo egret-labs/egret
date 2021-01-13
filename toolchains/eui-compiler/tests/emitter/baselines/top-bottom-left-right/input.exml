@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.RestaurantAISkin" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="abc.*" xmlns:ns2="dfg.*">
+    <e:Button top="-1" bottom="-1" left="-1" right="-1"></e:Button>
+</e:Skin>
