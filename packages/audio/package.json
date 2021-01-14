@@ -1,0 +1,13 @@
+{
+  "name": "@egret/audio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --p tsconfig.json",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
