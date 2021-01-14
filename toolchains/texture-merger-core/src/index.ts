@@ -15,13 +15,14 @@ const options1: freeTexPackerCore.TexturePackerOptions = {
     //     fileExt: 'json',
     //     template: path.resolve(__dirname, '../template.mst')
     // },
-    removeFileExtension: true,
+    removeFileExtension: false,
     prependFolderName: true
 };
 
 export type TexturePackerOptions = {
     files: string[],
-    root: string
+    root: string,
+    outputName: string
 }
 
 type EmitTypings = {
@@ -79,12 +80,12 @@ function convert(from: EmitTypings, file: string): OutputTypings {
 
 type Output = { config: OutputTypings, buffer: Buffer }
 
-export function merger(options: TexturePackerOptions) {
-    const images: any[] = [];
-    images.push({ path: 'img1.png', contents: fs.readFileSync('./tests/1.png') });
-    images.push({ path: 'img2.png', contents: fs.readFileSync('./tests/2.png') });
-    images.push({ path: 'img3.png', contents: fs.readFileSync('./tests/3.png') });
+export function executeMerge(options: TexturePackerOptions) {
 
+    const images: any[] = [];
+    for (const file of options.files) {
+        images.push({ path: file, contents: fs.readFileSync(path.join(options.root, file)) });
+    }
     return new Promise<Output>((resolve, reject) => {
         freeTexPackerCore.default(images, options1, (files, error) => {
             if (error) {
@@ -95,7 +96,7 @@ export function merger(options: TexturePackerOptions) {
                 for (const item of files) {
                     if (path.extname(item.name) === '.json') {
                         const json = JSON.parse(item.buffer.toString());
-                        output.config = convert(json, 'x.png');
+                        output.config = convert(json, options.outputName + '.png');
                     }
                     else {
                         output.buffer = item.buffer;
@@ -105,8 +106,4 @@ export function merger(options: TexturePackerOptions) {
             }
         });
     });
-
 }
-
-merger({ files: [], root: '' }).then((v) => {
-});
