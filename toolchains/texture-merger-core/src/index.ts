@@ -27,13 +27,13 @@ export type TexturePackerOptions = {
 type EmitTypings = {
     frames: {
         filename: string,
-        frame: any,
+        frame: { x: number, y: number, w: number, h: number },
         rotated: boolean,
         trimmed: boolean,
-        spriteSourceSize: any,
+        spriteSourceSize: { x: number, y: number, w: number, h: number },
         sourceSize: any,
         pivot: any
-    },
+    }[],
     meta: {
         app: string,
         version: string,
@@ -56,29 +56,57 @@ type OutputTypings = {
     }
 }
 
+function convert(from: EmitTypings, file: string): OutputTypings {
+    const result: OutputTypings = {
+        file,
+        frames: {}
+    };
+    for (const item of from.frames) {
+        const { frame, spriteSourceSize } = item;
+        result.frames[item.filename] = {
+            x: frame.x,
+            y: frame.y,
+            w: frame.w,
+            h: frame.h,
+            offX: spriteSourceSize.x,
+            offY: spriteSourceSize.y,
+            sourceW: spriteSourceSize.w,
+            sourceH: spriteSourceSize.h
+        };
+    }
+    return result;
+}
+
+type Output = { config: OutputTypings, buffer: Buffer }
+
 export function merger(options: TexturePackerOptions) {
     const images: any[] = [];
     images.push({ path: 'img1.png', contents: fs.readFileSync('./tests/1.png') });
     images.push({ path: 'img2.png', contents: fs.readFileSync('./tests/2.png') });
     images.push({ path: 'img3.png', contents: fs.readFileSync('./tests/3.png') });
 
-    return new Promise((resolve, reject) => {
+    return new Promise<Output>((resolve, reject) => {
         freeTexPackerCore.default(images, options1, (files, error) => {
             if (error) {
                 console.error('Packaging failed', error);
             } else {
-                // files
+                const output: Partial<Output> = {};
+
                 for (const item of files) {
                     if (path.extname(item.name) === '.json') {
                         const json = JSON.parse(item.buffer.toString());
-                        console.log(json);
+                        output.config = convert(json, 'x.png');
                     }
-                    // console.log(item.name, item.buffer);
+                    else {
+                        output.buffer = item.buffer;
+                    }
                 }
+                resolve(output as Output);
             }
         });
     });
 
 }
 
-merger({ files: [], root: '' });
+merger({ files: [], root: '' }).then((v) => {
+});
