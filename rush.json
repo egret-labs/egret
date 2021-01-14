@@ -410,6 +410,12 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@egret/texture-merger-core",
+      "projectFolder": "toolchains/texture-merger-core",
+      "reviewCategory": "production",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@egret/egret-webpack-bundler",
       "projectFolder": "toolchains/egret-webpack-bundler",
       "reviewCategory": "production",

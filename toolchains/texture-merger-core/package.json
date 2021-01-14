@@ -1,0 +1,20 @@
+{
+  "name": "@egret/texture-merger-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "node ./dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "free-tex-packer-core": "^0.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.20"
+  }
+}

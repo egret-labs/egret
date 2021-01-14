@@ -2,29 +2,20 @@
     "groups": [
         {
             "name": "preload",
-            "keys": "1_jpg,1_json"
+            "keys": "1_png,1_json"
         }
     ],
     "resources": [
         {
-            "url": "1.jpg",
+            "url": "spritesheet/1.png",
             "type": "image",
-            "name": "1_jpg"
+            "name": "1_png"
         },
         {
-            "url": "1.json",
-            "type": "json",
-            "name": "1_json"
-        },
-        {
-            "url": "1.json",
-            "type": "text",
-            "name": "1_txt"
-        },
-        {
-            "url": "num2.fnt",
-            "type": "font",
-            "name": "num2_fnt"
+            "url": "spritesheet/1.json",
+            "type": "spritesheet",
+            "name": "1_json",
+            "subkey": "rank_no1,rank_no2,rank_no3,x"
         }
     ]
 }

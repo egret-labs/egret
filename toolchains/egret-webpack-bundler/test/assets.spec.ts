@@ -23,12 +23,22 @@ describe('ResourceConfigPlugin', () => {
 
     });
 
+    it('测试 error-url.res.json', async () => {
+        const { compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/error-url.res.json', executeBundle: true }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        expect(compilation.errors.length).toEqual(1);
+    });
+
     it('测试 default.res.json', async () => {
-        const { store, compilation, report } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json' }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        const { compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json' }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
         expect(compilation.errors.length).toEqual(0);
         const defaultResConfig = compilation.assets['resource/default.res.json'].source();
         expect(defaultResConfig).not.toBeUndefined();
+    });
 
+    it('测试纹理合并', async () => {
+        const { compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json', executeBundle: true }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        const defaultResConfig = compilation.assets['resource/default.res.json'].source();
+        const json = JSON.parse(defaultResConfig);
+        console.log(json);
     });
 });
-
