@@ -22,6 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@egret/audio": "workspace:*",
     "rxjs": "~6.6.3"
   },
   "devDependencies": {

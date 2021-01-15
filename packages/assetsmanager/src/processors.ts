@@ -2,6 +2,8 @@
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { getResourceInfo } from '.';
+import { AudioManager } from '../../audio/dist';
+import { musicProcessor, soundEffectProcessor } from './processors/audio';
 import { getStore } from './store';
 import { ResourceInfo } from './typings';
 
@@ -148,7 +150,9 @@ export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<a
     bitmapdata: bitmapdataProcessor,
     image: textureProcessor,
     font: fontProcessor,
-    spriteSheet: spriteSheetProcessor
+    spriteSheet: spriteSheetProcessor,
+    music: musicProcessor,
+    soundeffect: soundEffectProcessor
 };
 
 export function getLoader(type: 'image'): (resource: ResourceInfo) => Observable<egret.Texture>
