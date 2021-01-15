@@ -12,6 +12,8 @@ interface InternalAudioConfig extends AudioConfig {
 
 export class AudioManager {
 
+    private loaderClass: { new(): AbstractAudioLoader } = SimpleHTMLAudioLoader;
+
     private store: {
         [name: string]: InternalAudioConfig
     } = {};
@@ -19,7 +21,7 @@ export class AudioManager {
     getInstance(name: string) {
         const internalConfig = this.getInternalConfig(name);
         if (internalConfig.data) {
-            return new HTMLAudioInstance();
+            return new HTMLAudioInstance(internalConfig.data);
         }
         else {
             throw new Error('error');
@@ -38,40 +40,54 @@ export class AudioManager {
         this.store[config.name] = config;
     }
 
+    registerLoader(loader: { new(): AbstractAudioLoader }) {
+        this.loaderClass = loader;
+    }
+
     load(name: string) {
         const internalConfig = this.getInternalConfig(name);
-        const loader = new SimpleHTMLAudioLoader();
+        const loader = new this.loaderClass();
         return loader.load(internalConfig.url).then((value) => {
             internalConfig.data = value;
         });
     }
 }
 
-abstract class AbstractAudioInstance {
+export abstract class AbstractAudioInstance {
 
     protected loader: any;
 
+    // eslint-disable-next-line no-useless-constructor
+    constructor(private audio: HTMLAudioElement) {
+
+    }
+
     play() {
+        this.audio.play();
     }
 }
 
-class SimpleHTMLAudioLoader {
+export abstract class AbstractAudioLoader {
+
+    abstract load(url: string): Promise<AbstractAudioInstance>
+}
+
+class SimpleHTMLAudioLoader extends AbstractAudioLoader {
 
     load(url: string) {
         return new Promise<AbstractAudioInstance>((resolve, reject) => {
-            // const audio = new Audio();
-            // audio.src = url;
-            // console.log(2222222222)
-            // audio.addEventListener('canplaythrough', () => {
-            //     console.log('?????');
-            //     const instance = new HTMLAudioInstance();
-            //     resolve(instance);
-            // });
+            const audio = new Audio();
+            audio.src = url;
+            audio.addEventListener('canplaythrough', () => {
+                const instance = new HTMLAudioInstance(audio);
+                resolve(instance);
+            });
+            audio.load();
         });
     }
 }
 
-class HTMLAudioInstance extends AbstractAudioInstance {
+export class HTMLAudioInstance extends AbstractAudioInstance {
 
     play() {
 
