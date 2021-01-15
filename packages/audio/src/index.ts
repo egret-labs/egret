@@ -17,8 +17,8 @@ export class AudioManager {
     } = {};
 
     getInstance(name: string) {
-        const config = this.store[name];
-        if (config.data) {
+        const internalConfig = this.getInternalConfig(name);
+        if (internalConfig.data) {
             return new HTMLAudioInstance();
         }
         else {
@@ -26,17 +26,22 @@ export class AudioManager {
         }
     }
 
+    private getInternalConfig(name: string) {
+        const internalConfig = this.store[name];
+        if (!internalConfig) {
+            throw new Error('error');
+        }
+        return internalConfig;
+    }
+
     register(config: AudioConfig) {
         this.store[config.name] = config;
     }
 
-    load(config: AudioConfig) {
-        const internalConfig = this.store[config.name];
-        if (!internalConfig) {
-            throw new Error('error');
-        }
+    load(name: string) {
+        const internalConfig = this.getInternalConfig(name);
         const loader = new SimpleHTMLAudioLoader();
-        return loader.load(config.url).then((value) => {
+        return loader.load(internalConfig.url).then((value) => {
             internalConfig.data = value;
         });
     }
@@ -54,12 +59,14 @@ class SimpleHTMLAudioLoader {
 
     load(url: string) {
         return new Promise<AbstractAudioInstance>((resolve, reject) => {
-            const audio = new Audio();
-            audio.src = url;
-            audio.addEventListener('canplaythrough', () => {
-                const instance = new HTMLAudioInstance();
-                resolve(instance);
-            });
+            // const audio = new Audio();
+            // audio.src = url;
+            // console.log(2222222222)
+            // audio.addEventListener('canplaythrough', () => {
+            //     console.log('?????');
+            //     const instance = new HTMLAudioInstance();
+            //     resolve(instance);
+            // });
         });
     }
 }

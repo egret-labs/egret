@@ -6,6 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --p tsconfig.release.json",
+    "watch": "tsc --p tsconfig.release.json -w",
     "test": "jest"
   },
   "jest": {
@@ -17,7 +18,7 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "/test/index.spec\\.(ts|tsx)$"
+    "testRegex": "/tests/index.spec\\.(ts|tsx)$"
   },
   "devDependencies": {
     "@types/jest": "~26.0.19",
