@@ -426,6 +426,12 @@
       "projectFolder": "packages/assetsmanager",
       "reviewCategory": "production",
       "shouldPublish": true
+    },
+    {
+      "packageName": "@egret/audio",
+      "projectFolder": "packages/audio",
+      "reviewCategory": "production",
+      "shouldPublish": true
     }
   ]
 }
