@@ -55,7 +55,7 @@ export default class SrcLoaderPlugin {
             if (!this.nsLoaderContext.factory) {
                 this.nsLoaderContext.factory = new Factory({
                     context: compiler.context,
-                    fs: compiler.inputFileSystem as typeof _fs
+                    fs: compiler.inputFileSystem
                 });
             }
 
