@@ -1,0 +1,71 @@
+skins.ExchangeRegionSelecterSkin = function (_super) {
+    __extends(ExchangeRegionSelecterSkin, _super);
+    function ExchangeRegionSelecterSkin() {
+        var _this = _super.call(this) || this;
+        _this.skinParts = [
+            'gp_regions',
+            'scroller1',
+            'list_region',
+            'btn_close'
+        ];
+        _this.width = 640;
+        _this.height = 1334;
+        var a1 = new eui.Image();
+        a1.source = 'black_png';
+        a1.right = 0;
+        a1.left = 0;
+        a1.top = 0;
+        a1.bottom = 0;
+        a1.alpha = 0.3;
+        var a2 = new eui.Group();
+        a2.height = 300;
+        a2.left = 0;
+        a2.right = 0;
+        a2.bottom = 0;
+        var a3 = new eui.Image();
+        a3.source = 'bgliang_png';
+        a3.scale9Grid = new egret.Rectangle(22, 22, 23, 23);
+        a3.left = 0;
+        a3.right = 0;
+        a3.top = 0;
+        a3.bottom = 0;
+        var a4 = new eui.Image();
+        a4.source = 'rank_line_png';
+        a4.y = 64;
+        a4.x = 66;
+        var a5 = new eui.Group();
+        _this.gp_regions = a5;
+        a5.x = 72;
+        a5.y = 20;
+        var a6 = new eui.HorizontalLayout();
+        a6.gap = 40;
+        a5.layout = a6;
+        var a7 = new eui.Scroller();
+        _this.scroller1 = a7;
+        a7.left = 12;
+        a7.right = 12;
+        a7.top = 80;
+        a7.bottom = 12;
+        var a8 = new eui.List();
+        _this.list_region = a8;
+        a7.viewport = a8;
+        var a9 = new eui.Image();
+        _this.btn_close = a9;
+        a9.source = 'x_png';
+        a9.x = 600;
+        a9.y = 12;
+        a2.elementsContent = [
+            a3,
+            a4,
+            a5,
+            a7,
+            a9
+        ];
+        _this.elementsContent = [
+            a1,
+            a2
+        ];
+        return _this;
+    }
+    return ExchangeRegionSelecterSkin;
+}(eui.Skin);

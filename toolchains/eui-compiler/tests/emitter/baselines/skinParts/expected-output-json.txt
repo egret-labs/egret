@@ -1,0 +1,85 @@
+{
+    "skins.ExchangeRegionSelecterSkin": {
+        "$sC": "$eSk",
+        "$path": "input.exml",
+        "$bs": {
+            "width": 640,
+            "height": 1334,
+            "$eleC": [
+                "_Image1",
+                "_Group1"
+            ]
+        },
+        "_Image1": {
+            "source": "black_png",
+            "right": 0,
+            "left": 0,
+            "top": 0,
+            "bottom": 0,
+            "alpha": 0.3,
+            "$t": "$eI"
+        },
+        "_Group1": {
+            "height": 300,
+            "left": 0,
+            "right": 0,
+            "bottom": 0,
+            "$t": "$eG",
+            "$eleC": [
+                "_Image2",
+                "_Image3",
+                "gp_regions",
+                "scroller1",
+                "btn_close"
+            ]
+        },
+        "_Image2": {
+            "source": "bgliang_png",
+            "scale9Grid": "22,22,23,23",
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0,
+            "$t": "$eI"
+        },
+        "_Image3": {
+            "source": "rank_line_png",
+            "y": 64,
+            "x": 66,
+            "$t": "$eI"
+        },
+        "gp_regions": {
+            "x": 72,
+            "y": 20,
+            "layout": "_HorizontalLayout1",
+            "$t": "$eG"
+        },
+        "_HorizontalLayout1": {
+            "gap": 40,
+            "$t": "$eHL"
+        },
+        "scroller1": {
+            "left": 12,
+            "right": 12,
+            "top": 80,
+            "bottom": 12,
+            "viewport": "list_region",
+            "$t": "$eS"
+        },
+        "list_region": {
+            "$t": "$eLs"
+        },
+        "btn_close": {
+            "source": "x_png",
+            "x": 600,
+            "y": 12,
+            "$t": "$eI"
+        },
+        "$sP": [
+            "gp_regions",
+            "scroller1",
+            "list_region",
+            "btn_close"
+        ]
+    }
+}

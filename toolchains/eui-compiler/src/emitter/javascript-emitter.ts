@@ -75,11 +75,16 @@ export class JavaScriptEmitter extends BaseEmitter {
 
             for (const stateAttribute of node.stateAttributes) {
                 const arr = states.find((s) => s.name === stateAttribute.name)!;
-                arr.items.push(Object.assign({}, stateAttribute, { context: node.varIndex }));
+                if (arr)
+                    arr.items.push(Object.assign({}, stateAttribute, { context: node.varIndex }));
             }
 
             node.children.forEach(visitChildren);
-
+            for (const attr of node.attributes) {
+                if (typeof attr.value == 'object') {
+                    visitChildren(attr.value as AST_Node);
+                }
+            }
         }
 
         visitChildren(skinNode as any as AST_Node);

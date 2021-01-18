@@ -1,0 +1,4 @@
+declare module skins {
+    class ExchangeRegionSelecterSkin extends eui.Skin {
+    }
+}
