@@ -3,6 +3,7 @@ importers:
     specifiers: {}
   ../../packages/assetsmanager:
     dependencies:
+      '@egret/audio': 'link:../audio'
       rxjs: 6.6.3
     devDependencies:
       '@types/jest': 26.0.19
@@ -16,6 +17,7 @@ importers:
       typescript: 3.9.7
       xmlhttprequest: 1.8.0
     specifiers:
+      '@egret/audio': 'workspace:*'
       '@types/jest': ~26.0.19
       '@types/koa': ~2.11.6
       '@types/node': ~14.14.13
@@ -41,6 +43,7 @@ importers:
       '@egret/eui-compiler': 'link:../eui-compiler'
       '@egret/texture-merger-core': 'link:../texture-merger-core'
       '@egret/ts-minify-transformer': 'link:../ts-minify-transformer'
+      '@nodelib/fs.walk': 1.2.6
       args: 5.0.1
       copy-webpack-plugin: 5.1.2_webpack@4.44.2
       express: 4.17.1
@@ -70,6 +73,7 @@ importers:
       '@egret/eui-compiler': 'workspace:*'
       '@egret/texture-merger-core': 'workspace:*'
       '@egret/ts-minify-transformer': 'workspace:*'
+      '@nodelib/fs.walk': ~1.2.6
       '@types/express': ~4.17.6
       '@types/glob': ~7.1.2
       '@types/jest': ~26.0.19
@@ -695,30 +699,36 @@ packages:
     dev: false
     resolution:
       integrity: sha512-5M5p8d9YQwEDSa0oLoeCZ8ECiM2ZJLKxI/D0pDByiNBJw+4Tizjk/NMIjGx7IoJOGBnWcfHX3Pwd6m/MpMHoGA==
-  /@nodelib/fs.scandir/2.1.3:
+  /@nodelib/fs.scandir/2.1.4:
     dependencies:
-      '@nodelib/fs.stat': 2.0.3
+      '@nodelib/fs.stat': 2.0.4
       run-parallel: 1.1.10
     dev: false
     engines:
       node: '>= 8'
     resolution:
-      integrity: sha512-eGmwYQn3gxo4r7jdQnkrrN6bY478C3P+a/y72IJukF8LjB6ZHeB3c+Ehacj3sYeSmUXGlnA67/PmbM9CVwL7Dw==
+      integrity: sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA==
   /@nodelib/fs.stat/2.0.3:
     dev: false
     engines:
       node: '>= 8'
     resolution:
       integrity: sha512-bQBFruR2TAwoevBEd/NWMoAAtNGzTRgdrqnYCc7dhzfoNvqPzLyqlEQnzZ3kVnNrSp25iyxE00/3h2fqGAGArA==
-  /@nodelib/fs.walk/1.2.4:
+  /@nodelib/fs.stat/2.0.4:
+    dev: false
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-IYlHJA0clt2+Vg7bccq+TzRdJvv19c2INqBSsoOLp1je7xjtr7J26+WXR72MCdvU9q1qTzIWDfhMf+DRvQJK4Q==
+  /@nodelib/fs.walk/1.2.6:
     dependencies:
-      '@nodelib/fs.scandir': 2.1.3
+      '@nodelib/fs.scandir': 2.1.4
       fastq: 1.9.0
     dev: false
     engines:
       node: '>= 8'
     resolution:
-      integrity: sha512-1V9XOY4rDW0rehzbrcqAmHnz8e7SKvX27gh8Gt2WgB0+pdzdiLV83p72kZPU+jvMbS1qU5mauP2iOvO8rhmurQ==
+      integrity: sha512-8Broas6vTtW4GIXTAHDoE32hnN2M5ykgCpWGbuXHQ15vEMqr23pB76e/GZcYsZCHALv50ktd24qhEyKr6wBtow==
   /@sinonjs/commons/1.8.1:
     dependencies:
       type-detect: 4.0.8
@@ -2825,7 +2835,7 @@ packages:
   /fast-glob/3.2.4:
     dependencies:
       '@nodelib/fs.stat': 2.0.3
-      '@nodelib/fs.walk': 1.2.4
+      '@nodelib/fs.walk': 1.2.6
       glob-parent: 5.1.1
       merge2: 1.4.1
       micromatch: 4.0.2
@@ -6818,7 +6828,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.1
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3_ts-node@9.1.1
+      jest: 26.6.3
       jest-util: 26.6.2
       json5: 2.1.3
       lodash.memoize: 4.1.2

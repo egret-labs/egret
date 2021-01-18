@@ -1,11 +1,15 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import { updateFileTimestamps } from '../loaders/utils';
+import { walkDir } from '../utils';
+import * as texturemrger from '@egret/texture-merger-core';
 
 declare module 'webpack' {
 
     export interface InputFileSystem {
         purge?(what: string): void;
+
+        readFileAsync(filePath: string): Promise<Buffer>;
     }
 
     export interface Compiler {
@@ -27,7 +31,7 @@ export default class ResourceConfigFilePlugin {
 
     public apply(compiler: webpack.Compiler) {
 
-        function readFileAsync(filePath: string): Promise<Buffer> {
+        compiler.inputFileSystem.readFileAsync = function readFileAsync(filePath: string): Promise<Buffer> {
             return new Promise((resolve, reject) => {
                 compiler.inputFileSystem.readFile(filePath, (error, content) => {
                     if (error) {
@@ -38,7 +42,7 @@ export default class ResourceConfigFilePlugin {
                     }
                 });
             });
-        }
+        };
 
         function readStatAsync(filePath: string) {
             return new Promise<{ mtimeMs: number }>((resolve, reject) => {
@@ -77,14 +81,18 @@ export default class ResourceConfigFilePlugin {
                     return;
                 }
                 mtimeMs = stats.mtimeMs;
-                const content = await readFileAsync(fullFilepath);
+                const content = await compiler.inputFileSystem.readFileAsync(fullFilepath);
                 const json = parseConfig(file, content.toString());
                 validConfig(json);
+
+                await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
+
                 if (executeBundle) {
+
                     for (const resource of json.resources) {
                         const filepath = 'resource/' + resource.url;
                         const assetFullPath = path.join(compiler.context, filepath);
-                        const assetbuffer = await readFileAsync(assetFullPath);
+                        const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
                         updateAssets(assets, filepath, assetbuffer);
                     }
                 }
@@ -97,6 +105,23 @@ export default class ResourceConfigFilePlugin {
 
         });
     }
+}
+
+async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
+    const entities = await getAllTextureMergerConfig(root);
+    for (const entity of entities) {
+        const content = await compiler.inputFileSystem.readFileAsync(entity.path);
+        const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
+        json.root = path.dirname(path.relative(compiler.context, entity.path));
+        json.outputName = 'output';
+        await texturemrger.executeMerge(json);
+        console.log(json);
+    }
+}
+
+async function getAllTextureMergerConfig(root: string) {
+    const entities = await walkDir(root);
+    return entities.filter((e) => e.name === 'texture-merger.json');
 }
 
 function updateAssets(assets: any, filePath: string, content: string | Buffer) {

@@ -34,11 +34,4 @@ describe('ResourceConfigPlugin', () => {
         const defaultResConfig = compilation.assets['resource/default.res.json'].source();
         expect(defaultResConfig).not.toBeUndefined();
     });
-
-    it('测试纹理合并', async () => {
-        const { compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json', executeBundle: true }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
-        const defaultResConfig = compilation.assets['resource/default.res.json'].source();
-        const json = JSON.parse(defaultResConfig);
-        console.log(json);
-    });
 });

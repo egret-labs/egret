@@ -1,4 +1,5 @@
 import * as os from 'os';
+import { walk } from '@nodelib/fs.walk';
 
 export function getNetworkAddress(): string {
 
@@ -15,4 +16,24 @@ export function getNetworkAddress(): string {
         });
     });
     return ips[0];
+}
+
+type Entity = {
+    name: string;
+    path: string;
+}
+
+export function walkDir(root: string) {
+    return new Promise<Entity[]>((resolve, reject) => {
+        walk(root, (error, entities) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(entities);
+            }
+
+        });
+    });
+
 }

@@ -21,7 +21,7 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "/test/assets.spec\\.(ts|tsx)$"
+    "testRegex": "/test/texture-merger.spec\\.(ts|tsx)$"
   },
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",
@@ -41,7 +41,8 @@
     "webpack-merge": "~4.2.2",
     "minimatch": "~3.0.4",
     "source-map-loader": "~1.1.3",
-    "webpack-hot-middleware": "~2.25.0"
+    "webpack-hot-middleware": "~2.25.0",
+    "@nodelib/fs.walk": "~1.2.6"
   },
   "author": "",
   "license": "ISC",
