@@ -39,9 +39,8 @@ class WebAudioLoader extends AbstractAudioLoader {
     async load(url: string): Promise<AudioBuffer> {
 
         const buffer = await loadBuffer(url).toPromise();
-        const context = new AudioContext();
         return new Promise<AudioBuffer>((resolve, reject) => {
-            context.decodeAudioData(buffer, function (decodeData) {
+            AudioManager.context.decodeAudioData(buffer, function (decodeData) {
                 resolve(decodeData);
             });
         });

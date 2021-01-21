@@ -20,17 +20,13 @@ export class AudioManager {
         [name: string]: InternalAudioConfig
     } = {};
 
-    private factories: { [name: string]: AudioFactory } = {};
+    static context: AudioContext;
 
-    getInstance(name: string) {
-        const internalConfig = this.getInternalConfig(name);
-        if (internalConfig.data) {
-            return new HTMLAudioInstance(internalConfig.data);
-        }
-        else {
-            throw new Error('error');
-        }
+    constructor() {
+        AudioManager.context = new AudioContext();
     }
+
+    private factories: { [name: string]: AudioFactory } = {};
 
     private getInternalConfig(name: string) {
         const internalConfig = this.store[name];
@@ -89,8 +85,6 @@ export abstract class AbstractAudioLoader {
 
 }
 
-
-
 export class HTMLAudioInstance extends AbstractAudioInstance {
 
     private audio: HTMLAudioElement;
@@ -121,8 +115,6 @@ export class SimpleHTMLAudioLoader extends AbstractAudioLoader {
     }
 }
 
-const context = new AudioContext();
-
 export class WebAudioInstance extends AbstractAudioInstance {
 
     // private gainNode: GainNode;
@@ -130,7 +122,7 @@ export class WebAudioInstance extends AbstractAudioInstance {
     constructor(buffer: AudioBuffer) {
         super();
         // this.gainNode = context.createGain();
-        const source = context.createBufferSource();
+        const source = AudioManager.context.createBufferSource();
         source.buffer = buffer;
         this.source = source;
 

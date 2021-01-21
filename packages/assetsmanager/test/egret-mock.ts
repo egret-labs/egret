@@ -72,6 +72,8 @@ class SpriteSheet {
     getTexture(subkey: string) {
         return new Texture();
     }
+
+    $resourceInfo: any;
 }
 
 class EventDispatcher {
@@ -95,12 +97,14 @@ class BitmapFont {
     }
 }
 
+
 export function egretMock() {
     global.egret = {
         ImageLoader,
         Texture,
         Event,
         EventDispatcher,
-        BitmapFont
+        BitmapFont,
+        SpriteSheet
     };
 }
