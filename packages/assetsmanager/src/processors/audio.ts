@@ -1,13 +1,14 @@
+import { AbstractAudioLoader, AudioManager, SimpleHTMLAudioLoader, WebAudioInstance } from '@egret/audio';
 import { Observable } from 'rxjs';
-import { AbstractAudioInstance, AbstractAudioLoader, AudioManager, SimpleHTMLAudioLoader, WebAudioInstance } from '@egret/audio';
-import { createHttp, loadBuffer, Processor } from '../processors';
+import { loadBuffer, Processor } from '../processors';
 
 export const soundEffectProcessor: Processor = (resource) => {
     return new Observable((s) => {
         const manager = new AudioManager();
         manager.register(resource, SimpleHTMLAudioLoader);
-        manager.load(resource.name).then(() => {
-            s.next(manager);
+        const factory = manager.getFactory(resource.name);
+        factory.load().then(() => {
+            s.next(factory);
             s.complete();
         }
         ).catch(function (error) {
@@ -20,8 +21,9 @@ export const musicProcessor: Processor = (resource) => {
     return new Observable((s) => {
         const manager = new AudioManager();
         manager.register(resource, WebAudioLoader);
-        manager.load(resource.name).then(() => {
-            s.next(manager);
+        const factory = manager.getFactory(resource.name);
+        factory.load().then(() => {
+            s.next(factory);
             s.complete();
         }
         ).catch(function (error) {
@@ -31,6 +33,8 @@ export const musicProcessor: Processor = (resource) => {
 };
 
 class WebAudioLoader extends AbstractAudioLoader {
+
+    static instanceClass = WebAudioInstance;
 
     async load(url: string): Promise<AudioBuffer> {
 

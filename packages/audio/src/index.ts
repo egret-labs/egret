@@ -9,14 +9,18 @@ interface InternalAudioConfig extends AudioConfig {
 
     data?: any;
 
-    loaderClass: { new(): AbstractAudioLoader }
+    loaderClass: LoaderClass
 }
+
+type LoaderClass = { new(): AbstractAudioLoader } & { instanceClass: any }
 
 export class AudioManager {
 
     private store: {
         [name: string]: InternalAudioConfig
     } = {};
+
+    private factories: { [name: string]: AudioFactory } = {};
 
     getInstance(name: string) {
         const internalConfig = this.getInternalConfig(name);
@@ -36,16 +40,16 @@ export class AudioManager {
         return internalConfig;
     }
 
-    register(config: AudioConfig, loaderClass: { new(): AbstractAudioLoader }) {
+    register(config: AudioConfig, loaderClass: LoaderClass) {
         this.store[config.name] = Object.assign(config, { loaderClass: loaderClass });
     }
 
-    load(name: string) {
-        const internalConfig = this.getInternalConfig(name);
-        const loader = new internalConfig.loaderClass;
-        return loader.load(internalConfig.url).then((value) => {
-            internalConfig.data = value;
-        });
+    getFactory(name: string) {
+        if (!this.factories[name]) {
+            const internalConfig = this.getInternalConfig(name);
+            this.factories[name] = new AudioFactory(internalConfig);
+        }
+        return this.factories[name];
     }
 }
 
@@ -57,25 +61,35 @@ export abstract class AbstractAudioInstance {
     }
 }
 
+export class AudioFactory {
+
+    private config: InternalAudioConfig;
+
+    constructor(config: InternalAudioConfig) {
+        this.config = config;
+    }
+
+    load() {
+        const loader = new this.config.loaderClass;
+        return loader.load(this.config.url).then((value) => {
+            this.config.data = value;
+        });
+    }
+
+    create() {
+        const instance = new this.config.loaderClass.instanceClass(this.config.data);
+        return instance;
+    }
+
+}
+
 export abstract class AbstractAudioLoader {
 
     abstract load(url: string): Promise<any>
 
 }
 
-export class SimpleHTMLAudioLoader extends AbstractAudioLoader {
 
-    load(url: string) {
-        return new Promise<HTMLAudioElement>((resolve, reject) => {
-            const audio = new Audio();
-            audio.src = url;
-            audio.addEventListener('canplaythrough', () => {
-                resolve(audio);
-            });
-            audio.load();
-        });
-    }
-}
 
 export class HTMLAudioInstance extends AbstractAudioInstance {
 
@@ -88,6 +102,22 @@ export class HTMLAudioInstance extends AbstractAudioInstance {
 
     play() {
         this.audio.play();
+    }
+}
+
+export class SimpleHTMLAudioLoader extends AbstractAudioLoader {
+
+    static instanceClass = HTMLAudioInstance;
+
+    load(url: string) {
+        return new Promise<HTMLAudioElement>((resolve, reject) => {
+            const audio = new Audio();
+            audio.src = url;
+            audio.addEventListener('canplaythrough', () => {
+                resolve(audio);
+            });
+            audio.load();
+        });
     }
 }
 
