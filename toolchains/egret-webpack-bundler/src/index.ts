@@ -207,7 +207,7 @@ export function generateConfig(
             extensions: ['.ts', '.js']
         },
         optimization: {
-            minimize: false
+
         },
         plugins: [
 
