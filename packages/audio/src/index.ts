@@ -8,11 +8,11 @@ interface AudioConfig {
 interface InternalAudioConfig extends AudioConfig {
 
     data?: any;
+
+    loaderClass: { new(): AbstractAudioLoader }
 }
 
 export class AudioManager {
-
-    private loaderClass: { new(): AbstractAudioLoader } = SimpleHTMLAudioLoader;
 
     private store: {
         [name: string]: InternalAudioConfig
@@ -36,17 +36,13 @@ export class AudioManager {
         return internalConfig;
     }
 
-    register(config: AudioConfig) {
-        this.store[config.name] = config;
-    }
-
-    registerLoader(loader: { new(): AbstractAudioLoader }) {
-        this.loaderClass = loader;
+    register(config: AudioConfig, loaderClass: { new(): AbstractAudioLoader }) {
+        this.store[config.name] = Object.assign(config, { loaderClass: loaderClass });
     }
 
     load(name: string) {
         const internalConfig = this.getInternalConfig(name);
-        const loader = new this.loaderClass();
+        const loader = new internalConfig.loaderClass;
         return loader.load(internalConfig.url).then((value) => {
             internalConfig.data = value;
         });
@@ -57,30 +53,24 @@ export abstract class AbstractAudioInstance {
 
     protected loader: any;
 
-    // eslint-disable-next-line no-useless-constructor
-    constructor(private audio: HTMLAudioElement) {
-
-    }
-
     play() {
-        this.audio.play();
     }
 }
 
 export abstract class AbstractAudioLoader {
 
-    abstract load(url: string): Promise<AbstractAudioInstance>
+    abstract load(url: string): Promise<any>
+
 }
 
-class SimpleHTMLAudioLoader extends AbstractAudioLoader {
+export class SimpleHTMLAudioLoader extends AbstractAudioLoader {
 
     load(url: string) {
-        return new Promise<AbstractAudioInstance>((resolve, reject) => {
+        return new Promise<HTMLAudioElement>((resolve, reject) => {
             const audio = new Audio();
             audio.src = url;
             audio.addEventListener('canplaythrough', () => {
-                const instance = new HTMLAudioInstance(audio);
-                resolve(instance);
+                resolve(audio);
             });
             audio.load();
         });
@@ -89,7 +79,35 @@ class SimpleHTMLAudioLoader extends AbstractAudioLoader {
 
 export class HTMLAudioInstance extends AbstractAudioInstance {
 
+    private audio: HTMLAudioElement;
+
+    constructor(audio: HTMLAudioElement) {
+        super();
+        this.audio = audio;
+    }
+
     play() {
+        this.audio.play();
+    }
+}
+
+const context = new AudioContext();
+
+export class WebAudioInstance extends AbstractAudioInstance {
+
+    // private gainNode: GainNode;
+    private source: AudioBufferSourceNode;
+    constructor(buffer: AudioBuffer) {
+        super();
+        // this.gainNode = context.createGain();
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        this.source = source;
 
     }
+
+    play() {
+        this.source.start();
+    }
+
 }

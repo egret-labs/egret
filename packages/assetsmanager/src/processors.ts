@@ -197,3 +197,24 @@ export function createHttp(url: string) {
         xhr.send();
     });
 }
+
+export function loadBuffer(url: string) {
+    return new Observable<ArrayBuffer>((subscribe) => {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'arraybuffer';
+        xhr.open('get', url);
+        xhr.onerror = (error) => {
+            subscribe.error(new Error('error'));
+        };
+        xhr.onload = (event) => {
+            if (xhr.status >= 400) {
+                subscribe.error(new Error('error'));
+            }
+            else {
+                subscribe.next(xhr.response);
+                subscribe.complete();
+            }
+        };
+        xhr.send();
+    });
+}
