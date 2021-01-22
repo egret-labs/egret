@@ -23,4 +23,8 @@ export class WebAudioInstance extends AbstractAudioInstance {
 
     }
 
+    loop(value: boolean) {
+
+    }
+
 }

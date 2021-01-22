@@ -8,8 +8,6 @@ HTMLAudioElement.prototype.load = function () {
     }, 100);
 };
 
-
-
 describe('AudioManager', () => {
 
     let manager: AudioManager;
@@ -57,7 +55,9 @@ describe('AudioManager', () => {
             const instance = factory.create();
             instance.mute = mockFn;
             manager.mute(true);
-            expect(mockFn).toBeCalled();
+            expect(mockFn).toBeCalledWith(true);
+            manager.mute(false);
+            expect(mockFn).toBeCalledWith(false);
         });
 
     });

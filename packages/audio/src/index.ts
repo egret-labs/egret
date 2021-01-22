@@ -25,6 +25,10 @@ export abstract class AbstractAudioInstance {
     mute(value: boolean) {
 
     }
+
+    loop(value: boolean) {
+
+    }
 }
 
 export abstract class AbstractAudioLoader {
