@@ -1,5 +1,5 @@
-import { AbstractAudioInstance } from './index';
 import { AudioManager } from './AudioManager';
+import { AbstractAudioInstance } from './index';
 
 export class WebAudioInstance extends AbstractAudioInstance {
 
@@ -10,12 +10,17 @@ export class WebAudioInstance extends AbstractAudioInstance {
         // this.gainNode = context.createGain();
         const source = AudioManager.context.createBufferSource();
         source.buffer = buffer;
+        source.connect(AudioManager.context.destination);
         this.source = source;
 
     }
 
     play() {
         this.source.start();
+    }
+
+    mute(value: boolean) {
+
     }
 
 }

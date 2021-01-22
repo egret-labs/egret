@@ -27,6 +27,13 @@ export class AudioManager {
         this.store[config.name] = Object.assign(config, { loaderClass: loaderClass });
     }
 
+    mute(value: boolean, type?: string) {
+        for (const key in this.factories) {
+            const factory = this.factories[key];
+            factory.mute(value);
+        }
+    }
+
     getFactory(name: string) {
         if (!this.factories[name]) {
             const internalConfig = this.getInternalConfig(name);

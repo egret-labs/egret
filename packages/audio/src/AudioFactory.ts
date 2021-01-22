@@ -1,8 +1,9 @@
-import { InternalAudioConfig } from './index';
+import { AbstractAudioInstance, InternalAudioConfig } from './index';
 
 export class AudioFactory {
 
     private config: InternalAudioConfig;
+    private instances: AbstractAudioInstance[] = [];
 
     constructor(config: InternalAudioConfig) {
         this.config = config;
@@ -15,8 +16,15 @@ export class AudioFactory {
         });
     }
 
+    mute(value: boolean) {
+        for (const instance of this.instances) {
+            instance.mute(value);
+        }
+    }
+
     create() {
         const instance = new this.config.loaderClass.instanceClass(this.config.data);
+        this.instances.push(instance);
         return instance;
     }
 

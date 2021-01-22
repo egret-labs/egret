@@ -21,6 +21,10 @@ export abstract class AbstractAudioInstance {
 
     play() {
     }
+
+    mute(value: boolean) {
+
+    }
 }
 
 export abstract class AbstractAudioLoader {

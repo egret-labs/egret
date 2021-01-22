@@ -12,4 +12,8 @@ export class HTMLAudioInstance extends AbstractAudioInstance {
     play() {
         this.audio.play();
     }
+
+    mute(value: boolean) {
+        this.audio.muted = value;
+    }
 }
