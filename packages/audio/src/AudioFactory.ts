@@ -1,6 +1,6 @@
 import { AbstractAudioInstance, InternalAudioConfig } from './index';
 
-export class AudioFactory {
+export class AudioFactory<T extends AbstractAudioInstance = AbstractAudioInstance> {
 
     private config: InternalAudioConfig;
     private instances: AbstractAudioInstance[] = [];
@@ -22,7 +22,7 @@ export class AudioFactory {
         }
     }
 
-    create() {
+    create(): T {
         const instance = new this.config.loaderClass.instanceClass(this.config.data);
         this.instances.push(instance);
         return instance;
