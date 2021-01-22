@@ -4,7 +4,7 @@ import { loadBuffer, Processor } from '../processors';
 
 export const soundEffectProcessor: Processor = (resource) => {
     return new Observable((s) => {
-        const manager = new AudioManager();
+        const manager = AudioManager.instance;
         manager.register(resource, WebAudioLoader);
         const factory = manager.getFactory(resource.name);
         factory.load().then(() => {
@@ -19,7 +19,7 @@ export const soundEffectProcessor: Processor = (resource) => {
 
 export const musicProcessor: Processor = (resource) => {
     return new Observable((s) => {
-        const manager = new AudioManager();
+        const manager = AudioManager.instance;
         manager.register(resource, SimpleHTMLAudioLoader);
         const factory = manager.getFactory(resource.name);
         factory.load().then(() => {

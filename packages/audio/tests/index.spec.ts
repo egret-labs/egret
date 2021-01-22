@@ -1,3 +1,5 @@
+globalThis.AudioContext = class { } as any;
+
 import { AudioManager, HTMLAudioInstance, SimpleHTMLAudioLoader } from '../';
 
 HTMLAudioElement.prototype.load = function () {
@@ -6,7 +8,7 @@ HTMLAudioElement.prototype.load = function () {
     }, 100);
 };
 
-globalThis.AudioContext = class { } as any;
+
 
 describe('AudioManager', () => {
 
@@ -44,6 +46,18 @@ describe('AudioManager', () => {
         });
         it('load', async () => {
             await expect(manager.getFactory('mysound').load()).resolves.not.toThrowError();
+        });
+    });
+
+    describe('AudioManager.mute', () => {
+        it('instance-mute-should-be-called', async () => {
+            const factory = manager.getFactory('mysound');
+            await factory.load();
+            const mockFn = jest.fn();
+            const instance = factory.create();
+            instance.mute = mockFn;
+            manager.mute(true);
+            expect(mockFn).toBeCalled();
         });
 
     });

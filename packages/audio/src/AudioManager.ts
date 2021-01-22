@@ -1,5 +1,5 @@
 import { AudioFactory } from './AudioFactory';
-import { InternalAudioConfig, AudioConfig, LoaderClass } from './index';
+import { AudioConfig, InternalAudioConfig, LoaderClass } from './index';
 
 export class AudioManager {
 
@@ -7,11 +7,9 @@ export class AudioManager {
         [name: string]: InternalAudioConfig;
     } = {};
 
-    static context: AudioContext;
+    static instance = new AudioManager();
 
-    constructor() {
-        AudioManager.context = new AudioContext();
-    }
+    static context = new AudioContext();
 
     private factories: { [name: string]: AudioFactory; } = {};
 
