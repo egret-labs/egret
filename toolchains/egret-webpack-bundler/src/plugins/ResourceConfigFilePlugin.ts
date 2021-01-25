@@ -1,10 +1,10 @@
+import * as texturemrger from '@egret/texture-merger-core';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import { updateFileTimestamps } from '../loaders/utils';
 import { walkDir } from '../utils';
-import * as texturemrger from '@egret/texture-merger-core';
 
 export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
+
 
 export default class ResourceConfigFilePlugin {
 
@@ -27,30 +27,7 @@ export default class ResourceConfigFilePlugin {
             });
         };
 
-        function readStatAsync(filePath: string) {
-            return new Promise<{ mtimeMs: number }>((resolve, reject) => {
-                compiler.inputFileSystem.stat(filePath, (error, stats) => {
-                    if (error) {
-                        reject(new Error(`文件访问异常:${filePath}`));
-                    }
-                    else {
-                        resolve(stats as any);
-                    }
-                });
-            });
-        }
-
         const pluginName = this.constructor.name;
-
-        // compiler.hooks.watchRun.tap(pluginName, async (compiler) => {
-        //     return;
-        //     const keys = Object.keys(compiler.watching.watcher.mtimes);
-        //     for (const key of keys) {
-        //         updateFileTimestamps(compiler, key);
-        //     }
-        // });
-
-        let mtimeMs = 0;
 
         compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
 
@@ -60,11 +37,6 @@ export default class ResourceConfigFilePlugin {
             const fullFilepath = path.join(compiler.context, file);
             compilation.fileDependencies.add(fullFilepath);
             try {
-                const stats = await readStatAsync(fullFilepath);
-                if (mtimeMs === stats.mtimeMs) {
-                    return;
-                }
-                mtimeMs = stats.mtimeMs;
                 // eslint-disable-next-line space-unary-ops
                 const content = await ((compiler.inputFileSystem as any).readFileAsync(fullFilepath));
                 const json = parseConfig(file, content.toString());
