@@ -4,23 +4,6 @@ import { updateFileTimestamps } from '../loaders/utils';
 import { walkDir } from '../utils';
 import * as texturemrger from '@egret/texture-merger-core';
 
-declare module 'webpack' {
-
-    export interface InputFileSystem {
-        purge?(what: string): void;
-
-        readFileAsync(filePath: string): Promise<Buffer>;
-    }
-
-    export interface Compiler {
-
-        watchFileSystem: any
-
-        inputFileSystem: import('webpack').InputFileSystem
-    }
-
-}
-
 export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
 
 export default class ResourceConfigFilePlugin {
@@ -31,14 +14,14 @@ export default class ResourceConfigFilePlugin {
 
     public apply(compiler: webpack.Compiler) {
 
-        compiler.inputFileSystem.readFileAsync = function readFileAsync(filePath: string): Promise<Buffer> {
+        (compiler.inputFileSystem as any).readFileAsync = function readFileAsync(filePath: string): Promise<Buffer> {
             return new Promise((resolve, reject) => {
                 compiler.inputFileSystem.readFile(filePath, (error, content) => {
                     if (error) {
                         reject(new Error(`文件访问异常:${filePath}`));
                     }
                     else {
-                        resolve(content);
+                        resolve(content as Buffer);
                     }
                 });
             });
@@ -51,7 +34,7 @@ export default class ResourceConfigFilePlugin {
                         reject(new Error(`文件访问异常:${filePath}`));
                     }
                     else {
-                        resolve(stats);
+                        resolve(stats as any);
                     }
                 });
             });
@@ -59,12 +42,13 @@ export default class ResourceConfigFilePlugin {
 
         const pluginName = this.constructor.name;
 
-        compiler.hooks.watchRun.tap(pluginName, async (compiler, a) => {
-            const keys = Object.keys(compiler.watchFileSystem.watcher.mtimes);
-            for (const key of keys) {
-                updateFileTimestamps(compiler, key);
-            }
-        });
+        // compiler.hooks.watchRun.tap(pluginName, async (compiler) => {
+        //     return;
+        //     const keys = Object.keys(compiler.watching.watcher.mtimes);
+        //     for (const key of keys) {
+        //         updateFileTimestamps(compiler, key);
+        //     }
+        // });
 
         let mtimeMs = 0;
 
@@ -81,7 +65,8 @@ export default class ResourceConfigFilePlugin {
                     return;
                 }
                 mtimeMs = stats.mtimeMs;
-                const content = await compiler.inputFileSystem.readFileAsync(fullFilepath);
+                // eslint-disable-next-line space-unary-ops
+                const content = await ((compiler.inputFileSystem as any).readFileAsync(fullFilepath));
                 const json = parseConfig(file, content.toString());
                 validConfig(json);
 
@@ -89,18 +74,18 @@ export default class ResourceConfigFilePlugin {
 
                 if (executeBundle) {
 
-                    for (const resource of json.resources) {
-                        const filepath = 'resource/' + resource.url;
-                        const assetFullPath = path.join(compiler.context, filepath);
-                        const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
-                        updateAssets(assets, filepath, assetbuffer);
-                    }
+                    // for (const resource of json.resources) {
+                    //     const filepath = 'resource/' + resource.url;
+                    //     const assetFullPath = path.join(compiler.context, filepath);
+                    //     const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
+                    //     updateAssets(assets, filepath, assetbuffer);
+                    // }
                 }
                 updateAssets(assets, file, content);
             }
             catch (e) {
                 const message = `\t资源配置处理异常\n\t${e.message}`;
-                compilation.errors.push({ file: file, message });
+                compilation.errors.push({ file: file, message } as any);
             }
 
         });
@@ -110,7 +95,8 @@ export default class ResourceConfigFilePlugin {
 async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
     const entities = await getAllTextureMergerConfig(root);
     for (const entity of entities) {
-        const content = await compiler.inputFileSystem.readFileAsync(entity.path);
+        // eslint-disable-next-line space-unary-ops
+        const content = await (compiler.inputFileSystem as any).readFileAsync(entity.path);
         const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
         json.root = path.dirname(path.relative(compiler.context, entity.path));
         json.outputName = 'output';

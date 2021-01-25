@@ -78,7 +78,7 @@ export default class ThemePlugin {
 
         };
 
-        compiler.hooks.thisCompilation.tap(pluginName, (compilation: webpack.compilation.Compilation) => {
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation: webpack.Compilation) => {
             if (this.errors.length) {
                 compilation.errors.push(...this.errors);
             }

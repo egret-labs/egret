@@ -10,7 +10,7 @@ export class CachedFile {
         this.filePath = filePath;
 
         const existed = existedInFileSystem(compiler.inputFileSystem, filePath);
-        const data = existed ? this.compiler.inputFileSystem.readFileSync(filePath) : '';
+        const data = existed ? (this.compiler.inputFileSystem as any).readFileSync(filePath) : '';
         this.hash = existed ? crypto.createHash('md5').update(data.toString()).digest('hex') : '';
 
         // this.hash = !fs.existsSync(filePath) ? '' : crypto.createHash('md5')

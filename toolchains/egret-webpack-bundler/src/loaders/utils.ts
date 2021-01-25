@@ -151,7 +151,7 @@ export function updateFileTimestamps(compiler: webpack.Compiler, filePath: strin
     (compiler.inputFileSystem as any).purge(filePath);
 
     if (compiler.fileTimestamps.get(filePath)) {
-        const stat = compiler.inputFileSystem.statSync(filePath);
-        compiler.fileTimestamps.set(filePath, +stat.mtime);
+        const stat = (compiler.inputFileSystem as any).statSync(filePath);
+        compiler.fileTimestamps.set(filePath, +stat.mtime as any);
     }
 }

@@ -2,10 +2,11 @@ import * as webpack from 'webpack';
 import { SourceMapGenerator, SourceMapConsumer, RawSourceMap } from 'source-map';
 import * as utils from '../utils';
 import SrcLoaderPlugn, { NSLoaderContext } from './Plugin';
+import { CustomLoader, LoaderContext } from '../typings';
 const { NS } = SrcLoaderPlugn;
 
-const srcLoader: webpack.loader.Loader = function (input, upstreamSourceMap) {
-    const callback = this.async() as webpack.loader.loaderCallback;
+const srcLoader: CustomLoader = function (input, upstreamSourceMap) {
+    const callback = this.async();
     const compiler = this._compiler;
     const ns: NSLoaderContext = (this as any)[NS];
 
@@ -44,7 +45,7 @@ const srcLoader: webpack.loader.Loader = function (input, upstreamSourceMap) {
 function injectLines(
     input: string,
     upstreamSourceMap: RawSourceMap | undefined, // 上级loader sourcemap
-    context: webpack.loader.LoaderContext,
+    context: LoaderContext,
     headers: string[],
     footers: string[]
 ) {

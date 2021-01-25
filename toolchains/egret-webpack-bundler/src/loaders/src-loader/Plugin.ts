@@ -6,7 +6,14 @@ import * as utils from '../utils';
 import Factory from './Factory';
 const NS = 'src-loader';
 
-function getNormalModuleLoader(compilation: webpack.compilation.Compilation) {
+declare module 'webpack' {
+
+    export interface Compilation {
+        cache: any
+    }
+}
+
+function getNormalModuleLoader(compilation: webpack.Compilation) {
     let normalModuleLoader;
     if (Object.isFrozen(compilation.hooks)) {
         // webpack 5
@@ -55,7 +62,7 @@ export default class SrcLoaderPlugin {
             if (!this.nsLoaderContext.factory) {
                 this.nsLoaderContext.factory = new Factory({
                     context: compiler.context,
-                    fs: compiler.inputFileSystem
+                    fs: compiler.inputFileSystem as any
                 });
             }
 

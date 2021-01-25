@@ -1,6 +1,7 @@
 import webpack from 'webpack';
+import { CustomLoader } from '../typings';
 
-const themeInlineLoader: webpack.loader.Loader = function (text) {
+const themeInlineLoader: CustomLoader = function (text, sourcemap?: any) {
     const currentLoader = this.loaders[this.loaderIndex];
     const options = currentLoader.options;
     const content = options.content;

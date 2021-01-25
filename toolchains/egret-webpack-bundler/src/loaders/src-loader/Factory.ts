@@ -4,7 +4,7 @@ import * as ts from 'typescript';
 import parse, { Defines, Dependencies } from './parse';
 interface FactoryOptions {
     context: string,
-    fs: import('webpack').InputFileSystem;
+    fs: typeof import('fs')
 }
 
 export default class Factory {

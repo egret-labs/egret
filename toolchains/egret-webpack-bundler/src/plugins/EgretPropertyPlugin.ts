@@ -18,7 +18,7 @@ export default class EgretPropertyPlugin {
                         reject(error);
                     }
                     else {
-                        resolve(content);
+                        resolve(content as any);
                     }
                 });
             });
@@ -40,7 +40,7 @@ export default class EgretPropertyPlugin {
                     }
                     catch (e) {
                         const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                        compilation.errors.push({ file: 'egretProperties.json', message });
+                        compilation.errors.push({ file: 'egretProperties.json', message } as any);
                     }
                 }
             }

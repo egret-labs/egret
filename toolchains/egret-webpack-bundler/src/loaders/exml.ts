@@ -1,6 +1,7 @@
 import * as eui from '@egret/eui-compiler';
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { CustomLoader } from './typings';
 //     let code = `${STATIC}
 //       module.exports = ${result.code};
 //       if (window.generateEUI) {
@@ -19,7 +20,7 @@ import * as webpack from 'webpack';
 //     return code;
 // };
 
-const exmlLoader: webpack.loader.Loader = function (content) {
+const exmlLoader: CustomLoader = function (content) {
 
     if (!euiCompiler) {
         // euiCompiler = new eui.EuiCompiler(this.rootContext);
@@ -45,20 +46,20 @@ const exmlLoader: webpack.loader.Loader = function (content) {
 
 };
 
-function generateThemeJs(loaderContext: webpack.loader.LoaderContext, theme: import('@egret/eui-compiler/lib/theme').ThemeFile) {
-    const outputFilename = theme.filePath.replace('.thm.json', '.thm.js');
-    const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.dirname(theme.filePath), exml).split('\\').join('/')}");`);
-    const content = `window.skins = window.skins || {};
-window.generateEUI = window.generateEUI || {
-  paths: {},
-  styles: undefined,
-  skins: ${JSON.stringify(theme.data.skins, null, '\t')},
-};
-${requires.join('\n')}
-module.exports = window.generateEUI;
-`;
-    loaderContext.emitFile(outputFilename, content, null);
-}
+// function generateThemeJs(loaderContext: webpack.loader.LoaderContext, theme: import('@egret/eui-compiler/lib/theme').ThemeFile) {
+//     const outputFilename = theme.filePath.replace('.thm.json', '.thm.js');
+//     const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.dirname(theme.filePath), exml).split('\\').join('/')}");`);
+//     const content = `window.skins = window.skins || {};
+// window.generateEUI = window.generateEUI || {
+//   paths: {},
+//   styles: undefined,
+//   skins: ${JSON.stringify(theme.data.skins, null, '\t')},
+// };
+// ${requires.join('\n')}
+// module.exports = window.generateEUI;
+// `;
+//     loaderContext.emitFile(outputFilename, content, null);
+// }
 
 let euiCompiler: eui.EuiCompiler;
 

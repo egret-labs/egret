@@ -107,10 +107,12 @@ export class EgretWebpackBundler {
         const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
         (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
         webpackConfig.plugins?.push(
-            new webpack.optimize.OccurrenceOrderPlugin(false),
+            //TODO 
+            // new webpack.optimize.OccurrenceOrderPlugin(false),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoEmitOnErrorsPlugin()
         );
+
         const compiler = webpack(webpackConfig);
         const compilerApp = express();
         compilerApp.use(allowCrossDomain);
@@ -133,9 +135,14 @@ export class EgretWebpackBundler {
             const scripts = getLibsFileList(this.target as Target_Type, this.projectRoot, options.libraryType);
             const webpackConfig = generateConfig(this.projectRoot, options, this.target, false);
 
-            const handler: webpack.Compiler.Handler = (error, status) => {
-                console.log(status.toString(webpackConfig.stats));
-                resolve();
+            const handler: Parameters<webpack.Compiler['run']>[0] = (error, status) => {
+                if (error) {
+
+                }
+                else {
+                    console.log(status!.toString(webpackConfig.stats));
+                    resolve();
+                }
             };
             const compiler = webpack(webpackConfig);
 
@@ -146,30 +153,30 @@ export class EgretWebpackBundler {
                     this.emitter(script, content);
                 }
 
-                compiler.outputFileSystem = {
+                // compiler.outputFileSystem = {
 
-                    mkdir: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null);
-                    },
-                    mkdirp: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null);
-                    },
+                //     mkdir: (path: string, callback: (err: Error | undefined) => void) => {
+                //         callback(undefined);
+                //     },
+                //     mkdirp: (path: string, callback: (err: Error | undefined) => void) => {
+                //         callback(undefined);
+                //     },
 
-                    rmdir: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null);
-                    },
+                //     rmdir: (path: string, callback: (err: Error | undefined) => void) => {
+                //         callback(undefined);
+                //     },
 
-                    unlink: (path: string, callback: (err: Error | undefined | null) => void) => {
-                        callback(null);
-                    },
-                    join: path.join,
+                //     unlink: (path: string, callback: (err: Error | undefined) => void) => {
+                //         callback(undefined);
+                //     },
+                //     join: path.join,
 
-                    writeFile: (p: string, data: any, callback: (err: Error | undefined | null) => void) => {
-                        const relativePath = path.relative(webpackConfig.output?.path!, p).split('\\').join('/');
-                        this.emitter!(relativePath, data);
-                        callback(null);
-                    }
-                };
+                //     writeFile: (p: string, data: any, callback: (err: Error | undefined) => void) => {
+                //         const relativePath = path.relative(webpackConfig.output?.path!, p).split('\\').join('/');
+                //         this.emitter!(relativePath, data);
+                //         callback(undefined);
+                //     }
+                // };
             }
             compiler.run(handler);
         });
@@ -360,10 +367,10 @@ function generateWebpackConfig_exml(config: webpack.Configuration, options: Webp
         ]
     };
 
-    config.module!.rules.push(exmlLoaderRule);
+    config.module!.rules!.push(exmlLoaderRule);
     config.plugins!.push(new ThemePlugin());
     config.watchOptions = {
-        ignored: /exml.e.d.ts/
+        ignored: '**/exml.e.d.ts'
     };
 
     if (options.exml?.watch) {
