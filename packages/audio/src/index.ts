@@ -15,28 +15,13 @@ export interface InternalAudioConfig extends AudioConfig {
 
 export type LoaderClass = { new(): AbstractAudioLoader } & { instanceClass: any }
 
-export abstract class AbstractAudioInstance {
-
-    protected loader: any;
-
-    play() {
-    }
-
-    mute(value: boolean) {
-
-    }
-
-    loop(value: boolean) {
-
-    }
-}
-
 export abstract class AbstractAudioLoader {
 
     abstract load(url: string): Promise<any>
 
 }
 
+export * from './AbstractAudioInstance';
 export * from './AudioFactory';
 export * from './AudioManager';
 export * from './HTMLAudioInstance';

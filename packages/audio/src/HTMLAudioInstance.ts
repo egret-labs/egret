@@ -1,4 +1,4 @@
-import { AbstractAudioInstance } from './index';
+import { AbstractAudioInstance } from './AbstractAudioInstance';
 
 export class HTMLAudioInstance extends AbstractAudioInstance {
 
@@ -11,6 +11,15 @@ export class HTMLAudioInstance extends AbstractAudioInstance {
 
     play() {
         this.audio.play();
+    }
+
+    stop() {
+        const audio = this.audio;
+        audio.pause();
+        try {
+            audio.currentTime = 0;
+        } catch (e) {
+        }
     }
 
     mute(value: boolean) {

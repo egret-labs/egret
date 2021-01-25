@@ -1,4 +1,5 @@
-import { AbstractAudioInstance, InternalAudioConfig } from './index';
+import { InternalAudioConfig } from './index';
+import { AbstractAudioInstance } from "./AbstractAudioInstance";
 
 export class AudioFactory<T extends AbstractAudioInstance = AbstractAudioInstance> {
 

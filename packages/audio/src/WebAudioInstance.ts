@@ -1,5 +1,5 @@
 import { AudioManager } from './AudioManager';
-import { AbstractAudioInstance } from './index';
+import { AbstractAudioInstance } from './AbstractAudioInstance';
 
 export class WebAudioInstance extends AbstractAudioInstance {
 
