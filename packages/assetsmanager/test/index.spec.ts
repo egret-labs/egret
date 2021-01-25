@@ -1,3 +1,5 @@
+global.AudioContext = class { } as any;
+
 import { Server } from 'http';
 import Koa from 'koa';
 import koaStatic from 'koa-simple-static';

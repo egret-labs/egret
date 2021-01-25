@@ -80,7 +80,10 @@ export namespace RES {
         const resource = getResourceInfo(name);
         const promise = load(resource).toPromise();
         if (callback) {
-            return promise.then((v) => callback.apply(thisObject, v));
+            return promise.then((v) => {
+                callback.call(thisObject, v);
+                return v;
+            });
         }
         else {
             return promise;

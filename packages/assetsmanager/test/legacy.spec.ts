@@ -1,3 +1,4 @@
+global.AudioContext = class { } as any;
 
 import { Server } from 'http';
 import Koa from 'koa';
@@ -60,12 +61,12 @@ describe('legacy-api', () => {
     it('check-url', () => {
         initConfig('http://localhost', createConfig());
         const resource = RES.getResourceInfo('1_jpg');
-        expect(resource.url).toEqual('http://localhost/1.jpg')
+        expect(resource.url).toEqual('http://localhost/1.jpg');
     });
     it('check-url-2', () => {
         initConfig('http://localhost/', createConfig());
         const resource = RES.getResourceInfo('1_jpg');
-        expect(resource.url).toEqual('http://localhost/1.jpg')
+        expect(resource.url).toEqual('http://localhost/1.jpg');
     });
     it('load-resource-config-file', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
@@ -76,34 +77,47 @@ describe('legacy-api', () => {
         const promise = RES.loadConfig('error.res.json', 'http://localhost:3000/static');
         expect(promise).rejects.toThrow();
     });
-    it('load-image', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
-        await RES.getResAsync('1_jpg');
-    });
-    it('load-group', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
-        await RES.loadGroup('preload');
-        const result = await RES.getResAsync('1_json');
-        expect(result).toEqual({ name: 'egret' });
-        const texture = RES.getRes('1_jpg');
-        expect(texture).toBeInstanceOf(egret.Texture);
-    });
-    it('load-group-reporter', async () => {
-        let localCurrent = 0;
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
-        await RES.loadGroup('preload', 0, {
-            onProgress: (current, total) => {
-                localCurrent++;
-                expect(total).toBe(2);
-                expect(current).toBe(localCurrent);
-            }
+    describe('RES.getResAsync', () => {
+        it('getResAsyncReturnType', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            const texture = await RES.getResAsync('1_jpg');
+            expect(texture).toBeInstanceOf(egret.Texture);
+        });
+        it('getResAsync.callback', async () => {
+            const mockfn = jest.fn();
+            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            const texture = await RES.getResAsync('1_jpg', mockfn, {});
+            expect(mockfn).toBeCalledWith(texture);
         });
     });
-    it('get-group-byName', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
-        const result = await RES.getGroupByName('preload');
-        expect(result).toEqual(['1_jpg', '1_json'])
+
+    describe('RES.loadGroup', () => {
+        it('load-group', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadGroup('preload');
+            const result = await RES.getResAsync('1_json');
+            expect(result).toEqual({ name: 'egret' });
+            const texture = RES.getRes('1_jpg');
+            expect(texture).toBeInstanceOf(egret.Texture);
+        });
+        it('load-group-reporter', async () => {
+            let localCurrent = 0;
+            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadGroup('preload', 0, {
+                onProgress: (current, total) => {
+                    localCurrent++;
+                    expect(total).toBe(2);
+                    expect(current).toBe(localCurrent);
+                }
+            });
+        });
+        it('get-group-byName', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            const result = await RES.getGroupByName('preload');
+            expect(result).toEqual(['1_jpg', '1_json']);
+        });
     });
+
     // it('get-group-retry', async () => {
     //     try {
     //         await RES.loadConfig('error.res.json', 'http://localhost:3000/static');
