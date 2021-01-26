@@ -10,6 +10,7 @@ type ThemePluginOptions = {
 
 export default class ThemePlugin {
     private options: Required<ThemePluginOptions>;
+    private isFirst = true;
 
     constructor() {
         this.options = [{
@@ -62,14 +63,19 @@ export default class ThemePlugin {
                 fs.writeFileSync(filename, content, 'utf-8');
                 // 更新文件系统缓存状态
 
-                const inlineLoaderRule: webpack.RuleSetRule = {
-                    test: /Main\.ts/,
-                    include: path.join(compilr.context!, 'src'),
-                    loader: require.resolve('./inline-loader'),
-                    options: { content: themeJsContent }
-                };
+                if (this.isFirst) {
+                    const inlineLoaderRule: webpack.RuleSetRule = {
+                        test: /Main\.ts/,
+                        include: path.join(compilr.context!, 'src'),
+                        loader: require.resolve('./inline-loader'),
+                        options: { content: themeJsContent }
+                    };
 
-                compiler.options.module?.rules.push(inlineLoaderRule);
+                    compiler.options.module?.rules.push(inlineLoaderRule);
+                    this.isFirst = false;
+                }
+
+
             }
             catch (error) {
                 // // 写入错误信息
