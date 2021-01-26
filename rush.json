@@ -432,6 +432,10 @@
       "projectFolder": "packages/audio",
       "reviewCategory": "production",
       "shouldPublish": true
+    },
+    {
+      "packageName": "@egret/example-webpack-project",
+      "projectFolder": "examples/webpack-project"
     }
   ]
 }

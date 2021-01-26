@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "outDir": "bin-debug",
+        "experimentalDecorators": true,
+        "lib": [
+            "dom",
+            "ESNext"
+        ],
+        "types": []
+    },
+    "include": [
+        "src",
+        "libs"
+    ]
+}

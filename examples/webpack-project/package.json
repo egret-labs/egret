@@ -1,0 +1,19 @@
+{
+  "name": "@egret/example-webpack-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "echo helloworld"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^5.17.0",
+    "webpack-cli": "^4.4.0",
+    "webpack-dev-server": "^4.0.0-beta.0",
+    "@egret/egret-webpack-bundler": "workspace:*"
+  },
+  "author": "",
+  "license": "ISC"
+}

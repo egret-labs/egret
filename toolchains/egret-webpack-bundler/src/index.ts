@@ -242,7 +242,6 @@ export function generateConfig(
         return Object.assign(config, {
             devServer: {
                 host: getNetworkAddress(),
-                disableHostCheck: true
             }
         });
     }
