@@ -5,7 +5,6 @@ import { walkDir } from '../utils';
 
 export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
 
-
 export default class ResourceConfigFilePlugin {
 
     // eslint-disable-next-line no-useless-constructor
@@ -29,37 +28,40 @@ export default class ResourceConfigFilePlugin {
 
         const pluginName = this.constructor.name;
 
-        compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
-            const assets = compilation.assets;
-            const bundleInfo = this.options[0];
-            const { file, executeBundle } = bundleInfo;
-            const fullFilepath = path.join(compiler.context, file);
-            compilation.fileDependencies.add(fullFilepath);
-            try {
-                // eslint-disable-next-line space-unary-ops
-                const content = await ((compiler.inputFileSystem as any).readFileAsync(fullFilepath));
-                const json = parseConfig(file, content.toString());
-                validConfig(json);
+            compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
 
-                await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
+                const bundleInfo = this.options[0];
+                const { file, executeBundle } = bundleInfo;
+                const fullFilepath = path.join(compiler.context, file);
+                compilation.fileDependencies.add(fullFilepath);
+                try {
+                    // eslint-disable-next-line space-unary-ops
+                    const content = await ((compiler.inputFileSystem as any).readFileAsync(fullFilepath));
+                    const json = parseConfig(file, content.toString());
+                    validConfig(json);
 
-                if (executeBundle) {
+                    await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
 
-                    // for (const resource of json.resources) {
-                    //     const filepath = 'resource/' + resource.url;
-                    //     const assetFullPath = path.join(compiler.context, filepath);
-                    //     const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
-                    //     updateAssets(assets, filepath, assetbuffer);
-                    // }
+                    if (executeBundle) {
+
+                        // for (const resource of json.resources) {
+                        //     const filepath = 'resource/' + resource.url;
+                        //     const assetFullPath = path.join(compiler.context, filepath);
+                        //     const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
+                        //     updateAssets(assets, filepath, assetbuffer);
+                        // }
+                    }
+                    const source = new webpack.sources.RawSource(content, false);
+                    compilation.emitAsset(file, source);
+                    // updateAssets(assets, file, content);
                 }
-                updateAssets(assets, file, content);
-            }
-            catch (e) {
-                const message = `\t资源配置处理异常\n\t${e.message}`;
-                compilation.errors.push({ file: file, message } as any);
-            }
-
+                catch (e) {
+                    const message = `\t资源配置处理异常\n\t${e.message}`;
+                    compilation.errors.push({ file: file, message } as any);
+                }
+            });
         });
     }
 }

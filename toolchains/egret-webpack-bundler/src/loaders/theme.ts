@@ -74,8 +74,6 @@ export default class ThemePlugin {
                     compiler.options.module?.rules.push(inlineLoaderRule);
                     this.isFirst = false;
                 }
-
-
             }
             catch (error) {
                 // // 写入错误信息

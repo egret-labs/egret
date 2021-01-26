@@ -1,4 +1,5 @@
 import * as webpack from 'webpack';
+import { Compilation } from 'webpack';
 import { WebpackBundleOptions } from '..';
 import { createProject } from '../egretproject';
 
@@ -25,8 +26,18 @@ export default class EgretPropertyPlugin {
         }
 
         const pluginName = this.constructor.name;
-        compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
-            const assets = compilation.assets;
+        // compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
+        //     const assets = compilation.assets;
+
+        // });
+
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+            compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
+                await execute(assets, compilation);
+            });
+        });
+
+        const execute = async (assets: any, compilation: Compilation) => {
             const project = createProject(compiler.context);
             const egretModules = project.getModulesConfig('web');
             const initial: string[] = [];
@@ -35,8 +46,11 @@ export default class EgretPropertyPlugin {
                     const filename = this.options.libraryType == 'debug' ? asset.debug : asset.release;
                     initial.push(filename);
                     try {
+
                         const content = await readFileAsync(filename);
-                        updateAssets(assets, filename, content);
+                        const source = new webpack.sources.RawSource(content, false);
+                        compilation.emitAsset(filename, source);
+                        // updateAssets(assets, filename, content);
                     }
                     catch (e) {
                         const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
@@ -47,7 +61,7 @@ export default class EgretPropertyPlugin {
             const manifest = { initial, game: ['main.js'] };
             const manifestContent = JSON.stringify(manifest, null, '\t');
             updateAssets(assets, 'manifest.json', manifestContent);
-        });
+        };
     }
 }
 
@@ -56,4 +70,8 @@ function updateAssets(assets: any, filePath: string, content: string | Buffer) {
         source: () => content,
         size: () => ((typeof content === 'string') ? content.length : content.byteLength)
     };
+}
+
+function execute() {
+
 }
