@@ -1,6 +1,18 @@
 import { AudioFactory } from './AudioFactory';
 import { AudioConfig, InternalAudioConfig, LoaderClass } from './index';
 
+declare const webkitAudioContext: typeof AudioContext;
+
+function createAudioContext() {
+    if (typeof AudioContext !== 'undefined') {
+        return new AudioContext();
+    } else if (typeof webkitAudioContext !== 'undefined') {
+        return new webkitAudioContext();
+    } else {
+        return null;
+    }
+}
+
 export class AudioManager {
 
     private store: {
@@ -9,7 +21,7 @@ export class AudioManager {
 
     static instance = new AudioManager();
 
-    static context = new AudioContext();
+    static context = createAudioContext()!;
 
     private factories: { [name: string]: AudioFactory; } = {};
 
