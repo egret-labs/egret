@@ -104,13 +104,9 @@ export function addWatchIgnore(compiler: webpack.Compiler, ignored: string) {
 
 // 判断文件是否是webpack构建的entry
 export function isEntry(compiler: webpack.Compiler, resourcePath: string) {
-    let { entry } = compiler.options;
-    if (typeof entry === 'string') {
-        entry = {
-            index: entry
-        };
-    }
-    return Object.values(entry as any).some((item: any) => {
+    const { entry } = compiler.options;
+    return Object.values(entry).some((v) => {
+        let item = v.import;
         if (!Array.isArray(item)) {
             item = [item];
         }

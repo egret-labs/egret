@@ -1,10 +1,8 @@
-import * as path from 'path';
 import * as crypto from 'crypto';
+import * as path from 'path';
 import * as webpack from 'webpack';
-import * as _fs from 'fs';
 import * as utils from '../utils';
 import Factory from './Factory';
-const NS = 'src-loader';
 
 declare module 'webpack' {
 
@@ -15,14 +13,15 @@ declare module 'webpack' {
 
 function getNormalModuleLoader(compilation: webpack.Compilation) {
     let normalModuleLoader;
-    if (Object.isFrozen(compilation.hooks)) {
-        // webpack 5
-        // eslint-disable-next-line global-require
-        normalModuleLoader = require('webpack/lib/NormalModule')
-            .getCompilationHooks(compilation).loader;
-    } else {
-        normalModuleLoader = compilation.hooks.normalModuleLoader;
-    }
+    // if (Object.isFrozen(compilation.hooks)) {
+    //     // webpack 5
+    //     // eslint-disable-next-line global-require
+    //     normalModuleLoader = require('webpack/lib/NormalModule')
+    //         .getCompilationHooks(compilation).loader;
+    // } else {
+    //     normalModuleLoader = compilation.hooks.normalModuleLoader;
+    // }
+    normalModuleLoader = compilation.hooks.normalModuleLoader;
     return normalModuleLoader;
 }
 
@@ -30,14 +29,11 @@ interface SrcLoaderPluginOptions {
     dirs?: string[];
 }
 
-export interface NSLoaderContext {
+export interface SrcLoaderContext {
     factory: Factory;
-    deps: string[];
-    // skins?: any;
 }
 
 export default class SrcLoaderPlugin {
-    public static NS = NS;
     options: SrcLoaderPluginOptions;
     constructor(options: SrcLoaderPluginOptions = {}) {
         this.options = {
@@ -46,19 +42,18 @@ export default class SrcLoaderPlugin {
         };
     }
 
-    private nsLoaderContext: NSLoaderContext = null as any;
+    private nsLoaderContext: SrcLoaderContext = null as any;
     private dirs: string[] = [];
     private listHash: string = '';
 
     public apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
         this.nsLoaderContext = {
-            factory: null as any,
-            deps: []
+            factory: null as any
         };
         this.dirs = (this.options.dirs || []).map((dir) => path.join(compiler.context, dir));
 
-        const beforeRun = async (_compiler: any, callback: any) => {
+        const beforeRun = (_compiler: any, callback: any) => {
             if (!this.nsLoaderContext.factory) {
                 this.nsLoaderContext.factory = new Factory({
                     context: compiler.context,
@@ -69,14 +64,6 @@ export default class SrcLoaderPlugin {
             this.nsLoaderContext.factory.update();
 
             callback();
-        };
-
-        const addDeps = (deps: any) => {
-            deps.forEach((item: any) => {
-                if (this.nsLoaderContext.deps.indexOf(item) === -1) {
-                    this.nsLoaderContext.deps.push(item);
-                }
-            });
         };
 
         compiler.hooks.watchRun.tapAsync(pluginName, beforeRun);
@@ -93,12 +80,12 @@ export default class SrcLoaderPlugin {
         // addDeps(deps);
         // });
 
-        compiler.hooks.compilation.tap(pluginName, (compilation) => {
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
             // 注入nsLoaderContext
             getNormalModuleLoader(compilation).tap(pluginName, (loaderContext: any) => {
-                loaderContext[NS] = this.nsLoaderContext;
+                loaderContext['src-loader'] = this.nsLoaderContext;
             });
-
+            return;
             // 文件列表改变时重新编译entry
             const { factory } = this.nsLoaderContext;
             const listHash = crypto.createHash('md5')
@@ -119,7 +106,6 @@ export default class SrcLoaderPlugin {
 
         // 监听文件目录
         compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
-            this.nsLoaderContext.deps = []; // reset deps
             this.dirs.forEach((item) => {
                 compilation.contextDependencies.add(item);
             });

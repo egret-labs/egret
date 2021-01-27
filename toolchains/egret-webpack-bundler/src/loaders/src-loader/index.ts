@@ -1,17 +1,13 @@
-import * as webpack from 'webpack';
-import { SourceMapGenerator, SourceMapConsumer, RawSourceMap } from 'source-map';
-import * as utils from '../utils';
-import SrcLoaderPlugn, { NSLoaderContext } from './Plugin';
+import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map';
 import { CustomLoader, LoaderContext } from '../typings';
-const { NS } = SrcLoaderPlugn;
+import * as utils from '../utils';
+import SrcLoaderPlugn, { SrcLoaderContext } from './Plugin';
 
 const srcLoader: CustomLoader = function (input, upstreamSourceMap) {
     const callback = this.async();
     const compiler = this._compiler;
-    const ns: NSLoaderContext = (this as any)[NS];
-
-    const isEntry = utils.isEntry(compiler, this.resourcePath); // 入口文件
-
+    const ns: SrcLoaderContext = (this as any)['src-loader'];
+    const isEntry = utils.isEntry(compiler, this.resourcePath);
     let dependencies: string[] = [];
     if (isEntry) {
         // 导入未模块化的全部文件
