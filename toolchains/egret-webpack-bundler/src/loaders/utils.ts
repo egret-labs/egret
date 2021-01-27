@@ -167,3 +167,10 @@ export function readFileAsync(compiler: webpack.Compiler, filepath: string) {
         })
     })
 }
+
+export function fileChanged(compiler: webpack.Compiler, fullpath: string) {
+    if (!compiler.modifiedFiles) {
+        return true;
+    }
+    return compiler.modifiedFiles.has(fullpath);
+}

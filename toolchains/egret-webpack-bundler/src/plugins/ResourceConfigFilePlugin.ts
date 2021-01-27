@@ -2,7 +2,7 @@ import * as texturemrger from '@egret/texture-merger-core';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import { readFileAsync } from '../loaders/utils';
+import { fileChanged, readFileAsync } from '../loaders/utils';
 import { walkDir } from '../utils';
 
 export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
@@ -26,7 +26,9 @@ export default class ResourceConfigFilePlugin {
         }
 
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
-
+            if (!fileChanged(compiler, fullFilepath)) {
+                return;
+            }
             compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
                 try {
                     const content = await readFileAsync(compiler, fullFilepath);

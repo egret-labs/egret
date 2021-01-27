@@ -1,6 +1,7 @@
+import * as path from 'path';
 import * as webpack from 'webpack';
 import { createProject } from '../egretproject';
-import { readFileAsync } from '../loaders/utils';
+import { fileChanged, readFileAsync } from '../loaders/utils';
 
 export default class EgretPropertyPlugin {
 
@@ -13,9 +14,13 @@ export default class EgretPropertyPlugin {
 
         const pluginName = this.constructor.name;
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
-            compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
-                await execute(compiler, compilation, this.options.libraryType);
-            });
+            const fullFilepath = path.join(compiler.context, 'egretProperties.json');
+            compilation.fileDependencies.add(fullFilepath);
+            if (fileChanged(compiler, fullFilepath)) {
+                compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
+                    await execute(compiler, compilation, this.options.libraryType);
+                });
+            }
         });
     }
 }

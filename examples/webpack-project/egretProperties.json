@@ -5,17 +5,7 @@
   "target": {
     "current": "web"
   },
-  "modules": [
-    {
-      "name": "egret"
-    },
-    {
-      "name": "eui"
-    },
-    {
-      "name": "tween"
-    }
-  ],
+  "modules": [],
   "eui": {
     "exmlRoot": [
       "resource/skins",
