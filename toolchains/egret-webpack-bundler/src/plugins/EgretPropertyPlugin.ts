@@ -54,7 +54,7 @@ export default class EgretPropertyPlugin {
                     }
                     catch (e) {
                         const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                        compilation.errors.push({ file: 'egretProperties.json', message } as any);
+                        compilation.getErrors().push({ file: 'egretProperties.json', message } as any);
                     }
                 }
             }

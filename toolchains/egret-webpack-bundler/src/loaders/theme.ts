@@ -1,4 +1,5 @@
 import { EuiCompiler } from '@egret/eui-compiler';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as utils from './utils';
@@ -94,7 +95,9 @@ export default class ThemePlugin {
         // 监听文件目录
         compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
             dirs.forEach((item) => {
-                compilation.contextDependencies.add(item);
+                if (fs.existsSync(item)) {
+                    compilation.contextDependencies.add(item);
+                }
             });
         });
     }

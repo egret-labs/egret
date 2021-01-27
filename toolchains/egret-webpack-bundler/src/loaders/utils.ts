@@ -155,3 +155,15 @@ export function updateFileTimestamps(compiler: webpack.Compiler, filePath: strin
         compiler.fileTimestamps.set(filePath, +stat.mtime as any);
     }
 }
+
+export function readFileAsync(compiler: webpack.Compiler, filepath: string) {
+    return new Promise<Buffer>((resolve, reject) => {
+        compiler.inputFileSystem.readFile(filepath, (error, content) => {
+            if (error) {
+                reject(new Error(`文件访问异常:${filepath}`));
+            } else {
+                resolve(content as Buffer);
+            }
+        })
+    })
+}

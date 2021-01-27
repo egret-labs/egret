@@ -34,7 +34,7 @@
     "glob": "^7.1.6",
     "html-webpack-plugin": "5.0.0-beta.6",
     "source-map": "^0.6.1",
-    "ts-loader": "^7.0.2",
+    "ts-loader": "8.0.14",
     "typescript": "^3.8.3",
     "webpack": "5.17.0",
     "webpack-dev-middleware": "4.1.0",

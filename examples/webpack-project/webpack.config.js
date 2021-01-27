@@ -6,10 +6,10 @@ const config = bundler.generateConfig(__dirname, {
     exml: {
         watch: true
     },
-    // html: {
-    //     templateFilePath: "./templates/index.ejs"
-    // },
-    // parseEgretProperty: true,
+    html: {
+        templateFilePath: "./templates/index.ejs"
+    },
+    parseEgretProperty: true,
     // assets: [
     //     { file: "resource/default.res.json" }
     // ]
