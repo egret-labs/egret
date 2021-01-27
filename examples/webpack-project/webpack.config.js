@@ -3,9 +3,9 @@ const config = bundler.generateConfig(__dirname, {
     libraryType: "debug",
     defines: { DEBUG: true, RELEASE: false },
     typescript: { mode: 'modern' },
-    exml: {
-        watch: true
-    },
+    // exml: {
+    //     watch: true
+    // },
     html: {
         templateFilePath: "./templates/index.ejs"
     },
