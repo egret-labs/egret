@@ -1,6 +1,8 @@
 import * as texturemrger from '@egret/texture-merger-core';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { readFileAsync } from '../loaders/utils';
 import { walkDir } from '../utils';
 
 export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
@@ -13,53 +15,41 @@ export default class ResourceConfigFilePlugin {
 
     public apply(compiler: webpack.Compiler) {
 
-        (compiler.inputFileSystem as any).readFileAsync = function readFileAsync(filePath: string): Promise<Buffer> {
-            return new Promise((resolve, reject) => {
-                compiler.inputFileSystem.readFile(filePath, (error, content) => {
-                    if (error) {
-                        reject(new Error(`文件访问异常:${filePath}`));
-                    }
-                    else {
-                        resolve(content as Buffer);
-                    }
-                });
-            });
-        };
-
         const pluginName = this.constructor.name;
+
+        const bundleInfo = this.options[0];
+        const { file, executeBundle } = bundleInfo;
+        const fullFilepath = path.join(compiler.context, file);
+        const existed = fs.existsSync(fullFilepath);
+        if (!existed) {
+            throw new Error(fullFilepath + '不存在');
+        }
 
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
             compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
-
-                const bundleInfo = this.options[0];
-                const { file, executeBundle } = bundleInfo;
-                const fullFilepath = path.join(compiler.context, file);
-                compilation.fileDependencies.add(fullFilepath);
                 try {
-                    // eslint-disable-next-line space-unary-ops
-                    const content = await ((compiler.inputFileSystem as any).readFileAsync(fullFilepath));
+                    const content = await readFileAsync(compiler, fullFilepath);
+                    compilation.fileDependencies.add(fullFilepath);
                     const json = parseConfig(file, content.toString());
                     validConfig(json);
-
                     await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
-
                     if (executeBundle) {
-
-                        // for (const resource of json.resources) {
-                        //     const filepath = 'resource/' + resource.url;
-                        //     const assetFullPath = path.join(compiler.context, filepath);
-                        //     const assetbuffer = await compiler.inputFileSystem.readFileAsync(assetFullPath);
-                        //     updateAssets(assets, filepath, assetbuffer);
-                        // }
+                        for (const resource of json.resources) {
+                            const filepath = 'resource/' + resource.url;
+                            const assetFullPath = path.join(compiler.context, filepath);
+                            const assetbuffer = await readFileAsync(compiler, assetFullPath);
+                            compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
+                        }
                     }
                     const source = new webpack.sources.RawSource(content, false);
                     compilation.emitAsset(file, source);
-                    // updateAssets(assets, file, content);
                 }
                 catch (e) {
                     const message = `\t资源配置处理异常\n\t${e.message}`;
-                    compilation.errors.push({ file: file, message } as any);
+                    const webpackError = new webpack.WebpackError(message);
+                    webpackError.file = file;
+                    compilation.getErrors().push(webpackError);
                 }
             });
         });
@@ -69,8 +59,7 @@ export default class ResourceConfigFilePlugin {
 async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
     const entities = await getAllTextureMergerConfig(root);
     for (const entity of entities) {
-        // eslint-disable-next-line space-unary-ops
-        const content = await (compiler.inputFileSystem as any).readFileAsync(entity.path);
+        const content = readFileAsync(compiler, entity.path);
         const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
         json.root = path.dirname(path.relative(compiler.context, entity.path));
         json.outputName = 'output';
@@ -82,14 +71,6 @@ async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
 async function getAllTextureMergerConfig(root: string) {
     const entities = await walkDir(root);
     return entities.filter((e) => e.name === 'texture-merger.json');
-}
-
-function updateAssets(assets: any, filePath: string, content: string | Buffer) {
-
-    assets[filePath.split('\\').join('/')] = {
-        source: () => content,
-        size: () => ((typeof content === 'string') ? content.length : content.byteLength)
-    };
 }
 
 function parseConfig(filename: string, raw: string): ResourceConfigFile {
