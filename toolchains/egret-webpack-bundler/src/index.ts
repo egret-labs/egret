@@ -107,11 +107,10 @@ export class EgretWebpackBundler {
         const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
         (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
         webpackConfig.plugins?.push(
-            //TODO 
             // new webpack.optimize.OccurrenceOrderPlugin(false),
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoEmitOnErrorsPlugin()
         );
+        webpackConfig.optimization!.emitOnErrors = false;
 
         const compiler = webpack(webpackConfig);
         const compilerApp = express();

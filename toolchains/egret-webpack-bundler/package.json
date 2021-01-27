@@ -41,7 +41,7 @@
     "webpack-merge": "~4.2.2",
     "minimatch": "~3.0.4",
     "source-map-loader": "2.0.0",
-    "webpack-hot-middleware": "~2.25.0",
+    "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572",
     "@nodelib/fs.walk": "~1.2.6"
   },
   "author": "",
