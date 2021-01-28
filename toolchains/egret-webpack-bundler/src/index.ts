@@ -5,7 +5,6 @@ import * as ts from 'typescript';
 import webpack from 'webpack';
 import { getLibsFileList } from './egretproject';
 import { Target_Type } from './egretproject/data';
-import { Factory } from './loaders/src-loader/Factory';
 import SrcLoaderPlugin from './loaders/src-loader/Plugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
@@ -333,23 +332,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         rules.push(typescriptLoaderRule);
     }
     else {
-        const factory = new Factory({ context: config.context! });
-        const srcLoaderRule: webpack.RuleSetRule = {
-            test: /\.tsx?$/,
-            include: path.join(config.context!, 'src'),
-            loader: require.resolve('./loaders/src-loader'),
-            options: {
-                factory
-            }
-        };
-        rules.push(srcLoaderRule);
-
-        plugins.push(new SrcLoaderPlugin({
-            onThisCompilation: (c) => {
-                factory.fs = c.compiler.inputFileSystem as any;
-                factory.update()
-            }
-        }));
+        plugins.push(new SrcLoaderPlugin());
         rules.push(typescriptLoaderRule);
     }
     if (needSourceMap) {

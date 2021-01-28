@@ -1,12 +1,6 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
-
-declare module 'webpack' {
-
-    export interface Compilation {
-        cache: any
-    }
-}
+import { Factory } from './Factory';
 
 function getNormalModuleLoader(compilation: webpack.Compilation) {
     let normalModuleLoader;
@@ -22,24 +16,41 @@ function getNormalModuleLoader(compilation: webpack.Compilation) {
     return normalModuleLoader;
 }
 
-interface SrcLoaderPluginOptions {
-    onThisCompilation: ((compilation: webpack.Compilation) => void)
-}
 
 export default class SrcLoaderPlugin {
 
-    options: SrcLoaderPluginOptions;
-
-    constructor(options: SrcLoaderPluginOptions) {
-        this.options = options;
-    }
-
+    private isFirst = true;
 
     public apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
+        const factory = new Factory({ context: compiler.context });
+
+        const beforeRun = () => {
+            if (!this.isFirst) {
+                return;
+            }
+            this.isFirst = false;
+            const srcLoaderRule: webpack.RuleSetRule = {
+                test: /Main\.ts/,
+                loader: require.resolve('./index'),
+                options: {
+                    factory
+                }
+            };
+            factory.fs = compiler.inputFileSystem as any;
+            compiler.options.module?.rules.unshift(srcLoaderRule);
+        }
+
+
+        compiler.hooks.beforeRun.tap(pluginName, beforeRun);
+        compiler.hooks.watchRun.tap(pluginName, beforeRun);
+
         const dirs = ['src'].map((dir) => path.join(compiler.context, dir));
 
+
+
         let main: webpack.NormalModule;
+
 
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
             getNormalModuleLoader(compilation).tap(pluginName, (loaderContext: any, m: webpack.NormalModule) => {
@@ -47,7 +58,7 @@ export default class SrcLoaderPlugin {
                     main = m;
                 }
             });
-            this.options.onThisCompilation(compilation);
+            factory.update();
             compilation.rebuildModule(main, () => {
 
             });
