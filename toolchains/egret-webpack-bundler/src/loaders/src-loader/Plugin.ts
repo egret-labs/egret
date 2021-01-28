@@ -24,57 +24,36 @@ function getNormalModuleLoader(compilation: webpack.Compilation) {
 }
 
 interface SrcLoaderPluginOptions {
-    dirs?: string[];
-}
-
-export interface SrcLoaderContext {
-    factory: Factory;
+    dirs: string[];
 }
 
 export default class SrcLoaderPlugin {
     options: SrcLoaderPluginOptions;
-    constructor(options: SrcLoaderPluginOptions = {}) {
+    constructor() {
         this.options = {
             dirs: ['src'],
-            ...options
         };
     }
 
-    private nsLoaderContext: SrcLoaderContext = null as any;
     private dirs: string[] = [];
+
+    private factory!: Factory;
 
     public apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
-        this.nsLoaderContext = {
-            factory: null as any
-        };
-        this.dirs = (this.options.dirs || []).map((dir) => path.join(compiler.context, dir));
+        this.dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
 
-        const beforeRun = (_compiler: any, callback: any) => {
-            if (!this.nsLoaderContext.factory) {
-                this.nsLoaderContext.factory = new Factory({
+        const beforeRun = (compiler: webpack.Compiler) => {
+            if (!this.factory) {
+                this.factory = new Factory({
                     context: compiler.context,
                     fs: compiler.inputFileSystem as any
                 });
             }
-
-
-            callback();
         };
 
-        compiler.hooks.watchRun.tapAsync(pluginName, beforeRun);
-        compiler.hooks.beforeRun.tapAsync(pluginName, beforeRun);
-
-        // 接收thm信息
-        // compiler.hooks.themePluginResult.tap(pluginName, ({ skins, deps }) => {
-        // this.nsLoaderContext.skins = skins;
-        // addDeps(deps);
-        // });
-
-        // 接收res信息
-        // compiler.hooks.resourcePluginResult.tap(pluginName, ({ deps }) => {
-        // addDeps(deps);
-        // });
+        compiler.hooks.watchRun.tap(pluginName, beforeRun);
+        compiler.hooks.beforeRun.tap(pluginName, beforeRun);
 
         let main: webpack.NormalModule;
 
@@ -83,14 +62,13 @@ export default class SrcLoaderPlugin {
 
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
-            // 注入nsLoaderContext
             getNormalModuleLoader(compilation).tap(pluginName, (loaderContext: any, m: webpack.NormalModule) => {
-                (loaderContext as any)['src-loader'] = this.nsLoaderContext;
+                (loaderContext as any)['factory'] = this.factory;
                 if (m.resource.indexOf("Main.ts") >= 0) {
                     main = m;
                 }
             });
-            this.nsLoaderContext.factory.update();
+            this.factory.update();
             compilation.rebuildModule(main, () => {
 
             });

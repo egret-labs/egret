@@ -55,9 +55,6 @@ export default class ThemePlugin {
             try {
                 const euiCompiler = new EuiCompiler(compiler.context, 'debug');
                 const result = euiCompiler.emit();
-
-                // eslint-disable-next-line global-require
-                const fs = require('fs');
                 const filename = path.join(this.compiler.context, result[0].filename);
                 const content = result[0].content;
 

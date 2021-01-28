@@ -1,17 +1,18 @@
 import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map';
 import { CustomLoader, LoaderContext } from '../typings';
 import * as utils from '../utils';
-import SrcLoaderPlugn, { SrcLoaderContext } from './Plugin';
+import Factory from './Factory';
+import SrcLoaderPlugn from './Plugin';
 
 const srcLoader: CustomLoader = function (input, upstreamSourceMap) {
     const callback = this.async();
     const compiler = this._compiler;
-    const ns: SrcLoaderContext = (this as any)['src-loader'];
+    const factory: Factory = (this as any)['factory'];
     const isEntry = utils.isEntry(compiler, this.resourcePath);
     let dependencies: string[] = [];
     if (isEntry) {
         // 导入未模块化的全部文件
-        dependencies = dependencies.concat(ns.factory.sortUnmodules());
+        dependencies = dependencies.concat(factory.sortUnmodules());
     } else {
         // 只处理入口文件
         return callback(null, input, upstreamSourceMap);
