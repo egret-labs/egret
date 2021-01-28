@@ -2,6 +2,18 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.0.2",
+      "tag": "@egret/egret-webpack-bundler_v2.0.2",
+      "date": "Thu, 28 Jan 2021 04:53:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "none"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.1",
       "tag": "@egret/egret-webpack-bundler_v2.0.1",
       "date": "Thu, 28 Jan 2021 04:01:08 GMT",
