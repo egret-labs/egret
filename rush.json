@@ -424,14 +424,12 @@
     {
       "packageName": "@egret/assetsmanager",
       "projectFolder": "packages/assetsmanager",
-      "reviewCategory": "production",
-      "shouldPublish": true
+      "reviewCategory": "production"
     },
     {
       "packageName": "@egret/audio",
       "projectFolder": "packages/audio",
-      "reviewCategory": "production",
-      "shouldPublish": true
+      "reviewCategory": "production"
     },
     {
       "packageName": "@egret/example-webpack-project",
