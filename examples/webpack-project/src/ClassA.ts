@@ -1,5 +1,4 @@
-class A extends B {
+class A {
 
 }
-
 console.log("A")

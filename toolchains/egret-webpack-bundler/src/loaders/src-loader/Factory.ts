@@ -33,7 +33,6 @@ export default class Factory {
     }
 
     public update() {
-
         const files = getFilesFromTypesciptCompiler(this.options.context).filter((item) => !item.endsWith('.d.ts'));
         // let files: string[] = [];
         // [path.join(this.options.context, 'src')].forEach(dir => {
@@ -44,7 +43,6 @@ export default class Factory {
         // 	});
         // 	files = files.concat(items);
         // }).filter(item => !item.endsWith('.d.ts'));
-
         for (const item of files) {
             this.add(item);
         }
@@ -77,17 +75,16 @@ export default class Factory {
 
     private add(fileName: string) {
         const fs = this.options.fs;
-        const mtime = +fs.statSync(fileName).mtime;
-
+        const mtime = +fs.statSync(path.join(fileName)).mtime;
         const { files } = this;
 
-        if (files[fileName] && files[fileName].mtime === mtime) {
+        const oldmtime = files[fileName] ? files[fileName].mtime : -1;
+        if (oldmtime === mtime) {
             return;
         }
-
         this.remove(fileName);
 
-        const content = fs.readFileSync(fileName).toString();
+        const content = fs.readFileSync(path.join(fileName)).toString();
 
         const { defines, dependencies, isModule } = parse(fileName, content);
 

@@ -1,3 +1,4 @@
+import * as webpack from 'webpack';
 export type CustomLoader = (this: LoaderContext, content: string, sourcemap?: any) => void;
 
 export type LoaderContext = {
@@ -17,5 +18,7 @@ export type LoaderContext = {
     sourceMap: boolean
 
     _compiler: import('webpack').Compiler
+
+    _module: webpack.Module;
 
 }

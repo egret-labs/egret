@@ -1,7 +1,5 @@
-import * as crypto from 'crypto';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import * as utils from '../utils';
 import Factory from './Factory';
 
 declare module 'webpack' {
@@ -16,8 +14,8 @@ function getNormalModuleLoader(compilation: webpack.Compilation) {
     // if (Object.isFrozen(compilation.hooks)) {
     //     // webpack 5
     //     // eslint-disable-next-line global-require
-    //     normalModuleLoader = require('webpack/lib/NormalModule')
-    //         .getCompilationHooks(compilation).loader;
+    // normalModuleLoader = require('webpack/lib/NormalModule')
+    //     .getCompilationHooks(compilation).loader;
     // } else {
     //     normalModuleLoader = compilation.hooks.normalModuleLoader;
     // }
@@ -44,7 +42,6 @@ export default class SrcLoaderPlugin {
 
     private nsLoaderContext: SrcLoaderContext = null as any;
     private dirs: string[] = [];
-    private listHash: string = '';
 
     public apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
@@ -61,7 +58,6 @@ export default class SrcLoaderPlugin {
                 });
             }
 
-            this.nsLoaderContext.factory.update();
 
             callback();
         };
@@ -80,28 +76,24 @@ export default class SrcLoaderPlugin {
         // addDeps(deps);
         // });
 
+        let main: webpack.NormalModule;
+
+
+
+
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+
             // 注入nsLoaderContext
-            getNormalModuleLoader(compilation).tap(pluginName, (loaderContext: any) => {
-                loaderContext['src-loader'] = this.nsLoaderContext;
+            getNormalModuleLoader(compilation).tap(pluginName, (loaderContext: any, m: webpack.NormalModule) => {
+                (loaderContext as any)['src-loader'] = this.nsLoaderContext;
+                if (m.resource.indexOf("Main.ts") >= 0) {
+                    main = m;
+                }
             });
-            return;
-            // 文件列表改变时重新编译entry
-            const { factory } = this.nsLoaderContext;
-            const listHash = crypto.createHash('md5')
-                .update(factory.sortUnmodules().join(','))
-                .digest('hex');
-            if (listHash !== this.listHash && compilation.cache) {
-                this.listHash = listHash;
-                Object.keys(compilation.cache).forEach((id) => {
-                    const filePath = id.replace(/^.*!/, '');
-                    const cacheModule = compilation.cache[id];
-                    if (utils.isEntry(compiler, filePath) && cacheModule) {
-                        // 删除缓存
-                        delete compilation.cache[id];
-                    }
-                });
-            }
+            this.nsLoaderContext.factory.update();
+            compilation.rebuildModule(main, () => {
+
+            });
         });
 
         // 监听文件目录
