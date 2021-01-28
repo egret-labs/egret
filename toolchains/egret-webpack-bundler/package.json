@@ -1,6 +1,6 @@
 {
   "name": "@egret/egret-webpack-bundler",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "bin": {
     "egret-compiler": "./bin/cli.js"
