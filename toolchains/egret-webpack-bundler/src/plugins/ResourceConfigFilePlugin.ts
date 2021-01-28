@@ -24,7 +24,6 @@ export default class ResourceConfigFilePlugin {
         if (!existed) {
             throw new Error(fullFilepath + '不存在');
         }
-
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
             if (!fileChanged(compiler, fullFilepath)) {
                 return;
