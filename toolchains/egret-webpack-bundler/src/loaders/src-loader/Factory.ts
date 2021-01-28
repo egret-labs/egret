@@ -1,13 +1,11 @@
-import * as _fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 import parse, { Defines, Dependencies } from './parse';
 interface FactoryOptions {
     context: string,
-    fs: typeof import('fs')
 }
 
-export default class Factory {
+export class Factory {
 
     public files: {
         [name: string]: {
@@ -22,8 +20,9 @@ export default class Factory {
         [name: string]: Set<string>;
     };
 
+    fs!: typeof import('fs');
+
     constructor(private options: FactoryOptions) {
-        options.fs = options.fs || _fs;
         this.files = {}; // 文件分析缓存
         this.identifiers = {}; // 全部全局变量分布
     }
@@ -65,7 +64,7 @@ export default class Factory {
     }
 
     private add(fileName: string) {
-        const fs = this.options.fs;
+        const fs = this.fs;
         const mtime = +fs.statSync(path.join(fileName)).mtime;
         const { files } = this;
 

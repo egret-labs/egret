@@ -1,13 +1,14 @@
 import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map';
 import { CustomLoader, LoaderContext } from '../typings';
 import * as utils from '../utils';
-import Factory from './Factory';
-import SrcLoaderPlugn from './Plugin';
+import { Factory } from './Factory';
 
 const srcLoader: CustomLoader = function (input, upstreamSourceMap) {
     const callback = this.async();
     const compiler = this._compiler;
-    const factory: Factory = (this as any)['factory'];
+    const currentLoader = this.loaders[this.loaderIndex];
+    const options = currentLoader.options;
+    const factory: Factory = options.factory;
     const isEntry = utils.isEntry(compiler, this.resourcePath);
     let dependencies: string[] = [];
     if (isEntry) {
@@ -140,6 +141,3 @@ function injectLines(
 }
 
 export default srcLoader;
-export {
-    SrcLoaderPlugn
-};

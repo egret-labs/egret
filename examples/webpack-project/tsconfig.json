@@ -11,6 +11,8 @@
     },
     "include": [
         "src/Main.ts",
+        "src/classA.ts",
+        "src/classB.ts",
         "src/i18n/cn/*",
         "libs",
     ]
