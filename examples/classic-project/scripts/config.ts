@@ -31,9 +31,9 @@ const config: ResourceManagerConfig = {
                     new WebpackDevServerPlugin({ //新的 Webpack 编译器
                         libraryType: "debug",
                         defines: { DEBUG: true, RELEASE: false },
-                        typescript: { mode: 'legacy'},
-                        html:{
-                            templateFilePath:"template/web/index.html"
+                        typescript: { mode: 'legacy' },
+                        html: {
+                            templateFilePath: "template/web/index.html"
                         },
                         open: true
                     }),
@@ -50,17 +50,17 @@ const config: ResourceManagerConfig = {
                     new WebpackBundlePlugin({ //新的 Webpack 编译器
                         libraryType: "release",
                         defines: { DEBUG: false, RELEASE: true },
-                        typescript: { mode: 'legacy'},
-                        html:{
-                            templateFilePath:"template/web/index.html"
+                        typescript: { mode: 'legacy' },
+                        html: {
+                            templateFilePath: "template/web/index.html"
                         },
                     }),
                     new ExmlPlugin('commonjs'), // 非 EUI 项目关闭此设置
                     // new EuiCompilerPlugin(),//新的 eui 编译器
-                    new UglifyPlugin([{
-                        sources: ["main.js"],
-                        target: "main.min.js"
-                    }]),
+                    // new UglifyPlugin([{
+                    //     sources: ["main.js"],
+                    //     target: "main.min.js"
+                    // }]),
                     new RenamePlugin({
                         verbose: true, hash: 'crc32', matchers: [
                             { from: "**/*.js", to: "[path][name]_[hash].[ext]" }

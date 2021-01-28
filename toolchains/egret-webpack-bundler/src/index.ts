@@ -133,7 +133,6 @@ export class EgretWebpackBundler {
         return new Promise((resolve, reject) => {
             const scripts = getLibsFileList(this.target as Target_Type, this.projectRoot, options.libraryType);
             const webpackConfig = generateConfig(this.projectRoot, options, this.target, false);
-
             const handler: Parameters<webpack.Compiler['run']>[0] = (error, status) => {
                 if (error) {
 
@@ -147,10 +146,41 @@ export class EgretWebpackBundler {
 
             if (this.emitter) {
 
+                compiler.options.output.compareBeforeEmit = false;
+                compiler.outputFileSystem = {
+
+                    writeFile: (
+                        filepath: string,
+                        content: string | Buffer,
+                        callback: (err?: NodeJS.ErrnoException) => void
+                    ) => {
+                        console.log(filepath)
+                        const relativePath = path.relative(webpackConfig.output?.path!, filepath).split('\\').join('/');
+                        this.emitter!(relativePath, content as Buffer);
+                        callback();
+                    },
+                    mkdir: (dirpath: string, callback: (arg0?: NodeJS.ErrnoException) => void) => {
+                        callback();
+                    },
+                    stat: (
+                        filepath: string,
+                        callback: (err?: NodeJS.ErrnoException, stats?: any) => void
+                    ) => {
+                        callback();
+                    },
+                    readFile: (
+                        filepath: string,
+                        callback: (err?: NodeJS.ErrnoException, content?: string | Buffer) => void
+                    ) => {
+                        console.log('xxxx')
+                    },
+                }
+
                 for (const script of scripts) {
                     const content = fs.readFileSync(path.join(this.projectRoot, script));
                     this.emitter(script, content);
                 }
+
 
                 // compiler.outputFileSystem = {
 

@@ -10,7 +10,8 @@
         "types": []
     },
     "include": [
-        "src",
-        "libs"
+        "src/Main.ts",
+        "src/i18n/cn/*",
+        "libs",
     ]
 }
