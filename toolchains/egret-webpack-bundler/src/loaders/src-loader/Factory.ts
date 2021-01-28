@@ -34,15 +34,6 @@ export default class Factory {
 
     public update() {
         const files = getFilesFromTypesciptCompiler(this.options.context).filter((item) => !item.endsWith('.d.ts'));
-        // let files: string[] = [];
-        // [path.join(this.options.context, 'src')].forEach(dir => {
-        // 	const items = glob.sync('**/*.ts', {
-        // 		cwd: dir,
-        // 	}).map(item => {
-        // 		return path.join(dir, item)
-        // 	});
-        // 	files = files.concat(items);
-        // }).filter(item => !item.endsWith('.d.ts'));
         for (const item of files) {
             this.add(item);
         }
