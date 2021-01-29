@@ -2,7 +2,7 @@ const bundler = require('@egret/egret-webpack-bundler');
 const config = bundler.generateConfig(__dirname, {
     libraryType: "debug",
     defines: { DEBUG: true, RELEASE: false, version: 1111 },
-    typescript: { mode: 'legacy' },
+    typescript: { mode: 'modern' },
     exml: {
         watch: true
     },

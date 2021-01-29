@@ -16,8 +16,7 @@
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
-		"resource/skins/TestSkin.exml",
-		"resource/skins/TestSkin1.exml"
+		"resource/skins/TestSkin.exml"
 	],
 	"path": "resource/default.thm.json"
 }

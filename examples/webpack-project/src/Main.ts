@@ -1,3 +1,5 @@
+declare var eui: any;
+
 class Main {
 
     constructor() {
