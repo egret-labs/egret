@@ -1,38 +1,35 @@
 import { RawSourceMap, SourceMapConsumer, SourceMapGenerator } from 'source-map';
 import { CustomLoader, LoaderContext } from '../typings';
 import * as utils from '../utils';
-import { Factory } from './Factory';
+
+export interface LineEmitter {
+
+    emitLines(): string[];
+}
 
 const srcLoader: CustomLoader = function (input, upstreamSourceMap) {
     const callback = this.async();
     const compiler = this._compiler;
     const currentLoader = this.loaders[this.loaderIndex];
     const options = currentLoader.options;
-    const factory: Factory = options.factory;
+    const emitters: LineEmitter[] = options.lineEmitters;
     const isEntry = utils.isEntry(compiler, this.resourcePath);
     let dependencies: string[] = [];
     if (isEntry) {
-        // 导入未模块化的全部文件
-        dependencies = dependencies.concat(factory.sortUnmodules());
+        for (let emitter of emitters) {
+            dependencies = dependencies.concat(emitter.emitLines());
+        }
     } else {
-        // 只处理入口文件
+        console.error('异常处理src-loader', this.resourcePath);
         return callback(null, input, upstreamSourceMap);
     }
-
-    const dependenciesRequires: string[] = [];
-    dependencies.forEach((fileName) => {
-        if (fileName !== this.resourcePath) {
-            const relative = utils.relative(this.resourcePath, fileName);
-            dependenciesRequires.push(`require('${relative}');`);
-        }
-    });
 
     const { output, sourceMap } = injectLines(
         input.toString(),
         upstreamSourceMap,
         this,
         [
-            ...dependenciesRequires // require语句
+            ...dependencies // require语句
         ],
         []
     );

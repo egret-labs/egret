@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { LineEmitter } from '.';
+import * as utils from '../utils';
 import { Factory } from './Factory';
 
 function getNormalModuleLoader(compilation: webpack.Compilation) {
@@ -25,6 +27,23 @@ export default class SrcLoaderPlugin {
         const pluginName = this.constructor.name;
         const factory = new Factory({ context: compiler.context });
 
+        const emitter: LineEmitter = {
+
+            emitLines: () => {
+                const d = factory.sortUnmodules();
+
+                const dependenciesRequires: string[] = [];
+                d.forEach((fileName) => {
+                    const resourcePath = path.join(compiler.context, "src/Main.ts");
+                    if (fileName !== resourcePath) {
+                        const relative = utils.relative(resourcePath, fileName);
+                        dependenciesRequires.push(`require('${relative}');`);
+                    }
+                });
+                return dependenciesRequires;
+            }
+        }
+
         const beforeRun = () => {
             if (!this.isFirst) {
                 return;
@@ -34,7 +53,8 @@ export default class SrcLoaderPlugin {
                 test: /Main\.ts/,
                 loader: require.resolve('./index'),
                 options: {
-                    factory
+                    factory,
+                    lineEmitters: [emitter]
                 }
             };
             factory.fs = compiler.inputFileSystem as any;
