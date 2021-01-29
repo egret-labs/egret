@@ -23,29 +23,31 @@ export default class ThemePlugin extends AbstractInlinePlugin {
     }
 
     createLineEmitter(compiler: webpack.Compiler) {
-        const euiCompiler = new EuiCompiler(compiler.context);
-        const theme = euiCompiler.getThemes()[0];
-        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
-        if (!theme.data.autoGenerateExmlsList) {
-            this.addFileDependency(path.join(compiler.context, theme.filePath));
-        }
-        for (let dir of dirs) {
-            this.addContextDependency(dir);
-        }
 
-        const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
-        const themeJsContent = [
-            `window.skins = window.skins || {};`,
-            `window.generateEUI = window.generateEUI || {`,
-            `   paths: {},styles: undefined,`,
-            `   skins: ${JSON.stringify(theme.data.skins, null)},`,
-            `};`,
-
-        ].concat(requires).concat([
-            `module.exports = window.generateEUI;`
-        ]);
         return {
             emitLines: () => {
+                const euiCompiler = new EuiCompiler(compiler.context);
+                const theme = euiCompiler.getThemes()[0];
+                const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
+                if (!theme.data.autoGenerateExmlsList) {
+                    this.addFileDependency(path.join(compiler.context, theme.filePath));
+                }
+                for (let dir of dirs) {
+                    this.addContextDependency(dir);
+                }
+
+
+                const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
+                const themeJsContent = [
+                    `window.skins = window.skins || {};`,
+                    `window.generateEUI = window.generateEUI || {`,
+                    `   paths: {},styles: undefined,`,
+                    `   skins: ${JSON.stringify(theme.data.skins, null)},`,
+                    `};`,
+
+                ].concat(requires).concat([
+                    `module.exports = window.generateEUI;`
+                ]);
                 return themeJsContent
             }
         } as LineEmitter
