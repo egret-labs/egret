@@ -38,6 +38,10 @@ export abstract class AbstractInlinePlugin {
         this.contextDependencies.push(dir);
     }
 
+    protected get entryFilePath() {
+        return 'src/Main.ts';
+    }
+
     apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
         const factory = new Factory({ context: compiler.context });
@@ -50,7 +54,9 @@ export abstract class AbstractInlinePlugin {
             }
             this.isFirst = false;
             const srcLoaderRule: webpack.RuleSetRule = {
-                test: /Main\.ts/,
+                test: (value: string) => {
+                    return value.split("\\").join("/").indexOf(this.entryFilePath) >= 0
+                },
                 loader: require.resolve('../inline-loader'),
                 options: {
                     factory,

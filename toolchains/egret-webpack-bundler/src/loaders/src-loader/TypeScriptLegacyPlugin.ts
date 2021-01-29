@@ -20,7 +20,7 @@ export class TypeScriptLegacyPlugin extends AbstractInlinePlugin {
                 const d = this.factory.sortUnmodules();
                 const dependenciesRequires: string[] = [];
                 d.forEach((fileName) => {
-                    const resourcePath = path.join(compiler.context, "src/Main.ts");
+                    const resourcePath = path.join(compiler.context, this.entryFilePath);
                     if (fileName !== resourcePath) {
                         const relative = utils.relative(resourcePath, fileName);
                         dependenciesRequires.push(`require('${relative}');`);
