@@ -5,7 +5,7 @@ import * as ts from 'typescript';
 import webpack from 'webpack';
 import { getLibsFileList } from './egretproject';
 import { Target_Type } from './egretproject/data';
-import SrcLoaderPlugin from './loaders/src-loader/Plugin';
+import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
@@ -332,7 +332,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         rules.push(typescriptLoaderRule);
     }
     else {
-        plugins.push(new SrcLoaderPlugin());
+        plugins.push(new TypeScriptLegacyPlugin());
         rules.push(typescriptLoaderRule);
     }
     if (needSourceMap) {
