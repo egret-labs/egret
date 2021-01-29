@@ -25,12 +25,13 @@ export default class ThemePlugin extends AbstractInlinePlugin {
     createLineEmitter(compiler: webpack.Compiler) {
         const euiCompiler = new EuiCompiler(compiler.context);
         const theme = euiCompiler.getThemes()[0];
-        const outputFilename = theme.filePath.replace('.thm.json', '.thm.js');
-        const thmJSPath = path.join(compiler.context, outputFilename);
-        utils.addWatchIgnore(compiler, thmJSPath);
+        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
+        this.addFileDependency(path.join(compiler.context, theme.filePath));
+        for (let dir of dirs) {
+            this.addContextDependency(dir);
+        }
 
         const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
-
         const themeJsContent = [
             `window.skins = window.skins || {};`,
             `window.generateEUI = window.generateEUI || {`,
@@ -48,12 +49,8 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         } as LineEmitter
     }
 
-    private errors!: any[];
-
     onChange(compilation: webpack.Compilation) {
         const compiler = compilation.compiler;
-        console.log(compiler.modifiedFiles)
-
         const euiCompiler = new EuiCompiler(compiler.context, 'debug');
 
         const theme = euiCompiler.getThemes()[0];
@@ -65,29 +62,6 @@ export default class ThemePlugin extends AbstractInlinePlugin {
             fs.writeFileSync(filename, content, 'utf-8');
         }
 
-    }
-    public apply(compiler: webpack.Compiler) {
-
-        this.errors = [];
-        super.apply(compiler);
-
-        const pluginName = this.constructor.name;
-
-        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
-
-        // 监听文件目录
-        compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
-            dirs.forEach((item) => {
-                if (fs.existsSync(item)) {
-                    compilation.contextDependencies.add(item);
-                }
-            });
-            const euiCompiler = new EuiCompiler(compiler.context);
-            const theme = euiCompiler.getThemes()[0];
-
-
-            compilation.fileDependencies.add(path.join(compiler.context, theme.filePath));
-        });
     }
 }
 

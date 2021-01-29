@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as webpack from 'webpack';
 import { LineEmitter } from '.';
 import { Factory } from '../src-loader/Factory';
@@ -86,12 +87,15 @@ export abstract class AbstractInlinePlugin {
 
 
         });
-
         // 监听文件目录
         compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
             this.contextDependencies.forEach((item) => {
-                compilation.contextDependencies.add(item);
+                if (fs.existsSync(item)) {
+                    compilation.contextDependencies.add(item);
+                }
+
             });
+            this.fileDependencies.forEach(item => compilation.fileDependencies.add(item));
         });
     }
 }
