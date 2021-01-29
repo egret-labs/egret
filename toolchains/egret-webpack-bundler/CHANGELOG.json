@@ -2,6 +2,18 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.0.3",
+      "tag": "@egret/egret-webpack-bundler_v2.0.3",
+      "date": "Fri, 29 Jan 2021 06:03:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "改善 exml-loader 和 typescript-legacy 模式的增量编译触发逻辑"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.2",
       "tag": "@egret/egret-webpack-bundler_v2.0.2",
       "date": "Thu, 28 Jan 2021 04:53:08 GMT",

@@ -3,14 +3,16 @@ import { AbstractAudioInstance } from './AbstractAudioInstance';
 
 export class WebAudioInstance extends AbstractAudioInstance {
 
-    // private gainNode: GainNode;
+    private gainNode: GainNode;
     private source: AudioBufferSourceNode;
     constructor(buffer: AudioBuffer) {
         super();
-        // this.gainNode = context.createGain();
-        const source = AudioManager.context.createBufferSource();
+        const context = AudioManager.context;
+        this.gainNode = context.createGain();
+        const source = context.createBufferSource();
         source.buffer = buffer;
-        source.connect(AudioManager.context.destination);
+        source.connect(this.gainNode);
+        this.gainNode.connect(context.destination);
         this.source = source;
 
     }
@@ -20,7 +22,7 @@ export class WebAudioInstance extends AbstractAudioInstance {
     }
 
     mute(value: boolean) {
-
+        this.gainNode.gain.value = value ? 1 : 0;
     }
 
     loop(value: boolean) {

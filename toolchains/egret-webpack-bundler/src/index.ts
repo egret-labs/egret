@@ -5,7 +5,7 @@ import * as ts from 'typescript';
 import webpack from 'webpack';
 import { getLibsFileList } from './egretproject';
 import { Target_Type } from './egretproject/data';
-import SrcLoaderPlugin from './loaders/src-loader/Plugin';
+import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
 import { openUrl } from './open';
@@ -172,7 +172,7 @@ export class EgretWebpackBundler {
                         filepath: string,
                         callback: (err?: NodeJS.ErrnoException, content?: string | Buffer) => void
                     ) => {
-                        console.log('xxxx')
+
                     },
                 }
 
@@ -181,31 +181,6 @@ export class EgretWebpackBundler {
                     this.emitter(script, content);
                 }
 
-
-                // compiler.outputFileSystem = {
-
-                //     mkdir: (path: string, callback: (err: Error | undefined) => void) => {
-                //         callback(undefined);
-                //     },
-                //     mkdirp: (path: string, callback: (err: Error | undefined) => void) => {
-                //         callback(undefined);
-                //     },
-
-                //     rmdir: (path: string, callback: (err: Error | undefined) => void) => {
-                //         callback(undefined);
-                //     },
-
-                //     unlink: (path: string, callback: (err: Error | undefined) => void) => {
-                //         callback(undefined);
-                //     },
-                //     join: path.join,
-
-                //     writeFile: (p: string, data: any, callback: (err: Error | undefined) => void) => {
-                //         const relativePath = path.relative(webpackConfig.output?.path!, p).split('\\').join('/');
-                //         this.emitter!(relativePath, data);
-                //         callback(undefined);
-                //     }
-                // };
             }
             compiler.run(handler);
         });
@@ -316,11 +291,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
     const rules = config.module!.rules!;
     const plugins = config.plugins!;
 
-    const srcLoaderRule: webpack.RuleSetRule = {
-        test: /\.tsx?$/,
-        include: path.join(config.context!, 'src'),
-        loader: require.resolve('./loaders/src-loader')
-    };
+
 
     const typescriptLoaderRule: webpack.RuleSetRule = {
         test: /\.tsx?$/,
@@ -361,8 +332,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
         rules.push(typescriptLoaderRule);
     }
     else {
-        rules.push(srcLoaderRule);
-        plugins.push(new SrcLoaderPlugin());
+        plugins.push(new TypeScriptLegacyPlugin());
         rules.push(typescriptLoaderRule);
     }
     if (needSourceMap) {

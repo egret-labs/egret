@@ -10,7 +10,10 @@ export class HTMLAudioInstance extends AbstractAudioInstance {
     }
 
     play() {
-        this.audio.play();
+        const audio = this.audio;
+        audio.volume = 1;
+        audio.currentTime = 0;
+        audio.play();
     }
 
     stop() {

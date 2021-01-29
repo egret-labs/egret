@@ -1,6 +1,5 @@
 import * as eui from '@egret/eui-compiler';
 import * as path from 'path';
-import * as webpack from 'webpack';
 import { CustomLoader } from './typings';
 //     let code = `${STATIC}
 //       module.exports = ${result.code};
