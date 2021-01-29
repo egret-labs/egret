@@ -1,6 +1,7 @@
 import * as webpack from 'webpack';
 import { LineEmitter } from '.';
 import { Factory } from '../src-loader/Factory';
+import { fileChanged } from '../utils';
 
 function getNormalModuleLoader(compilation: webpack.Compilation) {
     let normalModuleLoader;
@@ -22,9 +23,21 @@ export abstract class AbstractInlinePlugin {
 
     protected abstract createLineEmitter(compiler: webpack.Compiler): LineEmitter;
 
-    protected abstract onThisCompilation(compilation: webpack.Compilation): void;
+    protected abstract onChange(compilation: webpack.Compilation): void;
 
-    public apply(compiler: webpack.Compiler) {
+    private fileDependencies: string[] = [];
+    private contextDependencies: string[] = [];
+
+
+    addFileDependency(filepath: string) {
+        this.fileDependencies.push(filepath);
+    }
+
+    addContextDependency(dir: string) {
+        this.contextDependencies.push(dir);
+    }
+
+    apply(compiler: webpack.Compiler) {
         const pluginName = this.constructor.name;
         const factory = new Factory({ context: compiler.context });
 
@@ -62,8 +75,22 @@ export abstract class AbstractInlinePlugin {
                     }
                 }
             });
-            this.onThisCompilation(compilation);
-            compilation.rebuildModule(main, () => {
+            const changed = this.contextDependencies.concat(this.fileDependencies).some((v) => {
+                return fileChanged(compiler, v);
+            });
+            if (changed) {
+                this.onChange(compilation);
+                compilation.rebuildModule(main, () => {
+                });
+            }
+
+
+        });
+
+        // 监听文件目录
+        compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
+            this.contextDependencies.forEach((item) => {
+                compilation.contextDependencies.add(item);
             });
         });
     }

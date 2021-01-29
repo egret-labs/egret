@@ -12,7 +12,7 @@ export class TypeScriptLegacyPlugin extends AbstractInlinePlugin {
     private factory!: Factory;
 
     createLineEmitter(compiler: webpack.Compiler) {
-
+        this.addContextDependency(path.join(compiler.context, 'src'));
         this.factory = new Factory({ context: compiler.context });
 
         const emitter: LineEmitter = {
@@ -32,22 +32,8 @@ export class TypeScriptLegacyPlugin extends AbstractInlinePlugin {
         return emitter;
     }
 
-    onThisCompilation(compilation: webpack.Compilation) {
+    onChange(compilation: webpack.Compilation) {
         this.factory.fs = compilation.compiler.inputFileSystem as any;
         this.factory.update();
-    }
-
-    public apply(compiler: webpack.Compiler) {
-        super.apply(compiler);
-
-        const pluginName = this.constructor.name;
-        const dirs = ['src'].map((dir) => path.join(compiler.context, dir));
-
-        // 监听文件目录
-        compiler.hooks.afterCompile.tap(pluginName, (compilation) => {
-            dirs.forEach((item) => {
-                compilation.contextDependencies.add(item);
-            });
-        });
     }
 }

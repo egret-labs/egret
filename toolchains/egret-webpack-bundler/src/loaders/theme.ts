@@ -50,7 +50,20 @@ export default class ThemePlugin extends AbstractInlinePlugin {
 
     private errors!: any[];
 
-    onThisCompilation() {
+    onChange(compilation: webpack.Compilation) {
+        const compiler = compilation.compiler;
+        console.log(compiler.modifiedFiles)
+
+        const euiCompiler = new EuiCompiler(compiler.context, 'debug');
+
+        const theme = euiCompiler.getThemes()[0];
+        const themeFile = path.join(compiler.context, theme.filePath)
+        if (utils.fileChanged(compiler, themeFile)) {
+            const result = euiCompiler.emit();
+            const filename = path.join(compiler.context, result[0].filename);
+            const content = result[0].content;
+            fs.writeFileSync(filename, content, 'utf-8');
+        }
 
     }
     public apply(compiler: webpack.Compiler) {
@@ -71,6 +84,8 @@ export default class ThemePlugin extends AbstractInlinePlugin {
             });
             const euiCompiler = new EuiCompiler(compiler.context);
             const theme = euiCompiler.getThemes()[0];
+
+
             compilation.fileDependencies.add(path.join(compiler.context, theme.filePath));
         });
     }
