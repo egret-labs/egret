@@ -26,7 +26,9 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         const euiCompiler = new EuiCompiler(compiler.context);
         const theme = euiCompiler.getThemes()[0];
         const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
-        this.addFileDependency(path.join(compiler.context, theme.filePath));
+        if (!theme.data.autoGenerateExmlsList) {
+            this.addFileDependency(path.join(compiler.context, theme.filePath));
+        }
         for (let dir of dirs) {
             this.addContextDependency(dir);
         }
