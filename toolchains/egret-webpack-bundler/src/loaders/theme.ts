@@ -60,13 +60,6 @@ export default class ThemePlugin extends AbstractInlinePlugin {
 
         const pluginName = this.constructor.name;
 
-
-        // compiler.hooks.thisCompilation.tap(pluginName, (compilation: webpack.Compilation) => {
-        //     if (this.errors.length) {
-        //         compilation.errors.push(...this.errors);
-        //     }
-        // });
-
         const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
 
         // 监听文件目录
@@ -76,7 +69,9 @@ export default class ThemePlugin extends AbstractInlinePlugin {
                     compilation.contextDependencies.add(item);
                 }
             });
-            compilation.fileDependencies.add(path.join(compiler.context, 'resource/default.thm.json'))
+            const euiCompiler = new EuiCompiler(compiler.context);
+            const theme = euiCompiler.getThemes()[0];
+            compilation.fileDependencies.add(path.join(compiler.context, theme.filePath));
         });
     }
 }
