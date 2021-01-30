@@ -1,6 +1,13 @@
 importers:
   .:
     specifiers: {}
+  ../../examples/classic-project/scripts/plugins:
+    devDependencies:
+      '@egret/egret-webpack-bundler': 'link:../../../../toolchains/egret-webpack-bundler'
+      '@egret/eui-compiler': 'link:../../../../toolchains/eui-compiler'
+    specifiers:
+      '@egret/egret-webpack-bundler': 'workspace:*'
+      '@egret/eui-compiler': 'workspace:*'
   ../../examples/webpack-project:
     devDependencies:
       '@egret/egret-webpack-bundler': 'link:../../toolchains/egret-webpack-bundler'
@@ -68,7 +75,7 @@ importers:
       typescript: 3.9.7
       webpack: 5.17.0
       webpack-dev-middleware: 4.1.0_webpack@5.17.0
-      webpack-hot-middleware: 2.25.0
+      webpack-hot-middleware: github.com/lukeapage/webpack-hot-middleware/2cdfe0d0111dab6432b8683112fd2d17a5e80572
       webpack-merge: 4.2.2
     devDependencies:
       '@types/express': 4.17.9
@@ -105,7 +112,7 @@ importers:
       typescript: ^3.8.3
       webpack: 5.17.0
       webpack-dev-middleware: 4.1.0
-      webpack-hot-middleware: ~2.25.0
+      webpack-hot-middleware: 'git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572'
       webpack-merge: ~4.2.2
   ../../toolchains/eui-compiler:
     dependencies:
@@ -7467,15 +7474,6 @@ packages:
         optional: true
     resolution:
       integrity: sha512-mVD4Hn3bsMdcq6qE0y8xvH6KAu9NwS6F0NNgFe+n6gbsTQ7YgffUDydvy2iieyyKjAcBJDT5PZexv9tKv8kTNQ==
-  /webpack-hot-middleware/2.25.0:
-    dependencies:
-      ansi-html: 0.0.7
-      html-entities: 1.4.0
-      querystring: 0.2.0
-      strip-ansi: 3.0.1
-    dev: false
-    resolution:
-      integrity: sha512-xs5dPOrGPCzuRXNi8F6rwhawWvQQkeli5Ro48PRuQh8pYPCPmNnltP9itiUPT4xI8oW+y0m59lyyeQk54s5VgA==
   /webpack-log/2.0.0:
     dependencies:
       ansi-colors: 3.2.4
@@ -7866,4 +7864,15 @@ packages:
       node: '>=12.0.0'
     resolution:
       integrity: sha512-C+WCgUC6bhbzgYxdLK9byJYFw4OXOczXAacMANe223N6EO7lYmOTmXw1eIaQLJMFtW/678WF9b3Pa5YmIZfbvw==
+  github.com/lukeapage/webpack-hot-middleware/2cdfe0d0111dab6432b8683112fd2d17a5e80572:
+    dependencies:
+      ansi-html: 0.0.7
+      html-entities: 1.4.0
+      querystring: 0.2.0
+      strip-ansi: 3.0.1
+    dev: false
+    name: webpack-hot-middleware
+    resolution:
+      tarball: 'https://codeload.github.com/lukeapage/webpack-hot-middleware/tar.gz/2cdfe0d0111dab6432b8683112fd2d17a5e80572'
+    version: 2.25.0
 registry: ''
