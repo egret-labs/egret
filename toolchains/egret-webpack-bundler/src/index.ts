@@ -3,8 +3,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 import webpack from 'webpack';
-import { getLibsFileList } from './egretproject';
-import { Target_Type } from './egretproject/data';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { emitClassName } from './loaders/ts-loader/ts-transformer';
@@ -131,7 +129,6 @@ export class EgretWebpackBundler {
 
     build(options: WebpackBundleOptions): Promise<void> {
         return new Promise((resolve, reject) => {
-            const scripts = getLibsFileList(this.target as Target_Type, this.projectRoot, options.libraryType);
             const webpackConfig = generateConfig(this.projectRoot, options, this.target, false);
             const handler: Parameters<webpack.Compiler['run']>[0] = (error, status) => {
                 if (error) {
@@ -154,7 +151,7 @@ export class EgretWebpackBundler {
                         content: string | Buffer,
                         callback: (err?: NodeJS.ErrnoException) => void
                     ) => {
-                        console.log(filepath)
+                        console.log(filepath);
                         const relativePath = path.relative(webpackConfig.output?.path!, filepath).split('\\').join('/');
                         this.emitter!(relativePath, content as Buffer);
                         callback();
@@ -173,14 +170,8 @@ export class EgretWebpackBundler {
                         callback: (err?: NodeJS.ErrnoException, content?: string | Buffer) => void
                     ) => {
 
-                    },
-                }
-
-                for (const script of scripts) {
-                    const content = fs.readFileSync(path.join(this.projectRoot, script));
-                    this.emitter(script, content);
-                }
-
+                    }
+                };
             }
             compiler.run(handler);
         });
@@ -245,7 +236,7 @@ export function generateConfig(
     if (devServer) {
         return Object.assign(config, {
             devServer: {
-                host: getNetworkAddress(),
+                host: getNetworkAddress()
             }
         });
     }
@@ -290,8 +281,6 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
     };
     const rules = config.module!.rules!;
     const plugins = config.plugins!;
-
-
 
     const typescriptLoaderRule: webpack.RuleSetRule = {
         test: /\.tsx?$/,
