@@ -1,8 +1,8 @@
 import * as codegen from 'escodegen';
 import { BaseEmitter } from '.';
-import { AST_Attribute, AST_Node, AST_NodeBase, AST_Skin, AST_STATE, AST_Binding } from '../exml-ast';
-import { EmitterHost } from './host';
+import { AST_Attribute, AST_Binding, AST_Node, AST_NodeBase, AST_Skin, AST_STATE } from '../exml-ast';
 import { namespaceMapping } from '../util/parser';
+import { EmitterHost } from './host';
 
 export class JavaScriptEmitter extends BaseEmitter {
 
@@ -33,6 +33,7 @@ export class JavaScriptEmitter extends BaseEmitter {
     }
 
     emitSkinNode(filename: string, skinNode: AST_Skin) {
+
         const ast = this.generateJavaScriptAST(skinNode);
         try {
             const text = codegen.generate(
@@ -50,7 +51,7 @@ export class JavaScriptEmitter extends BaseEmitter {
     }
 
     generateJavaScriptAST(skinNode: AST_Skin) {
-
+        this.body = [];
         const code = this.createSkinNodeAst(skinNode);
         return createProgram([code]);
     }
@@ -253,8 +254,8 @@ export class JavaScriptEmitter extends BaseEmitter {
     }
 
     private emitAttributes(context: JS_AST.Identifier, node: AST_NodeBase, host: EmitterHost) {
-        if ((node as any).type) {
-            if ((node as any).type.indexOf('w.') == -1) {
+        if (node.type) {
+            if (node.type.indexOf('w.') == -1) {
                 for (const attribute of node.attributes) {
                     this.writeToBody(this.emitAttribute(context, attribute, host));
                 };
