@@ -1,6 +1,6 @@
 //@ts-check
-require('./json-validator')
+require('./json-validator');
 require('./emitter');
-require('./project')
-require('./sort-exml')
-require('./error')
+require('./project');
+require('./sort-exml');
+require('./error');

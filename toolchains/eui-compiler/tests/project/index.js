@@ -4,30 +4,30 @@ const lib = require('../../');
 const mock = require('mock-fs');
 const path = require('path');
 
-const standardEgretProperties = { "eui": { "themes": ['resource/default.thm.json'] } };
+const standardEgretProperties = { 'eui': { 'themes': ['resource/default.thm.json'] } };
 
 const standardTheme = {
-    "skins": {
-        "eui.Button": "resource/eui_skins/ButtonSkin.exml",
-        "eui.CheckBox": "resource/eui_skins/CheckBoxSkin.exml",
-        "eui.HScrollBar": "resource/eui_skins/HScrollBarSkin.exml",
-        "eui.HSlider": "resource/eui_skins/HSliderSkin.exml",
-        "eui.Panel": "resource/eui_skins/PanelSkin.exml",
-        "eui.TextInput": "resource/eui_skins/TextInputSkin.exml",
-        "eui.ProgressBar": "resource/eui_skins/ProgressBarSkin.exml",
-        "eui.RadioButton": "resource/eui_skins/RadioButtonSkin.exml",
-        "eui.Scroller": "resource/eui_skins/ScrollerSkin.exml",
-        "eui.ToggleSwitch": "resource/eui_skins/ToggleSwitchSkin.exml",
-        "eui.VScrollBar": "resource/eui_skins/VScrollBarSkin.exml",
-        "eui.VSlider": "resource/eui_skins/VSliderSkin.exml",
-        "eui.ItemRenderer": "resource/eui_skins/ItemRendererSkin.exml"
+    'skins': {
+        'eui.Button': 'resource/eui_skins/ButtonSkin.exml',
+        'eui.CheckBox': 'resource/eui_skins/CheckBoxSkin.exml',
+        'eui.HScrollBar': 'resource/eui_skins/HScrollBarSkin.exml',
+        'eui.HSlider': 'resource/eui_skins/HSliderSkin.exml',
+        'eui.Panel': 'resource/eui_skins/PanelSkin.exml',
+        'eui.TextInput': 'resource/eui_skins/TextInputSkin.exml',
+        'eui.ProgressBar': 'resource/eui_skins/ProgressBarSkin.exml',
+        'eui.RadioButton': 'resource/eui_skins/RadioButtonSkin.exml',
+        'eui.Scroller': 'resource/eui_skins/ScrollerSkin.exml',
+        'eui.ToggleSwitch': 'resource/eui_skins/ToggleSwitchSkin.exml',
+        'eui.VScrollBar': 'resource/eui_skins/VScrollBarSkin.exml',
+        'eui.VSlider': 'resource/eui_skins/VSliderSkin.exml',
+        'eui.ItemRenderer': 'resource/eui_skins/ItemRendererSkin.exml'
     },
-    "autoGenerateExmlsList": true,
-    "exmls": [
-        "resource/eui_skins/input.exml"
+    'autoGenerateExmlsList': true,
+    'exmls': [
+        'resource/eui_skins/input.exml'
     ],
-    "path": "resource/default.thm.json"
-}
+    'path': 'resource/default.thm.json'
+};
 
 const inputFile = `
 <?xml version='1.0' encoding='utf-8'?>
@@ -38,7 +38,7 @@ const inputFile = `
 	</e:Image>
 	</e:Group>
 </e:Skin>
-`
+`;
 
 describe('完整工程', () => {
 
@@ -49,19 +49,21 @@ describe('完整工程', () => {
         mock({
 
             './a/': {
-                "egretProperties.json": JSON.stringify(standardEgretProperties),
-                "resource": {
-                    "default.thm.json": JSON.stringify(standardTheme),
+                'egretProperties.json': JSON.stringify(standardEgretProperties),
+                'resource': {
+                    'default.thm.json': JSON.stringify(standardTheme),
                     'eui_skins': {
-                        "input.exml": inputFile
+                        'input.exml': inputFile
                     }
                 }
             },
             [property]: propertyContent
         });
-        const compiler = new lib.EuiCompiler('./a');
-        compiler.emit();
+        const compiler = new lib.EuiCompiler('./a', 'commonjs');
+        const firstEmitResult = compiler.emit();
+        const secondEmitResult = compiler.emit();
+        assert.strictEqual(firstEmitResult[0].content, secondEmitResult[0].content);
         mock.restore();
     });
-})
+});
 
