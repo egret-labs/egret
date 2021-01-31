@@ -145,20 +145,34 @@ export class JSONEmitter extends BaseEmitter {
                                 return result;
                             }
                         });
-                        if (binding.templates.length == 1 && binding.chainIndex.length == 1) {
-                            this.addBingdingJson.$b.push({
-                                '$bd': array,
-                                '$bt': key,
-                                '$bp': binding.property
-                            });
+                        let memberFound = false;
+                        for (const element of this.addBingdingJson.$b) {
+                            if (element['$bt'] === key) {
+                                memberFound = true;
+                                element['$bd'] = array;
+                                element['$bp'] = binding.property;
+                                if (binding.templates.length == 1 && binding.chainIndex.length == 1) { }
+                                else {
+                                    element['$bc'] = binding.chainIndex;
+                                }
+                            }
                         }
-                        else {
-                            this.addBingdingJson.$b.push({
-                                '$bd': array,
-                                '$bt': key,
-                                '$bp': binding.property,
-                                '$bc': binding.chainIndex
-                            });
+                        if (!memberFound) {
+                            if (binding.templates.length == 1 && binding.chainIndex.length == 1) {
+                                this.addBingdingJson.$b.push({
+                                    '$bd': array,
+                                    '$bt': key,
+                                    '$bp': binding.property
+                                });
+                            }
+                            else {
+                                this.addBingdingJson.$b.push({
+                                    '$bd': array,
+                                    '$bt': key,
+                                    '$bp': binding.property,
+                                    '$bc': binding.chainIndex
+                                });
+                            }
                         }
                         json[key][binding.property] = '';
                     }

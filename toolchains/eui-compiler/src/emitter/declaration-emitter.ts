@@ -13,7 +13,7 @@ export class DeclarationEmitter extends BaseEmitter {
     }
     emitSkinNode(filename: string, skinNode: AST_Skin): void {
         const text = this.generateText(skinNode.classname, skinNode.namespace);
-        this.declaration += text;
+        this.declaration = text;
     }
 
     generateText(className: string, moduleName: string) {
