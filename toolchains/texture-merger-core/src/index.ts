@@ -1,5 +1,6 @@
 import * as freeTexPackerCore from 'free-tex-packer-core';
 import fs from 'fs';
+import * as yaml from 'js-yaml';
 import * as path from 'path';
 const options1: freeTexPackerCore.TexturePackerOptions = {
     textureName: 'my-texture',
@@ -79,6 +80,20 @@ function convert(from: EmitTypings, file: string): OutputTypings {
 }
 
 type Output = { config: OutputTypings, buffer: Buffer }
+
+export function parseConfig(type: 'json' | 'yaml', content: string): TexturePackerOptions {
+    if (type === 'json') {
+        return JSON.parse(content);
+    }
+    else {
+        try {
+            const doc = yaml.load(content);
+            return doc as TexturePackerOptions;
+        } catch (e) {
+            throw e;
+        }
+    }
+}
 
 export function executeMerge(options: TexturePackerOptions) {
 

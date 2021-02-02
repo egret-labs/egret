@@ -35,7 +35,11 @@ const config: ResourceManagerConfig = {
                         html: {
                             templateFilePath: "template/web/index.html"
                         },
-                        open: true
+                        open: true,
+                        assets: [{
+                            file: "resource/default.res.json",
+                            executeBundle: true
+                        }]
                     }),
                 ]
             }

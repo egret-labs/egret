@@ -34,8 +34,8 @@ export default class ResourceConfigFilePlugin {
                     compilation.fileDependencies.add(fullFilepath);
                     const json = parseConfig(file, content.toString());
                     validConfig(json);
-                    await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
                     if (executeBundle) {
+                        await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
                         for (const resource of json.resources) {
                             const filepath = 'resource/' + resource.url;
                             const assetFullPath = path.join(compiler.context, filepath);
@@ -60,8 +60,9 @@ export default class ResourceConfigFilePlugin {
 async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
     const entities = await getAllTextureMergerConfig(root);
     for (const entity of entities) {
-        const content = readFileAsync(compiler, entity.path);
-        const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
+        const content = await readFileAsync(compiler, entity.path);
+        const json = texturemrger.parseConfig('yaml', content.toString());
+        // const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
         json.root = path.dirname(path.relative(compiler.context, entity.path));
         json.outputName = 'output';
         await texturemrger.executeMerge(json);
@@ -71,7 +72,7 @@ async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
 
 async function getAllTextureMergerConfig(root: string) {
     const entities = await walkDir(root);
-    return entities.filter((e) => e.name === 'texture-merger.json');
+    return entities.filter((e) => e.name === 'texture-merger.yaml');
 }
 
 function parseConfig(filename: string, raw: string): ResourceConfigFile {

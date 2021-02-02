@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "free-tex-packer-core": "^0.3.2"
+    "free-tex-packer-core": "^0.3.2",
+    "js-yaml": "~4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.20"
+    "@types/node": "^14.14.20",
+    "@types/js-yaml": "~4.0.0"
   }
 }
