@@ -1,6 +1,6 @@
 files:
-    Button/button_down.png
-    Button/button_up.png
+    - Button/button_down.png
+    - Button/button_up.png
 root:
     ./
 outputName:
