@@ -34,8 +34,10 @@ export default class ResourceConfigFilePlugin {
                     compilation.fileDependencies.add(fullFilepath);
                     const json = parseConfig(file, content.toString());
                     validConfig(json);
+                    const factory = new ResourceConfigFactory();
+                    factory.parseFromOriginConfig(json);
                     if (executeBundle) {
-                        await executeTextureMerger(compiler, path.join(compiler.context, 'resource'));
+                        await executeTextureMerger(compilation, path.join(compiler.context, 'resource'), factory);
                         for (const resource of json.resources) {
                             const filepath = 'resource/' + resource.url;
                             const assetFullPath = path.join(compiler.context, filepath);
@@ -43,7 +45,7 @@ export default class ResourceConfigFilePlugin {
                             compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
                         }
                     }
-                    const source = new webpack.sources.RawSource(content, false);
+                    const source = new webpack.sources.RawSource(JSON.stringify(factory.config), false);
                     compilation.emitAsset(file, source);
                 }
                 catch (e) {
@@ -57,16 +59,21 @@ export default class ResourceConfigFilePlugin {
     }
 }
 
-async function executeTextureMerger(compiler: webpack.Compiler, root: string) {
+async function executeTextureMerger(compilation: webpack.Compilation, root: string, factory: ResourceConfigFactory) {
+    const compiler = compilation.compiler;
     const entities = await getAllTextureMergerConfig(root);
     for (const entity of entities) {
         const content = await readFileAsync(compiler, entity.path);
         const json = texturemrger.parseConfig('yaml', content.toString());
-        // const json = JSON.parse(content.toString()) as texturemrger.TexturePackerOptions;
-        json.root = path.dirname(path.relative(compiler.context, entity.path));
+        json.root = path.dirname(path.relative(compiler.context, entity.path)).split("\\").join("/")
         json.outputName = 'output';
-        await texturemrger.executeMerge(json);
-        console.log(json);
+        const output = await texturemrger.executeMerge(json);
+        const configSource = new webpack.sources.RawSource(JSON.stringify(output.config));
+        const bufferSource = new webpack.sources.RawSource(output.buffer);
+        compilation.emitAsset(json.root + '/spritesheet.json', configSource);
+        compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
+        const name = path.basename(json.files[0]).split(".").join("_");
+        factory.removeResource(name);
     }
 }
 
@@ -102,3 +109,30 @@ function validConfig(config: ResourceConfigFile) {
 }
 
 type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager')['initConfig']>[1];
+
+type ResrouceConfig = ResourceConfigFile['resources'][0]
+
+
+class ResourceConfigFactory {
+
+    config: ResourceConfigFile = { groups: [], resources: [] };
+
+    parseFromOriginConfig(origin: ResourceConfigFile) {
+        this.config = JSON.parse(JSON.stringify(origin));
+    }
+
+    removeResource(name: string) {
+        console.log('删除', name)
+        const index = this.config.resources.findIndex(r => r.name === name);
+        console.log('index', index)
+        if (index >= 0) {
+            this.config.resources.splice(index, 1);
+        }
+    }
+
+    addResource(resource: ResrouceConfig) {
+        this.config.resources.push(resource);
+    }
+
+
+}

@@ -1,5 +1,4 @@
 import express from 'express';
-import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 import webpack from 'webpack';
@@ -151,7 +150,6 @@ export class EgretWebpackBundler {
                         content: string | Buffer,
                         callback: (err?: NodeJS.ErrnoException) => void
                     ) => {
-                        console.log(filepath);
                         const relativePath = path.relative(webpackConfig.output?.path!, filepath).split('\\').join('/');
                         this.emitter!(relativePath, content as Buffer);
                         callback();
