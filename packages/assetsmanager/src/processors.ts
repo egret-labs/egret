@@ -8,6 +8,8 @@ import { ResourceInfo } from './typings';
 
 export type Processor = {
     onLoadStart: (resource: ResourceInfo) => Observable<any>
+
+    getData?(host: { get: (resource: ResourceInfo) => any }, resource: ResourceInfo, key: string, subkey: string): any
 }
 
 const textProcessor: Processor = {
@@ -15,7 +17,7 @@ const textProcessor: Processor = {
 }
 
 const jsonProcessor: Processor = {
-    onLoadStart: (resource) => getLoader('text').onLoadStart(resource).pipe(
+    onLoadStart: (resource) => getProcessor('text').onLoadStart(resource).pipe(
         map((v) => JSON.parse(v)))
 
 };
@@ -25,7 +27,7 @@ const bitmapdataProcessor: Processor = {
 }
 
 const textureProcessor: Processor = {
-    onLoadStart: (resource) => getLoader('bitmapdata').onLoadStart(resource).pipe(
+    onLoadStart: (resource) => getProcessor('bitmapdata').onLoadStart(resource).pipe(
         map((bitmapData) => {
             const texture = new egret.Texture();
             texture._setBitmapData(bitmapData);
@@ -111,14 +113,14 @@ type FontJson = {
 }
 
 const fontProcessor: Processor = {
-    onLoadStart: (resource) => getLoader('text').onLoadStart(resource).pipe(
+    onLoadStart: (resource) => getProcessor('text').onLoadStart(resource).pipe(
         map((data) => convertToJson<FontJson>(data)),
         mergeMap((config) => {
             const imageUrl = getRelativePath(resource.url, config.file);
             const imageName = nameSelector(imageUrl);
             const hasRes = !!getStore().config.resources[imageName];
             const r = hasRes ? getResourceInfo(imageName) : { name: imageUrl, url: imageUrl, type: 'image' };
-            return forkJoin([of(config), getLoader('image').onLoadStart(r)]);
+            return forkJoin([of(config), getProcessor('image').onLoadStart(r)]);
         }),
         map((v) => {
             const [config, texture] = v;
@@ -129,13 +131,13 @@ const fontProcessor: Processor = {
 }
 
 const spriteSheetProcessor: Processor = {
-    onLoadStart: (resource) => getLoader('json').onLoadStart(resource).pipe(
+    onLoadStart: (resource) => getProcessor('json').onLoadStart(resource).pipe(
         mergeMap((data) => {
             const imageUrl = getRelativePath(resource.url, data.file);
             const imageName = nameSelector(imageUrl);
             const hasRes = !!getStore().config.resources[imageName];
             const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageUrl, type: 'image' };
-            return forkJoin([of(data), getLoader('image').onLoadStart(r), of(r)]);
+            return forkJoin([of(data), getProcessor('image').onLoadStart(r), of(r)]);
         }),
         map((v) => {
             const [data, bitmapData, r] = v;
@@ -154,7 +156,12 @@ const spriteSheetProcessor: Processor = {
             // host.save(r, bitmapData);
             return spriteSheet;
         })
-    )
+    ),
+    getData(host, resource, key, subkey) {
+        const spritesheet = host.get(resource) as egret.SpriteSheet;
+        return spritesheet.getTexture(subkey);
+
+    }
 }
 
 export const loaders: { [type: string]: Processor } = {
@@ -168,8 +175,8 @@ export const loaders: { [type: string]: Processor } = {
     soundeffect: soundEffectProcessor
 };
 
-export function getLoader(type: string): Processor
-export function getLoader(type: string) {
+export function getProcessor(type: string): Processor
+export function getProcessor(type: string) {
     const loader = loaders[type];
     if (!loader) {
         throw new Error('missing type ' + type);

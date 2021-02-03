@@ -1,5 +1,5 @@
 import { delay, retryWhen, scan, tap } from 'rxjs/operators';
-import { getLoader } from './processors';
+import { getProcessor } from './processors';
 import { getCache, getStore, initStore } from './store';
 import { ResourceConfigFile, ResourceInfo } from './typings';
 
@@ -30,7 +30,7 @@ export function initConfig(resourceRoot: string, c: ResourceConfigFile) {
 }
 
 export function load(resource: ResourceInfo) {
-    return getLoader(resource.type).onLoadStart(resource).pipe(
+    return getProcessor(resource.type).onLoadStart(resource).pipe(
         retryWhen((errors) => errors.pipe(
             scan((acc, curr) => {
                 if (acc > 2) {
@@ -50,7 +50,7 @@ export function getResourceWithSubkey(key: string): [ResourceInfo, string?, stri
         const temp = alias.split(".");
         const [mainkey, subkey] = temp;
         const result = getResourceInfo(mainkey);
-        return [result, subkey, key];
+        return [result, key, subkey];
     }
     else {
         return [getResourceInfo(key)];
@@ -61,7 +61,7 @@ export function getResourceInfo(key: string) {
     const config = getStore().config;
     const result = config.resources[key];
     if (!result) {
-        throw new Error('error res name');
+        throw new Error('error res name ' + key);
     };
     return result;
 }

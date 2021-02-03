@@ -27,6 +27,8 @@ declare namespace egret {
 
         createTexture(subkey: string, x: number, y: number, w: number, height: number, offX: number, offY: number, sourceW: number, sourceH: number)
 
+        getTexture(subkey): Texture
+
         $resourceInfo: any;
     }
 

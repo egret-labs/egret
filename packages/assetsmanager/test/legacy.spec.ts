@@ -148,5 +148,10 @@ describe('legacy-api', () => {
         const sheet = await RES.getResAsync('spritesheet_json');
         expect(sheet).toBeInstanceOf(egret.SpriteSheet);
     });
+    it('load-spritesheet-2', async () => {
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
+        const texture = await RES.getResAsync('rank_no1_png');
+        expect(texture).toBeInstanceOf(egret.Texture);
+    });
 });
 

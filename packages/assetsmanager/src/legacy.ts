@@ -1,7 +1,7 @@
 import { merge } from 'rxjs';
 import { map, mergeAll, scan } from 'rxjs/operators';
 import { getResourceInfo as getResourceInfo_, getResourceWithSubkey, initConfig, load } from '.';
-import { getLoader } from './processors';
+import { getProcessor } from './processors';
 import { getCache, getStore } from './store';
 import { ResourceInfo } from './typings';
 
@@ -67,28 +67,38 @@ export namespace RES {
         ).toPromise();
     }
 
+    const host = {
+        get: (resource: ResourceInfo) => getCache()[resource.name]
+    }
+
     /**
      * @deprecated
      */
     export function getRes(name: string) {
-
-        // const [r, key, subkey] = getResourceWithSubkey(name);
-        // const loader = getLoader(r.type);
-        // if (p && p.getData && subkey) {
-        //     return p.getData(RES.host, r, key, subkey);
-        // }
-        // else {
-        //     return RES.host.get(r);
-        // }
-        return getCache()[name];
+        const [r, key, subkey] = getResourceWithSubkey(name);
+        const p = getProcessor(r.type);
+        if (p && p.getData && subkey && key) {
+            return p.getData(host, r, key, subkey);
+        }
+        else {
+            return getCache()[name];
+        }
     }
 
     /**
      * @deprecated
      */
     export function getResAsync(name: string, callback?: Function, thisObject?: any) {
-        const resource = getResourceInfo(name);
-        const promise = load(resource).toPromise();
+        const [resource, key, subkey] = getResourceWithSubkey(name);
+        const promise = load(resource).pipe(map((data) => {
+            const processor = getProcessor(resource.type);
+            if (key && subkey && processor.getData) {
+                return processor.getData(host, resource, key, subkey);
+            }
+            else {
+                return data;
+            }
+        })).toPromise();
         if (callback) {
             return promise.then((v) => {
                 callback.call(thisObject, v);
