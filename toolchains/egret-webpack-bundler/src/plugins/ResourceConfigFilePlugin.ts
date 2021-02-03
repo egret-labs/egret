@@ -72,8 +72,23 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         const bufferSource = new webpack.sources.RawSource(output.buffer);
         compilation.emitAsset(json.root + '/spritesheet.json', configSource);
         compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
-        const name = path.basename(json.files[0]).split(".").join("_");
-        factory.removeResource(name);
+
+        const spriteSheetResourceConfig = {
+            name: "spritesheet_json",
+            url: json.root + "spritsheet.json",
+            type: "spriteSheet",
+            subkeys: ''
+        }
+        const subkeys = [];
+        for (let file of json.files) {
+            const name = path.basename(file).split(".").join("_");
+            factory.removeResource(name);
+            subkeys.push(name);
+        }
+        spriteSheetResourceConfig.subkeys = subkeys.join(",");
+
+        factory.addResource(spriteSheetResourceConfig);
+
     }
 }
 

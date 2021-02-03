@@ -48,7 +48,7 @@ describe('legacy-api', () => {
     });
 
     beforeAll(() => {
-        server = app.listen(3000);
+        server = app.listen(3001);
     });
     afterAll(() => {
 
@@ -69,23 +69,23 @@ describe('legacy-api', () => {
         expect(resource.url).toEqual('http://localhost/1.jpg');
     });
     it('load-resource-config-file', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
         const result = await RES.getResAsync('1_json');
         expect(result).toEqual({ name: 'egret' });
     });
     it('load-404-config-file', async () => {
-        const promise = RES.loadConfig('error.res.json', 'http://localhost:3000/static');
+        const promise = RES.loadConfig('error.res.json', 'http://localhost:3001/static');
         expect(promise).rejects.toThrow();
     });
     describe('RES.getResAsync', () => {
         it('getResAsyncReturnType', async () => {
-            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             const texture = await RES.getResAsync('1_jpg');
             expect(texture).toBeInstanceOf(egret.Texture);
         });
         it('getResAsync.callback', async () => {
             const mockfn = jest.fn();
-            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             const texture = await RES.getResAsync('1_jpg', mockfn, {});
             expect(mockfn).toBeCalledWith(texture);
         });
@@ -93,7 +93,7 @@ describe('legacy-api', () => {
 
     describe('RES.loadGroup', () => {
         it('load-group', async () => {
-            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             await RES.loadGroup('preload');
             const result = await RES.getResAsync('1_json');
             expect(result).toEqual({ name: 'egret' });
@@ -102,7 +102,7 @@ describe('legacy-api', () => {
         });
         it('load-group-reporter', async () => {
             let localCurrent = 0;
-            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             await RES.loadGroup('preload', 0, {
                 onProgress: (current, total) => {
                     localCurrent++;
@@ -112,7 +112,7 @@ describe('legacy-api', () => {
             });
         });
         it('get-group-byName', async () => {
-            await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             const result = await RES.getGroupByName('preload');
             expect(result).toEqual(['1_jpg', '1_json']);
         });
@@ -120,7 +120,7 @@ describe('legacy-api', () => {
 
     // it('get-group-retry', async () => {
     //     try {
-    //         await RES.loadConfig('error.res.json', 'http://localhost:3000/static');
+    //         await RES.loadConfig('error.res.json', 'http://localhost:3001/static');
     //     }
     //     catch (e) {
 
@@ -129,24 +129,24 @@ describe('legacy-api', () => {
     //     expect(hitCount).toBe(3);
     // });
     it('create-group-override', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
         await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
         expect(getStore().config.groups).toEqual({ preload: ['1_jpg', '1_json', '1_txt'] });
     });
     it('create-group-without-override', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
         await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], false);
         expect(getStore().config.groups).toEqual({ preload: ['1_jpg', '1_json'] });
     });
     it('load-font', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
         const font = await RES.getResAsync('num2_fnt');
         expect(font).toBeInstanceOf(egret.BitmapFont);
     });
     it('load-spritesheet', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3000/static');
-        const font = await RES.getResAsync('num2_fnt');
-        expect(font).toBeInstanceOf(egret.BitmapFont);
+        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
+        const sheet = await RES.getResAsync('spritesheet_json');
+        expect(sheet).toBeInstanceOf(egret.SpriteSheet);
     });
 });
 

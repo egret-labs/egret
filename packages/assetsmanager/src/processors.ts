@@ -1,8 +1,7 @@
 ///<reference path="egret.d.ts"/>
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { getResourceInfo } from '.';
-import { AudioManager } from '../../audio/dist';
 import { musicProcessor, soundEffectProcessor } from './processors/audio';
 import { getStore } from './store';
 import { ResourceInfo } from './typings';
@@ -120,9 +119,10 @@ const fontProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
 
 const spriteSheetProcessor: Processor = (resource) => getLoader('json')(resource).pipe(
     mergeMap((data) => {
-        const imageName = nameSelector(data.file);
+        const imageUrl = getRelativePath(resource.url, data.file);
+        const imageName = nameSelector(imageUrl);
         const hasRes = !!getStore().config.resources[imageName];
-        const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageName, type: 'image' };
+        const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageUrl, type: 'image' };
         return forkJoin([of(data), getLoader('image')(r), of(r)]);
     }),
     map((v) => {
@@ -150,7 +150,7 @@ export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<a
     bitmapdata: bitmapdataProcessor,
     image: textureProcessor,
     font: fontProcessor,
-    spriteSheet: spriteSheetProcessor,
+    sheet: spriteSheetProcessor,
     music: musicProcessor,
     soundeffect: soundEffectProcessor
 };

@@ -25,6 +25,11 @@
             "url": "num2.fnt",
             "type": "font",
             "name": "num2_fnt"
+        },
+        {
+            "url": "spritesheet.json",
+            "type": "sheet",
+            "name": "spritesheet_json"
         }
     ]
 }

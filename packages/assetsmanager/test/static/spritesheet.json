@@ -1,0 +1,45 @@
+{
+    "file": "spritesheet.png",
+    "frames": {
+        "rank_no1": {
+            "x": 1,
+            "y": 64,
+            "w": 44,
+            "h": 61,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 44,
+            "sourceH": 61
+        },
+        "rank_no2": {
+            "x": 47,
+            "y": 1,
+            "w": 44,
+            "h": 61,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 44,
+            "sourceH": 61
+        },
+        "rank_no3": {
+            "x": 1,
+            "y": 1,
+            "w": 44,
+            "h": 61,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 44,
+            "sourceH": 61
+        },
+        "x": {
+            "x": 93,
+            "y": 1,
+            "w": 28,
+            "h": 31,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 28,
+            "sourceH": 31
+        }
+    }
+}
