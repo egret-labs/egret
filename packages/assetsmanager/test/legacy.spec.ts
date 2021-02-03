@@ -116,6 +116,11 @@ describe('legacy-api', () => {
             const result = await RES.getGroupByName('preload');
             expect(result).toEqual(['1_jpg', '1_json']);
         });
+        it('load-group-with-error-key', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
+            const result = await RES.loadGroup('errorgroup');
+            console.log('1111111111111s');
+        })
     });
 
     // it('get-group-retry', async () => {
@@ -128,16 +133,19 @@ describe('legacy-api', () => {
     //     const hitCount = getCount('/static/error.res.json');
     //     expect(hitCount).toBe(3);
     // });
-    it('create-group-override', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
-        await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
-        expect(getStore().config.groups).toEqual({ preload: ['1_jpg', '1_json', '1_txt'] });
-    });
-    it('create-group-without-override', async () => {
-        await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
-        await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], false);
-        expect(getStore().config.groups).toEqual({ preload: ['1_jpg', '1_json'] });
-    });
+    describe("create-group", () => {
+        it('create-group-override', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
+            await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
+            expect(getStore().config.groups.preload).toEqual(['1_jpg', '1_json', '1_txt']);
+        });
+        it('create-group-without-override', async () => {
+            await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
+            await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], false);
+            expect(getStore().config.groups.preload).toEqual(['1_jpg', '1_json']);
+        });
+    })
+
     it('load-font', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
         const font = await RES.getResAsync('num2_fnt');

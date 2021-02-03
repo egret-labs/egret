@@ -1,5 +1,26 @@
 files:
     - Button/button_down.png
     - Button/button_up.png
+    - CheckBox/checkbox_select_disabled.png
+    - CheckBox/checkbox_select_down.png
+    - CheckBox/checkbox_select_up.png
+    - CheckBox/checkbox_unselect.png
+    - ItemRenderer/selected.png
+    - Panel/border.png
+    - Panel/header.png
+    - ProgressBar/thumb_pb.png
+    - ProgressBar/track_pb.png
+    - RadioButton/radiobutton_select_disabled.png
+    - RadioButton/radiobutton_select_down.png
+    - RadioButton/radiobutton_select_up.png
+    - RadioButton/radiobutton_unselect.png
+    - ScrollBar/roundthumb.png
+    - ScrollBar/track_sb.png
+    - Slider/thumb.png
+    - Slider/track.png
+    - Slider/tracklight.png
+    - ToggleSwitch/handle.png
+    - ToggleSwitch/off.png
+    - ToggleSwitch/on.png
 root: ./
 outputName: texture.png

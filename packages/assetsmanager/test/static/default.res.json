@@ -3,6 +3,10 @@
         {
             "name": "preload",
             "keys": "1_jpg,1_json"
+        },
+        {
+            "name": "errorgroup",
+            "keys": "error_jpg"
         }
     ],
     "resources": [

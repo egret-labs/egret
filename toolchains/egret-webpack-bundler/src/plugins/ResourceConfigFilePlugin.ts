@@ -66,17 +66,19 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         const content = await readFileAsync(compiler, entity.path);
         const json = texturemrger.parseConfig('yaml', content.toString());
         json.root = path.dirname(path.relative(compiler.context, entity.path)).split("\\").join("/")
-        json.outputName = 'output';
+        json.outputName = 'spritesheet';
         const output = await texturemrger.executeMerge(json);
         const configSource = new webpack.sources.RawSource(JSON.stringify(output.config));
         const bufferSource = new webpack.sources.RawSource(output.buffer);
         compilation.emitAsset(json.root + '/spritesheet.json', configSource);
         compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
+        console.log(output.config)
+        const relativeFilePath = path.relative('resource', json.root + "/spritesheet.json").split("\\").join("/");
 
         const spriteSheetResourceConfig = {
             name: "spritesheet_json",
-            url: json.root + "spritsheet.json",
-            type: "spriteSheet",
+            url: relativeFilePath,
+            type: "sheet",
             subkeys: ''
         }
         const subkeys = [];

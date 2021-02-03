@@ -65,7 +65,8 @@ function convert(from: EmitTypings, file: string): OutputTypings {
     };
     for (const item of from.frames) {
         const { frame, spriteSourceSize } = item;
-        result.frames[item.filename] = {
+        const name = path.basename(item.filename).split(".").join("_");
+        result.frames[name] = {
             x: frame.x,
             y: frame.y,
             w: frame.w,
