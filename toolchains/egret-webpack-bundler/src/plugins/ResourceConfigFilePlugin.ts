@@ -32,20 +32,20 @@ export default class ResourceConfigFilePlugin {
                 try {
                     const content = await readFileAsync(compiler, fullFilepath);
                     compilation.fileDependencies.add(fullFilepath);
-                    const json = parseConfig(file, content.toString());
-                    validConfig(json);
                     const factory = new ResourceConfigFactory();
-                    factory.parseFromOriginConfig(json);
+                    factory.parse(file, content.toString());
                     if (executeBundle) {
                         await executeTextureMerger(compilation, path.join(compiler.context, 'resource'), factory);
-                        for (const resource of json.resources) {
-                            const filepath = 'resource/' + resource.url;
-                            const assetFullPath = path.join(compiler.context, filepath);
-                            const assetbuffer = await readFileAsync(compiler, assetFullPath);
-                            compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
+                        for (const resource of factory.config.resources as ResourceConfig[]) {
+                            if (!resource.emit) {
+                                const filepath = 'resource/' + resource.url;
+                                const assetFullPath = path.join(compiler.context, filepath);
+                                const assetbuffer = await readFileAsync(compiler, assetFullPath);
+                                compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
+                            }
                         }
                     }
-                    const source = new webpack.sources.RawSource(JSON.stringify(factory.config), false);
+                    const source = new webpack.sources.RawSource(factory.emit(), false);
                     compilation.emitAsset(file, source);
                 }
                 catch (e) {
@@ -72,7 +72,6 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         const bufferSource = new webpack.sources.RawSource(output.buffer);
         compilation.emitAsset(json.root + '/spritesheet.json', configSource);
         compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
-        console.log(output.config)
         const relativeFilePath = path.relative('resource', json.root + "/spritesheet.json").split("\\").join("/");
 
         const spriteSheetResourceConfig = {
@@ -99,56 +98,69 @@ async function getAllTextureMergerConfig(root: string) {
     return entities.filter((e) => e.name === 'texture-merger.yaml');
 }
 
-function parseConfig(filename: string, raw: string): ResourceConfigFile {
-    try {
-        const json = JSON.parse(raw);
-        return json;
-    }
-    catch (e) {
-        throw new Error(`${filename}不是合法的JSON文件`);
-    }
-}
 
-function validConfig(config: ResourceConfigFile) {
-    const groups = config.groups;
-    const resources: { [name: string]: ResourceConfigFile['resources'][0] } = {};
-    for (const r of config.resources) {
-        resources[r.name] = r;
-    }
-    for (const group of groups) {
-        const keys = group.keys.split(',');
-        for (const key of keys) {
-            if (!resources[key]) {
-                throw new Error(`资源配置组${group.name}中包含了不存在的资源名${key}`);
-            }
-        }
-    }
-}
+
+
 
 type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager')['initConfig']>[1];
 
-type ResrouceConfig = ResourceConfigFile['resources'][0]
+type ResourceConfig = ResourceConfigFile['resources'][0] & { emit?: boolean }
 
 
 class ResourceConfigFactory {
 
     config: ResourceConfigFile = { groups: [], resources: [] };
 
-    parseFromOriginConfig(origin: ResourceConfigFile) {
-        this.config = JSON.parse(JSON.stringify(origin));
+    parse(filename: string, raw: string) {
+
+        let json: ResourceConfigFile;
+        try {
+            json = JSON.parse(raw);
+        }
+        catch (e) {
+            throw new Error(`${filename}不是合法的JSON文件`);
+        }
+        this.validConfig(json);
+        this.config = JSON.parse(JSON.stringify(json));
+
+
     }
 
     removeResource(name: string) {
-        console.log('删除', name)
         const index = this.config.resources.findIndex(r => r.name === name);
-        console.log('index', index)
         if (index >= 0) {
             this.config.resources.splice(index, 1);
         }
     }
 
-    addResource(resource: ResrouceConfig) {
+    addResource(resource: ResourceConfig) {
+        resource.emit = true;
         this.config.resources.push(resource);
+    }
+
+    private validConfig(config: ResourceConfigFile) {
+        const groups = config.groups;
+        const resources: { [name: string]: ResourceConfigFile['resources'][0] } = {};
+        for (const r of config.resources) {
+            resources[r.name] = r;
+        }
+        for (const group of groups) {
+            const keys = group.keys.split(',');
+            for (const key of keys) {
+                if (!resources[key]) {
+                    throw new Error(`资源配置组${group.name}中包含了不存在的资源名${key}`);
+                }
+            }
+        }
+    }
+
+    emit() {
+        for (let r of this.config.resources as ResourceConfig[]) {
+            delete r.emit;
+        }
+        const content = JSON.stringify(this.config);
+        return content;
+
     }
 
 
