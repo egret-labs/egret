@@ -1,6 +1,7 @@
 import { merge } from 'rxjs';
 import { map, mergeAll, scan } from 'rxjs/operators';
-import { getResourceInfo as getResourceInfo_, initConfig, load } from '.';
+import { getResourceInfo as getResourceInfo_, getResourceWithSubkey, initConfig, load } from '.';
+import { getLoader } from './processors';
 import { getCache, getStore } from './store';
 import { ResourceInfo } from './typings';
 
@@ -70,6 +71,15 @@ export namespace RES {
      * @deprecated
      */
     export function getRes(name: string) {
+
+        // const [r, key, subkey] = getResourceWithSubkey(name);
+        // const loader = getLoader(r.type);
+        // if (p && p.getData && subkey) {
+        //     return p.getData(RES.host, r, key, subkey);
+        // }
+        // else {
+        //     return RES.host.get(r);
+        // }
         return getCache()[name];
     }
 

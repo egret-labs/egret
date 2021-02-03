@@ -1,7 +1,7 @@
 {
     "file": "spritesheet.png",
     "frames": {
-        "rank_no1": {
+        "rank_no1_png": {
             "x": 1,
             "y": 64,
             "w": 44,
@@ -11,7 +11,7 @@
             "sourceW": 44,
             "sourceH": 61
         },
-        "rank_no2": {
+        "rank_no2_png": {
             "x": 47,
             "y": 1,
             "w": 44,
@@ -21,7 +21,7 @@
             "sourceW": 44,
             "sourceH": 61
         },
-        "rank_no3": {
+        "rank_no3_png": {
             "x": 1,
             "y": 1,
             "w": 44,
@@ -31,7 +31,7 @@
             "sourceW": 44,
             "sourceH": 61
         },
-        "x": {
+        "x_png": {
             "x": 93,
             "y": 1,
             "w": 28,

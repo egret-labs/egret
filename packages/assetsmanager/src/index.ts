@@ -7,23 +7,30 @@ export function destory() {
     initStore();
 }
 
-export function initConfig(resourceRoot: string, config: ResourceConfigFile) {
+export function initConfig(resourceRoot: string, c: ResourceConfigFile) {
     const store = getStore();
-    for (const r of config.resources) {
-        store.config.resources[r.name] = r;
+    const config = store.config;
+    for (const r of c.resources) {
+        config.resources[r.name] = r;
         if (resourceRoot.lastIndexOf('/') !== resourceRoot.length - 1) {
             resourceRoot += '/';
         }
         r.url = resourceRoot + r.url;
+        if (r.subkeys) {
+            const subkeys = r.subkeys.split(",");
+            for (let subkey of subkeys) {
+                config.alias[subkey] = `${r.name}.${subkey}`;
+            }
+        }
     }
-    for (const g of config.groups) {
-        store.config.groups[g.name] = g.keys.split(',');
+    for (const g of c.groups) {
+        config.groups[g.name] = g.keys.split(',');
     }
-    return store.config;
+    return config;
 }
 
 export function load(resource: ResourceInfo) {
-    return getLoader(resource.type)(resource).pipe(
+    return getLoader(resource.type).onLoadStart(resource).pipe(
         retryWhen((errors) => errors.pipe(
             scan((acc, curr) => {
                 if (acc > 2) {
@@ -36,8 +43,23 @@ export function load(resource: ResourceInfo) {
     );
 }
 
+export function getResourceWithSubkey(key: string): [ResourceInfo, string?, string?] {
+    const config = getStore().config;
+    const alias = config.alias[key];
+    if (alias) {
+        const temp = alias.split(".");
+        const [mainkey, subkey] = temp;
+        const result = getResourceInfo(mainkey);
+        return [result, subkey, key];
+    }
+    else {
+        return [getResourceInfo(key)];
+    }
+}
+
 export function getResourceInfo(key: string) {
-    const result = getStore().config.resources[key];
+    const config = getStore().config;
+    const result = config.resources[key];
     if (!result) {
         throw new Error('error res name');
     };

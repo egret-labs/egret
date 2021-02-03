@@ -29,7 +29,8 @@
         {
             "url": "spritesheet.json",
             "type": "sheet",
-            "name": "spritesheet_json"
+            "name": "spritesheet_json",
+            "subkey": "rank_no1_png,rank_no2_png,rank_no3_png,x_png"
         }
     ]
 }

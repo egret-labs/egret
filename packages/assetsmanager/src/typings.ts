@@ -1,5 +1,5 @@
 
-export type ResourceInfo = { url: string, type: string, name: string }
+export type ResourceInfo = { url: string, type: string, name: string, subkeys?: string }
 
 export type ResourceConfigFile = {
     groups: { name: string, keys: string }[],
@@ -12,6 +12,9 @@ export type ResourceConfig = {
     },
     groups: {
         [name: string]: string[]
+    },
+    alias: {
+        [name: string]: string
     }
 }
 

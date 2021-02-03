@@ -6,27 +6,37 @@ import { musicProcessor, soundEffectProcessor } from './processors/audio';
 import { getStore } from './store';
 import { ResourceInfo } from './typings';
 
-export type Processor = (resource: ResourceInfo) => Observable<any>
+export type Processor = {
+    onLoadStart: (resource: ResourceInfo) => Observable<any>
+}
 
-const textProcessor: Processor = (resource) => createHttp(resource.url);
+const textProcessor: Processor = {
+    onLoadStart: (resource) => createHttp(resource.url)
+}
 
-const jsonProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
-    map((v) => JSON.parse(v))
-);
+const jsonProcessor: Processor = {
+    onLoadStart: (resource) => getLoader('text').onLoadStart(resource).pipe(
+        map((v) => JSON.parse(v)))
 
-const bitmapdataProcessor: Processor = (resource) => createImage(resource.url);
+};
 
-const textureProcessor: Processor = (resource) => getLoader('bitmapdata')(resource).pipe(
-    map((bitmapData) => {
-        const texture = new egret.Texture();
-        texture._setBitmapData(bitmapData);
-        return texture;
-        // if (resource.scale9grid) {
-        //     var list = r.scale9grid.split(",");
-        //     texture["scale9Grid"] = new egret.Rectangle(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
-        // }
-    })
-);
+const bitmapdataProcessor: Processor = {
+    onLoadStart: (resource) => createImage(resource.url)
+}
+
+const textureProcessor: Processor = {
+    onLoadStart: (resource) => getLoader('bitmapdata').onLoadStart(resource).pipe(
+        map((bitmapData) => {
+            const texture = new egret.Texture();
+            texture._setBitmapData(bitmapData);
+            return texture;
+            // if (resource.scale9grid) {
+            //     var list = r.scale9grid.split(",");
+            //     texture["scale9Grid"] = new egret.Rectangle(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
+            // }
+        })
+    )
+}
 
 // return host.load(resource, 'text').then(function (data) {
 //     var config;
@@ -100,51 +110,54 @@ type FontJson = {
     }
 }
 
-const fontProcessor: Processor = (resource) => getLoader('text')(resource).pipe(
-    map((data) => convertToJson<FontJson>(data)),
-    mergeMap((config) => {
-        const imageUrl = getRelativePath(resource.url, config.file);
-        const imageName = nameSelector(imageUrl);
-        const hasRes = !!getStore().config.resources[imageName];
-        const r = hasRes ? getResourceInfo(imageName) : { name: imageUrl, url: imageUrl, type: 'image' };
-        return forkJoin([of(config), getLoader('image')(r)]);
-    }),
-    map((v) => {
-        const [config, texture] = v;
-        const font = new egret.BitmapFont(texture, config);
-        return font;
-    })
+const fontProcessor: Processor = {
+    onLoadStart: (resource) => getLoader('text').onLoadStart(resource).pipe(
+        map((data) => convertToJson<FontJson>(data)),
+        mergeMap((config) => {
+            const imageUrl = getRelativePath(resource.url, config.file);
+            const imageName = nameSelector(imageUrl);
+            const hasRes = !!getStore().config.resources[imageName];
+            const r = hasRes ? getResourceInfo(imageName) : { name: imageUrl, url: imageUrl, type: 'image' };
+            return forkJoin([of(config), getLoader('image').onLoadStart(r)]);
+        }),
+        map((v) => {
+            const [config, texture] = v;
+            const font = new egret.BitmapFont(texture, config);
+            return font;
+        })
+    )
+}
 
-);
+const spriteSheetProcessor: Processor = {
+    onLoadStart: (resource) => getLoader('json').onLoadStart(resource).pipe(
+        mergeMap((data) => {
+            const imageUrl = getRelativePath(resource.url, data.file);
+            const imageName = nameSelector(imageUrl);
+            const hasRes = !!getStore().config.resources[imageName];
+            const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageUrl, type: 'image' };
+            return forkJoin([of(data), getLoader('image').onLoadStart(r), of(r)]);
+        }),
+        map((v) => {
+            const [data, bitmapData, r] = v;
+            const frames = data.frames;
+            const spriteSheet = new egret.SpriteSheet(bitmapData);
+            spriteSheet.$resourceInfo = r;
+            for (const subkey in frames) {
+                const config = frames[subkey];
+                const texture = spriteSheet.createTexture(subkey, config.x, config.y, config.w, config.h, config.offX, config.offY, config.sourceW, config.sourceH);
+                // if (config.scale9grid) {
+                //     const str = config.scale9grid;
+                //     const list = str.split(',');
+                //     texture.scale9Grid = new egret.Rectangle(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
+                // }
+            }
+            // host.save(r, bitmapData);
+            return spriteSheet;
+        })
+    )
+}
 
-const spriteSheetProcessor: Processor = (resource) => getLoader('json')(resource).pipe(
-    mergeMap((data) => {
-        const imageUrl = getRelativePath(resource.url, data.file);
-        const imageName = nameSelector(imageUrl);
-        const hasRes = !!getStore().config.resources[imageName];
-        const r = hasRes ? getResourceInfo(imageName) : { name: imageName, url: imageUrl, type: 'image' };
-        return forkJoin([of(data), getLoader('image')(r), of(r)]);
-    }),
-    map((v) => {
-        const [data, bitmapData, r] = v;
-        const frames = data.frames;
-        const spriteSheet = new egret.SpriteSheet(bitmapData);
-        spriteSheet.$resourceInfo = r;
-        for (const subkey in frames) {
-            const config = frames[subkey];
-            const texture = spriteSheet.createTexture(subkey, config.x, config.y, config.w, config.h, config.offX, config.offY, config.sourceW, config.sourceH);
-            // if (config.scale9grid) {
-            //     const str = config.scale9grid;
-            //     const list = str.split(',');
-            //     texture.scale9Grid = new egret.Rectangle(parseInt(list[0]), parseInt(list[1]), parseInt(list[2]), parseInt(list[3]));
-            // }
-        }
-        // host.save(r, bitmapData);
-        return spriteSheet;
-    })
-);
-
-export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<any> } = {
+export const loaders: { [type: string]: Processor } = {
     text: textProcessor,
     json: jsonProcessor,
     bitmapdata: bitmapdataProcessor,
@@ -155,8 +168,7 @@ export const loaders: { [type: string]: (resource: ResourceInfo) => Observable<a
     soundeffect: soundEffectProcessor
 };
 
-export function getLoader(type: 'image'): (resource: ResourceInfo) => Observable<egret.Texture>
-export function getLoader(type: string): (resource: ResourceInfo) => Observable<any>
+export function getLoader(type: string): Processor
 export function getLoader(type: string) {
     const loader = loaders[type];
     if (!loader) {

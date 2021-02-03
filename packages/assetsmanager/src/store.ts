@@ -1,7 +1,7 @@
 import { Store } from './typings';
 
 let store: Store = {
-    config: { resources: {}, groups: {} }
+    config: { resources: {}, groups: {}, alias: {} }
 };
 
 let cache: { [name: string]: any } = {};
@@ -15,6 +15,6 @@ export function getCache() {
 }
 
 export function initStore() {
-    store = { config: { resources: {}, groups: {} } };
+    store = { config: { resources: {}, groups: {}, alias: {} } };
     cache = {};
 }
