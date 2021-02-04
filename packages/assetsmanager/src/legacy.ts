@@ -40,7 +40,7 @@ export namespace RES {
         const store = getStore();
         const resourceNames = store.config.groups[groupName];
         if (resourceNames) {
-            const resources = resourceNames.map((resourceName) => store.config.resources[resourceName]);
+            const resources = resourceNames.map((resourceName) => getResourceWithSubkey(resourceName)[0]);
             const loaders = resources.map(load);
             return merge(loaders).pipe(
                 mergeAll(maxLoadingThread),
@@ -69,7 +69,7 @@ export namespace RES {
 
     const host = {
         get: (resource: ResourceInfo) => getCache()[resource.name]
-    }
+    };
 
     /**
      * @deprecated

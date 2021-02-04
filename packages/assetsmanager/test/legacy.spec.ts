@@ -118,9 +118,8 @@ describe('legacy-api', () => {
         });
         it('load-group-with-error-key', async () => {
             await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
-            const result = await RES.loadGroup('errorgroup');
-            console.log('1111111111111s');
-        })
+            expect(() => RES.loadGroup('errorgroup')).toThrow();
+        });
     });
 
     // it('get-group-retry', async () => {
@@ -133,7 +132,7 @@ describe('legacy-api', () => {
     //     const hitCount = getCount('/static/error.res.json');
     //     expect(hitCount).toBe(3);
     // });
-    describe("create-group", () => {
+    describe('create-group', () => {
         it('create-group-override', async () => {
             await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
             await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], true);
@@ -144,7 +143,7 @@ describe('legacy-api', () => {
             await RES.createGroup('preload', ['1_jpg', '1_json', '1_txt'], false);
             expect(getStore().config.groups.preload).toEqual(['1_jpg', '1_json']);
         });
-    })
+    });
 
     it('load-font', async () => {
         await RES.loadConfig('default.res.json', 'http://localhost:3001/static');
