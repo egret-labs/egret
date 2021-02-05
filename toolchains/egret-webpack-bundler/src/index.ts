@@ -4,7 +4,7 @@ import * as ts from 'typescript';
 import webpack from 'webpack';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
-import { emitClassName } from './loaders/ts-loader/ts-transformer';
+import { emitClassName } from '@egret/ts-minify-transformer';
 import { openUrl } from './open';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';

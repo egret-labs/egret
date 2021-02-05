@@ -7,3 +7,6 @@ export function minifyTransformer(program: ts.Program, config?: Partial<Property
     const minifier = new PropertiesMinifier(config);
     return (context: ts.TransformationContext) => (file: ts.SourceFile) => minifier.visitSourceFile(file, program, context);
 }
+
+export { emitClassName } from './emitClassName';
+export { emitDefine } from './emitDefine';
