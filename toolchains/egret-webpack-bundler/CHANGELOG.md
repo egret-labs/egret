@@ -1,6 +1,13 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Fri, 05 Feb 2021 03:02:34 GMT and should not be manually modified.
+This log was last generated on Fri, 05 Feb 2021 03:52:57 GMT and should not be manually modified.
+
+## 2.0.5
+Fri, 05 Feb 2021 03:52:57 GMT
+
+### Patches
+
+- fix typescript legacy mode issue
 
 ## 2.0.4
 Fri, 05 Feb 2021 03:02:34 GMT

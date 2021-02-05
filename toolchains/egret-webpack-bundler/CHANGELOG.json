@@ -2,6 +2,18 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.0.5",
+      "tag": "@egret/egret-webpack-bundler_v2.0.5",
+      "date": "Fri, 05 Feb 2021 03:52:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix typescript legacy mode issue"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.4",
       "tag": "@egret/egret-webpack-bundler_v2.0.4",
       "date": "Fri, 05 Feb 2021 03:02:34 GMT",
