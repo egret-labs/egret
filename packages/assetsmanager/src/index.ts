@@ -17,8 +17,8 @@ export function initConfig(resourceRoot: string, c: ResourceConfigFile) {
         }
         r.url = resourceRoot + r.url;
         if (r.subkeys) {
-            const subkeys = r.subkeys.split(",");
-            for (let subkey of subkeys) {
+            const subkeys = r.subkeys.split(',');
+            for (const subkey of subkeys) {
                 config.alias[subkey] = `${r.name}.${subkey}`;
             }
         }
@@ -47,7 +47,7 @@ export function getResourceWithSubkey(key: string): [ResourceInfo, string?, stri
     const config = getStore().config;
     const alias = config.alias[key];
     if (alias) {
-        const temp = alias.split(".");
+        const temp = alias.split('.');
         const [mainkey, subkey] = temp;
         const result = getResourceInfo(mainkey);
         return [result, key, subkey];
