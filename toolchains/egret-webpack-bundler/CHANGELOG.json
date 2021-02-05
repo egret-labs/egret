@@ -2,6 +2,29 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.0.4",
+      "tag": "@egret/egret-webpack-bundler_v2.0.4",
+      "date": "Fri, 05 Feb 2021 03:02:34 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "修复当 autoGenerateExmlList=true 时产生的增量编译错误"
+          },
+          {
+            "comment": "EgretWebpackBunderPlugin 不再自动生成 manifest.json"
+          },
+          {
+            "comment": "add texture-merger support"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@egret/ts-minify-transformer\" to `1.0.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.3",
       "tag": "@egret/egret-webpack-bundler_v2.0.3",
       "date": "Fri, 29 Jan 2021 06:03:57 GMT",

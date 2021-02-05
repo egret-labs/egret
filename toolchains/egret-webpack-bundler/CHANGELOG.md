@@ -1,6 +1,15 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Fri, 29 Jan 2021 06:03:57 GMT and should not be manually modified.
+This log was last generated on Fri, 05 Feb 2021 03:02:34 GMT and should not be manually modified.
+
+## 2.0.4
+Fri, 05 Feb 2021 03:02:34 GMT
+
+### Patches
+
+- 修复当 autoGenerateExmlList=true 时产生的增量编译错误
+- EgretWebpackBunderPlugin 不再自动生成 manifest.json
+- add texture-merger support
 
 ## 2.0.3
 Fri, 29 Jan 2021 06:03:57 GMT
