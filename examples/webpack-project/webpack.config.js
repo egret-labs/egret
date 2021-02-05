@@ -9,7 +9,7 @@ const config = bundler.generateConfig(__dirname, {
     html: {
         templateFilePath: "./templates/index.ejs"
     },
-    // parseEgretProperty: true,
+    parseEgretProperty: true,
     // assets: [
     //     { file: "resource/default.res.json" }
     // ]

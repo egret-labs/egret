@@ -5,7 +5,11 @@
   "target": {
     "current": "web"
   },
-  "modules": [],
+  "modules": [
+    {
+      "name": "egret"
+    }
+  ],
   "eui": {
     "exmlRoot": [
       "resource/skins",
