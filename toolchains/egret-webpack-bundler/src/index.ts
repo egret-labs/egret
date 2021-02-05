@@ -1,10 +1,10 @@
+import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import express from 'express';
 import * as path from 'path';
 import * as ts from 'typescript';
 import webpack from 'webpack';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
-import { emitClassName } from '@egret/ts-minify-transformer';
 import { openUrl } from './open';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
 import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
@@ -25,7 +25,9 @@ export type WebpackBundleOptions = {
     /**
      * 编译宏常量定义
      */
-    defines?: any,
+    defines?: {
+        [key: string]: string | number | boolean
+    },
 
     /**
      * 是否启动 EXML 相关功能
@@ -288,27 +290,15 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
             configFile: options.typescript?.tsconfigPath || 'tsconfig.json',
             compilerOptions,
             getCustomTransformers: function (program: ts.Program) {
+                const before = [
+                    emitClassName()
+                ]
+                if (options.defines) {
+                    before.push(emitDefine(options.defines));
+                }
                 return {
-                    before: [
-                        emitClassName()
-                    ]
+                    before
                 };
-                // if (options.typescript?.minify) {
-                //     return ({
-                //         before: [
-                //             emitClassName(),
-                //             minifyTransformer(program, options.typescript.minify)
-                //         ]
-                //     });
-                // }
-                // else {
-                //     return ({
-                //         before: [
-                //             emitClassName(),
-                //         ]
-                //     });
-                // }
-
             }
         }
     };

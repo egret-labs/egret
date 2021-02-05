@@ -30,7 +30,7 @@ const config: ResourceManagerConfig = {
                     // new IncrementCompilePlugin(),
                     new WebpackDevServerPlugin({ //新的 Webpack 编译器
                         libraryType: "debug",
-                        defines: { DEBUG: true, RELEASE: false },
+                        defines: { DEBUG: true, RELEASE: false, VERSION: 1 },
                         typescript: { mode: 'legacy' },
                         html: {
                             templateFilePath: "template/web/index.html"
@@ -39,7 +39,8 @@ const config: ResourceManagerConfig = {
                         assets: [{
                             file: "resource/default.res.json",
                             executeBundle: true
-                        }]
+                        }],
+                        parseEgretProperty: true
                     }),
                 ]
             }
