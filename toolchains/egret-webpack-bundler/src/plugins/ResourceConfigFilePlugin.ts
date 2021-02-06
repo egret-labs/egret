@@ -65,28 +65,28 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
     for (const entity of entities) {
         const content = await readFileAsync(compiler, entity.path);
         const json = texturemrger.parseConfig('yaml', content.toString());
-        json.root = path.dirname(path.relative(compiler.context, entity.path)).split("\\").join("/")
+        json.root = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
         json.outputName = 'spritesheet';
         const output = await texturemrger.executeMerge(json);
         const configSource = new webpack.sources.RawSource(JSON.stringify(output.config));
         const bufferSource = new webpack.sources.RawSource(output.buffer);
         compilation.emitAsset(json.root + '/spritesheet.json', configSource);
         compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
-        const relativeFilePath = path.relative('resource', json.root + "/spritesheet.json").split("\\").join("/");
+        const relativeFilePath = path.relative('resource', json.root + '/spritesheet.json').split('\\').join('/');
 
         const spriteSheetResourceConfig = {
-            name: "spritesheet_json",
+            name: 'spritesheet_json',
             url: relativeFilePath,
-            type: "sheet",
+            type: 'sheet',
             subkeys: ''
-        }
+        };
         const subkeys = [];
-        for (let file of json.files) {
-            const name = path.basename(file).split(".").join("_");
+        for (const file of json.files) {
+            const name = path.basename(file).split('.').join('_');
             factory.removeResource(name);
             subkeys.push(name);
         }
-        spriteSheetResourceConfig.subkeys = subkeys.join(",");
+        spriteSheetResourceConfig.subkeys = subkeys.join(',');
 
         factory.addResource(spriteSheetResourceConfig);
 
@@ -98,14 +98,9 @@ async function getAllTextureMergerConfig(root: string) {
     return entities.filter((e) => e.name === 'texture-merger.yaml');
 }
 
-
-
-
-
 type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager')['initConfig']>[1];
 
 type ResourceConfig = ResourceConfigFile['resources'][0] & { emit?: boolean }
-
 
 class ResourceConfigFactory {
 
@@ -123,11 +118,10 @@ class ResourceConfigFactory {
         this.validConfig(json);
         this.config = JSON.parse(JSON.stringify(json));
 
-
     }
 
     removeResource(name: string) {
-        const index = this.config.resources.findIndex(r => r.name === name);
+        const index = this.config.resources.findIndex((r) => r.name === name);
         if (index >= 0) {
             this.config.resources.splice(index, 1);
         }
@@ -155,13 +149,12 @@ class ResourceConfigFactory {
     }
 
     emit() {
-        for (let r of this.config.resources as ResourceConfig[]) {
+        for (const r of this.config.resources as ResourceConfig[]) {
             delete r.emit;
         }
         const content = JSON.stringify(this.config);
         return content;
 
     }
-
 
 }
