@@ -33,20 +33,12 @@ export default class ResourceConfigFilePlugin {
                     const content = await readFileAsync(compiler, fullFilepath);
                     compilation.fileDependencies.add(fullFilepath);
                     const factory = new ResourceConfigFactory();
+                    factory.compilation = compilation;
                     factory.parse(file, content.toString());
                     if (executeBundle) {
-                        await executeTextureMerger(compilation, path.join(compiler.context, 'resource'), factory);
-                        for (const resource of factory.config.resources as ResourceConfig[]) {
-                            if (!resource.emit) {
-                                const filepath = 'resource/' + resource.url;
-                                const assetFullPath = path.join(compiler.context, filepath);
-                                const assetbuffer = await readFileAsync(compiler, assetFullPath);
-                                compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
-                            }
-                        }
+                        factory.execute();
                     }
-                    const source = new webpack.sources.RawSource(factory.emit(), false);
-                    compilation.emitAsset(file, source);
+                    factory.emit();
                 }
                 catch (e) {
                     const message = `\t资源配置处理异常\n\t${e.message}`;
@@ -66,16 +58,16 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         const content = await readFileAsync(compiler, entity.path);
         const json = texturemrger.parseConfig('yaml', content.toString());
         json.root = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
-        json.outputName = 'spritesheet';
         const output = await texturemrger.executeMerge(json);
         const configSource = new webpack.sources.RawSource(JSON.stringify(output.config));
         const bufferSource = new webpack.sources.RawSource(output.buffer);
-        compilation.emitAsset(json.root + '/spritesheet.json', configSource);
-        compilation.emitAsset(json.root + '/spritesheet.png', bufferSource);
-        const relativeFilePath = path.relative('resource', json.root + '/spritesheet.json').split('\\').join('/');
+        const jsonOutputFilePath = `${json.root}/${json.outputName}.json`;
+        compilation.emitAsset(jsonOutputFilePath, configSource);
+        compilation.emitAsset(`${json.root}/${json.outputName}.png`, bufferSource);
+        const relativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
 
         const spriteSheetResourceConfig = {
-            name: 'spritesheet_json',
+            name: `${json.outputName}_json`,
             url: relativeFilePath,
             type: 'sheet',
             subkeys: ''
@@ -104,10 +96,15 @@ type ResourceConfig = ResourceConfigFile['resources'][0] & { emit?: boolean }
 
 class ResourceConfigFactory {
 
+    private configFilePath!: string;
+
+    compilation!: webpack.Compilation;
+
     config: ResourceConfigFile = { groups: [], resources: [] };
 
     parse(filename: string, raw: string) {
 
+        this.configFilePath = filename;
         let json: ResourceConfigFile;
         try {
             json = JSON.parse(raw);
@@ -118,6 +115,20 @@ class ResourceConfigFactory {
         this.validConfig(json);
         this.config = JSON.parse(JSON.stringify(json));
 
+    }
+
+    async execute() {
+        const compilation = this.compilation;
+        const compiler = compilation.compiler;
+        await executeTextureMerger(compilation, path.join(compiler.context, 'resource'), this);
+        for (const resource of this.config.resources as ResourceConfig[]) {
+            if (!resource.emit) {
+                const filepath = 'resource/' + resource.url;
+                const assetFullPath = path.join(compiler.context, filepath);
+                const assetbuffer = await readFileAsync(compiler, assetFullPath);
+                compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
+            }
+        }
     }
 
     removeResource(name: string) {
@@ -153,8 +164,8 @@ class ResourceConfigFactory {
             delete r.emit;
         }
         const content = JSON.stringify(this.config);
-        return content;
-
+        const source = new webpack.sources.RawSource(content, false);
+        this.compilation.emitAsset(this.configFilePath, source);
     }
 
 }

@@ -23,4 +23,4 @@ files:
     - ToggleSwitch/off.png
     - ToggleSwitch/on.png
 root: ./
-outputName: texture.png
+outputName: spritesheet
