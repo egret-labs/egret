@@ -2,29 +2,35 @@ import { EuiCompiler } from '@egret/eui-compiler';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { createProject } from '../egretproject';
 import { LineEmitter } from './inline-loader';
 import { AbstractInlinePlugin } from './inline-loader/AbstractInlinePlugin';
 
 type ThemePluginOptions = {
     dirs: string[],
     output: 'inline' | 'standalone'
-}[]
+}
 
 export default class ThemePlugin extends AbstractInlinePlugin {
     private options: Required<ThemePluginOptions>;
 
     constructor() {
         super();
-        this.options = [{
-            dirs: ['resource/eui_skins', 'resource/skins'],
+        this.options = {
+            dirs: [],
             output: 'inline'
-        }];
+        };
     }
 
     createLineEmitter(compiler: webpack.Compiler) {
         const euiCompiler = new EuiCompiler(compiler.context);
+
+        const project = createProject(compiler.context);
+        const exmls = project.getExmlRoots();
+        this.options.dirs = exmls;
+
         const theme = euiCompiler.getThemes()[0];
-        const dirs = this.options[0].dirs.map((dir) => path.join(compiler.context, dir));
+        const dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
         if (theme.data.autoGenerateExmlsList) {
             addWatchIgnore(compiler, path.join(compiler.context, theme.filePath));
         }
