@@ -5,27 +5,20 @@ import { getApi } from './api';
 export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
 export type EgretProperty = {
-    'engineVersion': string,
-    'compilerVersion'?: string,
-    'modules': EgretPropertyModule[],
-    'target'?: {
-        'current': string
+    engineVersion: string,
+    compilerVersion?: string,
+    modules: EgretPropertyModule[],
+    target?: {
+        current: string
     }
-    'template'?: {
+    template?: {
 
     },
-    'wasm'?: {
-
-    },
-    'native'?: {
-        'path_ignore'?: string[];
-    },
-    'publish'?: {
-        'web': number,
-        'native': number,
-        'path': string;
-    },
-    'egret_version'?: string;
+    egret_version?: string;
+    eui?: {
+        exmlRoot?: string[]
+        theme?: string[]
+    }
 }
 
 export type EgretPropertyModule = {
@@ -131,6 +124,11 @@ export class EgretProjectData {
             return p.split('\\').join('/');
         }
         return _path.join(this.projectRoot, p).split('\\').join('/');
+    }
+
+
+    getExmlRoots() {
+        return this.egretProperties.eui?.exmlRoot || [];
     }
 
     getModules() {
