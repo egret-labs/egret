@@ -38,7 +38,7 @@ export default class ResourceConfigFilePlugin {
                     if (executeBundle) {
                         factory.execute();
                     }
-                    factory.emit();
+                    factory.emitConfig();
                 }
                 catch (e) {
                     const message = `\t资源配置处理异常\n\t${e.message}`;
@@ -59,16 +59,13 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         const json = texturemrger.parseConfig('yaml', content.toString());
         json.root = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
         const output = await texturemrger.executeMerge(json);
-        const configSource = new webpack.sources.RawSource(JSON.stringify(output.config));
-        const bufferSource = new webpack.sources.RawSource(output.buffer);
         const jsonOutputFilePath = `${json.root}/${json.outputName}.json`;
-        compilation.emitAsset(jsonOutputFilePath, configSource);
-        compilation.emitAsset(`${json.root}/${json.outputName}.png`, bufferSource);
-        const relativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
-
+        const imageOutputFilePath = `${json.root}/${json.outputName}.png`;
+        const spriteSheetRelativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
+        const spriteSheetImageRelativeFilePath = path.relative('resource', imageOutputFilePath).split('\\').join('/');
         const spriteSheetResourceConfig = {
             name: `${json.outputName}_json`,
-            url: relativeFilePath,
+            url: spriteSheetRelativeFilePath,
             type: 'sheet',
             subkeys: ''
         };
@@ -80,7 +77,14 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
         }
         spriteSheetResourceConfig.subkeys = subkeys.join(',');
 
-        factory.addResource(spriteSheetResourceConfig);
+        const spriteSheetImageResourceConfig = {
+            name: `${json.outputName}_png`,
+            url: spriteSheetImageRelativeFilePath,
+            type: 'image'
+        };
+
+        factory.emitResource(output.buffer, spriteSheetImageResourceConfig);
+        factory.emitResource(JSON.stringify(output.config), spriteSheetResourceConfig);
 
     }
 }
@@ -138,9 +142,16 @@ class ResourceConfigFactory {
         }
     }
 
-    addResource(resource: ResourceConfig) {
+    private addResource(resource: ResourceConfig) {
         resource.emit = true;
         this.config.resources.push(resource);
+    }
+
+    emitResource(content: Buffer | string, config: ResourceConfig) {
+        const bufferSource = new webpack.sources.RawSource(content);
+        const fileAssetPath = path.join('resource', config.url);
+        this.compilation.emitAsset(fileAssetPath, bufferSource);
+        this.addResource(config);
     }
 
     private validConfig(config: ResourceConfigFile) {
@@ -159,7 +170,7 @@ class ResourceConfigFactory {
         }
     }
 
-    emit() {
+    emitConfig() {
         for (const r of this.config.resources as ResourceConfig[]) {
             delete r.emit;
         }
