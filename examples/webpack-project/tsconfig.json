@@ -15,5 +15,6 @@
         "src/classB.ts",
         "src/i18n/cn/*",
         "libs",
+        "src/components/*"
     ]
 }
