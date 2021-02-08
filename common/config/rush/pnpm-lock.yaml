@@ -9,11 +9,16 @@ importers:
       '@egret/egret-webpack-bundler': 'workspace:*'
       '@egret/eui-compiler': 'workspace:*'
   ../../examples/webpack-project:
+    dependencies:
+      '@egret/assetsmanager': 'link:../../packages/assetsmanager'
+      '@egret/audio': 'link:../../packages/audio'
     devDependencies:
       '@egret/egret-webpack-bundler': 'link:../../toolchains/egret-webpack-bundler'
       webpack-cli: 4.4.0_webpack-dev-server@4.0.0-beta.0
       webpack-dev-server: 4.0.0-beta.0_webpack-cli@4.4.0
     specifiers:
+      '@egret/assetsmanager': 'workspace:*'
+      '@egret/audio': 'workspace:*'
       '@egret/egret-webpack-bundler': 'workspace:*'
       webpack-cli: ^4.4.0
       webpack-dev-server: ^4.0.0-beta.0
@@ -54,6 +59,11 @@ importers:
       '@types/jest': ~26.0.19
       jest: ~26.6.3
       ts-jest: ~26.4.4
+  ../../packages/tween:
+    devDependencies:
+      typescript: 3.9.7
+    specifiers:
+      typescript: 3.9.7
   ../../toolchains/egret-webpack-bundler:
     dependencies:
       '@egret/eui-compiler': 'link:../eui-compiler'

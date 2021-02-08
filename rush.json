@@ -432,6 +432,11 @@
       "reviewCategory": "production"
     },
     {
+      "packageName": "@egret/tween",
+      "projectFolder": "packages/tween",
+      "reviewCategory": "production"
+    },
+    {
       "packageName": "@egret/example-webpack-project",
       "projectFolder": "examples/webpack-project"
     },
