@@ -50,27 +50,19 @@ export type EaseType =
 
 /**
  * Abstract class, Indicate the base action.
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
  * 抽象类，表示一个基本动作
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 export abstract class BasePath extends egret.EventDispatcher {
     /**
      * the name of this action.
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 动作的名称
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public name: string = "";
@@ -78,55 +70,39 @@ export abstract class BasePath extends egret.EventDispatcher {
 
 /**
  * Indicate the to action. See <code>Tween.to</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
  * 表示一个to动作，参见<code>Tween.to</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 export class To extends BasePath {
     /**
      * Property set of an object
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 对象的属性集合
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public props: Props | undefined = undefined;
 
     /**
      * Duration
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 持续时间
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public duration: number = 500;
 
     /**
      * Easing algorithm
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 缓动算法
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public ease: EaseType | Function | undefined = undefined;
@@ -134,41 +110,29 @@ export class To extends BasePath {
 
 /**
  * Indicate the wait action. See <code>Tween.wait</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
  * 表示一个wait动作，参见<code>Tween.wait</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 export class Wait extends BasePath {
     /**
      * Duration
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 持续时间
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public duration: number = 500;
 
     /**
      * Whether properties are updated during the waiting time
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 等待期间属性是否会更新
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public passive: boolean = false;
@@ -176,27 +140,19 @@ export class Wait extends BasePath {
 
 /**
  * Indicate the set action. See <code>Tween.set</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
  * 表示一个set动作，参见<code>Tween.set</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 export class Set extends BasePath {
     /**
      * Property set of an object
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 对象的属性集合
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public props!: Props;
@@ -204,27 +160,19 @@ export class Set extends BasePath {
 
 /**
  * Indicate the tick action. See <code>Tween.tick</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
  * 表示一个tick动作，参见<code>Tween.tick</code>
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 export class Tick extends BasePath {
     /**
      * Delta time
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 增加的时间
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public delta: number = 0;
@@ -249,8 +197,6 @@ function convertEase(ease: EaseType | Function): Function {
  * @event complete Dispatched when all Paths has complete.
  * 
  * @defaultProperty props
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language en_US
  */
 /**
@@ -261,8 +207,6 @@ function convertEase(ease: EaseType | Function): Function {
  * @event complete 当所有Path执行完毕时会派发此事件。
  *
  * @defaultProperty props
- * @version Egret 3.1.8
- * @platform Web,Native
  * @language zh_CN
  */
 /**
@@ -372,16 +316,12 @@ export class TweenItem extends egret.EventDispatcher {
 
     /**
      * Play the Tween
-     * @position The starting position, the default is from the last position to play
-     * @version Egret 3.1.8
-     * @platform Web,Native
+     * @param position The starting position, the default is from the last position to play
      * @language en_US
      */
     /**
      * 播放Tween
-     * @position 播放的起始位置, 默认为从上次位置继续播放
-     * @version Egret 3.1.8
-     * @platform Web,Native
+     * @param position 播放的起始位置, 默认为从上次位置继续播放
      * @language zh_CN
      */
     public play(position?: number): void {
@@ -401,14 +341,10 @@ export class TweenItem extends egret.EventDispatcher {
 
     /**
      * Pause the Tween
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 暂停Tween
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public pause(): void {
@@ -421,14 +357,10 @@ export class TweenItem extends egret.EventDispatcher {
 
     /**
      * Stop the Tween
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 停止Tween
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public stop(): void {
@@ -491,16 +423,11 @@ registerProperty(TweenItem, 'paths', 'Array', true);
  * 
  * @event itemComplete Dispatched when some TweenItem has complete.
  * @event complete Dispatched when all TweenItems has complete.
- * 
- * @version Egret 3.1.8
- * @platform Web,Native
  * @includeExample extension/tween/TweenWrapper.ts
  * @language en_US
  */
 /**
  * TweenGroup是TweenItem的集合，可以并行播放每一个Item
- * @version Egret 3.1.8
- * @platform Web,Native
  * @includeExample extension/tween/TweenWrapper.ts
  * @language zh_CN
  */
@@ -551,16 +478,12 @@ export class TweenGroup extends egret.EventDispatcher {
 
     /**
      * Play the all TweenItems
-     * @time The starting position, the default is from the last position to play。If use 0, the group will play from the start position.
-     * @version Egret 3.1.8
-     * @platform Web,Native
+     * @param time The starting position, the default is from the last position to play。If use 0, the group will play from the start position.
      * @language en_US
      */
     /**
      * 播放所有的TweenItem
-     * @time 播放的起始位置, 默认为从上次位置继续播放。如果为0，则从起始位置开始播放。
-     * @version Egret 3.1.8
-     * @platform Web,Native
+     * @param time 播放的起始位置, 默认为从上次位置继续播放。如果为0，则从起始位置开始播放。
      * @language zh_CN
      */
     public play(time?: number): void {
@@ -575,14 +498,10 @@ export class TweenGroup extends egret.EventDispatcher {
 
     /**
      * Pause the all TweenItems
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 暂停播放所有的TweenItem
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public pause(): void {
@@ -597,14 +516,10 @@ export class TweenGroup extends egret.EventDispatcher {
 
     /**
      * Stop the all TweenItems
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 停止所有的TweenItem
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public stop(): void {
