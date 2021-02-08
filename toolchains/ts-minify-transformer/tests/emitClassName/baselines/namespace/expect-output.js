@@ -1,10 +1,3 @@
-class A {
-
-
-}
-window["A"] = A;
-__reflect(A.prototype, "A", [])
-
 var a = window['a'];
 var a;
 (function (a) {
