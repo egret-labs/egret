@@ -248,14 +248,10 @@ export class TweenItem extends egret.EventDispatcher {
     private _props: any;
     /**
      * The Tween's props.
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * Tween的props参数。
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public get props(): any {
@@ -272,14 +268,10 @@ export class TweenItem extends egret.EventDispatcher {
     private _target: any;
     /**
      * The Tween's target.
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * Tween的target参数。
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public get target(): any {
@@ -296,14 +288,10 @@ export class TweenItem extends egret.EventDispatcher {
     private _paths!: BasePath[];
     /**
      * The Actions in Tween.
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * TweenItem中添加的行为。
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public get paths(): BasePath[] {
@@ -445,14 +433,10 @@ export class TweenGroup extends egret.EventDispatcher {
     private _items!: TweenItem[];
     /**
      * The Array that TweenItems in TweenGroup.
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * TweenGroup要控制的TweenItem集合。
-     * @version Egret 3.1.8
-     * @platform Web,Native
      * @language zh_CN
      */
     public get items(): TweenItem[] {
