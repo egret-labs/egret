@@ -2,9 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import ts from 'typescript';
 import { emitClassName } from '../../';
-const options = {
-    mode: 'debug'
-};
 
 describe('emitClassName', () => {
 
