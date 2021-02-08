@@ -377,10 +377,10 @@ export class TweenItem extends egret.EventDispatcher {
     private applyPath(path: BasePath): void {
         if (path instanceof To) {
             if (path.ease) {
-                this.tween.to(path.props, path.duration, convertEase(path.ease));
+                this.tween.to(path.props!, path.duration, convertEase(path.ease));
             }
             else {
-                this.tween.to(path.props, path.duration);
+                this.tween.to(path.props!, path.duration);
             }
         } else if (path instanceof Wait) {
             this.tween.wait(path.duration, path.passive);

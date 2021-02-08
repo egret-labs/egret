@@ -27,10 +27,16 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-type Props = {
-    [index: string]: any
-}
-
+type Props<T> = {
+    loop?: boolean,
+    onChange?: Function,
+    onChangeObj?: any,
+    ignoreGlobalPause?: boolean,
+    useTicks?: boolean,
+    override?: boolean,
+    paused?: boolean,
+    position?: number
+} & Partial<T>
 
 
 /**
@@ -45,7 +51,7 @@ type Props = {
  * @includeExample extension/tween/Tween.ts
  * @language zh_CN
  */
-export class Tween extends egret.EventDispatcher {
+export class Tween<T = any> extends egret.EventDispatcher {
     /**
      * 不做特殊处理
      * @constant {number} egret.Tween.NONE
@@ -85,7 +91,7 @@ export class Tween extends egret.EventDispatcher {
     /**
      * @private
      */
-    private _target: any = null;
+    private _target!: T;
     /**
      * @private
      */
@@ -105,11 +111,11 @@ export class Tween extends egret.EventDispatcher {
     /**
      * @private
      */
-    private _curQueueProps!: Props;
+    private _curQueueProps!: Props<T>;
     /**
      * @private
      */
-    private _initQueueProps!: Props;
+    private _initQueueProps!: Props<T>;
     /**
      * @private
      */
@@ -161,7 +167,7 @@ export class Tween extends egret.EventDispatcher {
      * 不建议使用，可使用 Tween.removeTweens(target) 代替。
      * @language zh_CN
      */
-    public static get(target: any, props?: { loop?: boolean, onChange?: Function, onChangeObj?: any }, pluginData: any = null, override: boolean = false): Tween {
+    public static get<T>(target: T, props?: Props<T>, pluginData: any = null, override: boolean = false): Tween<T> {
         if (override) {
             Tween.removeTweens(target);
         }
@@ -316,7 +322,7 @@ export class Tween extends egret.EventDispatcher {
      * @version Egret 2.4
      * @platform Web,Native
      */
-    constructor(target: any, props: any, pluginData: any) {
+    constructor(target: T, props?: Props<T>, pluginData?: any) {
         super();
         this.initialize(target, props, pluginData);
     }
@@ -328,12 +334,12 @@ export class Tween extends egret.EventDispatcher {
      * @param props 
      * @param pluginData 
      */
-    private initialize(target: any, props: any, pluginData: any): void {
+    private initialize(target: T, props?: Props<T>, pluginData?: any): void {
         this._target = target;
         if (props) {
-            this._useTicks = props.useTicks;
-            this.ignoreGlobalPause = props.ignoreGlobalPause;
-            this.loop = props.loop;
+            this._useTicks = !!props.useTicks;
+            this.ignoreGlobalPause = !!props.ignoreGlobalPause;
+            this.loop = !!props.loop;
             props.onChange && this.addEventListener("change", props.onChange, props.onChangeObj);
             if (props.override) {
                 Tween.removeTweens(target);
@@ -487,9 +493,11 @@ export class Tween extends egret.EventDispatcher {
             p1 = step.p1;
         }
 
-        for (let n in this._initQueueProps) {
+        const initQueueProps = this._initQueueProps as any;
+
+        for (let n in initQueueProps) {
             if ((v0 = p0[n]) == null) {
-                p0[n] = v0 = this._initQueueProps[n];
+                p0[n] = v0 = initQueueProps[n];
             }
             if ((v1 = p1[n]) == null) {
                 p1[n] = v1 = v0;
@@ -513,7 +521,7 @@ export class Tween extends egret.EventDispatcher {
                 }
             }
             if (!ignore) {
-                this._target[n] = v;
+                (this._target as any)[n] = v;
             }
         }
 
@@ -531,7 +539,7 @@ export class Tween extends egret.EventDispatcher {
      * @returns Tween对象本身
      * @language zh_CN
      */
-    public setPaused(value: boolean): Tween {
+    public setPaused(value: boolean): Tween<T> {
         if (this.paused == value) {
             return this;
         }
@@ -546,10 +554,10 @@ export class Tween extends egret.EventDispatcher {
      * @param props 
      * @returns 
      */
-    private _cloneProps(props: Props): Props {
-        let o: Props = {};
+    private _cloneProps(props: Props<T>): Props<T> {
+        let o: any = {};
         for (let n in props) {
-            o[n] = props[n];
+            o[n] = (props as any)[n];
         }
         return o;
     }
@@ -578,23 +586,27 @@ export class Tween extends egret.EventDispatcher {
      */
     private _appendQueueProps(o: any): any {
         let arr, oldValue, i, l, injectProps;
+        const initQueueProps: any = this._initQueueProps;
+        const curQueueProps: any = this._curQueueProps;
         for (let n in o) {
-            if (this._initQueueProps[n] === undefined) {
-                oldValue = this._target[n];
+            if (initQueueProps[n] === undefined) {
+                oldValue = (this._target as any)[n];
                 //设置plugins
                 if (arr = Tween._plugins[n]) {
                     for (i = 0, l = arr.length; i < l; i++) {
                         oldValue = arr[i].init(this, n, oldValue);
                     }
                 }
-                this._initQueueProps[n] = this._curQueueProps[n] = (oldValue === undefined) ? null : oldValue;
+                const v = (oldValue === undefined) ? null : oldValue;;
+                initQueueProps[n] = v;
+                curQueueProps[n] = v;
             } else {
-                oldValue = this._curQueueProps[n];
+                oldValue = curQueueProps[n];
             }
         }
 
         for (let n in o) {
-            oldValue = this._curQueueProps[n];
+            oldValue = curQueueProps[n];
             if (arr = Tween._plugins[n]) {
                 injectProps = injectProps || {};
                 for (i = 0, l = arr.length; i < l; i++) {
@@ -603,7 +615,8 @@ export class Tween extends egret.EventDispatcher {
                     }
                 }
             }
-            this._curQueueProps[n] = o[n];
+            const a = o[n];
+            curQueueProps[n] = a;
         }
         if (injectProps) {
             this._appendQueueProps(injectProps);
@@ -617,7 +630,7 @@ export class Tween extends egret.EventDispatcher {
      * @param o 
      * @returns 
      */
-    private _addAction(o: any): Tween {
+    private _addAction(o: any): Tween<T> {
         o.t = this.duration;
         o.type = "action";
         this._steps.push(o);
@@ -630,9 +643,9 @@ export class Tween extends egret.EventDispatcher {
      * @param props 
      * @param o 
      */
-    private _set(props: Props, o: any): void {
+    private _set(props: Props<T>, o: any): void {
         for (let n in props) {
-            o[n] = props[n];
+            o[n] = (props as any)[n];
         }
     }
 
@@ -650,7 +663,7 @@ export class Tween extends egret.EventDispatcher {
      * @returns Tween对象本身
      * @language zh_CN
      */
-    public wait(duration: number, passive?: boolean): Tween {
+    public wait(duration: number, passive?: boolean): Tween<T> {
         if (duration == null || duration <= 0) {
             return this;
         }
@@ -675,7 +688,7 @@ export class Tween extends egret.EventDispatcher {
      * @language zh_CN
      */
 
-    public to(props: any, duration?: number, ease?: Function) {
+    public to(props: Props<T>, duration?: number, ease?: Function): Tween<T> {
         if (isNaN(duration!) || duration! < 0) {
             duration = 0;
         }
@@ -714,7 +727,7 @@ export class Tween extends egret.EventDispatcher {
      * </pre>
      * @language zh_CN
      */
-    public call(callback: Function, thisObj: any = undefined, params?: any[]): Tween {
+    public call(callback: Function, thisObj: any = undefined, params?: any[]): Tween<T> {
         return this._addAction({ f: callback, p: params ? params : [], o: thisObj ? thisObj : this._target });
     }
 
@@ -730,7 +743,7 @@ export class Tween extends egret.EventDispatcher {
      * @param target 要继续播放 Tween 的对象
      * @returns {egret.Tween} Tween对象本身
      */
-    public set(props: any, target = null): Tween {
+    public set(props: Props<T>, target = null): Tween<T> {
         //更新当前数据，保证缓动流畅性
         this._appendQueueProps(props);
         return this._addAction({ f: this._set, o: this, p: [props, target ? target : this._target] });
