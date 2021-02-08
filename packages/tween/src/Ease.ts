@@ -38,12 +38,6 @@
  * @language zh_CN
  */
 export class Ease {
-    /**
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    constructor() {
-    }
 
     /**
      * get.See example.
@@ -68,7 +62,7 @@ export class Ease {
                 return t * (t * -amount + 1 + amount);
             }
             return t * ((2 - t) * amount + (1 - amount));
-        }
+        };
     }
 
     /**
@@ -82,7 +76,7 @@ export class Ease {
     public static getPowIn(pow: number) {
         return function (t: number) {
             return Math.pow(t, pow);
-        }
+        };
     }
 
     /**
@@ -96,7 +90,7 @@ export class Ease {
     public static getPowOut(pow: number) {
         return function (t: number) {
             return 1 - Math.pow(1 - t, pow);
-        }
+        };
     }
 
     /**
@@ -111,7 +105,7 @@ export class Ease {
         return function (t: number) {
             if ((t *= 2) < 1) return 0.5 * Math.pow(t, pow);
             return 1 - 0.5 * Math.abs(Math.pow(2 - t, pow));
-        }
+        };
     }
 
     /**
@@ -256,7 +250,7 @@ export class Ease {
      * @language zh_CN
      */
     public static sineInOut(t: number) {
-        return -0.5 * (Math.cos(Math.PI * t) - 1)
+        return -0.5 * (Math.cos(Math.PI * t) - 1);
     }
 
     /**
@@ -270,7 +264,7 @@ export class Ease {
     public static getBackIn(amount: number) {
         return function (t: number) {
             return t * t * ((amount + 1) * t - amount);
-        }
+        };
     }
 
     /**
@@ -294,7 +288,7 @@ export class Ease {
     public static getBackOut(amount: number) {
         return function (t: number) {
             return (--t * t * ((amount + 1) * t + amount) + 1);
-        }
+        };
     }
 
     /**
@@ -320,7 +314,7 @@ export class Ease {
         return function (t: number) {
             if ((t *= 2) < 1) return 0.5 * (t * t * ((amount + 1) * t - amount));
             return 0.5 * ((t -= 2) * t * ((amount + 1) * t + amount) + 2);
-        }
+        };
     }
 
     /**
@@ -426,12 +420,12 @@ export class Ease {
      * @language zh_CN
      */
     public static getElasticIn(amplitude: number, period: number) {
-        let pi2 = Math.PI * 2;
+        const pi2 = Math.PI * 2;
         return function (t: number) {
             if (t == 0 || t == 1) return t;
-            let s = period / pi2 * Math.asin(1 / amplitude);
+            const s = period / pi2 * Math.asin(1 / amplitude);
             return -(amplitude * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * pi2 / period));
-        }
+        };
     }
 
     /**
@@ -453,12 +447,12 @@ export class Ease {
      * @language zh_CN
      */
     public static getElasticOut(amplitude: number, period: number) {
-        let pi2 = Math.PI * 2;
+        const pi2 = Math.PI * 2;
         return function (t: number) {
             if (t == 0 || t == 1) return t;
-            let s = period / pi2 * Math.asin(1 / amplitude);
+            const s = period / pi2 * Math.asin(1 / amplitude);
             return (amplitude * Math.pow(2, -10 * t) * Math.sin((t - s) * pi2 / period) + 1);
-        }
+        };
     }
 
     /**
@@ -480,12 +474,12 @@ export class Ease {
      * @language zh_CN
      */
     public static getElasticInOut(amplitude: number, period: number) {
-        let pi2 = Math.PI * 2;
+        const pi2 = Math.PI * 2;
         return function (t: number) {
-            let s = period / pi2 * Math.asin(1 / amplitude);
+            const s = period / pi2 * Math.asin(1 / amplitude);
             if ((t *= 2) < 1) return -0.5 * (amplitude * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * pi2 / period));
             return amplitude * Math.pow(2, -10 * (t -= 1)) * Math.sin((t - s) * pi2 / period) * 0.5 + 1;
-        }
+        };
     }
 
     /**

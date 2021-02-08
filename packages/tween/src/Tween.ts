@@ -38,7 +38,6 @@ type Props<T> = {
     position?: number
 } & Partial<T>
 
-
 /**
  * Tween is the animation easing class of Egret
  * @see http://edn.egret.com/cn/docs/page/576 Tween ease animation
@@ -188,7 +187,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         if (!target.tween_count) {
             return;
         }
-        let tweens: Tween[] = Tween._tweens;
+        const tweens: Tween[] = Tween._tweens;
         for (let i = tweens.length - 1; i >= 0; i--) {
             if (tweens[i]._target == target) {
                 tweens[i].paused = true;
@@ -212,7 +211,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         if (!target.tween_count) {
             return;
         }
-        let tweens: Tween[] = Tween._tweens;
+        const tweens: Tween[] = Tween._tweens;
         for (let i = tweens.length - 1; i >= 0; i--) {
             if (tweens[i]._target == target) {
                 tweens[i].paused = true;
@@ -234,7 +233,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         if (!target.tween_count) {
             return;
         }
-        let tweens: Tween[] = Tween._tweens;
+        const tweens: Tween[] = Tween._tweens;
         for (let i = tweens.length - 1; i >= 0; i--) {
             if (tweens[i]._target == target) {
                 tweens[i].paused = false;
@@ -249,12 +248,12 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @param paused 
      */
     private static tick(timeStamp: number, paused = false): boolean {
-        let delta = timeStamp - Tween._lastTime;
+        const delta = timeStamp - Tween._lastTime;
         Tween._lastTime = timeStamp;
 
-        let tweens: Tween[] = Tween._tweens.concat();
+        const tweens: Tween[] = Tween._tweens.concat();
         for (let i = tweens.length - 1; i >= 0; i--) {
-            let tween: Tween = tweens[i];
+            const tween: Tween = tweens[i];
             if ((paused && !tween.ignoreGlobalPause) || tween.paused) {
                 continue;
             }
@@ -272,8 +271,8 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @param value 
      */
     private static _register(tween: Tween, value: boolean): void {
-        let target: any = tween._target;
-        let tweens: Tween[] = Tween._tweens;
+        const target: any = tween._target;
+        const tweens: Tween[] = Tween._tweens;
         if (value) {
             if (target) {
                 target.tween_count = target.tween_count > 0 ? target.tween_count + 1 : 1;
@@ -307,9 +306,9 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @language zh_CN
      */
     public static removeAllTweens(): void {
-        let tweens: Tween[] = Tween._tweens;
+        const tweens: Tween[] = Tween._tweens;
         for (let i = 0, l = tweens.length; i < l; i++) {
-            let tween: Tween = tweens[i];
+            const tween: Tween = tweens[i];
             tween.paused = true;
             tween._target.tween_count = 0;
         }
@@ -319,8 +318,6 @@ export class Tween<T = any> extends egret.EventDispatcher {
     /**
      * 创建一个 egret.Tween 对象
      * @private
-     * @version Egret 2.4
-     * @platform Web,Native
      */
     constructor(target: T, props?: Props<T>, pluginData?: any) {
         super();
@@ -340,7 +337,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             this._useTicks = !!props.useTicks;
             this.ignoreGlobalPause = !!props.ignoreGlobalPause;
             this.loop = !!props.loop;
-            props.onChange && this.addEventListener("change", props.onChange, props.onChangeObj);
+            props.onChange && this.addEventListener('change', props.onChange, props.onChangeObj);
             if (props.override) {
                 Tween.removeTweens(target);
             }
@@ -378,7 +375,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         let end: boolean = false;
         if (t >= this.duration) {
             if (this.loop) {
-                var newTime = t % this.duration;
+                const newTime = t % this.duration;
                 if (t > 0 && newTime === 0) {
                     t = this.duration;
                 } else {
@@ -398,17 +395,17 @@ export class Tween<T = any> extends egret.EventDispatcher {
             this.setPaused(true);
         }
 
-        let prevPos = this._prevPos;
+        const prevPos = this._prevPos;
         this.position = this._prevPos = t;
         this._prevPosition = value;
 
         if (this._target) {
             if (this._steps.length > 0) {
                 // 找到新的tween
-                let l = this._steps.length;
+                const l = this._steps.length;
                 let stepIndex = -1;
                 for (let i = 0; i < l; i++) {
-                    if (this._steps[i].type == "step") {
+                    if (this._steps[i].type == 'step') {
                         stepIndex = i;
                         if (this._steps[i].t <= t && this._steps[i].t + this._steps[i].d >= t) {
                             break;
@@ -416,7 +413,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
                     }
                 }
                 for (let i = 0; i < l; i++) {
-                    if (this._steps[i].type == "action") {
+                    if (this._steps[i].type == 'action') {
                         //执行actions
                         if (actionsMode != 0) {
                             if (this._useTicks) {
@@ -433,9 +430,9 @@ export class Tween<T = any> extends egret.EventDispatcher {
                             }
                         }
                     }
-                    else if (this._steps[i].type == "step") {
+                    else if (this._steps[i].type == 'step') {
                         if (stepIndex == i) {
-                            let step = this._steps[stepIndex];
+                            const step = this._steps[stepIndex];
                             this._updateTargetProps(step, Math.min((this._stepPosition = t - step.t) / step.d, 1));
                         }
                     }
@@ -443,7 +440,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             }
         }
 
-        this.dispatchEventWith("change");
+        this.dispatchEventWith('change');
         return end;
     }
 
@@ -462,7 +459,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             sPos = endPos;
             ePos = startPos;
         }
-        let pos = action.t;
+        const pos = action.t;
         if (pos == ePos || (pos > sPos && pos < ePos) || (includeStart && pos == startPos)) {
             action.f.apply(action.o, action.p);
         }
@@ -495,14 +492,15 @@ export class Tween<T = any> extends egret.EventDispatcher {
 
         const initQueueProps = this._initQueueProps as any;
 
-        for (let n in initQueueProps) {
+        for (const n in initQueueProps) {
             if ((v0 = p0[n]) == null) {
                 p0[n] = v0 = initQueueProps[n];
             }
             if ((v1 = p1[n]) == null) {
                 p1[n] = v1 = v0;
             }
-            if (v0 == v1 || ratio == 0 || ratio == 1 || (typeof (v0) != "number")) {
+            // eslint-disable-next-line space-unary-ops
+            if (v0 == v1 || ratio == 0 || ratio == 1 || (typeof (v0) != 'number')) {
                 v = ratio == 1 ? v1 : v0;
             } else {
                 v = v0 + (v1 - v0) * ratio;
@@ -511,7 +509,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             let ignore = false;
             if (arr = Tween._plugins[n]) {
                 for (let i = 0, l = arr.length; i < l; i++) {
-                    let v2: any = arr[i].tween(this, n, v, p0, p1, ratio, !!step && p0 == p1, !step);
+                    const v2: any = arr[i].tween(this, n, v, p0, p1, ratio, !!step && p0 == p1, !step);
                     if (v2 == Tween.IGNORE) {
                         ignore = true;
                     }
@@ -555,8 +553,8 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @returns 
      */
     private _cloneProps(props: Props<T>): Props<T> {
-        let o: any = {};
-        for (let n in props) {
+        const o: any = {};
+        for (const n in props) {
             o[n] = (props as any)[n];
         }
         return o;
@@ -570,7 +568,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
      */
     private _addStep(o: any): Tween {
         if (o.d > 0) {
-            o.type = "step";
+            o.type = 'step';
             this._steps.push(o);
             o.t = this.duration;
             this.duration += o.d;
@@ -588,7 +586,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         let arr, oldValue, i, l, injectProps;
         const initQueueProps: any = this._initQueueProps;
         const curQueueProps: any = this._curQueueProps;
-        for (let n in o) {
+        for (const n in o) {
             if (initQueueProps[n] === undefined) {
                 oldValue = (this._target as any)[n];
                 //设置plugins
@@ -605,7 +603,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             }
         }
 
-        for (let n in o) {
+        for (const n in o) {
             oldValue = curQueueProps[n];
             if (arr = Tween._plugins[n]) {
                 injectProps = injectProps || {};
@@ -632,7 +630,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
      */
     private _addAction(o: any): Tween<T> {
         o.t = this.duration;
-        o.type = "action";
+        o.type = 'action';
         this._steps.push(o);
         return this;
     }
@@ -644,7 +642,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @param o 
      */
     private _set(props: Props<T>, o: any): void {
-        for (let n in props) {
+        for (const n in props) {
             o[n] = (props as any)[n];
         }
     }
@@ -667,7 +665,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
         if (duration == null || duration <= 0) {
             return this;
         }
-        let o = this._cloneProps(this._curQueueProps);
+        const o = this._cloneProps(this._curQueueProps);
         return this._addStep({ d: duration, p0: o, p1: o, v: passive });
     }
 

@@ -10,7 +10,7 @@ declare namespace egret {
 
     export const ticker: {
         $startTick: (callback: Function, obj: any) => void;
-    }
+    };
 
     export function getTimer(): number;
 }
