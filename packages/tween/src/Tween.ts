@@ -725,7 +725,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * </pre>
      * @language zh_CN
      */
-    public call(callback: Function, thisObj: any = undefined, params?: any[]): Tween<T> {
+    public call<R extends any[]>(callback: (...args: R) => void, thisObj: any = undefined, params?: R): Tween<T> {
         return this._addAction({ f: callback, p: params ? params : [], o: thisObj ? thisObj : this._target });
     }
 
