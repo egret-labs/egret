@@ -1,3 +1,5 @@
+import { DefaultWorldClock } from './WorldClock';
+
 type Props<T> = {
     loop?: boolean,
     onChange?: Function,
@@ -218,23 +220,24 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @param delta 
      * @param paused 
      */
-    private static tick(timeStamp: number, paused = false): boolean {
+    static tick(timeStamp: number) {
         const delta = timeStamp - Tween._lastTime;
         Tween._lastTime = timeStamp;
 
         const tweens: Tween[] = Tween._tweens.concat();
         for (let i = tweens.length - 1; i >= 0; i--) {
             const tween: Tween = tweens[i];
-            if ((paused && !tween.ignoreGlobalPause) || tween.paused) {
+            if (tween.paused) {
                 continue;
             }
             tween.$tick(tween._useTicks ? 1 : delta);
         }
-
-        return false;
     }
 
     private static _lastTime: number = 0;
+
+    static worldClock = new DefaultWorldClock();
+
     /**
      * @private
      * 
@@ -250,8 +253,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
             }
             tweens.push(tween);
             if (!Tween._inited) {
-                Tween._lastTime = egret.getTimer();
-                egret.ticker.$startTick(Tween.tick, null);
+                Tween._lastTime = this.worldClock.register(Tween);
                 Tween._inited = true;
             }
         } else {
