@@ -28,7 +28,7 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "/tests/index.ts"
+    "testRegex": "/tests/minifier/index.ts"
   },
   "author": "",
   "license": "ISC"

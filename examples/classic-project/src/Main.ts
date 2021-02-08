@@ -32,6 +32,13 @@ declare const VERSION: number;
 console.log(VERSION);
 
 
+module a.b {
+
+    export class C {
+
+    }
+}
+
 class Main extends eui.UILayer {
 
 

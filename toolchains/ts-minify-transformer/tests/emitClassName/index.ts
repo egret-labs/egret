@@ -1,17 +1,17 @@
-const minifyTransformer = require('../').minifyTransformer;
-import ts from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
+import ts from 'typescript';
+import { emitClassName } from '../../';
 const options = {
     mode: 'debug'
 };
 
-describe('transformer', () => {
+describe('emitClassName', () => {
 
-    const dirs = fs.readdirSync('./tests/baselines/');
+    const dirs = fs.readdirSync('./tests/emitClassName/baselines/');
     for (const dir of dirs) {
         it(`transformer-${dir}`, async () => {
-            const fulldir = path.join('./tests/baselines', dir);
+            const fulldir = path.join('./tests/emitClassName/baselines', dir);
             const compiledResult = formatter(await compile(fulldir));
             const expectOutputContent = fs.readFileSync(path.join(fulldir, 'expect-output.js'), 'utf-8');
             const expectedResult = formatter(expectOutputContent);
@@ -35,8 +35,7 @@ function compile(dir: string) {
 
         const customTransformer = {
             before: [
-                // @ts-ignore
-                minifyTransformer(program, options)
+                emitClassName()
             ]
         };
         const emitResult = program.emit(undefined, (filename, data) => {
