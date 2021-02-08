@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@egret/assetsmanager": "workspace:*",
-    "@egret/audio": "workspace:*"
+    "@egret/audio": "workspace:*",
+    "@egret/tween": "workspace:*"
   },
   "peerDependencies": {
     "webpack": "^5.17.0"
