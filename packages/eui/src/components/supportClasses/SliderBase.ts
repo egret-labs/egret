@@ -30,7 +30,7 @@
 import { UIComponent } from "../../core/UIComponent";
 import { UIEvent } from "../../events/UIEvent";
 import { Animation } from "./Animation";
-import { RangeKeys } from "./Range";
+import { Range, RangeKeys } from "./Range";
 
 export const enum Keys {
         clickOffsetX,

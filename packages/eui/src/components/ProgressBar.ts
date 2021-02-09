@@ -31,7 +31,7 @@ import { Direction } from "../core/Direction";
 import { UIComponent } from "../core/UIComponent";
 import { Label } from "./Label";
 import { Animation } from "./supportClasses/Animation";
-import { RangeKeys } from "./supportClasses/Range";
+import { Range, RangeKeys } from "./supportClasses/Range";
 
 export class ProgressBar extends Range {
 
