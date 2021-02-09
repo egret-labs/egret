@@ -1,7 +1,7 @@
-import { RES } from '@egret/assetsmanager/dist/legacy'
+import { RES } from '@egret/assetsmanager/dist/legacy';
 import { AudioFactory, WebAudioInstance } from '@egret/audio';
-import { Tween } from '@egret/tween';
 import * as eui from '@egret/eui';
+import { Tween } from '@egret/tween';
 class Main extends egret.DisplayObjectContainer {
 
     constructor() {
@@ -12,6 +12,7 @@ class Main extends egret.DisplayObjectContainer {
         console.log(i18n.name);
         // this.run();
         this.runTween();
+        this.runEui();
 
 
     }
@@ -36,4 +37,18 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(text)
         Tween.get(text).to({ x: 400, y: 400 }, 1000)
     }
+
+
+    async runEui() {
+        console.log(111)
+        console.log(222)
+        const context = eui.Context.getInstance();
+        context.getTheme = async () => { generateEUI };
+        context.initialize();
+
+
+    }
 }
+
+
+declare var generateEUI: any;

@@ -15,6 +15,7 @@
         "src/classB.ts",
         "src/i18n/cn/*",
         "libs",
-        "src/components/*"
+        "src/components/*",
+        "src/eui-support/*"
     ]
 }
