@@ -46,9 +46,6 @@ namespace eui {
      * </pre>
      *
      * @defaultProperty elementsContent
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/SkinExample.ts
      * @language en_US
      */
@@ -67,9 +64,6 @@ namespace eui {
      * </pre>
      *
      * @defaultProperty elementsContent
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/SkinExample.ts
      * @language zh_CN
      */
@@ -77,16 +71,10 @@ namespace eui {
 
         /**
          * The list of skin parts name
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤部件名称列表
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public skinParts:string[];
@@ -96,20 +84,12 @@ namespace eui {
          * This property can only affect measure result of host component.
          *
          * @default 100000
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤的最大宽度。仅影响主机组件的测量结果。
          *
          * @default 100000
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public maxWidth:number = 100000;
@@ -118,20 +98,12 @@ namespace eui {
          * This property can only affect measure result of host component.
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤的最小宽度,此属性设置为大于maxWidth的值时无效。仅影响主机组件的测量结果。
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public minWidth:number = 0;
@@ -140,20 +112,12 @@ namespace eui {
          * This property can only affect measure result of host component.
          *
          * @default 100000
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤的最大高度。仅影响主机组件的测量结果。
          *
          * @default 100000
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public maxHeight:number = 100000;
@@ -162,20 +126,12 @@ namespace eui {
          * This property can only affect measure result of host component.
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤的最小高度,此属性设置为大于maxHeight的值时无效。仅影响主机组件的测量结果。
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public minHeight:number = 0;
@@ -183,20 +139,12 @@ namespace eui {
          * Number that specifies the explicit width of the skin.
          * This property can only affect measure result of host component.
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤显式设置宽度,设置为 NaN 表示不显式设置。仅影响主机组件的测量结果。
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public width:number = NaN;
@@ -205,20 +153,12 @@ namespace eui {
          * This property can only affect measure result of host component.
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 皮肤显式设置高度,设置为 NaN 表示不显式设置。仅影响主机组件的测量结果。
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public height:number = NaN;
@@ -239,16 +179,10 @@ namespace eui {
         private _hostComponent:Component = null;
         /**
          * The host component which the skin will be attached.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 此皮肤附加到的主机组件
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get hostComponent():Component {
@@ -295,16 +229,10 @@ namespace eui {
 
         /**
          * The list of state for host component.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 为此组件定义的视图状态。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public states:State[];
@@ -312,16 +240,10 @@ namespace eui {
         /**
          * The current state of host component.
          * Set to <code>""</code> or <code>null</code> to reset the component back to its base state.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 组件的当前视图状态。将其设置为 "" 或 null 可将组件重置回其基本状态。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public currentState:string;
@@ -329,17 +251,11 @@ namespace eui {
         /**
          * Check if contains the specifies state name.
          * @param stateName the state name need to be checked
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 返回是否含有指定名称的视图状态
          * @param stateName 要检查的视图状态名称
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public hasState:(stateName:string)=>boolean;

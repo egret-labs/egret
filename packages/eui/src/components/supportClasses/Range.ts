@@ -62,10 +62,6 @@ namespace eui {
      * If the value of the <code>snapInterval</code> property is not 0,
      * then the <code>value</code> property is also constrained to be a multiple of
      * <code>snapInterval</code>.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/components/supportClasses/RangeExample.ts
      * @language en_US
      */
@@ -77,9 +73,6 @@ namespace eui {
      * 即<code>(minimum <= value <= maximum)</code> 为真。
      *
      * 如果<code>snapInterval</code>属性的值不是0，那么<code>value</code>的值也会被<code>snapInterval</code>所约束。
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/components/supportClasses/RangeExample.ts
      * @language zh_CN
      */
@@ -127,10 +120,6 @@ namespace eui {
          * maximum with the <code>nearestValidValue()</code> method.
          *
          * @default 100
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -140,10 +129,6 @@ namespace eui {
          * 将在<code>nearestValidValue()</code>方法中进行。
          *
          * @default 100
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get maximum():number {
@@ -169,10 +154,6 @@ namespace eui {
          * minimum with the <code>nearestValidValue()</code> method.
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -182,10 +163,6 @@ namespace eui {
          * 将在<code>nearestValidValue()</code>方法中进行。
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get minimum():number {
@@ -213,10 +190,6 @@ namespace eui {
          * method.
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -226,10 +199,6 @@ namespace eui {
          * 和<code>minimum</code>属性所限制。此修正过程将在<code>nearestValidValue()</code>方法中进行。
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get value():number {
@@ -272,10 +241,6 @@ namespace eui {
          * to be between minimum and maximum inclusive.
          *
          * @default 1
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -287,10 +252,6 @@ namespace eui {
          * 如果此属性的值为零，则仅会将有效值约束到介于 minimum 和 maximum 之间（包括两者）。
          *
          * @default 1
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get snapInterval():number {
@@ -318,16 +279,10 @@ namespace eui {
 
         /**
          * Processes the properties set on the component.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 处理对组件设置的属性
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected commitProperties():void {
@@ -390,10 +345,6 @@ namespace eui {
          * @param value The input value.
          * @param interval The value of snapInterval or an integer multiple of snapInterval.
          * @return The valid value that's closest to the input.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -416,10 +367,6 @@ namespace eui {
          * @param value 输入值。
          * @param interval snapInterval 的值，或 snapInterval 的整数倍数。
          * @return 最近接输入值的有效值。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected nearestValidValue(value:number, interval:number):number {
@@ -453,10 +400,6 @@ namespace eui {
          * to constrain the value parameter
          *
          * @param value The new value of the <code>value</code> property.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -465,10 +408,6 @@ namespace eui {
          * 此方法假定调用者已经使用了 nearestValidValue() 方法来约束 value 参数。
          *
          * @param value value属性的新值
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected setValue(value:number):void {
@@ -487,16 +426,10 @@ namespace eui {
 
         /**
          * Draws the object and/or sizes and positions its children.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 绘制对象和/或设置其子项的大小和位置
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected updateDisplayList(w:number, h:number):void {
@@ -508,17 +441,11 @@ namespace eui {
          * Update size and visible of skin parts.<p/>
          * Subclasses override this method to update skin parts display based on <code>minimum</code>, <code>maximum</code>
          * and <code>value</code> properties.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 更新皮肤部件（通常为滑块）的大小和可见性。<p/>
          * 子类覆盖此方法以基于 minimum、maximum 和 value 属性更新滑块的大小、位置和可见性。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected updateSkinDisplayList():void {

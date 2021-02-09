@@ -32,16 +32,10 @@ namespace eui {
 
     /**
      * Default instance of interface <code>IThemeAdapter</code>.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 默认的IThemeAdapter接口实现。
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class DefaultThemeAdapter implements IThemeAdapter {

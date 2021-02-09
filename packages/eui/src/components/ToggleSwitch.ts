@@ -32,19 +32,11 @@ namespace eui {
 
     /**
      * The ToggleSwitch control defines an on-off control.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ToggleSwitchExample.ts
      * @language en_US
      */
     /**
      * ToggleSwitch 表示一个开关组件。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ToggleSwitchExample.ts
      * @language zh_CN
      */

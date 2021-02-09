@@ -130,18 +130,12 @@ namespace eui {
      * Note: The skin name values in the skin theme are used as default values,which can not be changed while running.
      * You can change the skin of a component with the skinName property.
      * @event egret.Event.COMPLETE Dispatch when EXML used in this theme is loaded and parsed.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/core/ThemeExample.ts
      * @language en_US
      */
     /**
      * 皮肤主题。注意：皮肤主题是一次性设置的默认值,并不能运行时切换所有组件默认皮肤。切换单个皮肤您可以自行对Component.skinName赋值来修改。
      * @event egret.Event.COMPLETE 当主题关联的EXML加载解析完成时派发
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/core/ThemeExample.ts
      * @language zh_CN
      */
@@ -300,9 +294,6 @@ namespace eui {
          * <li>3. Use the parent class name of client to search.</li>
          * <li>4. Repeat step 3 until find the skin name or the parent is <code>eui.Component</code>.</li>
          * @param client the component need to get the default skin.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -312,9 +303,6 @@ namespace eui {
          * <li>3.使用client的父类名作为键查询默认皮肤名。</li>
          * <li>4.不断重复3直到查询到皮肤名或父类为eui.Component时停止。</li>
          * @param client 要获取默认皮肤的组件。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public getSkinName(client: Component): string {
@@ -354,18 +342,12 @@ namespace eui {
          * Map a default skin for the specified host component.
          * @param hostComponentKey the name of host component, such as "eui.Button".
          * @param skinName the name of skin, such as "app.MyButtonSkin".
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 为指定的主机组件映射一个默认皮肤。
          * @param hostComponentKey 主机组件名称，例如：“eui.Button”。
          * @param skinName 皮肤名称 例如："app.MyButtonSkin"。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public mapSkin(hostComponentKey: string, skinName: string): void {

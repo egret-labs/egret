@@ -53,9 +53,6 @@ namespace eui {
      * @see http://edn.egret.com/cn/article/index/id/608 Simple container
      * @defaultProperty elementsContent
      * @includeExample  extension/eui/components/GroupExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -65,9 +62,6 @@ namespace eui {
      * @see http://edn.egret.com/cn/article/index/id/608 简单容器
      * @defaultProperty elementsContent
      * @includeExample  extension/eui/components/GroupExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class Group extends egret.DisplayObjectContainer implements IViewport {
@@ -139,20 +133,12 @@ namespace eui {
          * the UIcomponent in the container.
          *
          * @default eui.BasicLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 此容器的布局对象。
          *
          * s@default eui.BasicLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get layout():LayoutBase {
@@ -188,9 +174,6 @@ namespace eui {
 
         /**
          * @copy eui.IViewport#contentWidth
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get contentWidth():number {
             return this.$Group[Keys.contentWidth];
@@ -198,9 +181,6 @@ namespace eui {
 
         /**
          * @copy eui.IViewport#contentHeight
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get contentHeight():number {
             return this.$Group[Keys.contentHeight];
@@ -216,10 +196,6 @@ namespace eui {
          *
          * @param width The new value of <code>contentWidth</code>.
          * @param height The new value of <code>contentHeight</code>.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -229,10 +205,6 @@ namespace eui {
          *
          * @param width <code>contentWidth</code> 的新值。
          * @param height <code>contentHeight</code> 的新值。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public setContentSize(width:number, height:number):void {
@@ -255,10 +227,6 @@ namespace eui {
         }
         /**
          * @copy eui.IViewport#scrollEnabled
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get scrollEnabled():boolean {
             return this.$Group[Keys.scrollEnabled];
@@ -275,10 +243,6 @@ namespace eui {
 
         /**
          * @copy eui.IViewport#scrollH
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get scrollH():number {
             return this.$Group[Keys.scrollH];
@@ -298,10 +262,6 @@ namespace eui {
 
         /**
          * @copy eui.IViewport#scrollV
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get scrollV():number {
             return this.$Group[Keys.scrollV];
@@ -341,18 +301,10 @@ namespace eui {
 
         /**
          * The number of layout element in this container.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 布局元素子项的数量。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get numElements():number {
@@ -361,18 +313,10 @@ namespace eui {
 
         /**
          * Returns the layout element at the specified index.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 获取一个布局元素子项。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public getElementAt(index:number):egret.DisplayObject {
@@ -389,10 +333,6 @@ namespace eui {
          *
          * @param startIndex the start index of sub visual elements（include）
          * @param endIndex the end index of sub visual elements（include）
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -401,10 +341,6 @@ namespace eui {
          *
          * @param startIndex 可视元素起始索引（包括）
          * @param endIndex 可视元素结束索引（包括）
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public setVirtualElementIndicesInView(startIndex:number, endIndex:number):void {
@@ -415,18 +351,10 @@ namespace eui {
          * When <code>true</code>, this property
          * ensures that the entire bounds of the Group respond to
          * touch events such as begin.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 触摸组件的背景透明区域是否可以穿透。设置为true表示可以穿透，反之透明区域也会响应触摸事件。默认 false。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get touchThrough():boolean{
@@ -472,37 +400,21 @@ namespace eui {
 
         /**
          * The list of state for this component.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 为此组件定义的视图状态。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public states:State[];
 
         /**
          * @copy eui.Component#currentState
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public currentState:string;
 
         /**
          * @copy eui.Skin#hasState()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public hasState:(stateName:string)=>boolean;
         /**
@@ -518,10 +430,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#invalidateState()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateState():void {
             let values = this.$stateValues;
@@ -534,10 +442,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#getCurrentState()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getCurrentState():string {
             return "";
@@ -553,10 +457,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#createChildren()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected createChildren():void {
             if (!this.$layout) {
@@ -567,10 +467,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#childrenCreated()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected childrenCreated():void {
 
@@ -578,10 +474,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#commitProperties()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties():void {
             sys.UIComponentImpl.prototype["commitProperties"].call(this);
@@ -597,10 +489,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#measure()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measure():void {
             if (!this.$layout) {
@@ -612,10 +500,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#updateDisplayList()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth:number, unscaledHeight:number):void {
             if (this.$layout) {
@@ -627,10 +511,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#invalidateParentLayout()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected invalidateParentLayout():void {
         }
@@ -647,256 +527,148 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public includeInLayout:boolean;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public left:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public right:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public top:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public bottom:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public horizontalCenter:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public verticalCenter:any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentWidth:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentHeight:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitWidth:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitHeight:number;
 
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minWidth:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxWidth:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minHeight:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxHeight:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setMeasuredSize(width:number, height:number):void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateProperties():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateProperties():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateSize():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateSize(recursive?:boolean):void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateDisplayList():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateDisplayList():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateNow():void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsSize(layoutWidth:number, layoutHeight:number):void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsPosition(x:number, y:number):void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getLayoutBounds(bounds:egret.Rectangle):void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getPreferredBounds(bounds:egret.Rectangle):void {
         }

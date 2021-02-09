@@ -33,19 +33,11 @@ namespace eui {
      * The List control displays a vertical or horizontal list of items.
      * The user can select one or more items from the list, depending
      * on the value of the <code>allowMultipleSelection</code> property.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ListExample.ts
      * @language en_US
      */
     /**
      * List 控件可显示垂直或水平的项目列表。用户可以根据 <code>allowMultipleSelection</code> 属性的值从列表中选择一个或多个项目。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ListExample.ts
      * @language zh_CN
      */
@@ -58,10 +50,6 @@ namespace eui {
          * and tap the item again will cancel selection.
          *
          * @default false
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -69,10 +57,6 @@ namespace eui {
          * 可以设置多项为选中状态。
          *
          * @default false
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public allowMultipleSelection:boolean = false;
@@ -92,20 +76,12 @@ namespace eui {
          * item or items.
          *
          * @default []
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 当前选中的一个或多个项目的索引列表。
          *
          * @default []
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get selectedIndices():number[] {
@@ -120,10 +96,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get selectedIndex():number {
             if (this._proposedSelectedIndices) {
@@ -140,18 +112,10 @@ namespace eui {
 
         /**
          * An Array representing the currently selected data items.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 表示当前选定数据项的列表
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get selectedItems():any[] {
@@ -192,10 +156,6 @@ namespace eui {
          *
          * @param value An array of numbers representing the indices of the selected
          * @param dispatchChangeEvent whether dispatched a change event.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -203,10 +163,6 @@ namespace eui {
          *
          * @param value 选中项索引的数组
          * @param dispatchChangeEvent 是否派发changed事件
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected setSelectedIndices(value:number[], dispatchChangeEvent?:boolean):void {
@@ -224,10 +180,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties():void {
             super.commitProperties();
@@ -238,10 +190,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitSelection(dispatchChangedEvents:boolean = true):boolean {
             let values = this.$ListBase;
@@ -310,18 +258,10 @@ namespace eui {
          * Given a new selection interval, figure out which
          * items are newly added/removed from the selection interval and update
          * selection properties and view accordingly.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 从给定的选择区间中找出新增或者移除的项，并更新属性。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected commitMultipleSelection():void {
@@ -384,10 +324,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public dataProviderRefreshed():void {
             if (this.allowMultipleSelection) {
@@ -436,10 +372,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected onRendererTouchEnd(event:egret.TouchEvent):void {
             if (this.allowMultipleSelection) {

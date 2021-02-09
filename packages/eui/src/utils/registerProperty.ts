@@ -66,9 +66,6 @@ namespace eui {
      *          <s:Group/>
      *      </e:Scroller>
      * </pre>
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -97,9 +94,6 @@ namespace eui {
      *     <s:Group/>
      * </e:Scroller>
      * </pre>
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export function registerProperty(classDefinition:any,property:string,type:string,asDefault?:boolean):void{

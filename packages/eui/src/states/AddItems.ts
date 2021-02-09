@@ -60,16 +60,10 @@ namespace eui {
 
     /**
      * The operation of adding a state to view.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 视图添加状态显示元素操作
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class AddItems implements IOverride {
@@ -96,74 +90,46 @@ namespace eui {
 
         /**
          * The name of the property that is being added.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要添加到的属性
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public propertyName:string;
 
         /**
          * The position to be added. Valid values: "first","last","before","after"
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 添加的位置，有效值为: "first","last","before","after"
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public position:number;
 
         /**
          * an instance name of relative visual element.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 相对的显示元素的实例名
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public relativeTo:string;
 
         /**
          * The target instance name.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 目标实例名
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public target:string;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public apply(host:any, parent:egret.DisplayObjectContainer):void {
             let index:number;
@@ -197,10 +163,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public remove(host:any,parent:egret.DisplayObjectContainer):void {
             let container:egret.DisplayObjectContainer = this.propertyName ? host[this.propertyName] : parent;

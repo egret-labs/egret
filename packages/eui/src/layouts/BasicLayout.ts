@@ -35,10 +35,6 @@ namespace eui {
      * explicitly position each container child.
      * You can use the <code>x</code> and <code>y</code> properties of the child,
      * or constraints to position each child.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/BasicLayoutExample.ts
      * @language en_US
      */
@@ -46,10 +42,6 @@ namespace eui {
      * BasicLayout 类根据其各个设置彼此独立地排列布局元素。
      * BasicLayout（也称为绝对布局）要求显式定位每个容器子代。
      * 可以使用子代的 <code>x</code> 和 <code>y</code> 属性，或使用约束来定位每个子代。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/BasicLayoutExample.ts
      * @language zh_CN
      */
@@ -76,28 +68,16 @@ namespace eui {
 
         /**
          * BasicLayout does not support virtual layout, setting this property is invalid.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * BasicLayout不支持虚拟布局，设置这个属性无效。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public useVirtualLayout:boolean;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public measure():void {
             super.measure();
@@ -107,10 +87,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public updateDisplayList(unscaledWidth:number, unscaledHeight:number):void {
             super.updateDisplayList(unscaledWidth, unscaledHeight);

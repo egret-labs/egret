@@ -34,19 +34,11 @@ namespace eui {
      * The SetProperty class specifies a property value that is in effect only
      * during the parent view state.
      * You use this class in the <code>overrides</code> property of the State class.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
 
     /**
      * SetProperty 类指定只在父视图状态期间有效的属性值。可以在 State 类的 overrides 属性中使用该类。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class SetStateProperty implements IOverride {
@@ -117,10 +109,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 3.0
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public apply(host:Skin, parent:egret.DisplayObjectContainer):void {
             if (!this.target) {
@@ -138,10 +126,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 3.0
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public remove(host:Skin, parent:egret.DisplayObjectContainer):void {
             if (!this.target) {

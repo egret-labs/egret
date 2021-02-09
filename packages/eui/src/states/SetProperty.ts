@@ -34,19 +34,11 @@ namespace eui {
      * The SetProperty class specifies a property value that is in effect only
      * during the parent view state.
      * You use this class in the <code>overrides</code> property of the State class.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
 
     /**
      * SetProperty 类指定只在父视图状态期间有效的属性值。可以在 State 类的 overrides 属性中使用该类。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class SetProperty implements IOverride {
@@ -86,19 +78,11 @@ namespace eui {
          * You must set this property, either in
          * the SetProperty constructor or by setting
          * the property value directly.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要更改的属性的名称。
          * 这个属性必须设置，在 SetProperty 构造函数中设置或通过直接设置该属性值设置。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public name:string;
@@ -107,18 +91,10 @@ namespace eui {
          * The object containing the property to be changed.
          * If the property value is <code>null</code>, EUI uses the
          * immediate parent of the State object.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 包含要更改的属性的对象。如果属性值为 null，则 EUI 将使用 State 对象的直接父级。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public target:string;
@@ -127,20 +103,12 @@ namespace eui {
          * The new value for the property.
          *
          * @default undefined
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 属性的新值。
          *
          * @default undefined
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public value:any;
@@ -153,10 +121,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public apply(host:Skin, parent:egret.DisplayObjectContainer):void {
             let obj:any = this.target ? host[this.target] : host;
@@ -168,10 +132,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public remove(host:Skin, parent:egret.DisplayObjectContainer):void {
             let obj:any = this.target ? host[this.target] : host;

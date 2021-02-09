@@ -62,9 +62,6 @@ namespace eui {
      * @see http://edn.egret.com/cn/article/index/id/528 Array collection
      * @defaultProperty dataProvider
      * @includeExample  extension/eui/components/DataGroupExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -76,9 +73,6 @@ namespace eui {
      * @see http://edn.egret.com/cn/article/index/id/528 数组集合
      * @defaultProperty dataProvider
      * @includeExample  extension/eui/components/DataGroupExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class DataGroup extends Group {
@@ -124,10 +118,6 @@ namespace eui {
 
         /**
          * @copy eui.LayoutBase#useVirtualLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get useVirtualLayout(): boolean {
             return this.$layout ? this.$layout.$useVirtualLayout :
@@ -188,10 +178,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setVirtualElementIndicesInView(startIndex: number, endIndex: number): void {
             if (!this.$layout || !this.$layout.$useVirtualLayout) {
@@ -210,10 +196,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getElementAt(index: number): egret.DisplayObject {
             return this.$indexToRenderer[index];
@@ -221,10 +203,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.2
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getVirtualElementAt(index: number): UIComponent {
             index = +index | 0;
@@ -276,10 +254,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateSize(): void {
             if (!this.$DataGroup[Keys.createNewRendererFlag]) {//虚拟布局时创建子项不需要重新验证
@@ -356,10 +330,6 @@ namespace eui {
          *
          * @see eui.ICollection
          * @see eui.ArrayCollection
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -367,10 +337,6 @@ namespace eui {
          *
          * @see eui.ICollection
          * @see eui.ArrayCollection
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get dataProvider(): ICollection {
@@ -414,20 +380,12 @@ namespace eui {
          * events and update our children based on that.
          *
          * @param event 事件<code>eui.CollectionEvent</code>的对象。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 数据源改变事件处理。
          *
          * @param event 事件<code>eui.CollectionEvent</code>的对象。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onCollectionChange(event: CollectionEvent): void {
@@ -499,10 +457,6 @@ namespace eui {
          *
          * @param item The item that was added, the value of dataProvider[index].
          * @param index The index where the dataProvider item was added.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -512,10 +466,6 @@ namespace eui {
          *
          * @param item 添加的数据项。
          * @param index 被添加到的索引。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected itemAdded(item: any, index: number): void {
@@ -546,10 +496,6 @@ namespace eui {
          *
          * @param item The item that is being removed.
          * @param index The index of the item that is being removed.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -559,10 +505,6 @@ namespace eui {
          *
          * @param item 移除的数据项。
          * @param index 被移除的索引。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected itemRemoved(item: any, index: number): void {
@@ -639,19 +581,11 @@ namespace eui {
          * The class must implement the IItemRenderer interface.
          * If defined, the <code>itemRendererFunction</code> property
          * takes precedence over this property.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 用于数据项目的项呈示器。您应该直接为此属性赋值自定义类的类定义，而不是一个实例。注意：该类必须实现 IItemRenderer 接口。<br/>
          * rendererClass获取顺序：itemRendererFunction > itemRenderer > 默认ItemRenerer。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get itemRenderer(): any {
@@ -674,17 +608,11 @@ namespace eui {
          * The skinName property of the itemRenderer.This property will be passed to itemRenderer.skinName as default value,if you
          * did not set it explicitly.<br>
          * Note: This property is invalid if the itemRenderer is not a subclass of the Component class.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 条目渲染器的可选皮肤标识符。在实例化itemRenderer时，若其内部没有设置过skinName,则将此属性的值赋值给它的skinName。
          * 注意:若 itemRenderer 不是 Component 的子类，则此属性无效。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get itemRendererSkinName(): any {
@@ -708,18 +636,11 @@ namespace eui {
          *
          * If defined, this property
          * takes precedence over the <code>itemRenderer</code> property.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 为某个特定数据项返回一个项呈示器类定义的函数。
          * rendererClass获取顺序：itemRendererFunction > itemRenderer > 默认ItemRenerer。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get itemRendererFunction(): (item: any) => any {
@@ -761,10 +682,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected createChildren(): void {
             if (!this.$layout) {
@@ -779,10 +696,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties(): void {
             let values = this.$DataGroup;
@@ -844,10 +757,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measure(): void {
             if (this.$layout && this.$layout.$useVirtualLayout) {
@@ -859,10 +768,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth: number, unscaledHeight: number): void {
             let useVirtualLayout = (this.$layout && this.$layout.$useVirtualLayout);
@@ -1029,10 +934,6 @@ namespace eui {
          * @param renderer The item renderer.
          * @param itemIndex The index of the data in the data provider.
          * @param data The data object this item renderer is representing.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -1043,10 +944,6 @@ namespace eui {
          * @param renderer 项呈示器。
          * @param itemIndex 数据提供程序中的数据索引。
          * @param data 此项呈示器正在表示的数据对象。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public updateRenderer(renderer: IItemRenderer, itemIndex: number, data: any): IItemRenderer {
@@ -1063,10 +960,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get numElements(): number {
             if (!this.$dataProvider)
@@ -1084,10 +977,6 @@ namespace eui {
          * @param renderer The renderer that was added.
          * @param index The index where the dataProvider item was added.
          * @param item The item that was added, the value of dataProvider[index].
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -1098,10 +987,6 @@ namespace eui {
          * @param renderer 添加的项呈示器
          * @param index 项呈示器的索引
          * @param item 项呈示器对应的数据
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected rendererAdded(renderer: IItemRenderer, index: number, item: any): void {
@@ -1116,10 +1001,6 @@ namespace eui {
          * @param renderer The renderer that is being removed.
          * @param index The index of the item that is being removed.
          * @param item The item that is being removed.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -1129,10 +1010,6 @@ namespace eui {
          * @param renderer 移除的项呈示器
          * @param index 项呈示器的索引
          * @param item 项呈示器对应的数据
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected rendererRemoved(renderer: IItemRenderer, index: number, item: any): void {

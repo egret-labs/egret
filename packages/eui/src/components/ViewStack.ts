@@ -39,10 +39,6 @@ namespace eui {
      * However, the old child container still exists; it is just invisible.
      *
      * @event eui.CollectionEvent.COLLECTION_CHANGE Dispatched when the ICollection has been updated in some way.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ViewStackExample.ts
      * @language en_US
      */
@@ -52,10 +48,6 @@ namespace eui {
      * 但是，原来的子容器仍然存在，只不过它现在处于不可见状态。
      *
      * @event eui.CollectionEvent.COLLECTION_CHANGE 以某种方式更新 ICollection 后分派。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ViewStackExample.ts
      * @language zh_CN
      */
@@ -86,20 +78,12 @@ namespace eui {
          * the visual elements in the container.
          *
          * @default eui.BasicLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 此容器的 layout 对象。此对象负责容器中可视元素的测量和布局。
          *
          * @default eui.BasicLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get layout():LayoutBase {
@@ -114,18 +98,10 @@ namespace eui {
          * A reference to the currently visible child container.
          * The default is a reference to the first child.
          * If there are no children, this property is <code>null</code>.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 对当前可见子容器的引用。默认设置为对第一个子容器的引用。如果没有子项，则此属性为 <code>null</code>。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get selectedChild():egret.DisplayObject {
@@ -157,19 +133,11 @@ namespace eui {
          * where <code>n</code> is the number of children.
          * The default value is 0, corresponding to the first child.
          * If there are no children, the value of this property is <code>-1</code>.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 当前可见子容器的从零开始的索引。子索引的范围是 0、1、2、...、n - 1，其中 <code>n</code> 是子项的数目。
          * 默认值是 0，对应于第一个子项。如果不存在子容器，则此属性的值为 -1。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get selectedIndex():number {
@@ -243,10 +211,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties():void {
             super.commitProperties();
@@ -293,18 +257,10 @@ namespace eui {
 
         /**
          * number of children
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 子项数量
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get length():number {
@@ -313,10 +269,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getItemAt(index:number):any {
             let element:egret.DisplayObject = this.$children[index];
@@ -325,10 +277,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         * 
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getItemIndex(item:any):number {
             let list = this.$children;

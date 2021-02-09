@@ -38,9 +38,6 @@ namespace eui {
      * and show the url image or the bitmapData.
      *
      * @event egret.Event.COMPLETE Dispatched when the image loaded complete.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ImageExample.ts
      * @language en_US
      */
@@ -50,9 +47,6 @@ namespace eui {
      * 赋值为url后，它内部会自动去加载并显示图片。并且您同样也可以直接把 BitmapData 对象赋值给 source 属性以显示图片。
      *
      * @event egret.Event.COMPLETE 当图片加载完成后调度
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ImageExample.ts
      * @language zh_CN
      */
@@ -91,19 +85,11 @@ namespace eui {
          * Represent a Rectangle Area that the 9 scale area of Image.
          * Notice: This property is valid only when <code>fillMode</code>
          * is <code>BitmapFillMode.SCALE</code>.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 矩形区域，它定义素材对象的九个缩放区域。
          * 注意:此属性仅在<code>fillMode</code>为<code>BitmapFillMode.SCALE</code>时有效。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get scale9Grid(): egret.Rectangle {
@@ -125,10 +111,6 @@ namespace eui {
          * stretches to fill the region.</p>
          *
          * @default <code>BitmapFillMode.SCALE</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -138,10 +120,6 @@ namespace eui {
          * <p>设置为 <code>BitmapFillMode.SCALE</code>时，位图将拉伸以填充区域。</p>
          *
          * @default <code>BitmapFillMode.SCALE</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get fillMode(): string {
@@ -177,18 +155,10 @@ namespace eui {
         /**
          * The source used for the bitmap fill. the value can be
          * a string or an instance of <code>egret.Texture</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 用于位图填充的源。可以是一个字符串或者 <code>egret.Texture</code> 对象
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get source(): string | egret.Texture {
@@ -322,10 +292,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#createChildren
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected createChildren(): void {
             if (this.sourceChanged) {
@@ -346,10 +312,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#childrenCreated
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected childrenCreated(): void {
 
@@ -357,10 +319,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#commitProperties
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties(): void {
             sys.UIComponentImpl.prototype["commitProperties"].call(this);
@@ -371,10 +329,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#measure
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measure(): void {
             let texture = this.$texture;
@@ -388,10 +342,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#updateDisplayList
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth: number, unscaledHeight: number): void {
             this.$renderDirty = true;
@@ -399,10 +349,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#invalidateParentLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected invalidateParentLayout(): void {
         }
@@ -419,254 +365,146 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#includeInLayout
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public includeInLayout: boolean;
         /**
          * @copy eui.UIComponent#left
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public left: any;
 
         /**
          * @copy eui.UIComponent#right
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public right: any;
 
         /**
          * @copy eui.UIComponent#top
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public top: any;
 
         /**
          * @copy eui.UIComponent#bottom
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public bottom: any;
 
         /**
          * @copy eui.UIComponent#horizontalCenter
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public horizontalCenter: any;
 
         /**
          * @copy eui.UIComponent#verticalCenter
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public verticalCenter: any;
 
         /**
          * @copy eui.UIComponent#percentWidth
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentWidth: number;
 
         /**
          * @copy eui.UIComponent#percentHeight
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentHeight: number;
 
         /**
          * @copy eui.UIComponent#explicitWidth
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitWidth: number;
 
         /**
          * @copy eui.UIComponent#explicitHeight
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitHeight: number;
 
 
         /**
          * @copy eui.UIComponent#minWidth
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minWidth: number;
         /**
          * @copy eui.UIComponent#maxWidth
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxWidth: number;
 
         /**
          * @copy eui.UIComponent#minHeight
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minHeight: number;
         /**
          * @copy eui.UIComponent#maxHeight
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxHeight: number;
 
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setMeasuredSize(width: number, height: number): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateProperties(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateProperties(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateSize(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateSize(recursive?: boolean): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateDisplayList(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateDisplayList(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateNow(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsSize(layoutWidth: number, layoutHeight: number): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsPosition(x: number, y: number): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getLayoutBounds(bounds: egret.Rectangle): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }

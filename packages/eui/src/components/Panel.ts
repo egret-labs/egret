@@ -38,9 +38,6 @@ namespace eui {
      * you can use <code>event.preventDefault()</code> to prevent close.
      *
      * @defaultProperty elementsContent
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/PanelExample.ts
      * @language en_US
      */
@@ -51,9 +48,6 @@ namespace eui {
      * 监听此事件并调用<code>event.preventDefault()</code>能够阻止面板被关闭。
      *
      * @defaultProperty elementsContent
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/PanelExample.ts
      * @language zh_CN
      */
@@ -118,40 +112,24 @@ namespace eui {
          * When taped, the close button dispatches a <code>closing</code> event.
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 关闭按钮
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public closeButton:Button = null;
 
         /**
          * The area where the user must drag to move the window.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 可移动区域
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public moveArea:egret.DisplayObject = null;
@@ -161,20 +139,12 @@ namespace eui {
          * title text in the container.
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 标题显示对象
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public titleDisplay:IDisplayText = null;
@@ -188,20 +158,12 @@ namespace eui {
          * Title or caption displayed in the title bar.
          *
          * @default ""
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 标题栏中显示的标题。
          *
          * @default ""
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get title():string {
@@ -216,10 +178,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partAdded(partName:string, instance:any):void {
             super.partAdded(partName, instance);
@@ -236,10 +194,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partRemoved(partName:string, instance:any):void {
             super.partRemoved(partName, instance);
@@ -253,18 +207,10 @@ namespace eui {
 
         /**
          * Dispatch the "closing" event when the closeButton is clicked.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 当 closeButton 被点击时派发 “closing” 事件
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onCloseButtonClick(event:egret.TouchEvent):void {
@@ -275,18 +221,10 @@ namespace eui {
 
         /**
          * Close the panel and remove from the parent container.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 关闭面板，从父级容器移除自身。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public close():void {
@@ -308,18 +246,10 @@ namespace eui {
 
         /**
          * Called when the user starts dragging a Panel.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 在可移动区域按下
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchBegin(event:egret.TouchEvent):void {
@@ -332,18 +262,10 @@ namespace eui {
 
         /**
          * Called when the user drags a Panel.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 触摸拖拽时的移动事件
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchMove(event:egret.TouchEvent):void {
@@ -353,18 +275,10 @@ namespace eui {
 
         /**
          * Called when the user releases the Panel.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 在舞台上弹起事件
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchEnd(event:egret.TouchEvent):void {

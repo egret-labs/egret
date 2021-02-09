@@ -38,20 +38,12 @@ namespace eui {
      * The TileLayout class uses a number of properties that control orientation,
      * count, size, gap and justification of the columns and the rows
      * as well as element alignment within the cells.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/TileLayoutExample.ts
      * @language en_US
      */
     /**
      * TileLayout 类在单元格大小相等的列和行中排列布局元素。
      * TileLayout 类使用许多属性来控制列和行的方向、计数、大小、间隙和两端对齐以及单元格内的元素对齐。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/TileLayoutExample.ts
      * @language zh_CN
      */
@@ -89,20 +81,12 @@ namespace eui {
          * Horizontal space between columns, in pixels.
          *
          * @default 6
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 列之间的水平空间（以像素为单位）。
          *
          * @default 6
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get horizontalGap():number {
@@ -134,20 +118,12 @@ namespace eui {
          * Vertical space between rows, in pixels.
          *
          * @default 6
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 行之间的垂直空间（以像素为单位）。
          *
          * @default 6
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get verticalGap():number {
@@ -172,20 +148,12 @@ namespace eui {
          * Contain the actual column count.
          *
          * @default -1
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          *  实际列计数。
          *
          * @default -1
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get columnCount():number {
@@ -206,10 +174,6 @@ namespace eui {
          * container width is explicitly set. </p>
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -219,10 +183,6 @@ namespace eui {
          * 则设置此属性不会产生任何效果。这种情况下，会显式设置 code>rowCount</code>，并显式设置容器宽度。</p>
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get requestedColumnCount():number {
@@ -245,18 +205,10 @@ namespace eui {
         private _rowCount:number = -1;
         /**
          * The row count.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          *  行计数。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get rowCount():number {
@@ -277,10 +229,6 @@ namespace eui {
          * container height is explicitly set.</p>
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -290,10 +238,6 @@ namespace eui {
          * 则设置此属性不会产生任何效果。这种情况下，会显式设置 <code>columnCount</code>，并显式设置容器高度。</code>
          *
          * @default 0
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get requestedRowCount():number {
@@ -326,10 +270,6 @@ namespace eui {
          * determined from the width of the widest element. </p>
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -337,10 +277,6 @@ namespace eui {
          * <p>若未显式设置，则从根据最宽的元素的宽度确定列宽度。</p>
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get columnWidth():number {
@@ -372,10 +308,6 @@ namespace eui {
          * determined from the maximum of elements' height.</p>
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -383,10 +315,6 @@ namespace eui {
          * <p>如果未显式设置，则从元素的高度的最大值确定行高度。<p>
          *
          * @default NaN
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get rowHeight():number {
@@ -409,10 +337,6 @@ namespace eui {
         private _paddingLeft:number = 0;
         /**
          * @copy eui.LinearLayoutBase#paddingLeft
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get paddingLeft():number {
             return this._paddingLeft;
@@ -433,10 +357,6 @@ namespace eui {
         private _paddingRight:number = 0;
         /**
          * @copy eui.LinearLayoutBase#paddingRight
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get paddingRight():number {
             return this._paddingRight;
@@ -457,10 +377,6 @@ namespace eui {
         private _paddingTop:number = 0;
         /**
          * @copy eui.LinearLayoutBase#paddingTop
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get paddingTop():number {
             return this._paddingTop;
@@ -480,10 +396,6 @@ namespace eui {
         private _paddingBottom:number = 0;
         /**
          * @copy eui.LinearLayoutBase#paddingBottom
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get paddingBottom():number {
             return this._paddingBottom;
@@ -509,10 +421,6 @@ namespace eui {
          * HorizontalAlign.RIGHT、JustifyAlign.JUSTIFY。
          *
          * @default <code>JustifyAlign.JUSTIFY</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -521,10 +429,6 @@ namespace eui {
          * HorizontalAlign.RIGHT、JustifyAlign.JUSTIFY。
          *
          * @default <code>JustifyAlign.JUSTIFY</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get horizontalAlign():string {
@@ -551,10 +455,6 @@ namespace eui {
          * 默认值：JustifyAlign.JUSTIFY。
          *
          * @default <code>eui.JustifyAlign.JUSTIFY</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -564,10 +464,6 @@ namespace eui {
          * VerticalAlign.BOTTOM、JustifyAlign.JUSTIFY。
          *
          * @default <code>eui.JustifyAlign.JUSTIFY</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get verticalAlign():string {
@@ -612,10 +508,6 @@ namespace eui {
          * Justification may increases it.</p>
          *
          * @default ColumnAlign.LEFT
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -634,10 +526,6 @@ namespace eui {
          * 它仅确定初始列宽度值。两端对齐可能会增大它。</p>
          *
          * @default ColumnAlign.LEFT
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get columnAlign():string {
@@ -680,10 +568,6 @@ namespace eui {
          * Justification can then increase it.</p>
          *
          * @default RowAlign.TOP
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -702,10 +586,6 @@ namespace eui {
          * 不会关闭两端对齐，而只是确定初始行高度值。两端对齐接着可以增大它。</p>
          *
          * @default RowAlign.TOP
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get rowAlign():string {
@@ -729,20 +609,12 @@ namespace eui {
          * column by column.
          *
          * @default TileOrientation.ROWS
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指定是逐行还是逐列排列元素。
          *
          * @default TileOrientation.ROWS
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get orientation():string {
@@ -771,10 +643,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public measure():void {
             let target = this.$target;
@@ -965,10 +833,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public clearVirtualLayoutCache():void {
             super.clearVirtualLayoutCache();
@@ -994,10 +858,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public scrollPositionChanged():void {
             if (this.$useVirtualLayout) {
@@ -1081,10 +941,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public updateDisplayList(width:number, height:number):void {
             super.updateDisplayList(width, height);

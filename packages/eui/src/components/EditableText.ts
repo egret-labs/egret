@@ -44,17 +44,11 @@ namespace eui {
      * Editable text for displaying,
      * scrolling, selecting, and editing text.
      * @includeExample  extension/eui/components/EditablTextExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 可编辑文本，用于显示、滚动、选择和编辑文本。
      * @includeExample  extension/eui/components/EditablTextExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class EditableText extends egret.TextField implements UIComponent, IDisplayText {
@@ -185,9 +179,6 @@ namespace eui {
         private $isShowPrompt: boolean = false;
         /**
          * When the property of the text is empty, it will show the defalut string.
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -196,9 +187,6 @@ namespace eui {
          * 控件失去焦点时提示文本将重新显示，但仅当未输入文本时（如果文本字段的值为空字符串）。<p/>
          * 对于文本控件，如果用户输入文本，但随后又将其删除，则控件失去焦点后，提示文本将重新显示。
          * 您还可以通过编程方式将文本控件的 text 属性设置为空字符串使提示文本重新显示。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get prompt(): string {
@@ -333,10 +321,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#createChildren()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected createChildren(): void {
             this.onfocusOut();
@@ -344,10 +328,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#childrenCreated()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected childrenCreated(): void {
 
@@ -355,10 +335,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#commitProperties()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected commitProperties(): void {
 
@@ -366,10 +342,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#measure()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measure(): void {
             let values = this.$UIComponent;
@@ -394,10 +366,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#updateDisplayList()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth: number, unscaledHeight: number): void {
             super.$setWidth(unscaledWidth);
@@ -406,10 +374,6 @@ namespace eui {
 
         /**
          * @copy eui.Component#invalidateParentLayout()
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected invalidateParentLayout(): void {
         }
@@ -426,224 +390,128 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public includeInLayout: boolean;
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public left: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public right: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public top: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public bottom: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public horizontalCenter: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public verticalCenter: any;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentWidth: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public percentHeight: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitWidth: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public explicitHeight: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minWidth: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxWidth: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public minHeight: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public maxHeight: number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setMeasuredSize(width: number, height: number): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateProperties(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateProperties(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateSize(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateSize(recursive?: boolean): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public invalidateDisplayList(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateDisplayList(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public validateNow(): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsSize(layoutWidth: number, layoutHeight: number): void {
             UIImpl.prototype.setLayoutBoundsSize.call(this, layoutWidth, layoutHeight);
@@ -663,30 +531,18 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public setLayoutBoundsPosition(x: number, y: number): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getLayoutBounds(bounds: egret.Rectangle): void {
         }
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }

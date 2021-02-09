@@ -33,33 +33,21 @@ namespace eui {
     /**
      * The eui.CollectionEvent class represents an event that is
      * dispatched when the associated collection changes.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/CollectionEventExample.ts
      * @language en_US
      */
     /**
      * 集合类型数据改变事件
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/CollectionEventExample.ts
      * @language zh_CN
      */
     export class CollectionEvent extends egret.Event {
         /**
          * Dispatched when a collection has changed.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 集合类数据发生改变
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static COLLECTION_CHANGE:string = "collectionChange";
@@ -145,48 +133,30 @@ namespace eui {
          * Indicates the kind of event that occured.
          * The parameter value can be one of the values in the CollectionEventKind
          * class, or <code>null</code>, which indicates that the kind is unknown.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示发生的事件类型。此属性值可以是 CollectionEventKind 类中的一个值，也可以是 null，用于指示类型未知。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public kind:string;
         /**
          * Array of objects with information about the items.
          * affected by the event.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 受事件影响的项目的列表。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public items:any[];
         /**
          * When the <code>kine</code> is <code>CollectionEventKind.REPLACE</code> the value represents
          * a list of items before replaced.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 仅当kind的值为CollectionEventKind.REPLACE时，表示替换前的项目列表。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public oldItems:any[];
@@ -199,9 +169,6 @@ namespace eui {
          * this value indicates at what location the item(s) specified
          * in the <code>items property</code> can be found
          * within the target collection.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -209,9 +176,6 @@ namespace eui {
          * CollectionEventKind.REMOVE 或 CollectionEventKind.REPLACE，
          * CollectionEventKind.UPDATE
          * 则此属性为 items 属性中指定的项目集合中零号元素的的索引。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public location:number;
@@ -219,26 +183,16 @@ namespace eui {
          * this value indicates
          * the old location within the target collection
          * of the item(s) specified in the <code>items</code> property.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 此属性为 items 属性中指定的项目在目标集合中原来位置的从零开始的索引。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public oldLocation:number;
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected clean():void{
             super.clean();
@@ -269,10 +223,6 @@ namespace eui {
          * affected by the event.
          * @param oldItems When the <code>kine</code> is <code>CollectionEventKind.REPLACE</code> the value represents
          * a list of items before replaced.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -289,10 +239,6 @@ namespace eui {
          * @param oldLocation 此值指示 <code>items</code> 属性中指定的项目在目标集合中的原位置。
          * @param items 受事件影响的项目的列表。
          * @param oldItems 仅当kind的值为CollectionEventKind.REPLACE时，表示替换前的项目列表。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static dispatchCollectionEvent(target:egret.IEventDispatcher, eventType:string, kind?:string, location?:number,

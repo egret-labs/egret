@@ -44,10 +44,6 @@ namespace eui {
      *          <s:Group name="tab3"/>
      *       </s:ViewStack>
      * </pre>
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/TabBarExample.ts
      * @language en_US
      */
@@ -64,10 +60,6 @@ namespace eui {
      *          <s:Group name="tab3"/>
      *       </s:ViewStack>
      * </pre>
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/TabBarExample.ts
      * @language zh_CN
      */
@@ -97,10 +89,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         * 
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected createChildren():void{
             if (!this.$layout) {

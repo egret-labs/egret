@@ -35,19 +35,11 @@ namespace eui {
      * The HorizontalLayout class arranges the layout elements in a horizontal sequence,
      * left to right, with optional gaps between the elements and optional padding
      * around the elements.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/HorizontalLayoutExample.ts
      * @language en_US
      */
     /**
      * HorizontalLayout 类按水平顺序从左到右排列布局元素，在元素和围绕元素的可选填充之间带有可选间隙。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/layout/HorizontalLayoutExample.ts
      * @language zh_CN
      */
@@ -55,10 +47,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measureReal():void {
             let target = this.$target;
@@ -85,10 +73,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected measureVirtual():void {
             let target = this.$target;
@@ -115,10 +99,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayListReal(width:number, height:number):void {
             let target = this.$target;
@@ -301,10 +281,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayListVirtual(width:number, height:number):void {
             let target = this.$target;
@@ -411,10 +387,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getStartPosition(index:number):number {
             if (!this.$useVirtualLayout) {
@@ -442,10 +414,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getElementSize(index:number):number {
             if (this.$useVirtualLayout) {
@@ -463,10 +431,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getElementTotalSize():number {
             let typicalWidth = this.$typicalWidth;
@@ -487,10 +451,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public elementAdded(index:number):void {
             if (!this.useVirtualLayout)
@@ -501,10 +461,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getIndexInView():boolean {
             let target = this.$target;

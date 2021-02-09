@@ -32,19 +32,11 @@ namespace eui {
 
     /**
      * The ProgressBar control provides a visual representation of the progress of a task over time.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ProgressBarExample.ts
      * @language en_US
      */
     /**
      * ProgressBar 控件为随时间而变的任务进度提供了形象化的表示。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ProgressBarExample.ts
      * @language zh_CN
      */
@@ -75,20 +67,12 @@ namespace eui {
          * this hightlight component of the progressbar.
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 进度高亮显示对象。
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public thumb:eui.UIComponent = null;
@@ -96,20 +80,12 @@ namespace eui {
          * the label of the progressbar.
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 进度条文本
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public labelDisplay:Label = null;
@@ -121,19 +97,11 @@ namespace eui {
         /**
          * a text format callback function。example：
          * <code>labelFunction(value:Number,maximum:Number):String;</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 进度条文本格式化回调函数。示例：
          * <code>labelFunction(value:Number,maximum:Number):String;</code>
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get labelFunction():(value:number, maximum:number)=>string {
@@ -154,10 +122,6 @@ namespace eui {
          * @param maximum the maximum value
          *
          * @return a converted text
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -167,10 +131,6 @@ namespace eui {
          * @param maximum 最大值
          *
          * @return 转换后的文本
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected valueToLabel(value:number, maximum:number):string {
@@ -190,20 +150,12 @@ namespace eui {
          * when the value changing. If the vlaue is 0, no animation will be done.
          *
          * @default 500
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * value改变时更新视图的缓动动画时间(毫秒为单位)。设置为0则不执行缓动。
          *
          * @default 500
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get slideDuration():number {
@@ -230,20 +182,12 @@ namespace eui {
          * you should use the <code>Direction</code> class constants to set the property.
          *
          * @default Direction.LTR
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * ProgressBar 填充在逐步完成过程中扩展的方向。使用 <code>Direction</code> 类定义的常量。
          *
          * @default Direction.LTR
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get direction():string {
@@ -329,10 +273,6 @@ namespace eui {
         private thumbInitY = 0;
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partAdded(partName:string, instance:any):void {
             super.partAdded(partName, instance);
@@ -345,10 +285,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partRemoved(partName:string, instance:any):void {
             super.partRemoved(partName, instance);
@@ -367,10 +303,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateSkinDisplayList():void {
             let currentValue = this.animation.isPlaying ? this.animationValue : this.value;

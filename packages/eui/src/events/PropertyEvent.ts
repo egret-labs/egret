@@ -34,35 +34,21 @@ namespace eui {
      * The PropertyChangeEvent class represents the event object
      * passed to the event listener when one of the properties of
      * an object has changed, and provides information about the change.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/PropertyEventExample.ts
      * @language en_US
      */
     /**
      * 对象的一个属性发生更改时传递到事件侦听器的事件。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/PropertyEventExample.ts
      * @language zh_CN
      */
     export class PropertyEvent extends egret.Event {
         /**
          * Dispatch when a property changed.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 属性改变。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static PROPERTY_CHANGE:string = "propertyChange";
@@ -102,16 +88,10 @@ namespace eui {
 
         /**
          * Name of the property that changed.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 发生改变的属性名称。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public property:string;
@@ -123,10 +103,6 @@ namespace eui {
          * @param target the target of event dispatcher.
          * @param eventType The event type; indicates the action that triggered the event.
          * @param property Name of the property that changed.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -135,10 +111,6 @@ namespace eui {
          * @param target 事件派发目标
          * @param eventType 事件类型；指示触发事件的动作。
          * @param property 发生改变的属性名称。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static dispatchPropertyEvent(target:egret.IEventDispatcher, eventType:string, property?:string):boolean {

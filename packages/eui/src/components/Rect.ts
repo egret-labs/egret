@@ -30,16 +30,10 @@
 namespace eui {
     /**
      * The Rect component is a rectangular shape. It can be touched.
-     * @version Egret 2.5.5
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * Rect 组件矩形绘图元素。此组件可响应鼠标事件。
-     * @version Egret 2.5.5
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class Rect extends Component {
@@ -79,16 +73,10 @@ namespace eui {
         private $fillColor: number = 0x000000;
         /**
          * Fill color
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 填充颜色
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get fillColor(): number {
@@ -105,16 +93,10 @@ namespace eui {
         private $fillAlpha: number = 1;
         /**
          * Fill alpha
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 填充透明度,默认值为1。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get fillAlpha(): number {
@@ -131,16 +113,10 @@ namespace eui {
         private $strokeColor: number = 0x444444;
         /**
          * The line's color inside the rect border. Caution: when the strokeWeight is 0, a line is not drawn
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 边框颜色,注意：当 strokeWeight 为 0 时，不显示边框。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get strokeColor(): number {
@@ -157,16 +133,10 @@ namespace eui {
         private $strokeAlpha: number = 1;
         /**
          * The line's alpha inside the rect border. Caution: when the strokeWeight is 0, a line is not drawn
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 边框透明度,注意：当 strokeWeight 为0时，不显示边框。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get strokeAlpha(): number {
@@ -183,16 +153,10 @@ namespace eui {
         private $strokeWeight: number = 0;
         /**
          * The line's thickness inside the rect border. Caution: when the strokeWeight is 0, a line is not drawn
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 边框粗细(像素),注意：当 strokeWeight 为 0 时，不显示边框。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get strokeWeight(): number {
@@ -209,16 +173,10 @@ namespace eui {
         private $ellipseWidth: number = 0;
         /**
          * Width used to draw an ellipse with rounded corners (in pixels).
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 用于绘制圆角的椭圆的宽度(以像素为单位)
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get ellipseWidth(): number {
@@ -235,16 +193,10 @@ namespace eui {
         private $ellipseHeight: number = 0;
         /**
          * Height used to draw an ellipse with rounded corners (in pixels). If no value is specified, the default value matches the value of the ellipseWidth parameter.
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 用于绘制圆角的椭圆的高度 (以像素为单位)。如果未指定值，则默认值与为 ellipseWidth 参数提供的值相匹配。
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get ellipseHeight(): number {
@@ -260,10 +212,6 @@ namespace eui {
 
         /**
          * @copy eui.UIComponent#updateDisplayList
-         *
-         * @version Egret 2.5.5
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth: number, unscaledHeight: number): void {
             let g = this.graphics;

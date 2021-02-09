@@ -33,97 +33,59 @@ namespace eui {
      * The CollectionEventKind class contains constants for the valid values
      * of the <code>CollectionEvent</code> class <code>kind</code> property.
      * These constants indicate the kind of change that was made to the collection.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
      * 定义 <code>CollectionEvent</code> 类 <code>kind</code> 属性的有效值的常量。
      * 这些常量指示对集合进行的更改类型。
-
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class CollectionEventKind {
         /**
          * Indicates that the collection added an item or items.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示集合添加了一个或多个项目。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly ADD: string = "add";
         /**
          * Indicates that the collection applied a sort, a filter, or both.
          * This change can potentially be easier to handle than a RESET.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示集合应用了排序或/和筛选。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly REFRESH: string = "refresh";
         /**
          * Indicates that the collection removed an item or items.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示集合删除了一个或多个项目。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly REMOVE: string = "remove";
         /**
          * Indicates that the item at the position identified by the
          * CollectionEvent <code>location</code> property has been replaced.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示已替换由 CollectionEvent.location 属性确定的位置处的项目。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly REPLACE: string = "replace";
         /**
          * Indicates that the collection has changed so drastically that
          * a reset is required.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示集合已彻底更改，需要进行重置。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly RESET: string = "reset";
@@ -131,16 +93,10 @@ namespace eui {
          * Indicates that one or more items were updated within the collection.
          * The affected item(s)
          * are stored in the <code>CollectionEvent.items</code> property.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 指示集合中一个或多个项目进行了更新。受影响的项目将存储在  CollectionEvent.items 属性中。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static readonly UPDATE: string = "update";

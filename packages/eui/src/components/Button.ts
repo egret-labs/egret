@@ -39,9 +39,6 @@ namespace eui {
      * @state up Button up state
      * @state down Button down state
      * @state disabled Button disabled state
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/components/ButtonExample.ts
      * @language en_US
      */
@@ -53,9 +50,6 @@ namespace eui {
      * @state up 按钮弹起状态
      * @state down 按钮按下状态
      * @state disabled 按钮禁用状态
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/components/ButtonExample.ts
      * @language zh_CN
      */
@@ -83,17 +77,11 @@ namespace eui {
         /**
          * [SkinPart] A skin part that defines the label of the button.
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * [SkinPart] 按钮上的文本标签。
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public labelDisplay:IDisplayText = null;
@@ -104,16 +92,10 @@ namespace eui {
         private _label:string = "";
         /**
          * Text to appear on the Button control.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要在按钮上显示的文本。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get label():string {
@@ -130,17 +112,11 @@ namespace eui {
         /**
          * [SkinPart] A skin part that defines an optional icon for the button.
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * [SkinPart] 按钮上的图标显示对象。
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public iconDisplay:Image = null;
@@ -151,16 +127,10 @@ namespace eui {
         private _icon:string|egret.Texture = null;
         /**
          * Icon to appear on the Button control.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要在按钮上显示的图标数据
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get icon():string|egret.Texture {
@@ -182,17 +152,11 @@ namespace eui {
         /**
          * This method handles the touchCancle events
          * @param  The <code>egret.TouchEvent</code> object.
-         * @version Egret 3.0.1
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 解除触碰事件处理。
          * @param event 事件 <code>egret.TouchEvent</code> 的对象。
-         * @version Egret 3.0.1
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchCancle(event:egret.TouchEvent):void {
@@ -205,17 +169,11 @@ namespace eui {
         /**
          * This method handles the touch events
          * @param  The <code>egret.TouchEvent</code> object.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 触碰事件处理。
          * @param event 事件 <code>egret.TouchEvent</code> 的对象。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchBegin(event:egret.TouchEvent):void {
@@ -243,10 +201,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getCurrentState():string {
             if (!this.enabled)
@@ -260,10 +214,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partAdded(partName:string, instance:any):void {
             if (instance === this.labelDisplay) {
@@ -278,17 +228,11 @@ namespace eui {
          * This method is called when handling a <code>egret.TouchEvent.TOUCH_END</code> event
          * when the user touches on the button. It is only called when the button
          * is the target and when <code>touchCaptured</code> is <code>true</code>.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 当在用户单击按钮之后处理 <code>egret.TouchEvent.TOUCH_END</code> 事件时，将调用此方法。
          * 仅当以按钮为目标，并且 <code>touchCaptured</code> 为 <code>true</code> 时，才会调用此方法。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected buttonReleased():void {

@@ -37,9 +37,6 @@ namespace eui {
      * the end points of the slider, corresponding to the slider's minimum and maximum values.
      *
      * @includeExample  extension/eui/components/HSliderExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -47,9 +44,6 @@ namespace eui {
      * 滑块的当前值由滑块端点（对应于滑块的最小值和最大值）之间滑块的相对位置确定。
      *
      * @includeExample  extension/eui/components/HSliderExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class HSlider extends SliderBase {
@@ -76,10 +70,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected pointToValue(x:number, y:number):number {
             if (!this.thumb || !this.track)
@@ -105,10 +95,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateSkinDisplayList():void {
             if (!this.thumb || !this.track)

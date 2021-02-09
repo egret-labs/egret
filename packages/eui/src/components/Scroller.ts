@@ -75,9 +75,6 @@ namespace eui {
      * @event egret.TouchEvent.TOUCH_CANCEL canceled the touch
      *
      * @defaultProperty viewport
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ScrollerExample.ts
      * @language en_US
      */
@@ -100,9 +97,6 @@ namespace eui {
      * @event egret.TouchEvent.TOUCH_CANCEL 取消触摸事件
      *
      * @defaultProperty viewport
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ScrollerExample.ts
      * @language zh_CN
      */
@@ -113,20 +107,12 @@ namespace eui {
          * when the touch points deviate from the initial touch point than this value will trigger the rolling.
          *
          * @default 5
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 开始触发滚动的阈值（以像素为单位），当触摸点偏离初始触摸点的距离超过这个值时才会触发滚动。
          *
          * @default 5
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static scrollThreshold:number = 5;
@@ -173,13 +159,11 @@ namespace eui {
         /**
          * Whether to enable rebound, rebound When enabled, ScrollView contents allowed to continue to drag the border after arriving at the end user drag operation, and then bounce back boundary position
          * @default true
-         * @version Egret 2.5.6
          * @language en_US
          */
         /**
          * 是否启用回弹，当启用回弹后，ScrollView中内容在到达边界后允许继续拖动，在用户拖动操作结束后，再反弹回边界位置
          * @default true
-         * @version Egret 2.5.6
          * @language zh_CN
          */
         public get bounces():boolean {
@@ -246,20 +230,12 @@ namespace eui {
          * the horizontal scroll bar
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 水平滚动条
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public horizontalScrollBar:eui.HScrollBar = null;
@@ -267,20 +243,12 @@ namespace eui {
          * the vertical scroll bar
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 垂直滚动条
          *
          * @skinPart
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public verticalScrollBar:eui.VScrollBar = null;
@@ -293,10 +261,6 @@ namespace eui {
          *  the viewport's contentHeight is larger than its height. the scroll bar is displayed when it's move.
          *
          * @default ScrollPolicy.AUTO
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -306,10 +270,6 @@ namespace eui {
          * <p><code>ScrollPolicy.AUTO</code> - 当视域的 contentHeight 大于其自身的高度时可以滚动，滚动时显示滚动条。</p>
          *
          * @default ScrollPolicy.AUTO
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get scrollPolicyV():string {
@@ -333,10 +293,6 @@ namespace eui {
          *  the viewport's contentWidth is larger than its width. the scroll bar is displayed when it's move.
          *
          * @default ScrollPolicy.AUTO
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -346,10 +302,6 @@ namespace eui {
          * <p><code>ScrollPolicy.AUTO</code> - 当视域的 contentWidth 大于其自身的宽度时可以滚动，滚动时显示滚动条。</p>
          *
          * @default ScrollPolicy.AUTO
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get scrollPolicyH():string {
@@ -367,17 +319,10 @@ namespace eui {
 
         /**
          * Stop the scroller animation
-         * @version Egret 3.0.2
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 停止滚动的动画
-         *
-         * @version Egret 3.0.2
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public stopAnimation():void {
@@ -403,18 +348,10 @@ namespace eui {
 
         /**
          * The viewport component to be scrolled.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要滚动的视域组件。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get viewport():IViewport {
@@ -486,10 +423,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected setSkin(skin:Skin):void {
             super.setSkin(skin);
@@ -892,10 +825,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth:number, unscaledHeight:number):void {
             super.updateDisplayList(unscaledWidth, unscaledHeight);
@@ -909,10 +838,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partAdded(partName:string, instance:any):void {
             super.partAdded(partName, instance);

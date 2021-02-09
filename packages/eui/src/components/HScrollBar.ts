@@ -39,9 +39,6 @@ namespace eui {
      * provide scrolling functionality.</p>
      *
      * @includeExample  extension/eui/components/HScrollBarExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -49,19 +46,12 @@ namespace eui {
      * <p>虽然 HScrollBar 控件可以单独使用，但通常将它与其他组件一起使用来提供滚动功能。</p>
      *
      * @includeExample  extension/eui/components/HScrollBarExample.ts
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class HScrollBar extends ScrollBarBase {
 
         /**
          * @inheritDoc
-         * 
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected updateDisplayList(unscaledWidth:number, unscaledHeight:number):void {
             super.updateDisplayList(unscaledWidth, unscaledHeight);
@@ -98,10 +88,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected onPropertyChanged(event:eui.PropertyEvent):void {
             switch (event.property) {

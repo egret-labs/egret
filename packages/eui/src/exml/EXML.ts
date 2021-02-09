@@ -71,10 +71,6 @@ namespace EXML {
      * of a class through <code>egret.getDefinitionByName(className)</code>.
      *
      * @param text the text of a EXML file.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -82,10 +78,6 @@ namespace EXML {
      * 若指定的类名已经存在，将会注册失败，并输出一个警告。注册成功后，您也可以通过 egret.getDefinitionByName(className) 方法获取这个 EXML 文件对应的类定义。
      *
      * @param text 要解析的 EXML 文件内容。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export function parse(text: string): { new(): any } {
@@ -104,10 +96,6 @@ namespace EXML {
      * <code>undefined</code> if load or parse failed.
      * @param thisObject <code>this</code> object of callBack
      * @param useCache use cached EXML
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -118,10 +106,6 @@ namespace EXML {
      * @param callBack 加载并解析完成后的回调函数，无论加载成功还是失败，此函数均会被回调。失败时将传入 undefined 作为回调函数参数。
      * @param thisObject 回调函数的 this 引用。
      * @param useCache 使用缓存的EXML
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export function load(url: string, callBack?: (clazz: any, url: string) => void, thisObject?: any, useCache = false): void {

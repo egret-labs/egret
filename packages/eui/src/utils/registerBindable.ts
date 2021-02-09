@@ -37,10 +37,6 @@ namespace eui {
      *
      * @param instance the instance to be registered.
      * @param property the property of specified instance to be registered.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -48,10 +44,6 @@ namespace eui {
      *
      * @param instance 要标记的实例
      * @param property 可绑定的属性。
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export function registerBindable(instance:any,property:string):void{

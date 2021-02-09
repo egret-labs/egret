@@ -33,17 +33,11 @@ namespace eui {
     /**
      * The UIEvent class represents the event object passed to
      * the event listener for many UI events.
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/UIEventExample.ts
      * @language en_US
      */
     /**
      * UI事件
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/events/UIEventExample.ts
      * @language zh_CN
      */
@@ -81,79 +75,49 @@ namespace eui {
 
         /**
          * creation complete of component.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 组件创建完成
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static CREATION_COMPLETE:string = "creationComplete";
         /**
          * the ending of change.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 改变结束
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static CHANGE_END:string = "changeEnd";
 
         /**
          * The beginning of change.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 改变开始
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static CHANGE_START:string = "changeStart";
 
         /**
          * Before close the panel.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 即将关闭面板事件
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static CLOSING:string = "closing";
 
         /**
          * The coordinates of the UI components changed in it's parent.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * UI组件在父级容器中的坐标发生改变事件
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static MOVE:string = "move";
@@ -166,10 +130,6 @@ namespace eui {
          * @param eventType The event type; indicates the action that triggered the event.
          * @param bubbles  Determines whether the Event object participates in the bubbling stage of the event flow. The default value is false.
          * @param cancelable Determines whether the Event object can be canceled. The default values is false.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -179,10 +139,6 @@ namespace eui {
          * @param eventType 事件类型；指示触发事件的动作。
          * @param bubbles  确定 Event 对象是否参与事件流的冒泡阶段。默认值为 false。
          * @param cancelable 确定是否可以取消 Event 对象。默认值为 false。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public static dispatchUIEvent(target:egret.IEventDispatcher, eventType:string, bubbles?:boolean, cancelable?:boolean):boolean {

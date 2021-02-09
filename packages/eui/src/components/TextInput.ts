@@ -21,19 +21,11 @@ namespace eui {
      */
     /**
      * The TextInput is a textfield input component, the user can input and edit the text.
-     *
-     * @version Egret 2.5.7
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/TextInputExample.ts
      * @language en_US
      */
     /**
      * TextInput 是一个文本输入控件，供用户输入和编辑统一格式文本
-     *
-     * @version Egret 2.5.7
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/TextInputExample.ts
      * @language zh_CN
      */
@@ -60,44 +52,28 @@ namespace eui {
         /**
          * [SkinPart] The TextInput display
          * @skinPart
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * [SkinPart] 实体文本输入组件
          * @skinPart
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public textDisplay:EditableText;
         /**
          * [SkinPart] When the property of the text is empty, it will show the defalut string.
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         /**
          * [SkinPart] 当text属性为空字符串时要显示的文本。
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public promptDisplay:Label;
 
         /**
          * @copy eui.EditableText#prompt
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get prompt():string {
             if (this.promptDisplay) {
@@ -124,10 +100,6 @@ namespace eui {
 
         /**
          * @copy egret.TextField#displayAsPassword
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get displayAsPassword(): boolean {
             if (this.textDisplay) {
@@ -167,10 +139,6 @@ namespace eui {
         }
         /**
          * @copy egret.TextField#inputType
-         *
-         * @version Egret 3.1.6
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get inputType(): string {
             if (this.textDisplay) {
@@ -182,10 +150,6 @@ namespace eui {
 
         /**
          * @copy egret.TextField#textColor
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get textColor():number {
             if (this.textDisplay) {
@@ -211,10 +175,6 @@ namespace eui {
 
         /**
          * @copy egret.TextField#maxChars
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get maxChars():number {
             if (this.textDisplay) {
@@ -241,10 +201,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get maxWidth():number {
             if (this.textDisplay) {
@@ -271,10 +227,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get maxHeight():number {
             if (this.textDisplay) {
@@ -301,10 +253,6 @@ namespace eui {
 
         /**
          * @copy egret.TextField#text
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get text():string {
             if (this.textDisplay) {
@@ -331,10 +279,6 @@ namespace eui {
 
         /**
          * @copy egret.TextField#restrict
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get restrict():string {
             if (this.textDisplay) {
@@ -383,10 +327,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getCurrentState():string {
             let skin = this.skin;
@@ -410,10 +350,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partAdded(partName:string, instance:any):void {
             super.partAdded(partName, instance);
@@ -434,10 +370,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.5.7
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected partRemoved(partName:string, instance:any):void {
             super.partRemoved(partName, instance);

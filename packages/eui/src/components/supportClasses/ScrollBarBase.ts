@@ -38,10 +38,6 @@ namespace eui {
      * viewport is a instance that implements IViewport.
      *
      * @see eui.IViewport
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language en_US
      */
     /**
@@ -50,10 +46,6 @@ namespace eui {
      * 视区是一个IViewport接口实现的实例。
      *
      * @see eui.IViewport
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @language zh_CN
      */
     export class ScrollBarBase extends Component {
@@ -78,17 +70,11 @@ namespace eui {
         /**
          * [SkinPart] Thumb display object.
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * [SkinPart]滑块显示对象。
          * @skinPart
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public thumb:eui.UIComponent = null;
@@ -115,10 +101,6 @@ namespace eui {
          * @default null
          * @see eui.VScrollBar
          * @see eui.HScrollBar
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -135,10 +117,6 @@ namespace eui {
          * @default null
          * @see eui.VScrollBar
          * @see eui.HScrollBar
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get viewport():IViewport {
@@ -176,17 +154,11 @@ namespace eui {
         /**
          * Properties of viewport changed.
          * @param event
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 视区属性发生改变。
          * @param event
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onPropertyChanged(event:eui.PropertyEvent):void{
@@ -194,16 +166,10 @@ namespace eui {
         }
         /**
          * Whether the scrollbar can be autohide.
-         * @version Egret 3.0.2
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 是否自动隐藏 scrollbar
-         * @version Egret 3.0.2
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public autoVisibility:boolean = true;

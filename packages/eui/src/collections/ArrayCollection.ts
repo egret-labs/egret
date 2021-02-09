@@ -40,9 +40,6 @@ namespace eui {
      * @event eui.CollectionEvent.COLLECTION_CHANGE Dispatched when the ArrayCollection has been updated in some way.
      *
      * @defaultProperty source
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/collections/ArrayCollectionExample.ts
      * @language en_US
      */
@@ -53,9 +50,6 @@ namespace eui {
      * @event eui.CollectionEvent.COLLECTION_CHANGE 当 ArrayCollection 更新的的时候会派发此事件。
      *
      * @defaultProperty source
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample extension/eui/collections/ArrayCollectionExample.ts
      * @language zh_CN
      */
@@ -95,18 +89,12 @@ namespace eui {
          * The source of data in the ArrayCollection.
          * The ArrayCollection object does not represent any changes that you make
          * directly to the source array. Always use the ICollection methods to view the collection.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 数据源
          * 通常情况下请不要直接调用Array的方法操作数据源，否则对应的视图无法收到数据改变的通知。通常都是通过ICollection的接口方法来查看数据。
          * 若对数据源进行了修改，请手动调用refresh()方法刷新数据。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get source():any[] {
@@ -125,17 +113,11 @@ namespace eui {
          * The ArrayCollection does not detect source data changes automatically,
          * so you must call the <code>refresh()</code>
          * method to update the view after changing the source data.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 在对数据源进行排序或过滤操作后可以手动调用此方法刷新所有数据,以更新视图。
          * ArrayCollection 不会自动检原始数据进行了改变,所以你必须调用<code>refresh()</code>方法去更新显示。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public refresh():void {
@@ -150,10 +132,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public get length():number {
             return this._source.length;
@@ -163,17 +141,11 @@ namespace eui {
          * Adds the specified item to the end of the list.
          * Equivalent to <code>addItemAt(item, length)</code>.
          * @param item The item to add.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 向列表末尾添加指定项目。等效于 <code>addItemAt(item, length)</code>。
          * @param item 要被添加的项。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public addItem(item:any):void {
@@ -188,9 +160,6 @@ namespace eui {
          * of the list, a Error which code is 1007 is thrown.
          * @param item The item to place at the index.
          * @param index The index at which to place the item.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -199,9 +168,6 @@ namespace eui {
          * 如果指定的索引比0小或者比最大长度要大。则会抛出1007异常。
          * @param item 要添加的项
          * @param index 要添加的指定索引位置
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public addItemAt(item:any, index:number):void {
@@ -214,10 +180,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getItemAt(index:number):any {
             return this._source[index];
@@ -225,10 +187,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         public getItemIndex(item:any):number {
             let length:number = this._source.length;
@@ -243,17 +201,11 @@ namespace eui {
         /**
          * Notifies the view that an item has been updated.
          * @param item The item within the view that was updated.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 通知视图，某个项目的属性已更新。
          * @param item 视图中需要被更新的项。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public itemUpdated(item:any):void {
@@ -265,16 +217,10 @@ namespace eui {
 
         /**
          * Removes all items from the list.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 删除列表中的所有项目。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public removeAll():void {
@@ -288,18 +234,12 @@ namespace eui {
          * Any items that were after this index are now one index earlier.
          * @param index The index from which to remove the item.
          * @return The item that was removed.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 删除指定索引处的项目并返回该项目。原先位于此索引之后的所有项目的索引现在都向前移动一个位置。
          * @param index 要被移除的项的索引。
          * @return 被移除的项。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public removeItemAt(index:number):any {
@@ -317,9 +257,6 @@ namespace eui {
          * @param item The new item to be placed at the specified index.
          * @param index The index at which to place the item.
          * @return The item that was replaced, or <code>null</code> if none.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
@@ -327,9 +264,6 @@ namespace eui {
          * @param item 要在指定索引放置的新的项。
          * @param index 要被替换的项的索引位置。
          * @return 被替换的项目，如果没有该项则返回<code>null</code> 。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public replaceItemAt(item:any, index:number):any {
@@ -345,17 +279,11 @@ namespace eui {
         /**
          * Replaces all items with a new source data, this method can not reset the scroller position of view.
          * @param newSource new source data.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 用新数据源替换原始数据源，此方法与直接设置source不同，它不会导致目标视图重置滚动位置。
          * @param newSource 新数据。
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public replaceAll(newSource:any[]):void {

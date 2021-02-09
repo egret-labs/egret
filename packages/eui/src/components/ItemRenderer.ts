@@ -36,9 +36,6 @@ namespace eui {
      * @state down Down state
      * @state upAndSelected Up state when the button is selected
      * @state downAndSelected Down state when the button is selected
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ItemRendererExample.ts
      * @language en_US
      */
@@ -49,9 +46,6 @@ namespace eui {
      * @state down 按下状态
      * @state upAndSelected 选择时的弹起状态
      * @state downAndSelected 选择时的按下状态
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
      * @includeExample  extension/eui/components/ItemRendererExample.ts
      * @language zh_CN
      */
@@ -84,18 +78,10 @@ namespace eui {
         private _data: any = null;
         /**
          * The data to render or edit.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 要呈示或编辑的数据。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get data(): any {
@@ -110,18 +96,10 @@ namespace eui {
 
         /**
          * Update the view when the <code>data</code> property changes.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 当数据改变时，更新视图。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected dataChanged(): void {
@@ -135,18 +113,10 @@ namespace eui {
         /**
          * Contains <code>true</code> if the item renderer
          * can show itself as selected.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 如果项呈示器可以将其自身显示为已选中，则为 true。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public get selected(): boolean {
@@ -163,18 +133,10 @@ namespace eui {
         /**
          * The index of the item in the data provider
          * of the host component of the item renderer.
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 项呈示器的数据提供程序中的项目索引。
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         public itemIndex: number = -1;
@@ -186,16 +148,10 @@ namespace eui {
         private touchCaptured: boolean = false;
         /**
          * Dispatched when an event of some kind occurred that canceled the touch.
-         * @version Egret 3.0.1
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 由于某个事件取消了触摸时触发
-         * @version Egret 3.0.1
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchCancle(event: egret.TouchEvent): void {
@@ -208,18 +164,10 @@ namespace eui {
 
         /**
          * Handles <code>TouchEvent.TOUCH_BEGIN</code> events
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language en_US
          */
         /**
          * 触碰开始时触发事件
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          * @language zh_CN
          */
         protected onTouchBegin(event: egret.TouchEvent): void {
@@ -246,10 +194,6 @@ namespace eui {
 
         /**
          * @inheritDoc
-         *
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
          */
         protected getCurrentState(): string {
             let state = "up";
