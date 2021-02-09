@@ -29,189 +29,190 @@
 
 import { IDisplayText } from "../core/IDisplayText";
 import { Component } from "./Component";
+import { Image } from './Image';
 
 export class Button extends Component {
-        /**
-         * Constructor.
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 创建一个按钮实例
-         * @version Egret 2.4
-         * @version eui 1.0
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        public constructor() {
-            super();
-            this.touchChildren = false;
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
-        }
+    /**
+     * Constructor.
+     * @version Egret 2.4
+     * @version eui 1.0
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 创建一个按钮实例
+     * @version Egret 2.4
+     * @version eui 1.0
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    public constructor() {
+        super();
+        this.touchChildren = false;
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
+    }
 
-        /**
-         * [SkinPart] A skin part that defines the label of the button.
-         * @skinPart
-         * @language en_US
-         */
-        /**
-         * [SkinPart] 按钮上的文本标签。
-         * @skinPart
-         * @language zh_CN
-         */
-        public labelDisplay:IDisplayText = null;
+    /**
+     * [SkinPart] A skin part that defines the label of the button.
+     * @skinPart
+     * @language en_US
+     */
+    /**
+     * [SkinPart] 按钮上的文本标签。
+     * @skinPart
+     * @language zh_CN
+     */
+    public labelDisplay: IDisplayText = null;
 
-        /**
-         * @private
-         */
-        private _label:string = "";
-        /**
-         * Text to appear on the Button control.
-         * @language en_US
-         */
-        /**
-         * 要在按钮上显示的文本。
-         * @language zh_CN
-         */
-        public get label():string {
-            return this._label;
-        }
+    /**
+     * @private
+     */
+    private _label: string = "";
+    /**
+     * Text to appear on the Button control.
+     * @language en_US
+     */
+    /**
+     * 要在按钮上显示的文本。
+     * @language zh_CN
+     */
+    public get label(): string {
+        return this._label;
+    }
 
-        public set label(value:string) {
-            this._label = value;
-            if (this.labelDisplay) {
-                this.labelDisplay.text = value;
-            }
-        }
-
-        /**
-         * [SkinPart] A skin part that defines an optional icon for the button.
-         * @skinPart
-         * @language en_US
-         */
-        /**
-         * [SkinPart] 按钮上的图标显示对象。
-         * @skinPart
-         * @language zh_CN
-         */
-        public iconDisplay:Image = null;
-
-        /**
-         * @private
-         */
-        private _icon:string|egret.Texture = null;
-        /**
-         * Icon to appear on the Button control.
-         * @language en_US
-         */
-        /**
-         * 要在按钮上显示的图标数据
-         * @language zh_CN
-         */
-        public get icon():string|egret.Texture {
-            return this._icon;
-        }
-
-        public set icon(value:string|egret.Texture) {
-            this._icon = value;
-            if (this.iconDisplay) {
-                this.iconDisplay.source = value;
-            }
-        }
-
-        /**
-         * @private
-         * 指示第一次分派 TouchEvent.TOUCH_BEGIN 时，触摸点是否在按钮上。
-         */
-        private touchCaptured:boolean = false;
-        /**
-         * This method handles the touchCancle events
-         * @param  The <code>egret.TouchEvent</code> object.
-         * @language en_US
-         */
-        /**
-         * 解除触碰事件处理。
-         * @param event 事件 <code>egret.TouchEvent</code> 的对象。
-         * @language zh_CN
-         */
-        protected onTouchCancle(event:egret.TouchEvent):void {
-            let stage = event.$currentTarget;
-            stage.removeEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
-            stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
-            this.touchCaptured = false;
-            this.invalidateState();
-        }
-        /**
-         * This method handles the touch events
-         * @param  The <code>egret.TouchEvent</code> object.
-         * @language en_US
-         */
-        /**
-         * 触碰事件处理。
-         * @param event 事件 <code>egret.TouchEvent</code> 的对象。
-         * @language zh_CN
-         */
-        protected onTouchBegin(event:egret.TouchEvent):void {
-            this.$stage.addEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
-            this.$stage.addEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
-            this.touchCaptured = true;
-            this.invalidateState();
-            event.updateAfterEvent();
-        }
-
-        /**
-         * @private
-         * 舞台上触摸弹起事件
-         */
-        private onStageTouchEnd(event:egret.Event):void {
-            let stage = event.$currentTarget;
-            stage.removeEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
-            stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
-            if (this.contains(event.target)){
-                this.buttonReleased();
-            }
-            this.touchCaptured = false;
-            this.invalidateState();
-        }
-
-        /**
-         * @inheritDoc
-         */
-        protected getCurrentState():string {
-            if (!this.enabled)
-                return "disabled";
-
-            if (this.touchCaptured)
-                return "down";
-
-            return "up";
-        }
-
-        /**
-         * @inheritDoc
-         */
-        protected partAdded(partName:string, instance:any):void {
-            if (instance === this.labelDisplay) {
-                this.labelDisplay.text = this._label;
-            }
-            else if (instance == this.iconDisplay) {
-                this.iconDisplay.source = this._icon;
-            }
-        }
-
-        /**
-         * This method is called when handling a <code>egret.TouchEvent.TOUCH_END</code> event
-         * when the user touches on the button. It is only called when the button
-         * is the target and when <code>touchCaptured</code> is <code>true</code>.
-         * @language en_US
-         */
-        /**
-         * 当在用户单击按钮之后处理 <code>egret.TouchEvent.TOUCH_END</code> 事件时，将调用此方法。
-         * 仅当以按钮为目标，并且 <code>touchCaptured</code> 为 <code>true</code> 时，才会调用此方法。
-         * @language zh_CN
-         */
-        protected buttonReleased():void {
+    public set label(value: string) {
+        this._label = value;
+        if (this.labelDisplay) {
+            this.labelDisplay.text = value;
         }
     }
+
+    /**
+     * [SkinPart] A skin part that defines an optional icon for the button.
+     * @skinPart
+     * @language en_US
+     */
+    /**
+     * [SkinPart] 按钮上的图标显示对象。
+     * @skinPart
+     * @language zh_CN
+     */
+    public iconDisplay: Image = null;
+
+    /**
+     * @private
+     */
+    private _icon: string | egret.Texture = null;
+    /**
+     * Icon to appear on the Button control.
+     * @language en_US
+     */
+    /**
+     * 要在按钮上显示的图标数据
+     * @language zh_CN
+     */
+    public get icon(): string | egret.Texture {
+        return this._icon;
+    }
+
+    public set icon(value: string | egret.Texture) {
+        this._icon = value;
+        if (this.iconDisplay) {
+            this.iconDisplay.source = value;
+        }
+    }
+
+    /**
+     * @private
+     * 指示第一次分派 TouchEvent.TOUCH_BEGIN 时，触摸点是否在按钮上。
+     */
+    private touchCaptured: boolean = false;
+    /**
+     * This method handles the touchCancle events
+     * @param  The <code>egret.TouchEvent</code> object.
+     * @language en_US
+     */
+    /**
+     * 解除触碰事件处理。
+     * @param event 事件 <code>egret.TouchEvent</code> 的对象。
+     * @language zh_CN
+     */
+    protected onTouchCancle(event: egret.TouchEvent): void {
+        let stage = event.$currentTarget;
+        stage.removeEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
+        stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
+        this.touchCaptured = false;
+        this.invalidateState();
+    }
+    /**
+     * This method handles the touch events
+     * @param  The <code>egret.TouchEvent</code> object.
+     * @language en_US
+     */
+    /**
+     * 触碰事件处理。
+     * @param event 事件 <code>egret.TouchEvent</code> 的对象。
+     * @language zh_CN
+     */
+    protected onTouchBegin(event: egret.TouchEvent): void {
+        this.$stage.addEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
+        this.$stage.addEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
+        this.touchCaptured = true;
+        this.invalidateState();
+        event.updateAfterEvent();
+    }
+
+    /**
+     * @private
+     * 舞台上触摸弹起事件
+     */
+    private onStageTouchEnd(event: egret.Event): void {
+        let stage = event.$currentTarget;
+        stage.removeEventListener(egret.TouchEvent.TOUCH_CANCEL, this.onTouchCancle, this);
+        stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onStageTouchEnd, this);
+        if (this.contains(event.target)) {
+            this.buttonReleased();
+        }
+        this.touchCaptured = false;
+        this.invalidateState();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected getCurrentState(): string {
+        if (!this.enabled)
+            return "disabled";
+
+        if (this.touchCaptured)
+            return "down";
+
+        return "up";
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected partAdded(partName: string, instance: any): void {
+        if (instance === this.labelDisplay) {
+            this.labelDisplay.text = this._label;
+        }
+        else if (instance == this.iconDisplay) {
+            this.iconDisplay.source = this._icon;
+        }
+    }
+
+    /**
+     * This method is called when handling a <code>egret.TouchEvent.TOUCH_END</code> event
+     * when the user touches on the button. It is only called when the button
+     * is the target and when <code>touchCaptured</code> is <code>true</code>.
+     * @language en_US
+     */
+    /**
+     * 当在用户单击按钮之后处理 <code>egret.TouchEvent.TOUCH_END</code> 事件时，将调用此方法。
+     * 仅当以按钮为目标，并且 <code>touchCaptured</code> 为 <code>true</code> 时，才会调用此方法。
+     * @language zh_CN
+     */
+    protected buttonReleased(): void {
+    }
+}
