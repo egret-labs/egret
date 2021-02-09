@@ -31,6 +31,7 @@
 
 import { DefaultAssetAdapter } from "../components/supportClasses/DefaultAssetAdapter";
 import { DefaultThemeAdapter } from "../components/supportClasses/DefaultThemeAdapter";
+import { UIEvent } from "../events/UIEvent";
 import { MatrixUtil } from "../utils/MatrixUtil";
 import { registerProperty } from "../utils/registerProperty";
 import { IAssetAdapter } from "./IAssetAdapter";

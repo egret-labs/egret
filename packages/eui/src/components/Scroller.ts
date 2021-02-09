@@ -29,6 +29,7 @@
 import { IViewport } from "../core/IViewport";
 import { UIKeys } from "../core/UIComponent";
 import { ScrollerThrowEvent } from "../events/ScrollerThrowEvent";
+import { UIEvent } from "../events/UIEvent";
 import { registerProperty } from "../utils/registerProperty";
 import { Component } from "./Component";
 import { HScrollBar } from "./HScrollBar";

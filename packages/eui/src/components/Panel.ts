@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { IDisplayText } from "../core/IDisplayText";
+import { UIEvent } from "../events/UIEvent";
 import { registerProperty } from "../utils/registerProperty";
 import { Button } from "./Button";
 import { Component } from "./Component";
