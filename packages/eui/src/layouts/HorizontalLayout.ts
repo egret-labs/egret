@@ -121,7 +121,7 @@ export class HorizontalLayout extends LinearLayoutBase {
             let totalPreferredWidth = 0;
             let totalPercentWidth = 0;
             let childInfoArray:any[] = [];
-            let childInfo:sys.ChildInfo;
+            let childInfo:ChildInfo;
             let widthToDistribute = targetWidth;
             let maxElementHeight = this.maxElementSize;
             let bounds = egret.$TempRectangle;

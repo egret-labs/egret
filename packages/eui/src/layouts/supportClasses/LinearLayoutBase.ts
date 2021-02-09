@@ -544,7 +544,7 @@ export class LinearLayoutBase extends LayoutBase {
                 let spacePerPercent:number = spaceToDistribute / totalPercent;
 
                 for (let i:number = 0; i < numElements; i++) {
-                    let childInfo:sys.ChildInfo = childInfoArray[i];
+                    let childInfo:ChildInfo = childInfoArray[i];
 
                     let size:number = childInfo.percent * spacePerPercent;
 

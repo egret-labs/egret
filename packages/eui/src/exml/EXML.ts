@@ -30,8 +30,9 @@
 /// <reference path="EXMLParser.ts" />
 
 import { getTheme } from "../core/UIComponent";
+import { EXMLParser } from "./EXMLParser";
 
-let parser = new sys.EXMLParser();
+let parser = new EXMLParser();
 let requestPool: egret.HttpRequest[] = [];
 let callBackMap: any = {};
 let parsedClasses: any = {};

@@ -199,7 +199,7 @@ export class ProgressBar extends Range {
          * @private
          * 动画实例
          */
-        private animation:sys.Animation;
+        private animation:Animation;
         /**
          * @private
          * 动画播放结束时要到达的value。
@@ -249,7 +249,7 @@ export class ProgressBar extends Range {
          * @private
          * 动画播放更新数值
          */
-        private animationUpdateHandler(animation:sys.Animation):void {
+        private animationUpdateHandler(animation:Animation):void {
             let values = this.$Range;
             let value = this.nearestValidValue(animation.currentValue, values[RangeKeys.snapInterval]);
             this.animationValue = Math.min(values[RangeKeys.maximum], Math.max(values[RangeKeys.minimum], value));

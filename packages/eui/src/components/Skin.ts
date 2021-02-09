@@ -192,7 +192,7 @@ export class Skin extends egret.EventDispatcher {
         /**
          * @private
          */
-        $stateValues:sys.StateValues = new StateValues();
+        $stateValues:StateValues = new StateValues();
 
         /**
          * The list of state for host component.

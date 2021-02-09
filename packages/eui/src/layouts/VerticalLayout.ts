@@ -121,7 +121,7 @@ export class VerticalLayout extends LinearLayoutBase {
             let totalPreferredHeight = 0;
             let totalPercentHeight = 0;
             let childInfoArray:any[] = [];
-            let childInfo:sys.ChildInfo;
+            let childInfo:ChildInfo;
             let heightToDistribute = targetHeight;
             let maxElementWidth = this.maxElementSize;
             let bounds = egret.$TempRectangle;

@@ -386,7 +386,7 @@ export class SliderBase extends Range {
          * @private
          * 动画播放更新数值
          */
-        $animationUpdateHandler(animation:sys.Animation):void {
+        $animationUpdateHandler(animation:Animation):void {
             this.pendingValue = animation.currentValue;
         }
 
@@ -394,7 +394,7 @@ export class SliderBase extends Range {
          * @private
          * 动画播放完毕
          */
-        private animationEndHandler(animation:sys.Animation):void {
+        private animationEndHandler(animation:Animation):void {
             this.setValue(this.$SliderBase[Keys.slideToValue]);
             this.dispatchEventWith(egret.Event.CHANGE);
             UIEvent.dispatchUIEvent(this, UIEvent.CHANGE_END);

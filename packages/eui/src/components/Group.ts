@@ -379,7 +379,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
         /**
          * @private
          */
-        $stateValues:sys.StateValues = new StateValues();
+        $stateValues:StateValues = new StateValues();
 
         /**
          * The list of state for this component.

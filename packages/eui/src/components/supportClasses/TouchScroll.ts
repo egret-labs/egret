@@ -115,7 +115,7 @@ export class TouchScroll {
          * @private
          * 停止触摸时继续滚动的动画实例
          */
-        private animation:sys.Animation;
+        private animation:Animation;
 
         public $bounces:boolean = true;
 
