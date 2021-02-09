@@ -437,6 +437,11 @@
       "reviewCategory": "production"
     },
     {
+      "packageName": "@egret/eui",
+      "projectFolder": "packages/eui",
+      "reviewCategory": "production"
+    },
+    {
       "packageName": "@egret/example-webpack-project",
       "projectFolder": "examples/webpack-project"
     },

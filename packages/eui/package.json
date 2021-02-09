@@ -1,0 +1,16 @@
+{
+  "name": "@egret/eui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --p tsconfig.release.json",
+    "test": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "3.9.7"
+  }
+}
