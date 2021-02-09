@@ -28,7 +28,10 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// <reference path="EXMLParser.ts" />
-let parser = new eui.sys.EXMLParser();
+
+import { getTheme } from "../core/UIComponent";
+
+let parser = new sys.EXMLParser();
 let requestPool: egret.HttpRequest[] = [];
 let callBackMap: any = {};
 let parsedClasses: any = {};
@@ -162,5 +165,5 @@ function request(url: string, callback: (url: string, text: string) => void) {
             }
             callback(url, str);
         };
-        eui.getTheme(openUrl, onConfigLoaded);
+        getTheme(openUrl, onConfigLoaded);
     }

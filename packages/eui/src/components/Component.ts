@@ -207,7 +207,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         protected setSkin(skin: Skin): void {
-            if (skin && !(skin instanceof eui.Skin)) {
+            if (skin && !(skin instanceof Skin)) {
                 skin = null;
                 DEBUG && egret.$error(2202);
             }

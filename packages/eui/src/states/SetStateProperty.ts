@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { Binding } from "../binding/Binding";
 import { Skin } from "../components/Skin";
 import { IOverride } from "./IOverride";
 
@@ -110,7 +111,7 @@ export class SetStateProperty implements IOverride {
             if (nextOldValue) {
                 this.oldValue = nextOldValue;
             }
-            eui.Binding.$bindProperties(this.host, this.templates.concat(), this.chainIndex.concat(), this.target, this.prop);
+            Binding.$bindProperties(this.host, this.templates.concat(), this.chainIndex.concat(), this.target, this.prop);
         }
 
         /**

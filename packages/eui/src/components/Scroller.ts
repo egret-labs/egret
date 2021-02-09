@@ -164,7 +164,7 @@ export class Scroller extends Component {
          */
         $getThrowInfo(currentPos:number, toPos:number):eui.ScrollerThrowEvent {
             if (!scrollerThrowEvent) {
-                scrollerThrowEvent = new eui.ScrollerThrowEvent(ScrollerThrowEvent.THROW, false, false, currentPos, toPos);
+                scrollerThrowEvent = new ScrollerThrowEvent(ScrollerThrowEvent.THROW, false, false, currentPos, toPos);
             }
             else {
                 scrollerThrowEvent.currentPos = currentPos;

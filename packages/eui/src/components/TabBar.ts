@@ -79,12 +79,12 @@ export class TabBar extends ListBase {
          */
         $setDataProvider(value:ICollection):boolean{
             let dp = this.$dataProvider;
-            if(dp&&dp instanceof eui.ViewStack){
+            if(dp&&dp instanceof ViewStack){
                 dp.removeEventListener(PropertyEvent.PROPERTY_CHANGE,this.onViewStackIndexChange,this);
                 this.removeEventListener(egret.Event.CHANGE,this.onIndexChanged,this);
             }
 
-            if(value&&value instanceof eui.ViewStack){
+            if(value&&value instanceof ViewStack){
                 value.addEventListener(PropertyEvent.PROPERTY_CHANGE,this.onViewStackIndexChange,this);
                 this.addEventListener(egret.Event.CHANGE,this.onIndexChanged,this);
             }

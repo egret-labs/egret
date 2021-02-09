@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { Component, ComponentKeys } from "../components/Component";
+import { getTheme } from "./UIComponent";
 
 interface ThemeData {
         /**
@@ -171,7 +172,7 @@ export class Theme extends egret.EventDispatcher {
          * @param url
          */
         private load(url: string): void {
-            eui.getTheme(url, data => this.onConfigLoaded(data))
+            getTheme(url, data => this.onConfigLoaded(data))
         }
 
         /**

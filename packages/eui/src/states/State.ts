@@ -111,9 +111,9 @@ export class State extends egret.HashObject {
             let length = overrides.length;
             for (let i = 0; i < length; i++) {
                 let addItems:AddItems = <AddItems>overrides[i];
-                if (addItems instanceof eui.AddItems) {
+                if (addItems instanceof AddItems) {
                     let target:egret.DisplayObject = host[addItems.target];
-                    if (target&&target instanceof eui.Image&&!target.$parent) {
+                    if (target&&target instanceof Image&&!target.$parent) {
                         stage.addChild(target);
                         stage.removeChild(target);
                     }

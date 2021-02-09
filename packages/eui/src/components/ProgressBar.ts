@@ -317,20 +317,20 @@ export class ProgressBar extends Range {
                 let thumbPosX = thumb.x - rect.x;
                 let thumbPosY = thumb.y - rect.y;
                  switch (this._direction) {
-                     case eui.Direction.LTR:
+                     case Direction.LTR:
                          rect.width = clipWidth;
                          thumb.x = thumbPosX;
                          break;
-                     case eui.Direction.RTL:
+                     case Direction.RTL:
                          rect.width = clipWidth;
                          rect.x = thumbWidth - clipWidth;
                          thumb.x = rect.x;
                          break;
-                     case eui.Direction.TTB:
+                     case Direction.TTB:
                          rect.height = clipHeight;
                          thumb.y = thumbPosY;
                          break;
-                     case eui.Direction.BTT:
+                     case Direction.BTT:
                          rect.height = clipHeight;
                          rect.y = thumbHeight - clipHeight;
                          thumb.y = rect.y;

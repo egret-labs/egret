@@ -814,7 +814,7 @@ function isDeltaIdentity(m: egret.Matrix): boolean {
         return (m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1);
     }
 let validator = new Validator();
-export class UIComponentImpl extends egret.DisplayObject implements eui.UIComponent {
+export class UIComponentImpl extends egret.DisplayObject implements UIComponent {
         /**
          * @private
          * 构造函数
