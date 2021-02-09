@@ -28,87 +28,22 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// <reference path="EXMLParser.ts" />
-
-namespace EXML {
-
-    let parser = new eui.sys.EXMLParser();
-
-    let requestPool: egret.HttpRequest[] = [];
-    let callBackMap: any = {};
-    let parsedClasses: any = {};
-    let $prefixURL: string = "";
-    /**
-     * Set a prefix url.
-     * The prefix url will add to the front of the Exml file path when it’s loading.
-     * @param text the text of a EXML file.
-     *
-     * @version Egret 2.5.3
-     * @version eui 1.0
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 设置 EXML 文件加载的根路径。
-     * 设置后，再加载 EXML 文件时会自动把根路径加到文件路径前面
-     * @version Egret 2.5.3
-     * @version eui 1.0
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    export let prefixURL: string;
-    Object.defineProperty(EXML, "prefixURL", {
+let parser = new eui.sys.EXMLParser();
+let requestPool: egret.HttpRequest[] = [];
+let callBackMap: any = {};
+let parsedClasses: any = {};
+let $prefixURL: string = "";
+export let prefixURL: string;
+Object.defineProperty(EXML, "prefixURL", {
         get: function (): string { return $prefixURL },
         set: function (value: string) { $prefixURL = value },
         enumerable: true,
         configurable: true
     });
-
-    /**
-     * Parsing a text of EXML file for a definition of class. You can declare the <code>class</code> property in the root
-     * node of the EXML to register to the global as a class name.
-     *
-     * It will be fail to register and output a warning if the specified name already exists. You can get a definition
-     * of a class through <code>egret.getDefinitionByName(className)</code>.
-     *
-     * @param text the text of a EXML file.
-     * @language en_US
-     */
-    /**
-     * 解析一个 EXML 文件的文本内容为一个类定义。您可以在 EXML 文件的根节点上声明 class 属性作为要注册到全局的类名。
-     * 若指定的类名已经存在，将会注册失败，并输出一个警告。注册成功后，您也可以通过 egret.getDefinitionByName(className) 方法获取这个 EXML 文件对应的类定义。
-     *
-     * @param text 要解析的 EXML 文件内容。
-     * @language zh_CN
-     */
-    export function parse(text: string): { new(): any } {
+export function parse(text: string): { new(): any } {
         return parser.parse(text);
     }
-
-    /**
-     * Load and parse an external EXML file for a class definition. You can declare the <code>class</code> property in the root
-     * node of the EXML to register to the global as a class name.
-     *
-     * It will be fail to register and output a warning if the specified name already exists. You can get a definition
-     * of a class through <code>egret.getDefinitionByName(className)</code>.
-     *
-     * @param url the path of an EXML file
-     * @param callBack method to invoke with an argument of the result when load and parse completed or failed. The argument will be
-     * <code>undefined</code> if load or parse failed.
-     * @param thisObject <code>this</code> object of callBack
-     * @param useCache use cached EXML
-     * @language en_US
-     */
-    /**
-     * 加载并解析一个外部的 EXML 文件为一个类定义。您可以在 EXML 文件的根节点上声明 class 属性作为要注册到全局的类名。
-     * 若指定的类名已经存在，将会注册失败，并输出一个警告。注册成功后，您也可以通过 egret.getDefinitionByName(className) 方法获取这个 EXML 文件对应的类定义。
-     *
-     * @param url 要加载的 EXML 文件路径
-     * @param callBack 加载并解析完成后的回调函数，无论加载成功还是失败，此函数均会被回调。失败时将传入 undefined 作为回调函数参数。
-     * @param thisObject 回调函数的 this 引用。
-     * @param useCache 使用缓存的EXML
-     * @language zh_CN
-     */
-    export function load(url: string, callBack?: (clazz: any, url: string) => void, thisObject?: any, useCache = false): void {
+export function load(url: string, callBack?: (clazz: any, url: string) => void, thisObject?: any, useCache = false): void {
         if (DEBUG) {
             if (!url) {
                 egret.$error(1003, "url");
@@ -126,12 +61,7 @@ namespace EXML {
         callBackMap[url] = [[callBack, thisObject]];
         request(url, $parseURLContent);
     }
-
-
-    /**
-     * @private
-     */
-    export function $loadAll(urls: string[], callBack?: (clazz: any[], url: string[]) => void, thisObject?: any, useCache = false): void {
+export function $loadAll(urls: string[], callBack?: (clazz: any[], url: string[]) => void, thisObject?: any, useCache = false): void {
         if (!urls || urls.length == 0) {
             callBack && callBack.call(thisObject, [], urls);
             return;
@@ -156,11 +86,7 @@ namespace EXML {
         });
 
     }
-
-    /**
-     * @private
-     */
-    function onLoadAllFinished(urls: string[], exmlContents: any, callBack?: (clazz: any[], url: string[]) => void, thisObject?: any) {
+function onLoadAllFinished(urls: string[], exmlContents: any, callBack?: (clazz: any[], url: string[]) => void, thisObject?: any) {
         let clazzes = [];
         urls.forEach((url, i) => {
 
@@ -177,8 +103,7 @@ namespace EXML {
 
         callBack && callBack.call(thisObject, clazzes, urls);
     }
-
-    export function update(url: string, clazz: any) {
+export function update(url: string, clazz: any) {
         parsedClasses[url] = clazz;
         let list: any[] = callBackMap[url];
         delete callBackMap[url];
@@ -189,14 +114,7 @@ namespace EXML {
                 arr[0].call(arr[1], clazz, url);
         }
     }
-
-
-    /**
-     * @private
-     * @param url
-     * @param text
-     */
-    export function $parseURLContentAsJs(url: string, text: string, className: string) {
+export function $parseURLContentAsJs(url: string, text: string, className: string) {
         let clazz: any = null;
         if (text) {
             clazz = parser.$parseCode(text, className);
@@ -204,10 +122,7 @@ namespace EXML {
         }
 
     }
-    /**
-     * @private
-     */
-    export function $parseURLContent(url: string, text: string | any): any {
+export function $parseURLContent(url: string, text: string | any): any {
         let clazz: any = null;
         if (text && typeof (text) == "string") {
             try {
@@ -235,11 +150,7 @@ namespace EXML {
         }
         return clazz;
     }
-
-    /**
-     * @private
-     */
-    function request(url: string, callback: (url: string, text: string) => void) {
+function request(url: string, callback: (url: string, text: string) => void) {
         let openUrl = url;
         if (url.indexOf("://") == -1) {
             openUrl = $prefixURL + url;
@@ -253,4 +164,3 @@ namespace EXML {
         };
         eui.getTheme(openUrl, onConfigLoaded);
     }
-}

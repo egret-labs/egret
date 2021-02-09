@@ -27,19 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { IItemRenderer } from "../core/IItemRenderer";
 
-    /**
-     * Represents events that are dispatched when a item has been touched.
-     * @includeExample  extension/eui/events/ItemTapEventExample.ts
-     * @language en_US
-     */
-    /**
-     * 列表项触碰事件
-     * @includeExample  extension/eui/events/ItemTapEventExample.ts
-     * @language zh_CN
-     */
-    export class ItemTapEvent extends egret.Event {
+export class ItemTapEvent extends egret.Event {
         /**
          * The type of the event object for an <code>itemTap</code> event.
          * @language en_US
@@ -118,5 +108,3 @@ namespace eui {
             return result;
         }
     }
-
-}

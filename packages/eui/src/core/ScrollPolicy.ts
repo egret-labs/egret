@@ -27,21 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-	/**
-	 * Values for the <code>horizontalCanScroll</code> and
-	 * <code>verticalCanScroll</code> properties of the Scroller classes.
-     * @includeExample  extension/eui/core/ScrollPolicyExample.ts
-	 * @language en_US
-	 */
-	/**
-	 * 滚动条显示策略常量。
-	 * Scroller 类的 <code>horizontalCanScroll</code> 和 <code>verticalCanScroll</code> 属性的值。
-     * @includeExample  extension/eui/core/ScrollPolicyExample.ts
-	 * @language zh_CN
-	 */
-	export class ScrollPolicy{
+export class ScrollPolicy{
 		/**
 		 * Show the scrollbar if the children exceed the owner's dimension.
          * @language en_US
@@ -72,4 +58,3 @@ namespace eui {
 		 */
 		public static ON:string = "on";
 	}
-}

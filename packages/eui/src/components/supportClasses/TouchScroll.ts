@@ -26,63 +26,18 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui.sys {
-    /**
-     * @private
-     * 需要记录的历史速度的最大次数。
-     */
-    let MAX_VELOCITY_COUNT = 4;
-    /**
-     * @private
-     * 记录的历史速度的权重列表。
-     */
-    let VELOCITY_WEIGHTS:number[] = [1, 1.33, 1.66, 2];
-    /**
-     * @private
-     * 当前速度所占的权重。
-     */
-    let CURRENT_VELOCITY_WEIGHT = 2.33;
-    /**
-     * @private
-     * 最小的改变速度，解决浮点数精度问题。
-     */
-    let MINIMUM_VELOCITY = 0.02;
-    /**
-     * @private
-     * 当容器自动滚动时要应用的摩擦系数
-     */
-    let FRICTION = 0.998;
-    /**
-     * @private
-     * 当容器自动滚动时并且滚动位置超出容器范围时要额外应用的摩擦系数
-     */
-    let EXTRA_FRICTION = 0.95;
-    /**
-     * @private
-     * 摩擦系数的自然对数
-     */
-    let FRICTION_LOG = Math.log(FRICTION);
-
-    /**
-     * @private
-     *
-     * @param ratio
-     * @returns
-     */
-    function easeOut(ratio:number):number {
+let MAX_VELOCITY_COUNT = 4;
+let VELOCITY_WEIGHTS:number[] = [1, 1.33, 1.66, 2];
+let CURRENT_VELOCITY_WEIGHT = 2.33;
+let MINIMUM_VELOCITY = 0.02;
+let FRICTION = 0.998;
+let EXTRA_FRICTION = 0.95;
+let FRICTION_LOG = Math.log(FRICTION);
+function easeOut(ratio:number):number {
         let invRatio:number = ratio - 1.0;
         return invRatio * invRatio * invRatio + 1;
     }
-
-    /**
-     * @private
-     * 一个工具类,用于容器的滚屏拖动操作，计算在一段时间持续滚动后释放，应该继续滚动到的值和缓动时间。
-     * 使用此工具类，您需要创建一个 ScrollThrown 实例,并在滚动发生时调用start()方法，然后在触摸移动过程中调用update()更新当前舞台坐标。
-     * 内部将会启动一个计时器定时根据当前位置计算出速度值，并缓存下来最后4个值。当停止滚动时，再调用finish()方法，
-     * 将立即停止记录位移，并将计算出的最终结果存储到 Thrown.scrollTo 和 Thrown.duration 属性上。
-     */
-    export class TouchScroll {
+export class TouchScroll {
 
         /**
          * @private
@@ -366,4 +321,3 @@ namespace eui.sys {
             this.updateFunction.call(this.target, animation.currentValue);
         }
     }
-}

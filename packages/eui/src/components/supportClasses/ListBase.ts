@@ -27,12 +27,15 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui.sys {
+import { IItemRenderer } from "../../core/IItemRenderer";
+import { CollectionEvent } from "../../events/CollectionEvent";
+import { CollectionEventKind } from "../../events/CollectionEventKind";
+import { ItemTapEvent } from "../../events/ItemTapEvent";
+import { PropertyEvent } from "../../events/PropertyEvent";
+import { registerBindable } from "../../utils/registerBindable";
+import { DataGroup } from "../DataGroup";
 
-    /**
-     * @private
-     */
-    export const enum ListBaseKeys {
+export const enum ListBaseKeys {
         /**
          * @private
          */
@@ -70,35 +73,7 @@ namespace eui.sys {
          */
         touchCancle
     }
-}
-
-namespace eui {
-
-    /**
-     * The ListBase class is the base class for list component.
-     * It can display items of list as vertical or horizontal such as SELECT of HTML.
-     * @event egret.Event.CHANGE Dispatched after the selection has changed.
-     * This event is dispatched when the user interacts with the control.
-     * @event egret.Event.CHANGING Dispatched when the selection is going to change.
-     * Calling the <code>preventDefault()</code> method
-     * on the event prevents the selection from changing.<p/>
-     * This event is dispatched when the user interacts with the control.
-     *
-     * @event eui.ItemTapEvent.ITEM_TAP dispatched when the user tap an item in the control.
-     * @event egret.TouchEvent.TOUCH_CANCEL canceled the touch
-     * @language en_US
-     */
-    /**
-     * ListBase 是列表控件基类。可显示垂直或水平的项目列表。其功能与 HTML 中的 SELECT 表单元素的功能相似。
-     * @event egret.Event.CHANGE 选中的索引已经发生改变,注意：此事件仅在索引改变是由用户触摸操作引起时才抛出。
-     * @event egret.Event.CHANGING 选中的索引即将发生改变，可以通过调用事件对象的 preventDefault() 方法来阻止改变。<p/>
-     * 注意：此事件仅在索引改变是由用户触摸操作引起时才抛出。
-     *
-     * @event eui.ItemTapEvent.ITEM_TAP 项呈示器单击事件。
-     * @event egret.TouchEvent.TOUCH_CANCEL 取消触摸事件
-     * @language zh_CN
-     */
-    export class ListBase extends DataGroup {
+export class ListBase extends DataGroup {
 
         /**
          * Constructor.
@@ -770,8 +745,5 @@ namespace eui {
             this.$ListBase[sys.ListBaseKeys.touchDownItemRenderer] = null;
         }
     }
-
-    registerBindable(ListBase.prototype, "selectedIndex");
-
-    registerBindable(ListBase.prototype, "selectedItem");
-}
+registerBindable(ListBase.prototype, "selectedIndex");
+registerBindable(ListBase.prototype, "selectedItem");

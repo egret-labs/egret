@@ -27,19 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-    /**
-     * The UILayer class is the subclass of the Group class.It not only has the standard function of the Group class,but also
-     * can keep its size the same to the stage size (Stage.stageWidth,Stage.stageHeight).Its size will changes as the stage size changes.
-     * like any normal container class,you can create multiple instance of the UILayer class,but it is usually used as the root of the UI display list.
-     * @language en_US
-     */
-    /**
-     * UILayer 是 Group 的子类，它除了具有容器的所有标准功能，还能够自动保持自身尺寸始终与舞台尺寸相同（Stage.stageWidth,Stage.stageHeight）。
-     * 当舞台尺寸发生改变时，它会跟随舞台尺寸改变。UILayer 跟普通容器一样，允许创建多个实例，但通常都将它作为UI显示列表的根节点使用。
-     * @language zh_CN
-     */
-    export class UILayer extends Group {
+import { Group } from "./Group";
+
+export class UILayer extends Group {
 
         /**
          * Constructor.
@@ -88,4 +78,3 @@ namespace eui {
             this.$setHeight(stage.$stageHeight);
         }
     }
-}

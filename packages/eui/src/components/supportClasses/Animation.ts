@@ -27,25 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-
-namespace eui.sys {
-
-    /**
-     * @private
-     * 
-     * @param fraction 
-     * @returns 
-     */
-    function sineInOut(fraction:number):number {
+function sineInOut(fraction:number):number {
         return -0.5 * (Math.cos(Math.PI * fraction) - 1)
     }
-
-    /**
-     * @private
-     * 数值缓动工具类
-     */
-    export class Animation {
+export class Animation {
         /**
          * @private
          */
@@ -170,4 +155,3 @@ namespace eui.sys {
         }
 
     }
-}

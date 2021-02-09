@@ -27,47 +27,13 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { PropertyEvent } from "../events/PropertyEvent";
+import { State } from "../states/State";
+import { registerBindable } from "../utils/registerBindable";
+import { registerProperty } from "../utils/registerProperty";
+import { Component } from "./Component";
 
-    /**
-     * The Skin class defines the base class for all skins.
-     * You typically don't need to manually create the instance of this class.
-     * It can be created by resolving a EXML.<p/>
-     *
-     * @example You typically write the skin classes in EXML, as the followiong example shows:<p/>
-     * <pre>
-     *      <?xml version="1.0" encoding="utf-8"?>
-     *      <s:Skin xmlns:s="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-     *          <states>
-     *              <!-- Specify the states controlled by this skin. -->
-     *          </states>
-     *          <!-- Define skin. -->
-     *      </s:Skin>
-     * </pre>
-     *
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/SkinExample.ts
-     * @language en_US
-     */
-    /**
-     * 皮肤基类。通常情况下，您不需要手动创建这个类的实例，而是通过解析EXML文件后自动生成。<p/>
-     *
-     * @example 通常您可以按照如下方式写EXML代码：<p/>
-     * <pre>
-     *      <?xml version="1.0" encoding="utf-8"?>
-     *      <s:Skin xmlns:s="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-     *          <states>
-     *              <!-- Specify the states controlled by this skin. -->
-     *          </states>
-     *          <!-- Define skin. -->
-     *      </s:Skin>
-     * </pre>
-     *
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/SkinExample.ts
-     * @language zh_CN
-     */
-    export class Skin extends egret.EventDispatcher {
+export class Skin extends egret.EventDispatcher {
 
         /**
          * The list of skin parts name
@@ -272,9 +238,7 @@ namespace eui {
          */
         private commitCurrentState:()=>void;
     }
-
-    sys.mixin(Skin, sys.StateClient);
-    registerProperty(Skin, "elementsContent", "Array", true);
-    registerProperty(Skin, "states", "State[]");
-    registerBindable(Skin.prototype, "hostComponent");
-}
+sys.mixin(Skin, sys.StateClient);
+registerProperty(Skin, "elementsContent", "Array", true);
+registerProperty(Skin, "states", "State[]");
+registerBindable(Skin.prototype, "hostComponent");

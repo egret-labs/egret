@@ -27,21 +27,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { IItemRenderer } from "../core/IItemRenderer";
+import { ItemTapEvent } from "../events/ItemTapEvent";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { ListBase } from "./supportClasses/ListBase";
 
-    /**
-     * The List control displays a vertical or horizontal list of items.
-     * The user can select one or more items from the list, depending
-     * on the value of the <code>allowMultipleSelection</code> property.
-     * @includeExample  extension/eui/components/ListExample.ts
-     * @language en_US
-     */
-    /**
-     * List 控件可显示垂直或水平的项目列表。用户可以根据 <code>allowMultipleSelection</code> 属性的值从列表中选择一个或多个项目。
-     * @includeExample  extension/eui/components/ListExample.ts
-     * @language zh_CN
-     */
-    export class List extends ListBase {
+export class List extends ListBase {
 
 
         /**
@@ -387,5 +378,3 @@ namespace eui {
             }
         }
     }
-
-}

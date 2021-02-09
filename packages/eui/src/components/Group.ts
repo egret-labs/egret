@@ -30,12 +30,15 @@
 /// <reference path="../states/State.ts" />
 /// <reference path="../core/UIComponent.ts" />
 /// <reference path="../utils/registerProperty.ts" />
-namespace eui {
 
-    /**
-     * @private
-     */
-    const enum Keys{
+import { IViewport } from "../core/IViewport";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { BasicLayout } from "../layouts/BasicLayout";
+import { LayoutBase } from "../layouts/supportClasses/LayoutBase";
+import { State } from "../states/State";
+import { registerProperty } from "../utils/registerProperty";
+
+const enum Keys{
         contentWidth,
         contentHeight,
         scrollH,
@@ -43,28 +46,7 @@ namespace eui {
         scrollEnabled,
         touchThrough
     }
-
-    /**
-     * The Group class is defines the base class for layout component.
-     * If the contents of the sub items are too large to scroll to show, you can wrap a Scroller component outside the
-     * group (Give the instance of Group to <code>viewport</code> property of Scroller component).
-     * The scroller component can adds a scrolling touch operation for the Group.
-     *
-     * @see http://edn.egret.com/cn/article/index/id/608 Simple container
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/GroupExample.ts
-     * @language en_US
-     */
-    /**
-     * Group 是自动布局的容器基类。如果包含的子项内容太大需要滚动显示，可以在在 Group 外部包裹一层 Scroller 组件
-     * (将 Group 实例赋值给 Scroller 组件的 viewport 属性)。Scroller 会为 Group 添加滚动的触摸操作功能，并显示垂直或水平的滚动条。
-     *
-     * @see http://edn.egret.com/cn/article/index/id/608 简单容器
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/GroupExample.ts
-     * @language zh_CN
-     */
-    export class Group extends egret.DisplayObjectContainer implements IViewport {
+export class Group extends egret.DisplayObjectContainer implements IViewport {
 
         /**
          * Constructor.
@@ -673,10 +655,7 @@ namespace eui {
         public getPreferredBounds(bounds:egret.Rectangle):void {
         }
     }
-
-    sys.implementUIComponent(Group, egret.DisplayObjectContainer, true);
-    sys.mixin(Group, sys.StateClient);
-    registerProperty(Group, "elementsContent", "Array", true);
-    registerProperty(Group, "states", "State[]");
-
-}
+sys.implementUIComponent(Group, egret.DisplayObjectContainer, true);
+sys.mixin(Group, sys.StateClient);
+registerProperty(Group, "elementsContent", "Array", true);
+registerProperty(Group, "states", "State[]");

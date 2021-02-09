@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-	/**
-	 * The ColumnAlign class defines the possible values for the
-	 * <code>columnAlign</code> property of the TileLayout class.
-     * @includeExample  extension/eui/layout/ColumnAlignExample.ts
-	 * @language en_US
-	 */
-	/**
-	 * ColumnAlign 类为 TileLayout 类的 <code>columnAlign</code> 属性定义可能的值。
-     * @includeExample  extension/eui/layout/ColumnAlignExample.ts
-	 * @language zh_CN
-	 */
-	export class ColumnAlign{
+export class ColumnAlign{
 		/**
 		 * Do not justify the rows.
          * @language en_US
@@ -71,4 +58,3 @@ namespace eui {
 		 */
 		public static JUSTIFY_USING_WIDTH:string = "justifyUsingWidth";
 	}
-}

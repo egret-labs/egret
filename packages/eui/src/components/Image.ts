@@ -29,28 +29,10 @@
 
 /// <reference path="supportClasses/DefaultAssetAdapter.ts" />
 
-namespace eui {
+import { UIComponent, getAssets } from "../core/UIComponent";
+import { registerProperty } from "../utils/registerProperty";
 
-    /**
-     * The Image control lets you show JPEG, PNG, and GIF files
-     * at runtime. Image inherit Bitmap，so you can set the <code>bitmapData</code> property
-     * to show the data. you can also set the <code>source</code> property, Image will auto load
-     * and show the url image or the bitmapData.
-     *
-     * @event egret.Event.COMPLETE Dispatched when the image loaded complete.
-     * @includeExample  extension/eui/components/ImageExample.ts
-     * @language en_US
-     */
-    /**
-     * Image 控件允许您在运行时显示 JPEG、PNG 等图片文件文件。Image 继承至 Bitmap，因此您可以直接对其 bitmapData 属性，
-     * 赋值从外部加载得到的位图数据以显示对应图片。同时，Image 还提供了更加方便的 source 属性，source 属性可以接受一个网络图片url作为值，
-     * 赋值为url后，它内部会自动去加载并显示图片。并且您同样也可以直接把 BitmapData 对象赋值给 source 属性以显示图片。
-     *
-     * @event egret.Event.COMPLETE 当图片加载完成后调度
-     * @includeExample  extension/eui/components/ImageExample.ts
-     * @language zh_CN
-     */
-    export class Image extends egret.Bitmap implements UIComponent {
+export class Image extends egret.Bitmap implements UIComponent {
 
         /**
          * Constructor.
@@ -509,7 +491,5 @@ namespace eui {
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-
-    sys.implementUIComponent(Image, egret.Bitmap);
-    registerProperty(Image, "scale9Grid", "egret.Rectangle");
-}
+sys.implementUIComponent(Image, egret.Bitmap);
+registerProperty(Image, "scale9Grid", "egret.Rectangle");

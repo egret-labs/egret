@@ -27,25 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-namespace eui {
-
-	/**
-	 * An <code>ICollectionView</code> is a view onto a collection of data.
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language en_US
-	 */
-	/**
-	 *
-	 * <code>ICollection</code>是一个列表的集合类数据源对象的查看接口。
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language zh_CN
-	 */
-	export interface ICollection extends egret.IEventDispatcher{
+export interface ICollection extends egret.IEventDispatcher{
 		/**
 		 * The number of items in this view.
 		 * 0 means no items, while -1 means that the length is unknown.
@@ -103,4 +85,3 @@ namespace eui {
 		 */
 		getItemIndex(item:any):number;
 	}
-}

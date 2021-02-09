@@ -25,46 +25,16 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { IDisplayText } from "../core/IDisplayText";
+import { Theme } from "../core/Theme";
+import { UIComponent } from "../core/UIComponent";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui {
-
-    let UIImpl = sys.UIComponentImpl;
-    /**
-     * Label is an UIComponent that can render one or more lines of text.
-     * The text to be displayed is determined by the <code>text</code> property.
-     * The formatting of the text is specified by the styles，
-     * such as <code>fontFamily</code> and <code>size</code>.
-     *
-     * <p>Because Label is fast and lightweight, it is especially suitable
-     * for use cases that involve rendering many small pieces of non-interactive
-     * text, such as item renderers and labels in Button skins.</p>
-     *
-     * <p>In Label, three character sequences are recognized
-     * as explicit line breaks: CR (<code>"\r"</code>), LF (<code>"\n"</code>),
-     * and CR+LF (<code>"\r\n"</code>).</p>
-     *
-     * <p>If you don't specify any kind of width for a Label,
-     * then the longest line, as determined by these explicit line breaks,
-     * determines the width of the Label.</p>
-     *
-     * <p>If you do specify some kind of width, then the specified text is
-     * word-wrapped at the right edge of the component's bounds.
-     * If the text extends below the bottom of the component,
-     * it is clipped.</p>
-     * @includeExample  extension/eui/components/LabelExample.ts
-     * @language en_US
-     */
-    /**
-     * Label 是可以呈示一行或多行统一格式文本的UI组件。要显示的文本由 text 属性确定。文本格式由样式属性指定，例如 fontFamily 和 size。
-     * 因为 Label 运行速度快且占用内存少，所以它特别适合用于显示多个小型非交互式文本的情况，例如，项呈示器和 Button 外观中的标签。
-     * 在 Label 中，将以下三个字符序列识别为显式换行符：CR（“\r”）、LF（“\n”）和 CR+LF（“\r\n”）。
-     * 如果没有为 Label 指定宽度，则由这些显式换行符确定的最长行确定 Label 的宽度。
-     * 如果指定了宽度，则指定文本将在组件边界的右边缘换行，如果文本扩展到低于组件底部，则将被剪切。
-     * @includeExample  extension/eui/components/LabelExample.ts
-     * @language zh_CN
-     */
-    export class Label extends egret.TextField implements UIComponent,IDisplayText {
+let UIImpl = sys.UIComponentImpl;
+export class Label extends egret.TextField implements UIComponent,IDisplayText {
 
         /**
          * Constructor.
@@ -595,7 +565,5 @@ namespace eui {
         public getPreferredBounds(bounds:egret.Rectangle):void {
         }
     }
-
-    sys.implementUIComponent(Label, egret.TextField);
-    registerBindable(Label.prototype, "text");
-}
+sys.implementUIComponent(Label, egret.TextField);
+registerBindable(Label.prototype, "text");

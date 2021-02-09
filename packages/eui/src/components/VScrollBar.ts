@@ -27,26 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { ScrollBarBase } from "./supportClasses/ScrollBarBase";
 
-    /**
-     * The VScrollBar (vertical scrollbar) control lets you control
-     * the portion of data that is displayed when there is too much data
-     * to fit vertically in a display area.
-     *
-     * <p>Although you can use the VScrollBar control as a stand-alone control,
-     * you usually combine it as part of another group of components to
-     * provide scrolling functionality.</p>
-     * @includeExample  extension/eui/components/VScrollBarExample.ts
-     * @language en_US
-     */
-    /**
-     * VScrollBar（垂直 ScrollBar）控件可以在因数据太多而不能在显示区域中以垂直方向完全显示时控制显示的数据部分。
-     * <p>虽然 VScrollBar 控件可以单独使用，但通常将它与其他组件一起使用来提供滚动功能。</p>
-     * @includeExample  extension/eui/components/VScrollBarExample.ts
-     * @language zh_CN
-     */
-    export class VScrollBar extends ScrollBarBase {
+export class VScrollBar extends ScrollBarBase {
 
         /**
          * @inheritDoc
@@ -97,5 +80,3 @@ namespace eui {
             }
         }
     }
-
-}

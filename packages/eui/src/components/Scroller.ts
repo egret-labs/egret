@@ -25,17 +25,16 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { IViewport } from "../core/IViewport";
+import { ScrollerThrowEvent } from "../events/ScrollerThrowEvent";
+import { registerProperty } from "../utils/registerProperty";
+import { Component } from "./Component";
+import { Skin } from "./Skin";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-namespace eui {
-
-    let scrollerThrowEvent:ScrollerThrowEvent;
-
-    /**
-     * @private
-     */
-    const enum Keys {
+let scrollerThrowEvent:ScrollerThrowEvent;
+const enum Keys {
         scrollPolicyV,
         scrollPolicyH,
         autoHideTimer,
@@ -50,57 +49,7 @@ namespace eui {
         viewprotRemovedEvent, //表示是被移除触发的viewport设空
         touchCancle
     }
-    /**
-     * The Scroller component displays a single scrollable component,
-     * called a viewport, and horizontal and vertical scroll bars.
-     * The viewport must implement the IViewport interface.
-     * <p>The Group components implement the IViewport interface
-     * and can be used as the children of the Scroller control,
-     * as the following example shows:</p>
-     * <pre>
-     *       <s:Scroller width="100" height="100">
-     *           <s:Group>
-     *               <s:Image width="300" height="400" source="assets/logo.jpg"/>
-     *           </s:Group>
-     *       </s:Scroller>
-     * </pre>
-     * <p>The size of the Image control is set larger than that of its parent Group container.
-     * By default, the child extends past the boundaries of the parent container.
-     * Rather than allow the child to extend past the boundaries of the parent container,
-     * the Scroller specifies to clip the child to the boundaries and display scroll bars.</p>
-     *
-     * @event eui.UIEvent.CHANGE_START Dispatched when the scroll position is going to change
-     * @event eui.UIEvent.CHANGE_END Dispatched when the scroll position changed complete
-     * @event egret.Event.CHANGE Dispatched when the scroll position is changing
-     * @event egret.TouchEvent.TOUCH_CANCEL canceled the touch
-     *
-     * @defaultProperty viewport
-     * @includeExample  extension/eui/components/ScrollerExample.ts
-     * @language en_US
-     */
-    /**
-     * Scroller 组件显示一个称为视域的单个可滚动组件，以及水平滚动条和垂直滚动条。该视域必须实现 IViewport 接口。
-     * <p>Group 组件实现 IViewport 接口，且可以用作 Scroller 控件的子代，如下例所示：</p>
-     * <pre>
-     *       <s:Scroller width="100" height="100">
-     *           <s:Group>
-     *               <s:Image width="300" height="400" source="assets/logo.jpg"/>
-     *           </s:Group>
-     *       </s:Scroller>
-     * </pre>
-     * Image 控件的大小比其父 Group 容器设置得大。默认情况下，子代超过父容器的边界。
-     * Scroller 会指定将子代剪切到边界并显示滚动条，而不是让子代超过父容器的边界。
-     *
-     * @event eui.UIEvent.CHANGE_START 滚动位置改变开始
-     * @event eui.UIEvent.CHANGE_END 滚动位置改变结束
-     * @event egret.Event.CHANGE 滚动位置改变的时候
-     * @event egret.TouchEvent.TOUCH_CANCEL 取消触摸事件
-     *
-     * @defaultProperty viewport
-     * @includeExample  extension/eui/components/ScrollerExample.ts
-     * @language zh_CN
-     */
-    export class Scroller extends Component {
+export class Scroller extends Component {
 
         /**
          * The threshold value(in pixels) trigger the rolling.
@@ -860,6 +809,4 @@ namespace eui {
             }
         }
     }
-
-    registerProperty(Scroller, "viewport", "eui.IViewport", true);
-}
+registerProperty(Scroller, "viewport", "eui.IViewport", true);

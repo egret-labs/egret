@@ -27,28 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { IViewport } from "../../core/IViewport";
+import { Component } from "../Component";
 
-namespace eui {
-
-    /**
-     * The ScrollBarBase class helps to position
-     * the portion of data that is displayed when there is too much data
-     * to fit in a display area.
-     * The ScrollBarBase class displays a pair of viewport and a thumb.
-     * viewport is a instance that implements IViewport.
-     *
-     * @see eui.IViewport
-     * @language en_US
-     */
-    /**
-     * <code>ScrollBarBase</code> 滚动条基类，该类帮助在因数据太多而不能在显示区域完全显示时定位显示的数据部分。
-     * ScrollBarBase 类显示视区的一部分和一个指示滑块。
-     * 视区是一个IViewport接口实现的实例。
-     *
-     * @see eui.IViewport
-     * @language zh_CN
-     */
-    export class ScrollBarBase extends Component {
+export class ScrollBarBase extends Component {
         /**
          * Constructor.
          * @version Egret 2.4
@@ -174,5 +156,3 @@ namespace eui {
          */
         public autoVisibility:boolean = true;
     }
-
-}

@@ -25,31 +25,15 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui {
-
-    /**
-     * @private
-     */
-    let listeners = "__listeners__";
-    /**
-     * @private
-     */
-    let bindables = "__bindables__";
-    /**
-     * @private
-     */
-    let bindableCount = 0;
-
-    /**
-     * @private
-     *
-     * @param host
-     * @param property
-     * @returns
-     */
-    function getPropertyDescriptor(host:any, property:string):any {
+let listeners = "__listeners__";
+let bindables = "__bindables__";
+let bindableCount = 0;
+function getPropertyDescriptor(host:any, property:string):any {
         let data = Object.getOwnPropertyDescriptor(host, property);
         if (data) {
             return data;
@@ -60,8 +44,7 @@ namespace eui {
         }
         return null;
     }
-
-    function notifyListener(host:any, property:string):void {
+function notifyListener(host:any, property:string):void {
         let list:any[] = host[listeners];
         let length = list.length;
         for (let i = 0; i < length; i+=2) {
@@ -70,19 +53,7 @@ namespace eui {
             listener.call(target,property);
         }
     }
-
-    /**
-     * The Watcher class defines utility method that you can use with bindable properties.
-     * These methods let you define an event handler that is executed whenever a bindable property is updated.
-     * @includeExample extension/eui/binding/WatcherExample.ts
-     * @language en_US
-     */
-    /**
-     * Watcher 类能够监视可绑定属性的改变，您可以定义一个事件处理函数作为 Watcher 的回调方法，在每次可绑定属性的值改变时都执行此函数。
-     * @includeExample extension/eui/binding/WatcherExample.ts
-     * @language zh_CN
-     */
-    export class Watcher {
+export class Watcher {
 
         /**
          * Creates and starts a Watcher instance.
@@ -373,5 +344,3 @@ namespace eui {
             }
         }
     }
-
-}

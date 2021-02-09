@@ -26,32 +26,14 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui.sys {
-
-    /**
-     * @private
-     * EUI 命名空间
-     */
-    export let NS_S:string = "http://ns.egret.com/eui";
-    /**
-     * @private
-     * Wing命名空间
-     */
-    export let NS_W:string = "http://ns.egret.com/wing";
-    let coreClasses:string[] = ["Point","Matrix","Rectangle"];
-    let basicTypes:string[] = ["Array", "boolean", "string", "number"];
-
-    let MODULE_NAME = "eui.";
-
-    let hashCount = 0;
-
-    let properties: any = {};
-
-    /**
-     * @private
-     */
-    export class EXMLConfig {
+export let NS_S:string = "http://ns.egret.com/eui";
+export let NS_W:string = "http://ns.egret.com/wing";
+let coreClasses:string[] = ["Point","Matrix","Rectangle"];
+let basicTypes:string[] = ["Array", "boolean", "string", "number"];
+let MODULE_NAME = "eui.";
+let hashCount = 0;
+let properties: any = {};
+export class EXMLConfig {
 
         /**
          * @private
@@ -210,32 +192,17 @@ namespace eui.sys {
             return resultType;
         }
     }
-
-    /**
-     * @private
-     * 判断一个对象是数组
-     */
-    function isArray(o:any):boolean {
+function isArray(o:any):boolean {
         return Object.prototype.toString.call(o) === '[object Array]';
     }
-
-    /**
-     * @private
-     * 获取一个类名对应的prototype引用
-     */
-    function getPrototypeOf(className:string):any {
+function getPrototypeOf(className:string):any {
         let clazz = egret.getDefinitionByName(className);
         if (!clazz) {
             return null;
         }
         return clazz.prototype;
     }
-
-    /**
-     * @private
-     * 创建一个类名对应的实例
-     */
-    function getInstanceOf(clazz:any):any {
+function getInstanceOf(clazz:any):any {
         if (!clazz) {
             return null;
         }
@@ -254,5 +221,3 @@ namespace eui.sys {
 
         return instance;
     }
-
-}

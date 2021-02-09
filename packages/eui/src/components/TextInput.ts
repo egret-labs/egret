@@ -1,8 +1,4 @@
-namespace eui.sys {
-    /**
-     * @private
-     */
-    export const enum TextInputKeys {
+export const enum TextInputKeys {
         prompt,
         displayAsPassword,
         textColor,
@@ -13,23 +9,11 @@ namespace eui.sys {
         restrict,
         inputType
     }
-}
-namespace eui {
-    import FocusEvent = egret.FocusEvent;
-    /**
-     *
-     */
-    /**
-     * The TextInput is a textfield input component, the user can input and edit the text.
-     * @includeExample  extension/eui/components/TextInputExample.ts
-     * @language en_US
-     */
-    /**
-     * TextInput 是一个文本输入控件，供用户输入和编辑统一格式文本
-     * @includeExample  extension/eui/components/TextInputExample.ts
-     * @language zh_CN
-     */
-    export class TextInput extends Component {
+import { Component } from "./Component";
+import { EditableText } from "./EditableText";
+import { Label } from "./Label";
+import FocusEvent = egret.FocusEvent;
+export class TextInput extends Component {
         constructor() {
             super();
             this.$TextInput = {
@@ -430,4 +414,3 @@ namespace eui {
             values[sys.TextInputKeys.inputType] = this.textDisplay.inputType;
         }
     }
-}

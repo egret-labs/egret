@@ -25,24 +25,14 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { UIComponent } from "../core/UIComponent";
+import { JustifyAlign } from "./JustifyAlign";
+import { LinearLayoutBase } from "./supportClasses/LinearLayoutBase";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui {
-
-    let UIComponentClass = "eui.UIComponent";
-    /**
-     * The VerticalLayout class arranges the layout elements in a vertical sequence,
-     * top to bottom, with optional gaps between the elements and optional padding
-     * around the sequence of elements.
-     * @includeExample  extension/eui/layout/VerticalLayoutExample.ts
-     * @language en_US
-     */
-    /**
-     * VerticalLayout 类按垂直顺序从上向下排列布局元素，在元素和围绕元素顺序的可选填充之间带有可选间隙。
-     * @includeExample  extension/eui/layout/VerticalLayoutExample.ts
-     * @language zh_CN
-     */
-    export class VerticalLayout extends LinearLayoutBase {
+let UIComponentClass = "eui.UIComponent";
+export class VerticalLayout extends LinearLayoutBase {
 
         /**
          * @inheritDoc
@@ -501,5 +491,3 @@ namespace eui {
             return oldStartIndex != this.startIndex || oldEndIndex != this.endIndex;
         }
     }
-
-}

@@ -27,18 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { IThemeAdapter } from "../../core/IThemeAdapter";
 
-namespace eui {
-
-    /**
-     * Default instance of interface <code>IThemeAdapter</code>.
-     * @language en_US
-     */
-    /**
-     * 默认的IThemeAdapter接口实现。
-     * @language zh_CN
-     */
-    export class DefaultThemeAdapter implements IThemeAdapter {
+export class DefaultThemeAdapter implements IThemeAdapter {
         /**
          * 解析主题
          * @param url 待解析的主题url
@@ -62,4 +53,3 @@ namespace eui {
             loader.send();
         }
     }
-}

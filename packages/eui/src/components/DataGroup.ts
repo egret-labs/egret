@@ -27,13 +27,20 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { ICollection } from "../collections/ICollection";
+import { IItemRenderer } from "../core/IItemRenderer";
+import { UIComponent } from "../core/UIComponent";
+import { CollectionEvent } from "../events/CollectionEvent";
+import { CollectionEventKind } from "../events/CollectionEventKind";
+import { JustifyAlign } from "../layouts/JustifyAlign";
+import { LayoutBase } from "../layouts/supportClasses/LayoutBase";
+import { VerticalLayout } from "../layouts/VerticalLayout";
+import { registerProperty } from "../utils/registerProperty";
+import { Component } from "./Component";
+import { Group } from "./Group";
+import { ItemRenderer } from "./ItemRenderer";
 
-namespace eui {
-
-    /**
-     * @private
-     */
-    const enum Keys {
+const enum Keys {
         useVirtualLayout,
         useVirtualLayoutChanged,
         rendererToClassMap,
@@ -50,32 +57,7 @@ namespace eui {
         itemRendererSkinName,
         itemRendererSkinNameChange
     }
-
-    /**
-     * The DataGroup class is the base container class for data items.
-     * The DataGroup class converts data items to visual elements for display.
-     * While this container can hold visual elements, it is often used only
-     * to hold data items as children.
-     *
-     * @see eui.Group
-     * @see http://edn.egret.com/cn/article/index/id/527 Data container
-     * @see http://edn.egret.com/cn/article/index/id/528 Array collection
-     * @defaultProperty dataProvider
-     * @includeExample  extension/eui/components/DataGroupExample.ts
-     * @language en_US
-     */
-    /**
-     * DataGroup 类将数据项目转换为可视元素以进行显示。
-     * 尽管此容器可以包含可视元素，但它通常仅用于包含作为子项的数据项目。
-     *
-     * @see eui.Group
-     * @see http://edn.egret.com/cn/article/index/id/527 数据容器
-     * @see http://edn.egret.com/cn/article/index/id/528 数组集合
-     * @defaultProperty dataProvider
-     * @includeExample  extension/eui/components/DataGroupExample.ts
-     * @language zh_CN
-     */
-    export class DataGroup extends Group {
+export class DataGroup extends Group {
 
         /**
          * Constructor.
@@ -1015,9 +997,6 @@ namespace eui {
         protected rendererRemoved(renderer: IItemRenderer, index: number, item: any): void {
         }
     }
-
-    registerProperty(DataGroup, "itemRenderer", "Class");
-    registerProperty(DataGroup, "itemRendererSkinName", "Class");
-    registerProperty(DataGroup, "dataProvider", "eui.ICollection", true);
-
-}
+registerProperty(DataGroup, "itemRenderer", "Class");
+registerProperty(DataGroup, "itemRendererSkinName", "Class");
+registerProperty(DataGroup, "dataProvider", "eui.ICollection", true);

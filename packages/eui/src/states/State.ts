@@ -27,24 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { AddItems } from "./AddItems";
+import { IOverride } from "./IOverride";
 
-namespace eui {
-
-    /**
-     * The State class defines a view state, a particular view of a component.
-     *
-     * For example, a product thumbnail could have two view states;
-     * a base view state with minimal information, and a rich view state with
-     * additional information.
-     * @language en_US
-     */
-    /**
-     * State 类定义视图状态，即组件的特定视图。
-     *
-     * 例如，产品缩略图可以有两个视图状态，包含最少信息的基本视图状态和包含附加信息的丰富视图状态。
-     * @language zh_CN
-     */
-    export class State extends egret.HashObject {
+export class State extends egret.HashObject {
         /**
          * Constructor.
          *
@@ -135,15 +121,7 @@ namespace eui {
             }
         }
     }
-
-}
-
-namespace eui.sys {
-
-    /**
-     * @private
-     */
-    export class StateClient {
+export class StateClient {
 
         /**
          * @private
@@ -256,11 +234,7 @@ namespace eui.sys {
             }
         }
     }
-
-    /**
-     * @private
-     */
-    export class StateValues {
+export class StateValues {
 
         /**
          * @private
@@ -302,4 +276,3 @@ namespace eui.sys {
          */
         public stateIsDirty:boolean = false;
     }
-}

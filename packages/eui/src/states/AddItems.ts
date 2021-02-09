@@ -27,12 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui.sys {
+import { Component } from "../components/Component";
+import { Skin } from "../components/Skin";
+import { IOverride } from "./IOverride";
 
-    /**
-     * @private
-     */
-    export const enum AddPosition {
+export const enum AddPosition {
         /**
          * @private
          * 添加父级容器的底层
@@ -54,19 +53,7 @@ namespace eui.sys {
          */
         AFTER
     }
-}
-
-namespace eui {
-
-    /**
-     * The operation of adding a state to view.
-     * @language en_US
-     */
-    /**
-     * 视图添加状态显示元素操作
-     * @language zh_CN
-     */
-    export class AddItems implements IOverride {
+export class AddItems implements IOverride {
         /**
          * Constructor.
          * @version Egret 2.4
@@ -181,6 +168,4 @@ namespace eui {
             }
         }
     }
-
-}
 

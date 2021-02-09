@@ -27,12 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui.sys {
-    
-    /**
-     * @private
-     */
-    export const enum RangeKeys{
+import { PropertyEvent } from "../../events/PropertyEvent";
+import { registerBindable } from "../../utils/registerBindable";
+import { Component } from "../Component";
+
+export const enum RangeKeys{
         maximum,
         maxChanged,
         minimum,
@@ -44,39 +43,7 @@ namespace eui.sys {
         snapIntervalChanged,
         explicitSnapInterval
     }
-}
-
-namespace eui {
-
-    /**
-     * The Range class holds a value and an allowed range for that
-     * value, defined by <code>minimum</code> and <code>maximum</code> properties.
-     *
-     * The <code>value</code> property
-     * is always constrained to be between the current <code>minimum</code> and
-     * <code>maximum</code>, and the <code>minimum</code>,
-     * and <code>maximum</code> are always constrained
-     * to be in the proper numerical order, such that
-     * <code>(minimum <= value <= maximum)</code> is <code>true</code>.
-     *
-     * If the value of the <code>snapInterval</code> property is not 0,
-     * then the <code>value</code> property is also constrained to be a multiple of
-     * <code>snapInterval</code>.
-     * @includeExample extension/eui/components/supportClasses/RangeExample.ts
-     * @language en_US
-     */
-    /**
-     * 范围选取组件,该组件包含一个值和这个值所允许的最大最小约束范围。
-     *
-     * <code>value</code>属性的值永远被限制于当前的<code>minimum</code>和
-     * <code>maximum</code>之间，并且<code>minimum</code>和 <code>maximum</code>永远按照固定的顺序排列，
-     * 即<code>(minimum <= value <= maximum)</code> 为真。
-     *
-     * 如果<code>snapInterval</code>属性的值不是0，那么<code>value</code>的值也会被<code>snapInterval</code>所约束。
-     * @includeExample extension/eui/components/supportClasses/RangeExample.ts
-     * @language zh_CN
-     */
-    export class Range extends Component {
+export class Range extends Component {
         /**
          * Constructor.
          * @version Egret 2.4
@@ -451,6 +418,4 @@ namespace eui {
         protected updateSkinDisplayList():void {
         }
     }
-
-    registerBindable(Range.prototype,"value");
-}
+registerBindable(Range.prototype,"value");

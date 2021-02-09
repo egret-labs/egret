@@ -28,17 +28,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 /// <reference path="../core/UIComponent.ts" />
-namespace eui {
-    let UIImpl = sys.UIComponentImpl;
-    /**
-     * BitmapLabel is one line or multiline uneditable BitmapText
-     * @language en_US
-     */
-    /**
-     * BitmapLabel 组件是一行或多行不可编辑的位图文本
-     * @language zh_CN
-     */
-    export class BitmapLabel extends egret.BitmapText implements UIComponent, IDisplayText {
+
+import { IDisplayText } from "../core/IDisplayText";
+import { UIComponent, getAssets } from "../core/UIComponent";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+
+let UIImpl = sys.UIComponentImpl;
+export class BitmapLabel extends egret.BitmapText implements UIComponent, IDisplayText {
         public constructor(text?: string) {
             super();
             this.initializeUIValues();
@@ -379,7 +376,5 @@ namespace eui {
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-
-    sys.implementUIComponent(BitmapLabel, egret.BitmapText);
-    registerBindable(BitmapLabel.prototype, "text");
-}
+sys.implementUIComponent(BitmapLabel, egret.BitmapText);
+registerBindable(BitmapLabel.prototype, "text");

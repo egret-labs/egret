@@ -27,20 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { Direction } from "../core/Direction";
+import { Label } from "./Label";
 
-namespace eui {
-
-    /**
-     * The ProgressBar control provides a visual representation of the progress of a task over time.
-     * @includeExample  extension/eui/components/ProgressBarExample.ts
-     * @language en_US
-     */
-    /**
-     * ProgressBar 控件为随时间而变的任务进度提供了形象化的表示。
-     * @includeExample  extension/eui/components/ProgressBarExample.ts
-     * @language zh_CN
-     */
-    export class ProgressBar extends Range {
+export class ProgressBar extends Range {
 
         /**
          * Constructor.
@@ -352,4 +342,3 @@ namespace eui {
             }
         }
     }
-}

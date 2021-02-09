@@ -27,43 +27,14 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { ICollection } from "../collections/ICollection";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { HorizontalLayout } from "../layouts/HorizontalLayout";
+import { JustifyAlign } from "../layouts/JustifyAlign";
+import { ListBase } from "./supportClasses/ListBase";
+import { ViewStack } from "./ViewStack";
 
-    /**
-     * The TabBar class displays a set of identical tabs.
-     * One tab can be selected at a time, and the first tab is selected by default.
-     * <p>The set of tabs is defined by the <code>dataProvider</code> property.
-     * The appearance of each tab is defined by the <code>ItemRenderer</code> class.</p>
-     * <p>You can use the TabBar control to set the active child of a ViewStack container,
-     * as the following example shows:</p>
-     * <pre>
-     *       <s:TabBar dataProvider="{viewStack}"/>
-     *       <s:ViewStack id="viewStack">
-     *          <s:Group name="tab1"/>
-     *          <s:Group name="tab2"/>
-     *          <s:Group name="tab3"/>
-     *       </s:ViewStack>
-     * </pre>
-     * @includeExample  extension/eui/components/TabBarExample.ts
-     * @language en_US
-     */
-    /**
-     * TabBar 类显示一组相同的选项卡。一次可以选择一个选项卡，且默认情况下选择第一个选项卡。
-     * <p>该组选项卡由 <code>dataProvider</code> 属性定义。
-     * 每个选项卡的外观由 <code>ItemRenderer</code> 定义。</p>
-     * <p>可以使用 TabBar 控件设置 ViewStack 容器的活动子代，如下例所示：</p>
-     * <pre>
-     *       <s:TabBar dataProvider="{viewStack}"/>
-     *       <s:ViewStack id="viewStack">
-     *          <s:Group name="tab1"/>
-     *          <s:Group name="tab2"/>
-     *          <s:Group name="tab3"/>
-     *       </s:ViewStack>
-     * </pre>
-     * @includeExample  extension/eui/components/TabBarExample.ts
-     * @language zh_CN
-     */
-    export class TabBar extends ListBase {
+export class TabBar extends ListBase {
 
         /**
          * Constructor.
@@ -144,5 +115,3 @@ namespace eui {
             }
         }
     }
-
-}

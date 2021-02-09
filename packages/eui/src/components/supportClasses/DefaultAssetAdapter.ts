@@ -25,26 +25,14 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { IAssetAdapter } from "../../core/IAssetAdapter";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-namespace eui {
-
-    let loaderPool:egret.ImageLoader[] = [];
-    let callBackMap:any = {};
-    let loaderMap:any = {};
-
-    /**
-     * Default instance of interface <code>IAssetAdapter</code>.
-     * @includeExample extension/eui/components/supportClasses/DefaultAssetAdapterExample.ts
-     * @language en_US
-     */
-    /**
-     * 默认的IAssetAdapter接口实现。
-     * @includeExample extension/eui/components/supportClasses/DefaultAssetAdapterExample.ts
-     * @language zh_CN
-     */
-    export class DefaultAssetAdapter implements IAssetAdapter {
+let loaderPool:egret.ImageLoader[] = [];
+let callBackMap:any = {};
+let loaderMap:any = {};
+export class DefaultAssetAdapter implements IAssetAdapter {
 
         /**
          * resolve asset.
@@ -106,4 +94,3 @@ namespace eui {
             }
         }
     }
-}

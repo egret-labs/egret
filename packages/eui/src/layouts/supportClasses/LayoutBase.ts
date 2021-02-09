@@ -27,28 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { Group } from "../../components/Group";
 
-    /**
-     * The LayoutBase class defines the base class for all Spark layouts.
-     * To create a custom layout that works with the Spark containers,
-     * you must extend <code>LayoutBase</code> or one of its subclasses.
-     *
-     * <p>Subclasses must implement the <code>updateDisplayList()</code>
-     * method, which positions and sizes the <code>target</code> GroupBase's elements, and
-     * the <code>measure()</code> method, which calculates the default
-     * size of the <code>target</code>.</p>
-     * @language en_US
-     */
-    /**
-     * 容器布局基类。若要创建使用 Group 容器的自定义布局，必须扩展 <code>LayoutBase</code> 或其子类之一。
-     *
-     * <p>子类必须实现 <code>updateDisplayList()</code> 方法
-     * （定位 <code>target</code> Group 的子项并调整这些子项的大小）和 <code>measure()</code> 方法
-     * （计算 <code>target</code> 的默认大小）。</p>
-     * @language zh_CN
-     */
-    export class LayoutBase extends egret.EventDispatcher {
+export class LayoutBase extends egret.EventDispatcher {
 
         /**
          * Constructor.
@@ -286,5 +267,3 @@ namespace eui {
         public updateDisplayList(width:number, height:number):void {
         }
     }
-
-}

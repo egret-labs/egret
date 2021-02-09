@@ -27,40 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIComponent } from "./UIComponent";
 
-namespace eui {
-
-	/**
-	 * The IViewport interface is implemented by components that support a viewport.
-	 *
-	 * If a component's children are larger than the component,
-	 * and you want to clip the children to the component boundaries, you can define a viewport.
-	 *
-	 * A viewport is a rectangular subset of the area of a component that you want to display,
-	 * rather than displaying the entire component.
-	 *
-	 * @see eui.Scroller
-	 *
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language en_US
-	 */
-	/**
-	 * 支持视区的组件接口。
-	 *
-	 * 如果组件的内容子项比组件要大，而且您向往子项可以在父级组件的边缘处被裁减，您可以定义一个视区。
-	 *
-	 * 视区是您希望显示的组件的区域的矩形子集，而不是显示整个组件。
-	 *
-	 * @see eui.Scroller
-	 *
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language zh_CN
-	 */
-	export interface IViewport extends UIComponent{
+export interface IViewport extends UIComponent{
 		/**
 		 * The width of the viewport's contents.
 		 *
@@ -183,5 +152,3 @@ namespace eui {
 		 */
 		scrollEnabled:boolean;
 	}
-	
-}

@@ -29,12 +29,12 @@
 
 /// <reference path="../core/UIComponent.ts" />
 /// <reference path="../utils/registerProperty.ts" />
-namespace eui.sys {
 
-    /**
-     * @private
-     */
-    export const enum ComponentKeys {
+import { UIComponent } from "../core/UIComponent";
+import { registerProperty } from "../utils/registerProperty";
+import { Skin } from "./Skin";
+
+export const enum ComponentKeys {
         hostComponentKey,
         skinName,
         explicitState,
@@ -45,32 +45,7 @@ namespace eui.sys {
         explicitTouchEnabled,
         skin
     }
-}
-
-namespace eui {
-
-
-    /**
-     * The Component class defines the base class for skinnable components.
-     * The skins used by a Component class are typically child classes of
-     * the Skin class.<p/>
-     *
-     * Associate a skin class with a component class by setting the <code>skinName</code> property of the
-     * component class.
-     * @event egret.Event.COMPLETE Dispatch when <code>skinName</code> property is set the path of external EXML file and the EXML file is resolved.
-     *
-     * @includeExample  extension/eui/components/ComponentExample.ts
-     * @language en_US
-     */
-    /**
-     * Component 类定义可设置外观的组件的基类。Component 类所使用的外观通常是 Skin 类的子类。<p/>
-     * 通过设置 component 类的 skinName 属性，将 skin 类与 component 类相关联。
-     * @event egret.Event.COMPLETE 当设置skinName为外部exml文件路径时，加载并完成EXML解析后调度。
-     *
-     * @includeExample  extension/eui/components/ComponentExample.ts
-     * @language zh_CN
-     */
-    export class Component extends egret.DisplayObjectContainer implements UIComponent {
+export class Component extends egret.DisplayObjectContainer implements UIComponent {
         /**
          * Constructor.
          *
@@ -794,7 +769,5 @@ namespace eui {
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-    registerProperty(Component, "skinName", "Class");
-    sys.implementUIComponent(Component, egret.DisplayObjectContainer, true);
-
-}
+registerProperty(Component, "skinName", "Class");
+sys.implementUIComponent(Component, egret.DisplayObjectContainer, true);

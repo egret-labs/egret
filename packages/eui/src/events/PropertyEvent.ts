@@ -27,22 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-namespace eui {
-
-    /**
-     * The PropertyChangeEvent class represents the event object
-     * passed to the event listener when one of the properties of
-     * an object has changed, and provides information about the change.
-     * @includeExample  extension/eui/events/PropertyEventExample.ts
-     * @language en_US
-     */
-    /**
-     * 对象的一个属性发生更改时传递到事件侦听器的事件。
-     * @includeExample  extension/eui/events/PropertyEventExample.ts
-     * @language zh_CN
-     */
-    export class PropertyEvent extends egret.Event {
+export class PropertyEvent extends egret.Event {
         /**
          * Dispatch when a property changed.
          * @language en_US
@@ -124,5 +109,3 @@ namespace eui {
             return result;
         }
     }
-
-}

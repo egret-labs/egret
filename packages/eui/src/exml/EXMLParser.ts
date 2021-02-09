@@ -25,39 +25,33 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { EXClass, EXState, EXBinding, EXVariable, EXFunction, EXCodeBlock, EXSetProperty, EXAddItems, EXSetStateProperty } from "./CodeFactory";
+import { EXMLConfig, NS_W, NS_S } from "./EXMLConfig";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui.sys {
-
-    /**
-     * @private
-     * EXML配置管理器实例
-     */
-    export let exmlConfig:EXMLConfig;
-
-    let exmlParserPool:EXMLParser[] = [];
-    let parsedClasses:any = {};
-    let innerClassCount = 1;
-
-    let HOST_COMPONENT = "hostComponent";
-    let SKIN_CLASS = "eui.Skin";
-    let DECLARATIONS = "Declarations";
-    let RECTANGLE = "egret.Rectangle";
-    let TYPE_CLASS = "Class";
-    let TYPE_ARRAY = "Array";
-    let TYPE_PERCENTAGE = "Percentage";
-    let TYPE_STATE = "State[]";
-    let SKIN_NAME = "skinName";
-    let ELEMENTS_CONTENT = "elementsContent";
-    let basicTypes:string[] = [TYPE_ARRAY, "boolean", "string", "number"];
-    let wingKeys:string[] = ["id", "locked", "includeIn", "excludeFrom"];
-    let htmlEntities:string[][] = [["<", "&lt;"], [">", "&gt;"], ["&", "&amp;"], ["\"", "&quot;"], ["'", "&apos;"]];
-    let jsKeyWords:string[] = ["null", "NaN", "undefined", "true", "false"];
-
-    let getRepeatedIds: (xml: egret.XML) => string[];
-    let getIds: (xml: any, result: string[]) => void;
-    let checkDeclarations: (declarations: egret.XML, list: string[]) => void;
-    if (DEBUG) {
+export let exmlConfig:EXMLConfig;
+let exmlParserPool:EXMLParser[] = [];
+let parsedClasses:any = {};
+let innerClassCount = 1;
+let HOST_COMPONENT = "hostComponent";
+let SKIN_CLASS = "eui.Skin";
+let DECLARATIONS = "Declarations";
+let RECTANGLE = "egret.Rectangle";
+let TYPE_CLASS = "Class";
+let TYPE_ARRAY = "Array";
+let TYPE_PERCENTAGE = "Percentage";
+let TYPE_STATE = "State[]";
+let SKIN_NAME = "skinName";
+let ELEMENTS_CONTENT = "elementsContent";
+let basicTypes:string[] = [TYPE_ARRAY, "boolean", "string", "number"];
+let wingKeys:string[] = ["id", "locked", "includeIn", "excludeFrom"];
+let htmlEntities:string[][] = [["<", "&lt;"], [">", "&gt;"], ["&", "&amp;"], ["\"", "&quot;"], ["'", "&apos;"]];
+let jsKeyWords:string[] = ["null", "NaN", "undefined", "true", "false"];
+let getRepeatedIds: (xml: egret.XML) => string[];
+let getIds: (xml: any, result: string[]) => void;
+let checkDeclarations: (declarations: egret.XML, list: string[]) => void;
+if (DEBUG) {
         /**
          * 获取重复的ID名
          */
@@ -149,10 +143,7 @@ namespace eui.sys {
         }
 
     }
-    /**
-     * @private
-     */
-    export class EXMLParser {
+export class EXMLParser {
 
         /**
          * @private
@@ -1690,6 +1681,3 @@ namespace eui.sys {
         }
 
     }
-
-
-}

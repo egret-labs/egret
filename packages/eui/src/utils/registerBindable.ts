@@ -26,27 +26,8 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui {
-
-    let key = "__bindables__";
-
-    /**
-     * Register a property of an instance is can be bound.
-     * This method is ususally invoked by Watcher class.
-     *
-     * @param instance the instance to be registered.
-     * @param property the property of specified instance to be registered.
-     * @language en_US
-     */
-    /**
-     * 标记实例的一个属性是可绑定的,此方法通常由 Watcher 类调用。
-     *
-     * @param instance 要标记的实例
-     * @param property 可绑定的属性。
-     * @language zh_CN
-     */
-    export function registerBindable(instance:any,property:string):void{
+let key = "__bindables__";
+export function registerBindable(instance:any,property:string):void{
         if (DEBUG) {
             if(!instance){
                 egret.$error(1003, "instance");
@@ -67,4 +48,3 @@ namespace eui {
             instance[key] = list;
         }
     }
-}

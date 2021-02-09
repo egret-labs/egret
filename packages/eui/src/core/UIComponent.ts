@@ -29,11 +29,13 @@
 
 /// <reference path="Validator.ts" />
 
-namespace eui {
+import { DefaultAssetAdapter } from "../components/supportClasses/DefaultAssetAdapter";
+import { DefaultThemeAdapter } from "../components/supportClasses/DefaultThemeAdapter";
+import { registerProperty } from "../utils/registerProperty";
+import { IAssetAdapter } from "./IAssetAdapter";
+import { IThemeAdapter } from "./IThemeAdapter";
 
-
-
-    export function getAssets(source: string, callback: (content: any) => void, thisObject: any) {
+export function getAssets(source: string, callback: (content: any) => void, thisObject: any) {
         let adapter: IAssetAdapter = egret.getImplementation("eui.IAssetAdapter");
         if (!adapter) {
             adapter = new DefaultAssetAdapter();
@@ -42,8 +44,7 @@ namespace eui {
             callback.call(thisObject, content);
         }, this);
     }
-
-    export function getTheme(source: string, callback: (content: any) => void) {
+export function getTheme(source: string, callback: (content: any) => void) {
 
         let adapter: IThemeAdapter = egret.getImplementation("eui.IThemeAdapter");
         if (!adapter) {
@@ -54,35 +55,7 @@ namespace eui {
         }, (e) => { console.log(e) }, this);
 
     }
-
-    /**
-     * The UIComponent class is the base class for all visual components, both skinnable and nonskinnable.
-     *
-     * @event egret.Event.RESIZE Dispatch when the component is resized.
-     * @event eui.UIEvent.MOVE Dispatch when the object has moved.
-     * @event eui.UIEvent.CREATION_COMPLETE  Dispatch when the component has finished its construction,
-     * property processing, measuring, layout, and drawing.
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
-     * @language en_US
-     */
-
-    /**
-     * UIComponent 类是所有可视组件（可定制皮肤和不可定制皮肤）的基类。
-     *
-     * @event egret.Event.RESIZE 当UI组件的尺寸发生改变时调度
-     * @event eui.UIEvent.MOVE 当UI组件在父级容器中的位置发生改变时调度
-     * @event eui.UIEvent.CREATION_COMPLETE 当UI组件第一次被添加到舞台并完成初始化后调度
-     *
-     * @version Egret 2.4
-     * @version eui 1.0
-     * @platform Web,Native
-     * @language zh_CN
-     */
-
-    export interface UIComponent extends egret.DisplayObject {
+export interface UIComponent extends egret.DisplayObject {
 
         ///**
         // * 创建子项,子类覆盖此方法以完成组件子项的初始化操作，
@@ -802,15 +775,7 @@ namespace eui {
          */
         getPreferredBounds(bounds: egret.Rectangle): void;
     }
-
-}
-
-namespace eui.sys {
-
-    /**
-     * @private
-     */
-    export const enum UIKeys {
+export const enum UIKeys {
         left,
         right,
         top,
@@ -842,21 +807,12 @@ namespace eui.sys {
         layoutHeightExplicitlySet,
         initialized
     }
-
-    let UIComponentClass = "eui.UIComponent";
-
-    function isDeltaIdentity(m: egret.Matrix): boolean {
+let UIComponentClass = "eui.UIComponent";
+function isDeltaIdentity(m: egret.Matrix): boolean {
         return (m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1);
     }
-
-    let validator = new sys.Validator();
-
-    /**
-     * @private
-     * EUI 显示对象基类模板。仅作为 UIComponent 的默认实现，为egret.sys.implemenetUIComponenet()方法提供代码模板。
-     * 注意：在此类里不允许直接使用super关键字访问父类方法。一律使用this.$super属性访问。
-     */
-    export class UIComponentImpl extends egret.DisplayObject implements eui.UIComponent {
+let validator = new sys.Validator();
+export class UIComponentImpl extends egret.DisplayObject implements eui.UIComponent {
         /**
          * @private
          * 构造函数
@@ -1791,11 +1747,7 @@ namespace eui.sys {
             return matrix;
         }
     }
-
-    /**
-     * 检查一个函数的方法体是否为空。
-     */
-    function isEmptyFunction(prototype: any, key: string): boolean {
+function isEmptyFunction(prototype: any, key: string): boolean {
         if (typeof prototype[key] != "function") {
             return false;
         }
@@ -1805,14 +1757,7 @@ namespace eui.sys {
         body = body.substring(index + 1, lastIndex);
         return body.trim() == "";
     }
-
-    /**
-     * @private
-     * 拷贝模板类的方法体和属性到目标类上。
-     * @param target 目标类
-     * @param template 模板类
-     */
-    export function mixin(target: any, template: any): void {
+export function mixin(target: any, template: any): void {
         for (let property in template) {
             if (property != "prototype" && template.hasOwnProperty(property)) {
                 target[property] = template[property];
@@ -1833,18 +1778,7 @@ namespace eui.sys {
             }
         }
     }
-
-    /**
-     * @private
-     * 自定义类实现UIComponent的步骤：
-     * 1.在自定义类的构造函数里调用：this.initializeUIValues();
-     * 2.拷贝UIComponent接口定义的所有内容(包括注释掉的protected函数)到自定义类，将所有子类需要覆盖的方法都声明为空方法体。
-     * 3.在定义类结尾的外部调用sys.implementUIComponent()，并传入自定义类。
-     * 4.若覆盖了某个UIComponent的方法，需要手动调用UIComponentImpl.prototype["方法名"].call(this);
-     * @param descendant 自定义的UIComponent子类
-     * @param base 自定义子类继承的父类
-     */
-    export function implementUIComponent(descendant: any, base: any, isContainer?: boolean): void {
+export function implementUIComponent(descendant: any, base: any, isContainer?: boolean): void {
         mixin(descendant, UIComponentImpl);
         let prototype = descendant.prototype;
         prototype.$super = base.prototype;
@@ -1991,4 +1925,3 @@ namespace eui.sys {
             });
         }
     }
-}

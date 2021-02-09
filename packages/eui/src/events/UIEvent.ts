@@ -27,21 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-namespace eui {
-
-    /**
-     * The UIEvent class represents the event object passed to
-     * the event listener for many UI events.
-     * @includeExample  extension/eui/events/UIEventExample.ts
-     * @language en_US
-     */
-    /**
-     * UI事件
-     * @includeExample  extension/eui/events/UIEventExample.ts
-     * @language zh_CN
-     */
-    export class UIEvent extends egret.Event{
+export class UIEvent extends egret.Event{
 
         /**
          * Constructor.
@@ -151,4 +137,3 @@ namespace eui {
             return result;
         }
     }
-}

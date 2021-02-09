@@ -27,31 +27,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { IDisplayText } from "../core/IDisplayText";
+import { registerProperty } from "../utils/registerProperty";
+import { Button } from "./Button";
+import { Component } from "./Component";
 
-namespace eui {
-
-    /**
-     * The Panel class defines a container that includes a title bar,
-     * a closeButton, a moveArea, and a content area for its children.
-     *
-     * @event eui.UIEvent.CLOSING Dispatched when the close button is taped
-     * you can use <code>event.preventDefault()</code> to prevent close.
-     *
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/PanelExample.ts
-     * @language en_US
-     */
-    /**
-     * Panel 类定义一个容器，该容器为其子代提供标题栏、关闭按钮、可移动区域和内容区域。
-     *
-     * @event eui.UIEvent.CLOSING 面板即将关闭事件，在关闭按钮被点击后抛出，
-     * 监听此事件并调用<code>event.preventDefault()</code>能够阻止面板被关闭。
-     *
-     * @defaultProperty elementsContent
-     * @includeExample  extension/eui/components/PanelExample.ts
-     * @language zh_CN
-     */
-    export class Panel extends Component {
+export class Panel extends Component {
 
         /**
          * Constructor.
@@ -287,6 +268,4 @@ namespace eui {
             stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouchEnd, this);
         }
     }
-
-    registerProperty(Panel, "elementsContent", "Array", true);
-}
+registerProperty(Panel, "elementsContent", "Array", true);

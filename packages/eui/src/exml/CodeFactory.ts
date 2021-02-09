@@ -26,20 +26,12 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui.sys {
-
-    let STATE = "eui.State";
-    let ADD_ITEMS = "eui.AddItems";
-    let SET_PROPERTY = "eui.SetProperty";
-    let SET_STATEPROPERTY = "eui.SetStateProperty";
-    let BINDING_PROPERTIES = "eui.Binding.$bindProperties";
-
-    /**
-     * @private
-     * 代码生成工具基类
-     */
-    export class CodeBase {
+let STATE = "eui.State";
+let ADD_ITEMS = "eui.AddItems";
+let SET_PROPERTY = "eui.SetProperty";
+let SET_STATEPROPERTY = "eui.SetStateProperty";
+let BINDING_PROPERTIES = "eui.Binding.$bindProperties";
+export class CodeBase {
 
         /**
          * @private
@@ -69,12 +61,7 @@ namespace eui.sys {
             return str;
         }
     }
-
-
-    /**
-     * @private
-     */
-    export class EXClass extends CodeBase {
+export class EXClass extends CodeBase {
 
         /**
          * @private
@@ -251,11 +238,7 @@ namespace eui.sys {
         }
 
     }
-
-    /**
-     * @private
-     */
-    export class EXCodeBlock extends CodeBase {
+export class EXCodeBlock extends CodeBase {
 
         /**
          * @private
@@ -398,11 +381,7 @@ namespace eui.sys {
             return this.lines.join("\n");
         }
     }
-
-    /**
-     * @private
-     */
-    export class EXFunction extends CodeBase {
+export class EXFunction extends CodeBase {
 
         /**
          * @private
@@ -460,11 +439,7 @@ namespace eui.sys {
             return returnStr;
         }
     }
-
-    /**
-     * @private
-     */
-    export class EXVariable extends CodeBase {
+export class EXVariable extends CodeBase {
 
         /**
          * @private
@@ -499,12 +474,7 @@ namespace eui.sys {
             return "this." + this.name + " = " + this.defaultValue + ";";
         }
     }
-
-
-    /**
-     * @private
-     */
-    export class EXState extends CodeBase {
+export class EXState extends CodeBase {
 
         /**
          * @private
@@ -578,11 +548,7 @@ namespace eui.sys {
             return returnStr;
         }
     }
-
-    /**
-     * @private
-     */
-    export class EXAddItems extends CodeBase {
+export class EXAddItems extends CodeBase {
         /**
          * @private
          */
@@ -628,11 +594,7 @@ namespace eui.sys {
             return returnStr;
         }
     }
-
-    /**
-     * @private
-     */
-    export class EXSetProperty extends CodeBase {
+export class EXSetProperty extends CodeBase {
         /**
          * @private
          */
@@ -670,10 +632,7 @@ namespace eui.sys {
             return "new " + SET_PROPERTY + "(\"" + this.target + "\",\"" + this.name + "\"," + this.value + ")";
         }
     }
-    /**
-     * @private
-     */
-    export class EXSetStateProperty extends CodeBase {
+export class EXSetStateProperty extends CodeBase {
         /**
          * @private
          */
@@ -725,10 +684,7 @@ namespace eui.sys {
                 this.target + ",\"" + this.property + "\")";
         }
     }
-    /**
-     * @private
-     */
-    export class EXBinding extends CodeBase {
+export class EXBinding extends CodeBase {
 
         /**
          * @private
@@ -776,4 +732,3 @@ namespace eui.sys {
                 this.target + ",\"" + this.property + "\")";
         }
     }
-}

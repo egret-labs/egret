@@ -27,31 +27,16 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { ICollection } from "../collections/ICollection";
+import { CollectionEvent } from "../events/CollectionEvent";
+import { CollectionEventKind } from "../events/CollectionEventKind";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { LayoutBase } from "../layouts/supportClasses/LayoutBase";
+import { registerBindable } from "../utils/registerBindable";
+import { Group } from "./Group";
+import { ListBase } from "./supportClasses/ListBase";
 
-namespace eui {
-
-    /**
-     * An ViewStack navigator container consists of a collection of child
-     * containers stacked on top of each other, where only one child
-     * at a time is visible.
-     * When a different child container is selected, it seems to replace
-     * the old one because it appears in the same location.
-     * However, the old child container still exists; it is just invisible.
-     *
-     * @event eui.CollectionEvent.COLLECTION_CHANGE Dispatched when the ICollection has been updated in some way.
-     * @includeExample  extension/eui/components/ViewStackExample.ts
-     * @language en_US
-     */
-    /**
-     * ViewStack 导航器容器由一组彼此上下堆叠的子容器组成，其中一次只可以显示一个子容器。
-     * 选择另一个子容器后，它将显示在原来子容器的位置处，所以看起来好像此子容器替换了原来的子容器。
-     * 但是，原来的子容器仍然存在，只不过它现在处于不可见状态。
-     *
-     * @event eui.CollectionEvent.COLLECTION_CHANGE 以某种方式更新 ICollection 后分派。
-     * @includeExample  extension/eui/components/ViewStackExample.ts
-     * @language zh_CN
-     */
-    export class ViewStack extends Group implements ICollection {
+export class ViewStack extends Group implements ICollection {
         /**
          * Constructor.
          *
@@ -289,7 +274,4 @@ namespace eui {
             return -1;
         }
     }
-
-    registerBindable(ViewStack.prototype,"selectedIndex");
-
-}
+registerBindable(ViewStack.prototype,"selectedIndex");

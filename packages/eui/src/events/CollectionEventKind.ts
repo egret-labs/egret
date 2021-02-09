@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-    /**
-     * The CollectionEventKind class contains constants for the valid values
-     * of the <code>CollectionEvent</code> class <code>kind</code> property.
-     * These constants indicate the kind of change that was made to the collection.
-     * @language en_US
-     */
-    /**
-     * 定义 <code>CollectionEvent</code> 类 <code>kind</code> 属性的有效值的常量。
-     * 这些常量指示对集合进行的更改类型。
-     * @language zh_CN
-     */
-    export class CollectionEventKind {
+export class CollectionEventKind {
         /**
          * Indicates that the collection added an item or items.
          * @language en_US
@@ -101,4 +88,3 @@ namespace eui {
          */
         public static readonly UPDATE: string = "update";
     }
-}

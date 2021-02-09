@@ -25,29 +25,17 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { UIComponent } from "../core/UIComponent";
+import { ColumnAlign } from "./ColumnAlign";
+import { JustifyAlign } from "./JustifyAlign";
+import { RowAlign } from "./RowAlign";
+import { LayoutBase } from "./supportClasses/LayoutBase";
+import { TileOrientation } from "./TileOrientation";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-namespace eui {
-
-    let UIComponentClass = "eui.UIComponent";
-
-    /**
-     * The TileLayout class arranges layout elements in columns and rows
-     * of equally-sized cells.
-     * The TileLayout class uses a number of properties that control orientation,
-     * count, size, gap and justification of the columns and the rows
-     * as well as element alignment within the cells.
-     * @includeExample  extension/eui/layout/TileLayoutExample.ts
-     * @language en_US
-     */
-    /**
-     * TileLayout 类在单元格大小相等的列和行中排列布局元素。
-     * TileLayout 类使用许多属性来控制列和行的方向、计数、大小、间隙和两端对齐以及单元格内的元素对齐。
-     * @includeExample  extension/eui/layout/TileLayoutExample.ts
-     * @language zh_CN
-     */
-    export class TileLayout extends LayoutBase {
+let UIComponentClass = "eui.UIComponent";
+export class TileLayout extends LayoutBase {
 
         /**
          * Constructor.
@@ -1135,4 +1123,3 @@ namespace eui {
             }
         }
     }
-}

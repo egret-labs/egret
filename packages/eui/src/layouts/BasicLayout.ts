@@ -27,25 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { LayoutBase } from "./supportClasses/LayoutBase";
 
-    /**
-     * The BasicLayout class arranges the layout elements according to their individual settings,
-     * independent of each-other. BasicLayout, also called absolute layout, requires that you
-     * explicitly position each container child.
-     * You can use the <code>x</code> and <code>y</code> properties of the child,
-     * or constraints to position each child.
-     * @includeExample  extension/eui/layout/BasicLayoutExample.ts
-     * @language en_US
-     */
-    /**
-     * BasicLayout 类根据其各个设置彼此独立地排列布局元素。
-     * BasicLayout（也称为绝对布局）要求显式定位每个容器子代。
-     * 可以使用子代的 <code>x</code> 和 <code>y</code> 属性，或使用约束来定位每个子代。
-     * @includeExample  extension/eui/layout/BasicLayoutExample.ts
-     * @language zh_CN
-     */
-    export class BasicLayout extends LayoutBase {
+export class BasicLayout extends LayoutBase {
 
         /**
          * Constructor.
@@ -95,8 +79,7 @@ namespace eui {
             target.setContentSize(Math.ceil(pos.x), Math.ceil(pos.y));
         }
     }
-
-    if (DEBUG) {
+if (DEBUG) {
         Object.defineProperty(BasicLayout.prototype, "useVirtualLayout", {
             /**
              * 此布局不支持虚拟布局，设置这个属性无效
@@ -111,18 +94,8 @@ namespace eui {
             configurable: true
         });
     }
-}
-
-namespace eui.sys {
-
-    let UIComponentClass = "eui.UIComponent";
-
-    /**
-     * @private
-     * @param value 要格式化的相对值
-     * @param total 在此值方向上的总长度
-     */
-    function formatRelative(value:number|string, total:number):number {
+let UIComponentClass = "eui.UIComponent";
+function formatRelative(value:number|string, total:number):number {
         if (!value || typeof value == "number") {
             return <number>value;
         }
@@ -134,12 +107,7 @@ namespace eui.sys {
         let percent = +str.substring(0, index);
         return percent * 0.01 * total;
     }
-
-    /**
-     * @private
-     * 一个工具方法，使用BasicLayout规则测量目标对象。
-     */
-    export function measure(target:eui.Group|eui.Component):void {
+export function measure(target:eui.Group|eui.Component):void {
         if (!target) {
             return;
         }
@@ -202,12 +170,7 @@ namespace eui.sys {
 
         target.setMeasuredSize(width, height);
     }
-
-    /**
-     * @private
-     * 一个工具方法，使用BasicLayout规则布局目标对象。
-     */
-    export function updateDisplayList(target:eui.Group|eui.Component,
+export function updateDisplayList(target:eui.Group|eui.Component,
                                       unscaledWidth:number, unscaledHeight:number):egret.Point {
         if (!target)
             return;
@@ -284,4 +247,3 @@ namespace eui.sys {
         }
         return egret.$TempPoint.setTo(maxX, maxY);
     }
-}

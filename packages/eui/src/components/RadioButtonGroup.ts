@@ -25,18 +25,14 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+import { RadioButton } from "./RadioButton";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-namespace eui {
-
-    let groupCount:number = 0;
-
-    /**
-     * @private
-     * 显示列表深度排序
-     */
-    function breadthOrderCompare(a:egret.DisplayObject, b:egret.DisplayObject):number {
+let groupCount:number = 0;
+function breadthOrderCompare(a:egret.DisplayObject, b:egret.DisplayObject):number {
         let aParent = a.parent;
         let bParent = b.parent;
 
@@ -62,26 +58,7 @@ namespace eui {
             return 0;
         return breadthOrderCompare(aParent, bParent);
     }
-
-
-    /**
-     * The RadioButtonGroup component defines a group of RadioButton components
-     * that act as a single mutually exclusive component; therefore,
-     * a user can select only one RadioButton component at a time.
-     *
-     * @event egret.Event.CHANGE Dispatched when the value of the selected RadioButton component in
-     * this group changes.
-     * @includeExample  extension/eui/components/RadioButtonGroupExample.ts
-     * @language en_US
-     */
-    /**
-     * RadioButtonGroup 组件定义一组 RadioButton 组件，这些组件相互排斥；因此，用户每次只能选择一个 RadioButton 组件
-     *
-     * @event egret.Event.CHANGE 此组中所选 RadioButton 组件的值更改时分派。
-     * @includeExample  extension/eui/components/RadioButtonGroupExample.ts
-     * @language zh_CN
-     */
-    export class RadioButtonGroup extends egret.EventDispatcher {
+export class RadioButtonGroup extends egret.EventDispatcher {
 
         /**
          * Constructor.
@@ -402,6 +379,4 @@ namespace eui {
             }
         }
     }
-    registerBindable(RadioButtonGroup.prototype,"selectedValue");
-
-}
+registerBindable(RadioButtonGroup.prototype,"selectedValue");

@@ -27,20 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { ToggleButton } from "./ToggleButton";
 
-namespace eui {
-
-    /**
-     * The ToggleSwitch control defines an on-off control.
-     * @includeExample  extension/eui/components/ToggleSwitchExample.ts
-     * @language en_US
-     */
-    /**
-     * ToggleSwitch 表示一个开关组件。
-     * @includeExample  extension/eui/components/ToggleSwitchExample.ts
-     * @language zh_CN
-     */
-    export class ToggleSwitch extends ToggleButton {
+export class ToggleSwitch extends ToggleButton {
         /**
          * Constructor.
          *
@@ -62,5 +51,3 @@ namespace eui {
 
         }
     }
-
-}

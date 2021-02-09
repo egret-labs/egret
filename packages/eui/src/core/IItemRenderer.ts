@@ -27,25 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIComponent } from "./UIComponent";
 
-namespace eui {
-
-	/**
-	 * The IItemRenderer interface defines the basic set of APIs
-	 * that used for List class.
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language en_US
-	 */
-	/**
-	 * 列表类组件的项呈示器接口。
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language zh_CN
-	 */
-	export interface IItemRenderer extends UIComponent{
+export interface IItemRenderer extends UIComponent{
 		/**
 		 * The data to render or edit.
 		 * @version Egret 2.4
@@ -94,4 +78,3 @@ namespace eui {
 		 */
 		itemIndex:number;
 	}
-}

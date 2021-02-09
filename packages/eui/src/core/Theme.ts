@@ -27,10 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { Component } from "../components/Component";
 
-
-    interface ThemeData {
+interface ThemeData {
         /**
          * The skins list.
          * @version Egret 2.4
@@ -62,8 +61,7 @@ namespace eui {
          */
         exmls?: Array<string | EXMLFile>;
     }
-
-    interface EXMLFile {
+interface EXMLFile {
         /**
          * EXML file path.
          * @version Egret 2.4
@@ -125,21 +123,7 @@ namespace eui {
          */
         className?: string;
     }
-
-    /**
-     * Note: The skin name values in the skin theme are used as default values,which can not be changed while running.
-     * You can change the skin of a component with the skinName property.
-     * @event egret.Event.COMPLETE Dispatch when EXML used in this theme is loaded and parsed.
-     * @includeExample  extension/eui/core/ThemeExample.ts
-     * @language en_US
-     */
-    /**
-     * 皮肤主题。注意：皮肤主题是一次性设置的默认值,并不能运行时切换所有组件默认皮肤。切换单个皮肤您可以自行对Component.skinName赋值来修改。
-     * @event egret.Event.COMPLETE 当主题关联的EXML加载解析完成时派发
-     * @includeExample  extension/eui/core/ThemeExample.ts
-     * @language zh_CN
-     */
-    export class Theme extends egret.EventDispatcher {
+export class Theme extends egret.EventDispatcher {
 
         private $configURL: string;
 
@@ -372,4 +356,3 @@ namespace eui {
             return this.$styles[style];
         }
     }
-}

@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-    /**
-     * The TileOrientation class defines the possible values for the
-     * <code>orientation</code> property of the TileLayout class.
-     * @includeExample  extension/eui/layout/TileOrientationExample.ts
-     * @language en_US
-     */
-    /**
-     * TileOrientation 类为 TileLayout 类的 <code>orientation</code> 属性定义可能的值。
-     * @includeExample  extension/eui/layout/TileOrientationExample.ts
-     * @language zh_CN
-     */
-    export class TileOrientation {
+export class TileOrientation {
         /**
          * Arranges elements row by row.
          * @language en_US
@@ -61,4 +48,3 @@ namespace eui {
          */
         public static COLUMNS:string = "columns";
     }
-}

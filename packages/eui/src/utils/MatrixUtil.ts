@@ -26,16 +26,9 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
-namespace eui.sys {
-
-    let SOLUTION_TOLERANCE = 0.1;
-    let MIN_MAX_TOLERANCE = 0.1;
-
-    /**
-     * @private
-     */
-    export class MatrixUtil {
+let SOLUTION_TOLERANCE = 0.1;
+let MIN_MAX_TOLERANCE = 0.1;
+export class MatrixUtil {
 
         /**
          * @private
@@ -123,11 +116,7 @@ namespace eui.sys {
             }
         }
     }
-
-    /**
-     * @private
-     */
-    function fitTBoundsWidth(width:number, matrix:egret.Matrix,
+function fitTBoundsWidth(width:number, matrix:egret.Matrix,
                              explicitWidth:number, explicitHeight:number,
                              preferredWidth:number, preferredHeight:number,
                              minWidth:number, minHeight:number,
@@ -159,11 +148,7 @@ namespace eui.sys {
 
         return actualSize;
     }
-
-    /**
-     * @private
-     */
-    function fitTBoundsHeight(height:number, matrix:egret.Matrix,
+function fitTBoundsHeight(height:number, matrix:egret.Matrix,
                               explicitWidth:number, explicitHeight:number,
                               preferredWidth:number, preferredHeight:number,
                               minWidth:number, minHeight:number,
@@ -195,12 +180,7 @@ namespace eui.sys {
 
         return actualSize;
     }
-
-
-    /**
-     * @private
-     */
-    function calcUBoundsToFitTBoundsHeight(h:number,
+function calcUBoundsToFitTBoundsHeight(h:number,
                                            matrix:egret.Matrix,
                                            preferredX:number,
                                            preferredY:number,
@@ -286,11 +266,7 @@ namespace eui.sys {
         let c1 = ( a * c >= 0 ) ? c : -c;
         return solveEquation(b, d1, h, minX, minY, maxX, maxY, a, c1);
     }
-
-    /**
-     * @private
-     */
-    function calcUBoundsToFitTBoundsWidth(w:number,
+function calcUBoundsToFitTBoundsWidth(w:number,
                                           matrix:egret.Matrix,
                                           preferredX:number,
                                           preferredY:number,
@@ -377,11 +353,7 @@ namespace eui.sys {
         let d1 = (b * d >= 0) ? d : -d;
         return solveEquation(a, c1, w, minX, minY, maxX, maxY, b, d1);
     }
-
-    /**
-     * @private
-     */
-    function solveEquation(a:number,
+function solveEquation(a:number,
                            c:number,
                            w:number,
                            minX:number,
@@ -436,11 +408,7 @@ namespace eui.sys {
         }
         return null;
     }
-
-    /**
-     * @private
-     */
-    function calcUBoundsToFitTBounds(w:number,
+function calcUBoundsToFitTBounds(w:number,
                                      h:number,
                                      matrix:egret.Matrix,
                                      minX:number,
@@ -526,21 +494,13 @@ namespace eui.sys {
         egret.Point.release(s);
         return null;
     }
-
-    /**
-     * @private
-     */
-    function transformSize(width:number, height:number, matrix:egret.Matrix):egret.Rectangle {
+function transformSize(width:number, height:number, matrix:egret.Matrix):egret.Rectangle {
 
         let bounds = egret.$TempRectangle.setTo(0, 0, width, height);
         matrix.$transformBounds(bounds);
         return bounds;
     }
-
-    /**
-     * @private
-     */
-    function solveSystem(a:number,
+function solveSystem(a:number,
                          c:number,
                          b:number,
                          d:number,
@@ -549,4 +509,3 @@ namespace eui.sys {
         return egret.Point.create(d * mOverDet - c * nOverDet,
             a * nOverDet - b * mOverDet);
     }
-}

@@ -27,21 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-namespace eui {
-
-    /**
-     * The eui.CollectionEvent class represents an event that is
-     * dispatched when the associated collection changes.
-     * @includeExample  extension/eui/events/CollectionEventExample.ts
-     * @language en_US
-     */
-    /**
-     * 集合类型数据改变事件
-     * @includeExample  extension/eui/events/CollectionEventExample.ts
-     * @language zh_CN
-     */
-    export class CollectionEvent extends egret.Event {
+export class CollectionEvent extends egret.Event {
         /**
          * Dispatched when a collection has changed.
          * @language en_US
@@ -253,5 +239,3 @@ namespace eui {
             return result;
         }
     }
-
-}

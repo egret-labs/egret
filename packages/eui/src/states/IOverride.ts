@@ -27,27 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-namespace eui {
-
-	/**
-	 * The IOverride interface is used for view state overrides.
-	 * All entries in the State class <code>overrides</code>
-	 * property array must implement this interface.
-	 *
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language en_US
-	 */
-	/**
-	 * IOverride 接口定义视图状态的覆盖操作。State 类 overrides 属性数组中的所有条目均必须实现此接口。
-	 * @version Egret 2.4
-	 * @version eui 1.0
-	 * @platform Web,Native
-	 * @language zh_CN
-	 */
-	export interface IOverride{
+export interface IOverride{
 		/**
 		 * Applies the override. Retains the original value, so that it can
 		 * restore the value later in the <code>remove()</code> method.<p/>
@@ -98,4 +78,3 @@ namespace eui {
 		 */
 		remove(host:any,parent:egret.DisplayObjectContainer):void;
 	}
-}

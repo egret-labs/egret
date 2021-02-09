@@ -27,9 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
+import { Watcher } from "./Watcher";
 
-    function joinValues(templates:any[]):any {
+function joinValues(templates:any[]):any {
         let first = templates[0];
         let value = first instanceof Watcher ? first.getValue() : first;
         let length = templates.length;
@@ -42,19 +42,7 @@ namespace eui {
         }
         return value;
     }
-
-    /**
-     * The Binding class defines utility methods for performing data binding.
-     * You can use the methods defined in this class to configure data bindings.
-     * @includeExample extension/eui/binding/BindingExample.ts
-     * @language en_US
-     */
-    /**
-     * 绑定工具类，用于执行数据绑定用的方法集。您可以使用此类中定义的方法来配置数据绑定。
-     * @includeExample extension/eui/binding/BindingExample.ts
-     * @language zh_CN
-     */
-    export class Binding {
+export class Binding {
 
         /**
          * Binds a property, <prop>prop</code> on the <code>target</code> Object, to a bindable property or peoperty chain.
@@ -143,4 +131,3 @@ namespace eui {
             return watcher;
         }
     }
-}

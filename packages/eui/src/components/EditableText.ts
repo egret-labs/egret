@@ -26,32 +26,19 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-namespace eui.sys {
-    /**
-     * @private
-     */
-    export const enum EditableTextKeys {
+
+import { IDisplayText } from "../core/IDisplayText";
+import { UIComponent } from "../core/UIComponent";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+
+export const enum EditableTextKeys {
         promptText,
         textColorUser,
         asPassword
     }
-}
-namespace eui {
-
-    let UIImpl = sys.UIComponentImpl;
-
-    /**
-     * Editable text for displaying,
-     * scrolling, selecting, and editing text.
-     * @includeExample  extension/eui/components/EditablTextExample.ts
-     * @language en_US
-     */
-    /**
-     * 可编辑文本，用于显示、滚动、选择和编辑文本。
-     * @includeExample  extension/eui/components/EditablTextExample.ts
-     * @language zh_CN
-     */
-    export class EditableText extends egret.TextField implements UIComponent, IDisplayText {
+let UIImpl = sys.UIComponentImpl;
+export class EditableText extends egret.TextField implements UIComponent, IDisplayText {
 
         /**
          * Constructor.
@@ -547,7 +534,5 @@ namespace eui {
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-
-    sys.implementUIComponent(EditableText, egret.TextField);
-    registerBindable(EditableText.prototype, "text");
-}
+sys.implementUIComponent(EditableText, egret.TextField);
+registerBindable(EditableText.prototype, "text");

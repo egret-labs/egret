@@ -27,17 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-    /**
-     * Linear layout base class, usually as the parent class of
-     * <code>HorizontalLayout</code> and <code>VerticalLayout</code>.
-     * @language en_US
-     */
-    /**
-     * 线性布局基类，通常作为 <code>HorizontalLayout</code> 和 <code>VerticalLayout</code> 的父类。
-     * @language zh_CN
-     */
-    export class LinearLayoutBase extends LayoutBase {
+import { LayoutBase } from "./LayoutBase";
+
+export class LinearLayoutBase extends LayoutBase {
 
         /**
          * @private
@@ -599,15 +591,7 @@ namespace eui {
             while (!done);
         }
     }
-
-}
-
-namespace eui.sys {
-
-    /**
-     * @private
-     */
-    export class ChildInfo {
+export class ChildInfo {
 
 
         /**
@@ -639,4 +623,3 @@ namespace eui.sys {
          */
         public max:number = NaN;
     }
-}

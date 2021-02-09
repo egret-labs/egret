@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-	/**
-	 * Defines values for setting the <code>direction</code> property
-	 * of the <code>ProgressBar</code> class.
-     * @includeExample  extension/eui/core/DirectionExample.ts
-	 * @language en_US
-	 */
-	/**
-	 * 定义进度条等控件增长方向的常量
-     * @includeExample  extension/eui/core/DirectionExample.ts
-	 * @language zh_CN
-	 */
-	export class Direction{
+export class Direction{
 		/**
 		 * Specifies left-to-right direction.
          * @language en_US
@@ -78,4 +65,3 @@ namespace eui {
 		 */
 		public static BTT:string = "btt";
 	}
-}

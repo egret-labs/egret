@@ -27,29 +27,13 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 /// <reference path="../utils/registerBindable.ts" />
-namespace eui {
 
-    /**
-     * The ItemRenderer class is the base class for item renderers.
-     *
-     * @state up Up state
-     * @state down Down state
-     * @state upAndSelected Up state when the button is selected
-     * @state downAndSelected Down state when the button is selected
-     * @includeExample  extension/eui/components/ItemRendererExample.ts
-     * @language en_US
-     */
-    /**
-     * ItemRenderer 类是项呈示器的基类。
-     *
-     * @state up 弹起状态
-     * @state down 按下状态
-     * @state upAndSelected 选择时的弹起状态
-     * @state downAndSelected 选择时的按下状态
-     * @includeExample  extension/eui/components/ItemRendererExample.ts
-     * @language zh_CN
-     */
-    export class ItemRenderer extends Component implements IItemRenderer {
+import { IItemRenderer } from "../core/IItemRenderer";
+import { PropertyEvent } from "../events/PropertyEvent";
+import { registerBindable } from "../utils/registerBindable";
+import { Component } from "./Component";
+
+export class ItemRenderer extends Component implements IItemRenderer {
 
         /**
          * Constructor.
@@ -214,6 +198,4 @@ namespace eui {
             return state;
         }
     }
-
-    registerBindable(ItemRenderer.prototype, "data");
-}
+registerBindable(ItemRenderer.prototype, "data");

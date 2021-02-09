@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-    /**
-     * The JustifyAlign class defines the possible values for the
-     * <code>horizontalAlign</code> 和 <code>verticalAlign</code> property of
-     * Layout class.
-     * @includeExample  extension/eui/layout/JustifyAlignExample.ts
-     * @language en_US
-     */
-    /**
-     * JustifyAlign 定义布局类中 horizontalAlign 与 verticalAlign 属性需要的两端对齐常量值。
-     * @includeExample  extension/eui/layout/JustifyAlignExample.ts
-     * @language zh_CN
-     */
-    export class JustifyAlign{
+export class JustifyAlign{
         /**
          * Justify the children with respect to the container.
          * This uniformly sizes all children to be the same size as the
@@ -68,4 +55,3 @@ namespace eui {
          */
         public static CONTENT_JUSTIFY:string = "contentJustify";
     }
-}

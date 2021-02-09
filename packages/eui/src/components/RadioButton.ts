@@ -25,29 +25,14 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { PropertyEvent } from "../events/PropertyEvent";
+import { RadioButtonGroup } from "./RadioButtonGroup";
+import { ToggleButton } from "./ToggleButton";
+
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-namespace eui {
-
-    /**
-     * @private
-     * 存储根据groupName自动创建的RadioButtonGroup列表
-     */
-    let automaticRadioButtonGroups = {};
-
-    /**
-     * The RadioButton component allows the user make a single choice
-     * within a set of mutually exclusive choices.
-     * @includeExample  extension/eui/components/RadioButtonExample.ts
-     * @language en_US
-     */
-    /**
-     * RadioButton 组件使用户可在一组互相排斥的选择中做出一种选择
-     * @includeExample  extension/eui/components/RadioButtonExample.ts
-     * @language zh_CN
-     */
-    export class RadioButton extends ToggleButton {
+let automaticRadioButtonGroups = {};
+export class RadioButton extends ToggleButton {
 
         /**
          * Constructor.
@@ -281,5 +266,3 @@ namespace eui {
             return g;
         }
     }
-
-}

@@ -27,16 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-    /**
-     * The Rect component is a rectangular shape. It can be touched.
-     * @language en_US
-     */
-    /**
-     * Rect 组件矩形绘图元素。此组件可响应鼠标事件。
-     * @language zh_CN
-     */
-    export class Rect extends Component {
+import { Component } from "./Component";
+
+export class Rect extends Component {
         constructor(width?: number, height?: number, fillColor?: number) {
             super();
             this.touchChildren = false;
@@ -246,4 +239,3 @@ namespace eui {
             }
         }
     }
-}

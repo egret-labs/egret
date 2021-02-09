@@ -27,14 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIComponent } from "./UIComponent";
 
-namespace eui.sys {
-
-    /**
-     * @private
-     * 失效验证管理器
-     */
-    export class Validator extends egret.EventDispatcher {
+export class Validator extends egret.EventDispatcher {
         /**
          * @private
          * 创建一个Validator对象
@@ -334,13 +329,7 @@ namespace eui.sys {
         }
 
     }
-
-
-    /**
-     * @private
-     * 显示列表嵌套深度排序队列
-     */
-    class DepthQueue {
+class DepthQueue {
         /**
          * 深度队列
          */
@@ -539,11 +528,7 @@ namespace eui.sys {
             return this.minDepth > this.maxDepth;
         }
     }
-    /**
-     * @private
-     * 列表项
-     */
-    class DepthBin {
+class DepthBin {
         public map:{[key:number]:boolean} = {};
         public items:UIComponent[] = [];
         public length:number = 0;
@@ -586,4 +571,3 @@ namespace eui.sys {
             }
         }
     }
-}

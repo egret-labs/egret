@@ -27,20 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace eui {
-
-	/**
-	 * The RowAlign class defines the possible values for the
-	 * <code>rowAlign</code> property of the TileLayout class.
-     * @includeExample  extension/eui/layout/RowAlignExample.ts
-	 * @language en_US
-	 */
-	/**
-	 * RowAlign 类为 TileLayout 类的 <code>rowAlign</code> 属性定义可能的值。
-     * @includeExample  extension/eui/layout/RowAlignExample.ts
-	 * @language zh_CN
-	 */
-	export class RowAlign{
+export class RowAlign{
 		/**
 		 * Do not justify the rows.
          * @language en_US
@@ -70,4 +57,3 @@ namespace eui {
 		 */
 		public static JUSTIFY_USING_HEIGHT:string = "justifyUsingHeight";
 	}
-}

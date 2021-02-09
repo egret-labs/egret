@@ -1,9 +1,4 @@
-namespace eui {
-
-    /**
-     * @private
-     */
-    export class ScrollerThrowEvent extends egret.Event {
+export class ScrollerThrowEvent extends egret.Event {
 
         public static THROW:string = "throw";
 
@@ -32,4 +27,3 @@ namespace eui {
             this.toPos = toPos;
         }
     }
-}

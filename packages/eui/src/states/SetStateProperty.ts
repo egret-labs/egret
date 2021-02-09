@@ -27,21 +27,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { Skin } from "../components/Skin";
+import { IOverride } from "./IOverride";
 
-namespace eui {
-
-    /**
-     * The SetProperty class specifies a property value that is in effect only
-     * during the parent view state.
-     * You use this class in the <code>overrides</code> property of the State class.
-     * @language en_US
-     */
-
-    /**
-     * SetProperty 类指定只在父视图状态期间有效的属性值。可以在 State 类的 overrides 属性中使用该类。
-     * @language zh_CN
-     */
-    export class SetStateProperty implements IOverride {
+export class SetStateProperty implements IOverride {
         /**
          * Constructor.
          *
@@ -167,4 +156,3 @@ namespace eui {
             return value != false;
         }
     }
-}
