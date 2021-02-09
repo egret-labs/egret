@@ -63,7 +63,7 @@ export class TextInput extends Component {
             if (this.promptDisplay) {
                 return this.promptDisplay.text;
             }
-            return this.$TextInput[sys.TextInputKeys.prompt];
+            return this.$TextInput[TextInputKeys.prompt];
         }
 
         /**
@@ -74,7 +74,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set prompt(value:string) {
-            this.$TextInput[sys.TextInputKeys.prompt] = value;
+            this.$TextInput[TextInputKeys.prompt] = value;
             if (this.promptDisplay) {
                 this.promptDisplay.text = value;
             }
@@ -89,7 +89,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.displayAsPassword;
             }
-            let v = this.$TextInput[sys.TextInputKeys.displayAsPassword];
+            let v = this.$TextInput[TextInputKeys.displayAsPassword];
             return v ? v : false;
         }
 
@@ -101,7 +101,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set displayAsPassword(value: boolean) {
-            this.$TextInput[sys.TextInputKeys.displayAsPassword] = value;
+            this.$TextInput[TextInputKeys.displayAsPassword] = value;
             if (this.textDisplay) {
                 this.textDisplay.displayAsPassword = value;
             }
@@ -115,7 +115,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set inputType(value: string) {
-            this.$TextInput[sys.TextInputKeys.inputType] = value;
+            this.$TextInput[TextInputKeys.inputType] = value;
             if (this.textDisplay) {
                 this.textDisplay.inputType = value;
             }
@@ -128,7 +128,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.inputType;
             }
-            return this.$TextInput[sys.TextInputKeys.inputType];
+            return this.$TextInput[TextInputKeys.inputType];
         }
 
 
@@ -139,7 +139,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.textColor;
             }
-            return this.$TextInput[sys.TextInputKeys.textColor];
+            return this.$TextInput[TextInputKeys.textColor];
         }
 
         /**
@@ -150,7 +150,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set textColor(value:number) {
-            this.$TextInput[sys.TextInputKeys.textColor] = value;
+            this.$TextInput[TextInputKeys.textColor] = value;
             if (this.textDisplay) {
                 this.textDisplay.textColor = value;
             }
@@ -164,7 +164,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.maxChars;
             }
-            let v = this.$TextInput[sys.TextInputKeys.maxChars];
+            let v = this.$TextInput[TextInputKeys.maxChars];
             return v ? v : 0;
         }
 
@@ -176,7 +176,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set maxChars(value:number) {
-            this.$TextInput[sys.TextInputKeys.maxChars] = value;
+            this.$TextInput[TextInputKeys.maxChars] = value;
             if (this.textDisplay) {
                 this.textDisplay.maxChars = value;
             }
@@ -190,7 +190,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.maxWidth;
             }
-            let v = this.$TextInput[sys.TextInputKeys.maxWidth];
+            let v = this.$TextInput[TextInputKeys.maxWidth];
             return v ? v : 100000;
         }
 
@@ -202,7 +202,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set maxWidth(value:number) {
-            this.$TextInput[sys.TextInputKeys.maxWidth] = value;
+            this.$TextInput[TextInputKeys.maxWidth] = value;
             if (this.textDisplay) {
                 this.textDisplay.maxWidth = value;
             }
@@ -216,7 +216,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 //return this.textDisplay.maxHeight;
             }
-            let v = this.$TextInput[sys.TextInputKeys.maxHeight];
+            let v = this.$TextInput[TextInputKeys.maxHeight];
             return v ? v : 100000;
         }
 
@@ -228,7 +228,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set maxHeight(value:number) {
-            this.$TextInput[sys.TextInputKeys.maxHeight] = value;
+            this.$TextInput[TextInputKeys.maxHeight] = value;
             if (this.textDisplay) {
                 this.textDisplay.maxHeight = value;
             }
@@ -242,7 +242,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.text;
             }
-            return this.$TextInput[sys.TextInputKeys.text];
+            return this.$TextInput[TextInputKeys.text];
         }
 
         /**
@@ -253,7 +253,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set text(value:string) {
-            this.$TextInput[sys.TextInputKeys.text] = value;
+            this.$TextInput[TextInputKeys.text] = value;
             if (this.textDisplay) {
                 this.textDisplay.text = value;
             }
@@ -268,7 +268,7 @@ export class TextInput extends Component {
             if (this.textDisplay) {
                 return this.textDisplay.restrict;
             }
-            return this.$TextInput[sys.TextInputKeys.restrict];
+            return this.$TextInput[TextInputKeys.restrict];
         }
 
         /**
@@ -279,7 +279,7 @@ export class TextInput extends Component {
          * @platform Web,Native
          */
         public set restrict(value:string) {
-            this.$TextInput[sys.TextInputKeys.restrict] = value;
+            this.$TextInput[TextInputKeys.restrict] = value;
             if (this.textDisplay) {
                 this.textDisplay.restrict = value;
             }
@@ -346,8 +346,8 @@ export class TextInput extends Component {
                 }
             }
             else if (instance == this.promptDisplay) {
-                if (values[sys.TextInputKeys.prompt]) {
-                    this.promptDisplay.text = values[sys.TextInputKeys.prompt];
+                if (values[TextInputKeys.prompt]) {
+                    this.promptDisplay.text = values[TextInputKeys.prompt];
                 }
             }
         }
@@ -365,7 +365,7 @@ export class TextInput extends Component {
                 }
             }
             else if (instance == this.promptDisplay) {
-                this.$TextInput[sys.TextInputKeys.prompt] = this.promptDisplay.text
+                this.$TextInput[TextInputKeys.prompt] = this.promptDisplay.text
             }
         }
 
@@ -374,29 +374,29 @@ export class TextInput extends Component {
          */
         private textDisplayAdded():void {
             let values = this.$TextInput;
-            if (values[sys.TextInputKeys.displayAsPassword]) {
-                this.textDisplay.displayAsPassword = values[sys.TextInputKeys.displayAsPassword];
+            if (values[TextInputKeys.displayAsPassword]) {
+                this.textDisplay.displayAsPassword = values[TextInputKeys.displayAsPassword];
             }
-            if (values[sys.TextInputKeys.textColor]) {
-                this.textDisplay.textColor = values[sys.TextInputKeys.textColor];
+            if (values[TextInputKeys.textColor]) {
+                this.textDisplay.textColor = values[TextInputKeys.textColor];
             }
-            if (values[sys.TextInputKeys.maxChars]) {
-                this.textDisplay.maxChars = values[sys.TextInputKeys.maxChars];
+            if (values[TextInputKeys.maxChars]) {
+                this.textDisplay.maxChars = values[TextInputKeys.maxChars];
             }
-            if (values[sys.TextInputKeys.maxWidth]) {
-                this.textDisplay.maxWidth = values[sys.TextInputKeys.maxWidth];
+            if (values[TextInputKeys.maxWidth]) {
+                this.textDisplay.maxWidth = values[TextInputKeys.maxWidth];
             }
-            if (values[sys.TextInputKeys.maxHeight]) {
-                this.textDisplay.maxHeight = values[sys.TextInputKeys.maxHeight];
+            if (values[TextInputKeys.maxHeight]) {
+                this.textDisplay.maxHeight = values[TextInputKeys.maxHeight];
             }
-            if (values[sys.TextInputKeys.text]) {
-                this.textDisplay.text = values[sys.TextInputKeys.text];
+            if (values[TextInputKeys.text]) {
+                this.textDisplay.text = values[TextInputKeys.text];
             }
-            if (values[sys.TextInputKeys.restrict]) {
-                this.textDisplay.restrict = values[sys.TextInputKeys.restrict];
+            if (values[TextInputKeys.restrict]) {
+                this.textDisplay.restrict = values[TextInputKeys.restrict];
             }
-            if (values[sys.TextInputKeys.inputType]) {
-                this.textDisplay.inputType = values[sys.TextInputKeys.inputType];
+            if (values[TextInputKeys.inputType]) {
+                this.textDisplay.inputType = values[TextInputKeys.inputType];
             }
         }
         /**
@@ -404,13 +404,13 @@ export class TextInput extends Component {
          */
         private textDisplayRemoved() {
             let values = this.$TextInput;
-            values[sys.TextInputKeys.displayAsPassword] = this.textDisplay.displayAsPassword;
-            values[sys.TextInputKeys.textColor] = this.textDisplay.textColor;
-            values[sys.TextInputKeys.maxChars] = this.textDisplay.maxChars;
-            values[sys.TextInputKeys.maxWidth] = this.textDisplay.maxWidth;
-            values[sys.TextInputKeys.maxHeight] = this.textDisplay.maxHeight;
-            values[sys.TextInputKeys.text] = this.textDisplay.text;
-            values[sys.TextInputKeys.restrict] = this.textDisplay.restrict;
-            values[sys.TextInputKeys.inputType] = this.textDisplay.inputType;
+            values[TextInputKeys.displayAsPassword] = this.textDisplay.displayAsPassword;
+            values[TextInputKeys.textColor] = this.textDisplay.textColor;
+            values[TextInputKeys.maxChars] = this.textDisplay.maxChars;
+            values[TextInputKeys.maxWidth] = this.textDisplay.maxWidth;
+            values[TextInputKeys.maxHeight] = this.textDisplay.maxHeight;
+            values[TextInputKeys.text] = this.textDisplay.text;
+            values[TextInputKeys.restrict] = this.textDisplay.restrict;
+            values[TextInputKeys.inputType] = this.textDisplay.inputType;
         }
     }

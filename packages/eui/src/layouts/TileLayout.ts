@@ -26,7 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-import { UIComponent } from "../core/UIComponent";
+import { UIComponent, UIKeys } from "../core/UIComponent";
 import { ColumnAlign } from "./ColumnAlign";
 import { JustifyAlign } from "./JustifyAlign";
 import { RowAlign } from "./RowAlign";
@@ -646,7 +646,7 @@ export class TileLayout extends LayoutBase {
             let measuredHeight = 0;
 
             let values = target.$UIComponent;
-            this.calculateRowAndColumn(values[sys.UIKeys.explicitWidth], values[sys.UIKeys.explicitHeight]);
+            this.calculateRowAndColumn(values[UIKeys.explicitWidth], values[UIKeys.explicitHeight]);
             let columnCount = this._requestedColumnCount > 0 ? this._requestedColumnCount : this._columnCount;
             let rowCount = this._requestedRowCount > 0 ? this._requestedRowCount : this._rowCount;
             let horizontalGap = isNaN(this._horizontalGap) ? 0 : this._horizontalGap;
@@ -877,7 +877,7 @@ export class TileLayout extends LayoutBase {
             }
 
             let values = target.$UIComponent;
-            if (values[sys.UIKeys.width] == 0 || values[sys.UIKeys.height] == 0) {
+            if (values[UIKeys.width] == 0 || values[UIKeys.height] == 0) {
                 this.startIndex = this.endIndex = -1;
                 return false;
             }
@@ -895,7 +895,7 @@ export class TileLayout extends LayoutBase {
                     return false;
                 }
                 let minVisibleX = target.scrollH;
-                let maxVisibleX = minVisibleX + values[sys.UIKeys.width];
+                let maxVisibleX = minVisibleX + values[UIKeys.width];
                 let startColumn = Math.floor((minVisibleX - paddingL) / itemWidth);
                 if (startColumn < 0)
                     startColumn = 0;
@@ -913,7 +913,7 @@ export class TileLayout extends LayoutBase {
                     return false;
                 }
                 let minVisibleY = target.scrollV;
-                let maxVisibleY = minVisibleY + values[sys.UIKeys.height];
+                let maxVisibleY = minVisibleY + values[UIKeys.height];
                 let startRow = Math.floor((minVisibleY - paddingT) / itemHeight);
                 if (startRow < 0)
                     startRow = 0;
@@ -1041,13 +1041,13 @@ export class TileLayout extends LayoutBase {
             let values = element.$UIComponent;
             if (this._horizontalAlign == JustifyAlign.JUSTIFY)
                 elementWidth = cellWidth;
-            else if (!isNaN(values[sys.UIKeys.percentWidth]))
-                elementWidth = cellWidth * values[sys.UIKeys.percentWidth] * 0.01;
+            else if (!isNaN(values[UIKeys.percentWidth]))
+                elementWidth = cellWidth * values[UIKeys.percentWidth] * 0.01;
 
             if (this._verticalAlign == JustifyAlign.JUSTIFY)
                 elementHeight = cellHeight;
-            else if (!isNaN(values[sys.UIKeys.percentHeight]))
-                elementHeight = cellHeight * values[sys.UIKeys.percentHeight] * 0.01;
+            else if (!isNaN(values[UIKeys.percentHeight]))
+                elementHeight = cellHeight * values[UIKeys.percentHeight] * 0.01;
 
 
             element.setLayoutBoundsSize(Math.round(elementWidth), Math.round(elementHeight));

@@ -30,11 +30,11 @@
 /// <reference path="../core/UIComponent.ts" />
 
 import { IDisplayText } from "../core/IDisplayText";
-import { UIComponent, getAssets } from "../core/UIComponent";
+import { UIComponent, getAssets, implementUIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { registerBindable } from "../utils/registerBindable";
 
-let UIImpl = sys.UIComponentImpl;
+let UIImpl = UIComponentImpl;
 export class BitmapLabel extends egret.BitmapText implements UIComponent, IDisplayText {
         public constructor(text?: string) {
             super();
@@ -170,11 +170,11 @@ export class BitmapLabel extends egret.BitmapText implements UIComponent, IDispl
                 availableWidth = this._widthConstraint;
                 this._widthConstraint = NaN;
             }
-            else if (!isNaN(values[sys.UIKeys.explicitWidth])) {
-                availableWidth = values[sys.UIKeys.explicitWidth];
+            else if (!isNaN(values[UIKeys.explicitWidth])) {
+                availableWidth = values[UIKeys.explicitWidth];
             }
-            else if (values[sys.UIKeys.maxWidth] != 100000) {
-                availableWidth = values[sys.UIKeys.maxWidth];
+            else if (values[UIKeys.maxWidth] != 100000) {
+                availableWidth = values[UIKeys.maxWidth];
             }
             super.$setWidth(availableWidth);
             let availableHeight = NaN;
@@ -182,11 +182,11 @@ export class BitmapLabel extends egret.BitmapText implements UIComponent, IDispl
                 availableHeight = this._heightConstraint;
                 this._heightConstraint = NaN;
             }
-            else if (!isNaN(values[sys.UIKeys.explicitHeight])) {
-                availableHeight = values[sys.UIKeys.explicitHeight];
+            else if (!isNaN(values[UIKeys.explicitHeight])) {
+                availableHeight = values[UIKeys.explicitHeight];
             }
-            else if (values[sys.UIKeys.maxHeight] != 100000) {
-                availableHeight = values[sys.UIKeys.maxHeight];
+            else if (values[UIKeys.maxHeight] != 100000) {
+                availableHeight = values[UIKeys.maxHeight];
             }
             super.$setHeight(availableHeight);
             this.setMeasuredSize(this.textWidth, this.textHeight);
@@ -347,10 +347,10 @@ export class BitmapLabel extends egret.BitmapText implements UIComponent, IDispl
                 return;
             }
             let values = this.$UIComponent;
-            if (!isNaN(values[sys.UIKeys.explicitHeight])) {
+            if (!isNaN(values[UIKeys.explicitHeight])) {
                 return;
             }
-            if (layoutWidth == values[sys.UIKeys.measuredWidth]) {
+            if (layoutWidth == values[UIKeys.measuredWidth]) {
                 return;
             }
             this._widthConstraint = layoutWidth;
@@ -376,5 +376,5 @@ export class BitmapLabel extends egret.BitmapText implements UIComponent, IDispl
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-sys.implementUIComponent(BitmapLabel, egret.BitmapText);
+implementUIComponent(BitmapLabel, egret.BitmapText);
 registerBindable(BitmapLabel.prototype, "text");

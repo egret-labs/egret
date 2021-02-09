@@ -27,6 +27,7 @@
 //
 
 import { PropertyEvent } from "../events/PropertyEvent";
+import { ComponentKeys } from "./Component";
 import { RadioButtonGroup } from "./RadioButtonGroup";
 import { ToggleButton } from "./ToggleButton";
 
@@ -76,7 +77,7 @@ export class RadioButton extends ToggleButton {
          * @language zh_CN
          */
         public get enabled():boolean {
-            if (!this.$Component[sys.ComponentKeys.enabled]) {
+            if (!this.$Component[ComponentKeys.enabled]) {
                 return false;
             }
             return !this.$radioButtonGroup ||

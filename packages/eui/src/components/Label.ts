@@ -28,12 +28,12 @@
 
 import { IDisplayText } from "../core/IDisplayText";
 import { Theme } from "../core/Theme";
-import { UIComponent } from "../core/UIComponent";
+import { implementUIComponent, UIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { registerBindable } from "../utils/registerBindable";
 
 //////////////////////////////////////////////////////////////////////////////////////
-let UIImpl = sys.UIComponentImpl;
+let UIImpl = UIComponentImpl;
 export class Label extends egret.TextField implements UIComponent,IDisplayText {
 
         /**
@@ -370,11 +370,11 @@ export class Label extends egret.TextField implements UIComponent,IDisplayText {
                 availableWidth = this._widthConstraint;
                 this._widthConstraint = NaN;
             }
-            else if (!isNaN(values[sys.UIKeys.explicitWidth])) {
-                availableWidth = values[sys.UIKeys.explicitWidth];
+            else if (!isNaN(values[UIKeys.explicitWidth])) {
+                availableWidth = values[UIKeys.explicitWidth];
             }
-            else if (values[sys.UIKeys.maxWidth] != 100000) {
-                availableWidth = values[sys.UIKeys.maxWidth];
+            else if (values[UIKeys.maxWidth] != 100000) {
+                availableWidth = values[UIKeys.maxWidth];
             }
 
             super.$setWidth(availableWidth);
@@ -538,10 +538,10 @@ export class Label extends egret.TextField implements UIComponent,IDisplayText {
             }
             this._widthConstraint = layoutWidth;
             let values = this.$UIComponent;
-            if (!isNaN(values[sys.UIKeys.explicitHeight])) {
+            if (!isNaN(values[UIKeys.explicitHeight])) {
                 return;
             }
-            if (layoutWidth == values[sys.UIKeys.measuredWidth]) {
+            if (layoutWidth == values[UIKeys.measuredWidth]) {
                 return;
             }
             this.invalidateSize();
@@ -565,5 +565,5 @@ export class Label extends egret.TextField implements UIComponent,IDisplayText {
         public getPreferredBounds(bounds:egret.Rectangle):void {
         }
     }
-sys.implementUIComponent(Label, egret.TextField);
+implementUIComponent(Label, egret.TextField);
 registerBindable(Label.prototype, "text");

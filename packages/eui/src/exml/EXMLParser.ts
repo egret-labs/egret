@@ -26,6 +26,7 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+import { AddPosition } from "../states/AddItems";
 import { EXClass, EXState, EXBinding, EXVariable, EXFunction, EXCodeBlock, EXSetProperty, EXAddItems, EXSetStateProperty } from "./CodeFactory";
 import { EXMLConfig, NS_W, NS_S } from "./EXMLConfig";
 
@@ -1648,15 +1649,15 @@ export class EXMLParser {
                     preItem = item;
             }
             if (index == 0) {
-                position = sys.AddPosition.FIRST;
+                position = AddPosition.FIRST;
                 return {position: position, relativeTo: targetId};
             }
             if (index == length - 1) {
-                position = sys.AddPosition.LAST;
+                position = AddPosition.LAST;
                 return {position: position, relativeTo: targetId};
             }
             if (afterItem) {
-                position = sys.AddPosition.BEFORE;
+                position = AddPosition.BEFORE;
                 targetId = afterItem.attributes.id;
                 if (targetId) {
                     this.checkIdForState(afterItem);
@@ -1664,7 +1665,7 @@ export class EXMLParser {
                 }
 
             }
-            return {position: sys.AddPosition.LAST, relativeTo: targetId};
+            return {position: AddPosition.LAST, relativeTo: targetId};
         }
 
 

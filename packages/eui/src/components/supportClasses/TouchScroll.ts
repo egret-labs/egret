@@ -51,7 +51,7 @@ export class TouchScroll {
             this.updateFunction = updateFunction;
             this.endFunction = endFunction;
             this.target = target;
-            this.animation = new sys.Animation(this.onScrollingUpdate, this);
+            this.animation = new Animation(this.onScrollingUpdate, this);
             this.animation.endFunction = this.finishScrolling;
             this.animation.easerFunction = easeOut;
         }

@@ -26,9 +26,9 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-import { UIComponent } from "../core/UIComponent";
+import { UIComponent, UIKeys } from "../core/UIComponent";
 import { JustifyAlign } from "./JustifyAlign";
-import { LinearLayoutBase } from "./supportClasses/LinearLayoutBase";
+import { ChildInfo, LinearLayoutBase } from "./supportClasses/LinearLayoutBase";
 
 //////////////////////////////////////////////////////////////////////////////////////
 let UIComponentClass = "eui.UIComponent";
@@ -138,14 +138,14 @@ export class VerticalLayout extends LinearLayoutBase {
                 }
                 else {
                     let values = layoutElement.$UIComponent;
-                    if (!isNaN(values[sys.UIKeys.percentHeight])) {
-                        totalPercentHeight += values[sys.UIKeys.percentHeight];
+                    if (!isNaN(values[UIKeys.percentHeight])) {
+                        totalPercentHeight += values[UIKeys.percentHeight];
 
-                        childInfo = new sys.ChildInfo();
+                        childInfo = new ChildInfo();
                         childInfo.layoutElement = layoutElement;
-                        childInfo.percent = values[sys.UIKeys.percentHeight];
-                        childInfo.min = values[sys.UIKeys.minHeight];
-                        childInfo.max = values[sys.UIKeys.maxHeight];
+                        childInfo.percent = values[UIKeys.percentHeight];
+                        childInfo.min = values[UIKeys.minHeight];
+                        childInfo.max = values[UIKeys.maxHeight];
                         childInfoArray.push(childInfo);
 
                     }
@@ -247,8 +247,8 @@ export class VerticalLayout extends LinearLayoutBase {
                 else {
                     let layoutElementWidth = NaN;
                     let values = layoutElement.$UIComponent;
-                    if (!isNaN(values[sys.UIKeys.percentWidth])) {
-                        let percent = Math.min(100, values[sys.UIKeys.percentWidth]);
+                    if (!isNaN(values[UIKeys.percentWidth])) {
+                        let percent = Math.min(100, values[UIKeys.percentWidth]);
                         layoutElementWidth = Math.round(targetWidth * percent * 0.01);
                     }
                     layoutElement.setLayoutBoundsSize(layoutElementWidth, layoutElementHeight);
@@ -460,7 +460,7 @@ export class VerticalLayout extends LinearLayoutBase {
             }
 
             let values = target.$UIComponent;
-            if (values[sys.UIKeys.width] == 0 || values[sys.UIKeys.height] == 0) {
+            if (values[UIKeys.width] == 0 || values[UIKeys.height] == 0) {
                 this.startIndex = this.endIndex = -1;
                 return false;
             }
@@ -474,7 +474,7 @@ export class VerticalLayout extends LinearLayoutBase {
                 this.endIndex = -1;
                 return false;
             }
-            let maxVisibleY = target.scrollV + values[sys.UIKeys.height];
+            let maxVisibleY = target.scrollV + values[UIKeys.height];
             if (maxVisibleY < this.$paddingTop) {
                 this.startIndex = -1;
                 this.endIndex = -1;

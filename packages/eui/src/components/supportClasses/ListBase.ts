@@ -140,18 +140,18 @@ export class ListBase extends DataGroup {
          * @language zh_CN
          */
         public get requireSelection():boolean {
-            return this.$ListBase[sys.ListBaseKeys.requireSelection];
+            return this.$ListBase[ListBaseKeys.requireSelection];
         }
 
         public set requireSelection(value:boolean) {
             value = !!value;
             let values = this.$ListBase;
-            if (value === values[sys.ListBaseKeys.requireSelection]) {
+            if (value === values[ListBaseKeys.requireSelection]) {
                 return;
             }
-            values[sys.ListBaseKeys.requireSelection] = value;
+            values[ListBaseKeys.requireSelection] = value;
             if (value) {
-                values[sys.ListBaseKeys.requireSelectionChanged] = true;
+                values[ListBaseKeys.requireSelectionChanged] = true;
                 this.invalidateProperties();
             }
         }
@@ -211,9 +211,9 @@ export class ListBase extends DataGroup {
          */
         $getSelectedIndex():number {
             let values = this.$ListBase;
-            if (values[sys.ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
-                return values[sys.ListBaseKeys.proposedSelectedIndex];
-            return values[sys.ListBaseKeys.selectedIndex];
+            if (values[ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
+                return values[ListBaseKeys.proposedSelectedIndex];
+            return values[ListBaseKeys.selectedIndex];
         }
 
         public set selectedIndex(value:number) {
@@ -241,9 +241,9 @@ export class ListBase extends DataGroup {
             }
             let values = this.$ListBase;
             if (dispatchChangeEvent)
-                values[sys.ListBaseKeys.dispatchChangeAfterSelection] =
-                    (values[sys.ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
-            values[sys.ListBaseKeys.proposedSelectedIndex] = value;
+                values[ListBaseKeys.dispatchChangeAfterSelection] =
+                    (values[ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
+            values[ListBaseKeys.proposedSelectedIndex] = value;
             this.invalidateProperties();
         }
 
@@ -295,8 +295,8 @@ export class ListBase extends DataGroup {
          */
         public get selectedItem():any {
             let values = this.$ListBase;
-            if (values[sys.ListBaseKeys.pendingSelectedItem] !== undefined)
-                return values[sys.ListBaseKeys.pendingSelectedItem];
+            if (values[ListBaseKeys.pendingSelectedItem] !== undefined)
+                return values[ListBaseKeys.pendingSelectedItem];
 
             let selectedIndex = this.$getSelectedIndex();
             if (selectedIndex == ListBase.NO_SELECTION || this.$dataProvider == null)
@@ -328,10 +328,10 @@ export class ListBase extends DataGroup {
 
             let values = this.$ListBase;
             if (dispatchChangeEvent)
-                values[sys.ListBaseKeys.dispatchChangeAfterSelection] =
-                    (values[sys.ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
+                values[ListBaseKeys.dispatchChangeAfterSelection] =
+                    (values[ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
 
-            values[sys.ListBaseKeys.pendingSelectedItem] = value;
+            values[ListBaseKeys.pendingSelectedItem] = value;
             this.invalidateProperties();
         }
 
@@ -354,38 +354,38 @@ export class ListBase extends DataGroup {
                 if (selectedIndex >= 0 && dataProvider && selectedIndex < dataProvider.length)
                     this.itemSelected(selectedIndex, true);
                 else if (this.requireSelection)
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = 0;
+                    values[ListBaseKeys.proposedSelectedIndex] = 0;
                 else
                     this.setSelectedIndex(-1, false);
             }
 
-            if (values[sys.ListBaseKeys.requireSelectionChanged]) {
-                values[sys.ListBaseKeys.requireSelectionChanged] = false;
+            if (values[ListBaseKeys.requireSelectionChanged]) {
+                values[ListBaseKeys.requireSelectionChanged] = false;
 
-                if (values[sys.ListBaseKeys.requireSelection] &&
+                if (values[ListBaseKeys.requireSelection] &&
                     selectedIndex == ListBase.NO_SELECTION &&
                     dataProvider &&
                     dataProvider.length > 0) {
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = 0;
+                    values[ListBaseKeys.proposedSelectedIndex] = 0;
                 }
             }
 
-            if (values[sys.ListBaseKeys.pendingSelectedItem] !== undefined) {
+            if (values[ListBaseKeys.pendingSelectedItem] !== undefined) {
                 if (dataProvider)
-                    values[sys.ListBaseKeys.proposedSelectedIndex] =
-                        dataProvider.getItemIndex(values[sys.ListBaseKeys.pendingSelectedItem]);
+                    values[ListBaseKeys.proposedSelectedIndex] =
+                        dataProvider.getItemIndex(values[ListBaseKeys.pendingSelectedItem]);
                 else
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = ListBase.NO_SELECTION;
+                    values[ListBaseKeys.proposedSelectedIndex] = ListBase.NO_SELECTION;
 
-                values[sys.ListBaseKeys.pendingSelectedItem] = undefined;
+                values[ListBaseKeys.pendingSelectedItem] = undefined;
             }
 
             let changedSelection = false;
-            if (values[sys.ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
+            if (values[ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
                 changedSelection = this.commitSelection();
 
-            if (values[sys.ListBaseKeys.selectedIndexAdjusted]) {
-                values[sys.ListBaseKeys.selectedIndexAdjusted] = false;
+            if (values[ListBaseKeys.selectedIndexAdjusted]) {
+                values[ListBaseKeys.selectedIndexAdjusted] = false;
                 if (!changedSelection) {
                     PropertyEvent.dispatchPropertyEvent(this, PropertyEvent.PROPERTY_CHANGE, "selectedIndex");
                 }
@@ -456,44 +456,44 @@ export class ListBase extends DataGroup {
             let dataProvider = this.$dataProvider;
             let values = this.$ListBase;
             let maxIndex = dataProvider ? dataProvider.length - 1 : -1;
-            let oldSelectedIndex = values[sys.ListBaseKeys.selectedIndex];
-            let tmpProposedIndex = values[sys.ListBaseKeys.proposedSelectedIndex];
+            let oldSelectedIndex = values[ListBaseKeys.selectedIndex];
+            let tmpProposedIndex = values[ListBaseKeys.proposedSelectedIndex];
             if (tmpProposedIndex < ListBase.NO_SELECTION)
                 tmpProposedIndex = ListBase.NO_SELECTION;
             if (tmpProposedIndex > maxIndex)
                 tmpProposedIndex = maxIndex;
-            if (values[sys.ListBaseKeys.requireSelection] && tmpProposedIndex == ListBase.NO_SELECTION &&
+            if (values[ListBaseKeys.requireSelection] && tmpProposedIndex == ListBase.NO_SELECTION &&
                 dataProvider && dataProvider.length > 0) {
-                values[sys.ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
-                values[sys.ListBaseKeys.dispatchChangeAfterSelection] = false;
+                values[ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
+                values[ListBaseKeys.dispatchChangeAfterSelection] = false;
                 return false;
             }
 
 
-            if (values[sys.ListBaseKeys.dispatchChangeAfterSelection]) {
+            if (values[ListBaseKeys.dispatchChangeAfterSelection]) {
                 let result = this.dispatchEventWith(egret.Event.CHANGING, false, true, true);
                 if (!result) {
-                    this.itemSelected(values[sys.ListBaseKeys.proposedSelectedIndex], false);
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
-                    values[sys.ListBaseKeys.dispatchChangeAfterSelection] = false;
+                    this.itemSelected(values[ListBaseKeys.proposedSelectedIndex], false);
+                    values[ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
+                    values[ListBaseKeys.dispatchChangeAfterSelection] = false;
                     return false;
                 }
 
             }
 
-            values[sys.ListBaseKeys.selectedIndex] = tmpProposedIndex;
-            values[sys.ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
+            values[ListBaseKeys.selectedIndex] = tmpProposedIndex;
+            values[ListBaseKeys.proposedSelectedIndex] = ListBase.NO_PROPOSED_SELECTION;
 
             if (oldSelectedIndex != ListBase.NO_SELECTION)
                 this.itemSelected(oldSelectedIndex, false);
-            if (values[sys.ListBaseKeys.selectedIndex] != ListBase.NO_SELECTION)
-                this.itemSelected(values[sys.ListBaseKeys.selectedIndex], true);
+            if (values[ListBaseKeys.selectedIndex] != ListBase.NO_SELECTION)
+                this.itemSelected(values[ListBaseKeys.selectedIndex], true);
 
             //子类若需要自身抛出Change事件，而不是在此处抛出，可以设置dispatchChangedEvents为false
             if (dispatchChangedEvents) {
-                if (values[sys.ListBaseKeys.dispatchChangeAfterSelection]) {
+                if (values[ListBaseKeys.dispatchChangeAfterSelection]) {
                     this.dispatchEventWith(egret.Event.CHANGE);
-                    values[sys.ListBaseKeys.dispatchChangeAfterSelection] = false;
+                    values[ListBaseKeys.dispatchChangeAfterSelection] = false;
                 }
                 PropertyEvent.dispatchPropertyEvent(this, PropertyEvent.PROPERTY_CHANGE, "selectedIndex");
                 PropertyEvent.dispatchPropertyEvent(this, PropertyEvent.PROPERTY_CHANGE, "selectedItem");
@@ -524,11 +524,11 @@ export class ListBase extends DataGroup {
          */
         protected adjustSelection(newIndex:number, add:boolean = false):void {
             let values = this.$ListBase;
-            if (values[sys.ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
-                values[sys.ListBaseKeys.proposedSelectedIndex] = newIndex;
+            if (values[ListBaseKeys.proposedSelectedIndex] != ListBase.NO_PROPOSED_SELECTION)
+                values[ListBaseKeys.proposedSelectedIndex] = newIndex;
             else
-                values[sys.ListBaseKeys.selectedIndex] = newIndex;
-            values[sys.ListBaseKeys.selectedIndexAdjusted] = true;
+                values[ListBaseKeys.selectedIndex] = newIndex;
+            values[ListBaseKeys.selectedIndexAdjusted] = true;
             this.invalidateProperties();
         }
 
@@ -549,7 +549,7 @@ export class ListBase extends DataGroup {
             super.itemAdded(item, index);
             let selectedIndex = this.$getSelectedIndex();
             if (selectedIndex == ListBase.NO_SELECTION) {
-                if (this.$ListBase[sys.ListBaseKeys.requireSelection])
+                if (this.$ListBase[ListBaseKeys.requireSelection])
                     this.adjustSelection(index, true);
             }
             else if (index <= selectedIndex) {
@@ -580,7 +580,7 @@ export class ListBase extends DataGroup {
             if (index == selectedIndex) {
                 if (this.requireSelection && this.$dataProvider && this.$dataProvider.length > 0) {
                     if (index == 0) {
-                        this.$ListBase[sys.ListBaseKeys.proposedSelectedIndex] = 0;
+                        this.$ListBase[ListBaseKeys.proposedSelectedIndex] = 0;
                         this.invalidateProperties();
                     }
                     else
@@ -688,8 +688,8 @@ export class ListBase extends DataGroup {
             let values = this.$ListBase;
             if (event.$isDefaultPrevented)
                 return;
-            values[sys.ListBaseKeys.touchCancle] = false;
-            values[sys.ListBaseKeys.touchDownItemRenderer] = <IItemRenderer> (event.$currentTarget);
+            values[ListBaseKeys.touchCancle] = false;
+            values[ListBaseKeys.touchDownItemRenderer] = <IItemRenderer> (event.$currentTarget);
             this.$stage.addEventListener(egret.TouchEvent.TOUCH_END, this.stage_touchEndHandler, this);
         }
         /**
@@ -706,8 +706,8 @@ export class ListBase extends DataGroup {
          */
         protected onRendererTouchCancle(event:egret.TouchEvent):void {
             let values = this.$ListBase;
-            values[sys.ListBaseKeys.touchDownItemRenderer] = null;
-            values[sys.ListBaseKeys.touchCancle] = true;
+            values[ListBaseKeys.touchDownItemRenderer] = null;
+            values[ListBaseKeys.touchCancle] = true;
             if(this.$stage){
                 this.$stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.stage_touchEndHandler, this);
             }
@@ -725,14 +725,14 @@ export class ListBase extends DataGroup {
         protected onRendererTouchEnd(event:egret.TouchEvent):void {
             let values = this.$ListBase;
             let itemRenderer = <IItemRenderer> (event.$currentTarget);
-            let touchDownItemRenderer = values[sys.ListBaseKeys.touchDownItemRenderer];
+            let touchDownItemRenderer = values[ListBaseKeys.touchDownItemRenderer];
             if (itemRenderer != touchDownItemRenderer)
                 return;
-            if(!values[sys.ListBaseKeys.touchCancle]){
+            if(!values[ListBaseKeys.touchCancle]){
                 this.setSelectedIndex(itemRenderer.itemIndex, true);
                 ItemTapEvent.dispatchItemTapEvent(this, ItemTapEvent.ITEM_TAP, itemRenderer);
             }
-            values[sys.ListBaseKeys.touchCancle] = false;
+            values[ListBaseKeys.touchCancle] = false;
         }
 
         /**
@@ -742,7 +742,7 @@ export class ListBase extends DataGroup {
         private stage_touchEndHandler(event:egret.Event):void {
             let stage = <egret.Stage>event.$currentTarget;
             stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.stage_touchEndHandler, this);
-            this.$ListBase[sys.ListBaseKeys.touchDownItemRenderer] = null;
+            this.$ListBase[ListBaseKeys.touchDownItemRenderer] = null;
         }
     }
 registerBindable(ListBase.prototype, "selectedIndex");

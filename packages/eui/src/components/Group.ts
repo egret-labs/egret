@@ -32,10 +32,11 @@
 /// <reference path="../utils/registerProperty.ts" />
 
 import { IViewport } from "../core/IViewport";
+import { UIKeys, UIComponentImpl, implementUIComponent, mixin } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { BasicLayout } from "../layouts/BasicLayout";
 import { LayoutBase } from "../layouts/supportClasses/LayoutBase";
-import { State } from "../states/State";
+import { State, StateClient, StateValues } from "../states/State";
 import { registerProperty } from "../utils/registerProperty";
 
 const enum Keys{
@@ -273,7 +274,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
                 let uiValues = this.$UIComponent;
                 this.scrollRect = egret.$TempRectangle.setTo(values[Keys.scrollH],
                     values[Keys.scrollV],
-                    uiValues[sys.UIKeys.width], uiValues[sys.UIKeys.height]);
+                    uiValues[UIKeys.width], uiValues[UIKeys.height]);
             }
             else if (this.$scrollRect) {
                 this.scrollRect = null;
@@ -362,7 +363,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
             }
             let point = this.globalToLocal(stageX, stageY, egret.$TempPoint);
             let values = this.$UIComponent;
-            let bounds = egret.$TempRectangle.setTo(0, 0, values[sys.UIKeys.width], values[sys.UIKeys.height]);
+            let bounds = egret.$TempRectangle.setTo(0, 0, values[UIKeys.width], values[UIKeys.height]);
             let scrollRect = this.$scrollRect;
             if(scrollRect){
                 bounds.x = scrollRect.x;
@@ -378,7 +379,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
         /**
          * @private
          */
-        $stateValues:sys.StateValues = new sys.StateValues();
+        $stateValues:sys.StateValues = new StateValues();
 
         /**
          * The list of state for this component.
@@ -458,7 +459,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
          * @copy eui.Component#commitProperties()
          */
         protected commitProperties():void {
-            sys.UIComponentImpl.prototype["commitProperties"].call(this);
+            UIComponentImpl.prototype["commitProperties"].call(this);
             let values = this.$stateValues;
             if (values.stateIsDirty) {
                 values.stateIsDirty = false;
@@ -655,7 +656,7 @@ export class Group extends egret.DisplayObjectContainer implements IViewport {
         public getPreferredBounds(bounds:egret.Rectangle):void {
         }
     }
-sys.implementUIComponent(Group, egret.DisplayObjectContainer, true);
-sys.mixin(Group, sys.StateClient);
+implementUIComponent(Group, egret.DisplayObjectContainer, true);
+mixin(Group, StateClient);
 registerProperty(Group, "elementsContent", "Array", true);
 registerProperty(Group, "states", "State[]");

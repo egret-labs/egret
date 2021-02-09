@@ -31,9 +31,11 @@
 
 import { DefaultAssetAdapter } from "../components/supportClasses/DefaultAssetAdapter";
 import { DefaultThemeAdapter } from "../components/supportClasses/DefaultThemeAdapter";
+import { MatrixUtil } from "../utils/MatrixUtil";
 import { registerProperty } from "../utils/registerProperty";
 import { IAssetAdapter } from "./IAssetAdapter";
 import { IThemeAdapter } from "./IThemeAdapter";
+import { Validator } from "./Validator";
 
 export function getAssets(source: string, callback: (content: any) => void, thisObject: any) {
         let adapter: IAssetAdapter = egret.getImplementation("eui.IAssetAdapter");
@@ -811,7 +813,7 @@ let UIComponentClass = "eui.UIComponent";
 function isDeltaIdentity(m: egret.Matrix): boolean {
         return (m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1);
     }
-let validator = new sys.Validator();
+let validator = new Validator();
 export class UIComponentImpl extends egret.DisplayObject implements eui.UIComponent {
         /**
          * @private
@@ -950,8 +952,8 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
             this.$super.$onAddToStage.call(this, stage, nestLevel);
             this.checkInvalidateFlag();
             let values = this.$UIComponent;
-            if (!values[sys.UIKeys.initialized]) {
-                values[sys.UIKeys.initialized] = true;
+            if (!values[UIKeys.initialized]) {
+                values[UIKeys.initialized] = true;
                 this.createChildren();
                 this.childrenCreated();
                 UIEvent.dispatchUIEvent(this, UIEvent.CREATION_COMPLETE);
@@ -964,13 +966,13 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         private checkInvalidateFlag(event?: Event): void {
             let values = this.$UIComponent;
-            if (values[sys.UIKeys.invalidatePropertiesFlag]) {
+            if (values[UIKeys.invalidatePropertiesFlag]) {
                 validator.invalidateProperties(this);
             }
-            if (values[sys.UIKeys.invalidateSizeFlag]) {
+            if (values[UIKeys.invalidateSizeFlag]) {
                 validator.invalidateSize(this);
             }
-            if (values[sys.UIKeys.invalidateDisplayListFlag]) {
+            if (values[UIKeys.invalidateDisplayListFlag]) {
                 validator.invalidateDisplayList(this);
             }
         }
@@ -1408,8 +1410,8 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         public invalidateProperties(): void {
             let values = this.$UIComponent;
-            if (!values[sys.UIKeys.invalidatePropertiesFlag]) {
-                values[sys.UIKeys.invalidatePropertiesFlag] = true;
+            if (!values[UIKeys.invalidatePropertiesFlag]) {
+                values[UIKeys.invalidatePropertiesFlag] = true;
                 if (this.$stage)
                     validator.invalidateProperties(this);
             }
@@ -1421,9 +1423,9 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         public validateProperties(): void {
             let values = this.$UIComponent;
-            if (values[sys.UIKeys.invalidatePropertiesFlag]) {
+            if (values[UIKeys.invalidatePropertiesFlag]) {
                 this.commitProperties();
-                values[sys.UIKeys.invalidatePropertiesFlag] = false;
+                values[UIKeys.invalidatePropertiesFlag] = false;
             }
         }
 
@@ -1433,8 +1435,8 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         public invalidateSize(): void {
             let values = this.$UIComponent;
-            if (!values[sys.UIKeys.invalidateSizeFlag]) {
-                values[sys.UIKeys.invalidateSizeFlag] = true;
+            if (!values[UIKeys.invalidateSizeFlag]) {
+                values[UIKeys.invalidateSizeFlag] = true;
                 if (this.$stage)
                     validator.invalidateSize(this);
             }
@@ -1458,13 +1460,13 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
                 }
             }
             let values = this.$UIComponent;
-            if (values[sys.UIKeys.invalidateSizeFlag]) {
+            if (values[UIKeys.invalidateSizeFlag]) {
                 let changed = this.measureSizes();
                 if (changed) {
                     this.invalidateDisplayList();
                     this.invalidateParentLayout();
                 }
-                values[sys.UIKeys.invalidateSizeFlag] = false;
+                values[UIKeys.invalidateSizeFlag] = false;
             }
         }
 
@@ -1475,7 +1477,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
         private measureSizes(): boolean {
             let changed = false;
             let values = this.$UIComponent;
-            if (!values[sys.UIKeys.invalidateSizeFlag])
+            if (!values[UIKeys.invalidateSizeFlag])
                 return changed;
 
             if (isNaN(values[UIKeys.explicitWidth]) || isNaN(values[UIKeys.explicitHeight])) {
@@ -1510,8 +1512,8 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         public invalidateDisplayList(): void {
             let values = this.$UIComponent;
-            if (!values[sys.UIKeys.invalidateDisplayListFlag]) {
-                values[sys.UIKeys.invalidateDisplayListFlag] = true;
+            if (!values[UIKeys.invalidateDisplayListFlag]) {
+                values[UIKeys.invalidateDisplayListFlag] = true;
                 if (this.$stage)
                     validator.invalidateDisplayList(this);
             }
@@ -1523,10 +1525,10 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
          */
         public validateDisplayList(): void {
             let values = this.$UIComponent;
-            if (values[sys.UIKeys.invalidateDisplayListFlag]) {
+            if (values[UIKeys.invalidateDisplayListFlag]) {
                 this.updateFinalSize();
                 this.updateDisplayList(values[UIKeys.width], values[UIKeys.height]);
-                values[sys.UIKeys.invalidateDisplayListFlag] = false;
+                values[UIKeys.invalidateDisplayListFlag] = false;
             }
         }
 
@@ -1538,7 +1540,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
             let unscaledWidth = 0;
             let unscaledHeight = 0;
             let values = this.$UIComponent;
-            if (values[sys.UIKeys.layoutWidthExplicitlySet]) {
+            if (values[UIKeys.layoutWidthExplicitlySet]) {
                 unscaledWidth = values[UIKeys.width];
             }
             else if (!isNaN(values[UIKeys.explicitWidth])) {
@@ -1547,7 +1549,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
             else {
                 unscaledWidth = values[UIKeys.measuredWidth];
             }
-            if (values[sys.UIKeys.layoutHeightExplicitlySet]) {
+            if (values[UIKeys.layoutHeightExplicitlySet]) {
                 unscaledHeight = values[UIKeys.height];
             }
             else if (!isNaN(values[UIKeys.explicitHeight])) {
@@ -1598,19 +1600,19 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
             let width: number;
             let height: number;
             if (isNaN(layoutWidth)) {
-                values[sys.UIKeys.layoutWidthExplicitlySet] = false;
+                values[UIKeys.layoutWidthExplicitlySet] = false;
                 width = this.getPreferredUWidth();
             }
             else {
-                values[sys.UIKeys.layoutWidthExplicitlySet] = true;
+                values[UIKeys.layoutWidthExplicitlySet] = true;
                 width = Math.max(minWidth, Math.min(maxWidth, layoutWidth));
             }
             if (isNaN(layoutHeight)) {
-                values[sys.UIKeys.layoutHeightExplicitlySet] = false;
+                values[UIKeys.layoutHeightExplicitlySet] = false;
                 height = this.getPreferredUHeight();
             }
             else {
-                values[sys.UIKeys.layoutHeightExplicitlySet] = true;
+                values[UIKeys.layoutHeightExplicitlySet] = true;
                 height = Math.max(minHeight, Math.min(maxHeight, layoutHeight));
             }
             let matrix = this.getAnchorMatrix();
@@ -1619,7 +1621,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
                 return;
             }
 
-            let fitSize = sys.MatrixUtil.fitBounds(layoutWidth, layoutHeight, matrix,
+            let fitSize = MatrixUtil.fitBounds(layoutWidth, layoutHeight, matrix,
                 values[UIKeys.explicitWidth], values[UIKeys.explicitHeight],
                 this.getPreferredUWidth(), this.getPreferredUHeight(),
                 minWidth, minHeight, maxWidth, maxHeight);
@@ -1657,7 +1659,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
         public getLayoutBounds(bounds: egret.Rectangle): void {
             let values = this.$UIComponent;
             let w: number;
-            if (values[sys.UIKeys.layoutWidthExplicitlySet]) {
+            if (values[UIKeys.layoutWidthExplicitlySet]) {
                 w = values[UIKeys.width];
             }
             else if (!isNaN(values[UIKeys.explicitWidth])) {
@@ -1667,7 +1669,7 @@ export class UIComponentImpl extends egret.DisplayObject implements eui.UICompon
                 w = values[UIKeys.measuredWidth];
             }
             let h: number;
-            if (values[sys.UIKeys.layoutHeightExplicitlySet]) {
+            if (values[UIKeys.layoutHeightExplicitlySet]) {
                 h = values[UIKeys.height];
             }
             else if (!isNaN(values[UIKeys.explicitHeight])) {

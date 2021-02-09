@@ -99,16 +99,16 @@ export class Range extends Component {
          * @language zh_CN
          */
         public get maximum():number {
-            return this.$Range[sys.RangeKeys.maximum];
+            return this.$Range[RangeKeys.maximum];
         }
 
         public set maximum(value:number) {
             value = +value || 0;
             let values = this.$Range;
-            if (value === values[sys.RangeKeys.maximum])
+            if (value === values[RangeKeys.maximum])
                 return;
-            values[sys.RangeKeys.maximum] = value;
-            values[sys.RangeKeys.maxChanged] = true;
+            values[RangeKeys.maximum] = value;
+            values[RangeKeys.maxChanged] = true;
             this.invalidateProperties();
             this.invalidateDisplayList();
         }
@@ -133,16 +133,16 @@ export class Range extends Component {
          * @language zh_CN
          */
         public get minimum():number {
-            return this.$Range[sys.RangeKeys.minimum];
+            return this.$Range[RangeKeys.minimum];
         }
 
         public set minimum(value:number) {
             value = +value || 0;
             let values = this.$Range;
-            if (value === values[sys.RangeKeys.minimum])
+            if (value === values[RangeKeys.minimum])
                 return;
-            values[sys.RangeKeys.minimum] = value;
-            values[sys.RangeKeys.minChanged] = true;
+            values[RangeKeys.minimum] = value;
+            values[RangeKeys.minChanged] = true;
             this.invalidateProperties();
             this.invalidateDisplayList();
         }
@@ -170,8 +170,8 @@ export class Range extends Component {
          */
         public get value():number {
             let values = this.$Range;
-            return values[sys.RangeKeys.valueChanged] ?
-                values[sys.RangeKeys.changedValue] : values[sys.RangeKeys.value];
+            return values[RangeKeys.valueChanged] ?
+                values[RangeKeys.changedValue] : values[RangeKeys.value];
         }
 
         public set value(newValue:number) {
@@ -188,8 +188,8 @@ export class Range extends Component {
             if (newValue === this.value)
                 return false;
             let values = this.$Range;
-            values[sys.RangeKeys.changedValue] = newValue;
-            values[sys.RangeKeys.valueChanged] = true;
+            values[RangeKeys.changedValue] = newValue;
+            values[RangeKeys.valueChanged] = true;
             this.invalidateProperties();
 
             return true;
@@ -222,24 +222,24 @@ export class Range extends Component {
          * @language zh_CN
          */
         public get snapInterval():number {
-            return this.$Range[sys.RangeKeys.snapInterval];
+            return this.$Range[RangeKeys.snapInterval];
         }
 
         public set snapInterval(value:number) {
             let values = this.$Range;
-            values[sys.RangeKeys.explicitSnapInterval] = true;
+            values[RangeKeys.explicitSnapInterval] = true;
             value = +value || 0;
-            if (value === values[sys.RangeKeys.snapInterval])
+            if (value === values[RangeKeys.snapInterval])
                 return;
             if (isNaN(value)) {
-                values[sys.RangeKeys.snapInterval] = 1;
-                values[sys.RangeKeys.explicitSnapInterval] = false;
+                values[RangeKeys.snapInterval] = 1;
+                values[RangeKeys.explicitSnapInterval] = false;
             }
             else {
-                values[sys.RangeKeys.snapInterval] = value;
+                values[RangeKeys.snapInterval] = value;
             }
 
-            values[sys.RangeKeys.snapIntervalChanged] = true;
+            values[RangeKeys.snapIntervalChanged] = true;
 
             this.invalidateProperties();
         }
@@ -255,23 +255,23 @@ export class Range extends Component {
         protected commitProperties():void {
             super.commitProperties();
             let values = this.$Range;
-            if (values[sys.RangeKeys.minimum] > values[sys.RangeKeys.maximum]) {
+            if (values[RangeKeys.minimum] > values[RangeKeys.maximum]) {
 
-                if (!values[sys.RangeKeys.maxChanged])
-                    values[sys.RangeKeys.minimum] = values[sys.RangeKeys.maximum];
+                if (!values[RangeKeys.maxChanged])
+                    values[RangeKeys.minimum] = values[RangeKeys.maximum];
                 else
-                    values[sys.RangeKeys.maximum] = values[sys.RangeKeys.minimum];
+                    values[RangeKeys.maximum] = values[RangeKeys.minimum];
             }
 
-            if (values[sys.RangeKeys.valueChanged] || values[sys.RangeKeys.maxChanged] ||
-                values[sys.RangeKeys.minChanged] || values[sys.RangeKeys.snapIntervalChanged]) {
-                let currentValue = values[sys.RangeKeys.valueChanged] ?
-                    values[sys.RangeKeys.changedValue] : values[sys.RangeKeys.value];
-                values[sys.RangeKeys.valueChanged] = false;
-                values[sys.RangeKeys.maxChanged] = false;
-                values[sys.RangeKeys.minChanged] = false;
-                values[sys.RangeKeys.snapIntervalChanged] = false;
-                this.setValue(this.nearestValidValue(currentValue, values[sys.RangeKeys.snapInterval]));
+            if (values[RangeKeys.valueChanged] || values[RangeKeys.maxChanged] ||
+                values[RangeKeys.minChanged] || values[RangeKeys.snapIntervalChanged]) {
+                let currentValue = values[RangeKeys.valueChanged] ?
+                    values[RangeKeys.changedValue] : values[RangeKeys.value];
+                values[RangeKeys.valueChanged] = false;
+                values[RangeKeys.maxChanged] = false;
+                values[RangeKeys.minChanged] = false;
+                values[RangeKeys.snapIntervalChanged] = false;
+                this.setValue(this.nearestValidValue(currentValue, values[RangeKeys.snapInterval]));
             }
         }
 
@@ -339,12 +339,12 @@ export class Range extends Component {
         protected nearestValidValue(value:number, interval:number):number {
             let values = this.$Range;
             if (interval == 0)
-                return Math.max(values[sys.RangeKeys.minimum], Math.min(values[sys.RangeKeys.maximum], value));
+                return Math.max(values[RangeKeys.minimum], Math.min(values[RangeKeys.maximum], value));
 
-            let maxValue = values[sys.RangeKeys.maximum] - values[sys.RangeKeys.minimum];
+            let maxValue = values[RangeKeys.maximum] - values[RangeKeys.minimum];
             let scale = 1;
 
-            value -= values[sys.RangeKeys.minimum];
+            value -= values[RangeKeys.minimum];
             if (interval != Math.round(interval)) {
                 let parts = ((1 + interval).toString()).split(".");
                 scale = Math.pow(10, parts[1].length);
@@ -357,7 +357,7 @@ export class Range extends Component {
             let upper = Math.min(maxValue, Math.floor((value + interval) / interval) * interval);
             let validValue = ((value - lower) >= ((upper - lower) / 2)) ? upper : lower;
 
-            return (validValue / scale) + values[sys.RangeKeys.minimum];
+            return (validValue / scale) + values[RangeKeys.minimum];
         }
 
         /**
@@ -379,14 +379,14 @@ export class Range extends Component {
          */
         protected setValue(value:number):void {
             let values = this.$Range;
-            if (values[sys.RangeKeys.value] === value)
+            if (values[RangeKeys.value] === value)
             return;
-            if (values[sys.RangeKeys.maximum] > values[sys.RangeKeys.minimum])
-                values[sys.RangeKeys.value] = Math.min(values[sys.RangeKeys.maximum],
-                    Math.max(values[sys.RangeKeys.minimum], value));
+            if (values[RangeKeys.maximum] > values[RangeKeys.minimum])
+                values[RangeKeys.value] = Math.min(values[RangeKeys.maximum],
+                    Math.max(values[RangeKeys.minimum], value));
             else
-                values[sys.RangeKeys.value] = value;
-            values[sys.RangeKeys.valueChanged] = false;
+                values[RangeKeys.value] = value;
+            values[RangeKeys.valueChanged] = false;
             this.invalidateDisplayList();
             PropertyEvent.dispatchPropertyEvent(this,PropertyEvent.PROPERTY_CHANGE,"value");
         }

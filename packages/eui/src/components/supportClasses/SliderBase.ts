@@ -27,6 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { RangeKeys } from "./Range";
+
 export const enum Keys {
         clickOffsetX,
         clickOffsetY,
@@ -431,13 +433,13 @@ export class SliderBase extends Range {
 
             let rangeValues = this.$Range
             let newValue = this.pointToValue(p.x, p.y);
-            newValue = this.nearestValidValue(newValue, rangeValues[sys.RangeKeys.snapInterval]);
+            newValue = this.nearestValidValue(newValue, rangeValues[RangeKeys.snapInterval]);
 
             let values = this.$SliderBase;
             if (newValue != values[Keys.pendingValue]) {
                 if (values[Keys.slideDuration] != 0) {
                     if (!values[Keys.animation]) {
-                        values[Keys.animation] = new sys.Animation(this.$animationUpdateHandler, this);
+                        values[Keys.animation] = new Animation(this.$animationUpdateHandler, this);
                         values[Keys.animation].endFunction = this.animationEndHandler;
                     }
                     let animation = values[Keys.animation];
@@ -445,7 +447,7 @@ export class SliderBase extends Range {
                         this.stopAnimation();
                     values[Keys.slideToValue] = newValue;
                     animation.duration = values[Keys.slideDuration] *
-                        (Math.abs(values[Keys.pendingValue] - values[Keys.slideToValue]) / (rangeValues[sys.RangeKeys.maximum] - rangeValues[sys.RangeKeys.minimum]));
+                        (Math.abs(values[Keys.pendingValue] - values[Keys.slideToValue]) / (rangeValues[RangeKeys.maximum] - rangeValues[RangeKeys.minimum]));
                     animation.from = values[Keys.pendingValue];
                     animation.to = values[Keys.slideToValue];
                     UIEvent.dispatchUIEvent(this, UIEvent.CHANGE_START);

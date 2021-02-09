@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { RangeKeys } from "./supportClasses/Range";
 import { SliderBase } from "./supportClasses/SliderBase";
 
 export class HSlider extends SliderBase {
@@ -58,9 +59,9 @@ export class HSlider extends SliderBase {
             if (!this.thumb || !this.track)
                 return 0;
             let values = this.$Range;
-            let range = values[sys.RangeKeys.maximum] - values[sys.RangeKeys.minimum];
+            let range = values[RangeKeys.maximum] - values[RangeKeys.minimum];
             let thumbRange = this.getThumbRange();
-            return values[sys.RangeKeys.minimum] + (thumbRange != 0 ? (x / thumbRange) * range : 0);
+            return values[RangeKeys.minimum] + (thumbRange != 0 ? (x / thumbRange) * range : 0);
         }
 
         /**
@@ -84,8 +85,8 @@ export class HSlider extends SliderBase {
                 return;
             let values = this.$Range;
             let thumbRange = this.getThumbRange();
-            let range = values[sys.RangeKeys.maximum] - values[sys.RangeKeys.minimum];
-            let thumbPosTrackX = (range > 0) ? ((this.pendingValue - values[sys.RangeKeys.minimum]) / range) * thumbRange : 0;
+            let range = values[RangeKeys.maximum] - values[RangeKeys.minimum];
+            let thumbPosTrackX = (range > 0) ? ((this.pendingValue - values[RangeKeys.minimum]) / range) * thumbRange : 0;
             let thumbPos = this.track.localToGlobal(thumbPosTrackX, 0, egret.$TempPoint);
             let thumbPosX = thumbPos.x;
             let thumbPosY = thumbPos.y;

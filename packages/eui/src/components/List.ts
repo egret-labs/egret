@@ -30,7 +30,7 @@
 import { IItemRenderer } from "../core/IItemRenderer";
 import { ItemTapEvent } from "../events/ItemTapEvent";
 import { PropertyEvent } from "../events/PropertyEvent";
-import { ListBase } from "./supportClasses/ListBase";
+import { ListBase, ListBaseKeys } from "./supportClasses/ListBase";
 
 export class List extends ListBase {
 
@@ -159,8 +159,8 @@ export class List extends ListBase {
         protected setSelectedIndices(value:number[], dispatchChangeEvent?:boolean):void {
             let values = this.$ListBase;
             if (dispatchChangeEvent)
-                values[sys.ListBaseKeys.dispatchChangeAfterSelection] =
-                    (values[sys.ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
+                values[ListBaseKeys.dispatchChangeAfterSelection] =
+                    (values[ListBaseKeys.dispatchChangeAfterSelection] || dispatchChangeEvent);
 
             if (value)
                 this._proposedSelectedIndices = value;
@@ -184,7 +184,7 @@ export class List extends ListBase {
          */
         protected commitSelection(dispatchChangedEvents:boolean = true):boolean {
             let values = this.$ListBase;
-            let oldSelectedIndex = values[sys.ListBaseKeys.selectedIndex];
+            let oldSelectedIndex = values[ListBaseKeys.selectedIndex];
             if (this._proposedSelectedIndices) {
                 this._proposedSelectedIndices = this._proposedSelectedIndices.filter(this.isValidIndex);
 
@@ -194,10 +194,10 @@ export class List extends ListBase {
                     this._proposedSelectedIndices = temp;
                 }
                 if (this._proposedSelectedIndices.length > 0) {
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = this._proposedSelectedIndices[0];
+                    values[ListBaseKeys.proposedSelectedIndex] = this._proposedSelectedIndices[0];
                 }
                 else {
-                    values[sys.ListBaseKeys.proposedSelectedIndex] = -1;
+                    values[ListBaseKeys.proposedSelectedIndex] = -1;
                 }
             }
 
@@ -226,9 +226,9 @@ export class List extends ListBase {
             }
 
             if (dispatchChangedEvents && retVal) {
-                if (values[sys.ListBaseKeys.dispatchChangeAfterSelection]) {
+                if (values[ListBaseKeys.dispatchChangeAfterSelection]) {
                     this.dispatchEventWith(egret.Event.CHANGE)
-                    values[sys.ListBaseKeys.dispatchChangeAfterSelection] = false;
+                    values[ListBaseKeys.dispatchChangeAfterSelection] = false;
                 }
                 PropertyEvent.dispatchPropertyEvent(this,PropertyEvent.PROPERTY_CHANGE,"selectedIndex");
                 PropertyEvent.dispatchPropertyEvent(this,PropertyEvent.PROPERTY_CHANGE,"selectedItem");
@@ -333,7 +333,7 @@ export class List extends ListBase {
             let length = selectedIndices.length;
             if (length > 0) {
                 if (length == 1 && (selectedIndices[0] == index)) {
-                    if (!this.$ListBase[sys.ListBaseKeys.requireSelection]) {
+                    if (!this.$ListBase[ListBaseKeys.requireSelection]) {
                         return interval;
                     }
                     interval.splice(0, 0, selectedIndices[0]);
@@ -367,7 +367,7 @@ export class List extends ListBase {
         protected onRendererTouchEnd(event:egret.TouchEvent):void {
             if (this.allowMultipleSelection) {
                 let itemRenderer = <IItemRenderer> (event.currentTarget);
-                let touchDownItemRenderer = this.$ListBase[sys.ListBaseKeys.touchDownItemRenderer];
+                let touchDownItemRenderer = this.$ListBase[ListBaseKeys.touchDownItemRenderer];
                 if (itemRenderer != touchDownItemRenderer)
                     return;
                 this.setSelectedIndices(this.calculateSelectedIndices(itemRenderer.itemIndex), true);

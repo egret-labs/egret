@@ -29,14 +29,14 @@
 
 import { ICollection } from "../collections/ICollection";
 import { IItemRenderer } from "../core/IItemRenderer";
-import { UIComponent } from "../core/UIComponent";
+import { UIComponent, UIKeys } from "../core/UIComponent";
 import { CollectionEvent } from "../events/CollectionEvent";
 import { CollectionEventKind } from "../events/CollectionEventKind";
 import { JustifyAlign } from "../layouts/JustifyAlign";
 import { LayoutBase } from "../layouts/supportClasses/LayoutBase";
 import { VerticalLayout } from "../layouts/VerticalLayout";
 import { registerProperty } from "../utils/registerProperty";
-import { Component } from "./Component";
+import { Component, ComponentKeys } from "./Component";
 import { Group } from "./Group";
 import { ItemRenderer } from "./ItemRenderer";
 
@@ -288,9 +288,9 @@ export class DataGroup extends Group {
         private setItemRenderSkinName(renderer: IItemRenderer, skinName: any): void {
             if (renderer && renderer instanceof Component) {
                 let comp: Component = <Component><any>renderer;
-                if (!comp.$Component[sys.ComponentKeys.skinNameExplicitlySet]) {
+                if (!comp.$Component[ComponentKeys.skinNameExplicitlySet]) {
                     comp.skinName = skinName;
-                    comp.$Component[sys.ComponentKeys.skinNameExplicitlySet] = false;
+                    comp.$Component[ComponentKeys.skinNameExplicitlySet] = false;
                 }
 
             }
@@ -606,7 +606,7 @@ export class DataGroup extends Group {
             if (values[Keys.itemRendererSkinName] == value)
                 return;
             values[Keys.itemRendererSkinName] = value;
-            if (this.$UIComponent[sys.UIKeys.initialized]) {
+            if (this.$UIComponent[UIKeys.initialized]) {
                 values[Keys.itemRendererSkinNameChange] = true;
                 this.invalidateProperties();
             }

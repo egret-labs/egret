@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIKeys } from "../core/UIComponent";
 import { LayoutBase } from "./supportClasses/LayoutBase";
 
 export class BasicLayout extends LayoutBase {
@@ -65,7 +66,7 @@ export class BasicLayout extends LayoutBase {
          */
         public measure():void {
             super.measure();
-            sys.measure(this.$target);
+            measure(this.$target);
         }
 
 
@@ -75,7 +76,7 @@ export class BasicLayout extends LayoutBase {
         public updateDisplayList(unscaledWidth:number, unscaledHeight:number):void {
             super.updateDisplayList(unscaledWidth, unscaledHeight);
             let target = this.$target;
-            let pos = sys.updateDisplayList(target, unscaledWidth, unscaledHeight);
+            let pos = updateDisplayList(target, unscaledWidth, unscaledHeight);
             target.setContentSize(Math.ceil(pos.x), Math.ceil(pos.y));
         }
     }
@@ -122,12 +123,12 @@ export function measure(target:eui.Group|eui.Component):void {
             }
 
             let values = layoutElement.$UIComponent;
-            let hCenter = +values[sys.UIKeys.horizontalCenter];
-            let vCenter = +values[sys.UIKeys.verticalCenter];
-            let left = +values[sys.UIKeys.left];
-            let right = +values[sys.UIKeys.right];
-            let top = +values[sys.UIKeys.top];
-            let bottom = +values[sys.UIKeys.bottom];
+            let hCenter = +values[UIKeys.horizontalCenter];
+            let vCenter = +values[UIKeys.verticalCenter];
+            let left = +values[UIKeys.left];
+            let right = +values[UIKeys.right];
+            let top = +values[UIKeys.top];
+            let bottom = +values[UIKeys.bottom];
 
             let extX:number;
             let extY:number;
@@ -187,14 +188,14 @@ export function updateDisplayList(target:eui.Group|eui.Component,
             }
 
             let values = layoutElement.$UIComponent;
-            let hCenter = formatRelative(values[sys.UIKeys.horizontalCenter], unscaledWidth*0.5);
-            let vCenter = formatRelative(values[sys.UIKeys.verticalCenter], unscaledHeight*0.5);
-            let left = formatRelative(values[sys.UIKeys.left], unscaledWidth);
-            let right = formatRelative(values[sys.UIKeys.right], unscaledWidth);
-            let top = formatRelative(values[sys.UIKeys.top], unscaledHeight);
-            let bottom = formatRelative(values[sys.UIKeys.bottom], unscaledHeight);
-            let percentWidth = values[sys.UIKeys.percentWidth];
-            let percentHeight = values[sys.UIKeys.percentHeight];
+            let hCenter = formatRelative(values[UIKeys.horizontalCenter], unscaledWidth*0.5);
+            let vCenter = formatRelative(values[UIKeys.verticalCenter], unscaledHeight*0.5);
+            let left = formatRelative(values[UIKeys.left], unscaledWidth);
+            let right = formatRelative(values[UIKeys.right], unscaledWidth);
+            let top = formatRelative(values[UIKeys.top], unscaledHeight);
+            let bottom = formatRelative(values[UIKeys.bottom], unscaledHeight);
+            let percentWidth = values[UIKeys.percentWidth];
+            let percentHeight = values[UIKeys.percentHeight];
 
             let childWidth = NaN;
             let childHeight = NaN;

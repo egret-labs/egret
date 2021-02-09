@@ -29,7 +29,7 @@
 
 /// <reference path="supportClasses/DefaultAssetAdapter.ts" />
 
-import { UIComponent, getAssets } from "../core/UIComponent";
+import { UIComponent, getAssets, implementUIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { registerProperty } from "../utils/registerProperty";
 
 export class Image extends egret.Bitmap implements UIComponent {
@@ -206,8 +206,8 @@ export class Image extends egret.Bitmap implements UIComponent {
             let image = this.$texture;
             if (image) {
                 let uiValues = this.$UIComponent;
-                let width = uiValues[sys.UIKeys.width];
-                let height = uiValues[sys.UIKeys.height];
+                let width = uiValues[UIKeys.width];
+                let height = uiValues[UIKeys.height];
                 if (isNaN(width) || isNaN(height)) {
                     bounds.setEmpty();
                     return;
@@ -286,7 +286,7 @@ export class Image extends egret.Bitmap implements UIComponent {
          * 不会影响显式标记尺寸属性
          */
         protected setActualSize(w: number, h: number): void {
-            sys.UIComponentImpl.prototype["setActualSize"].call(this, w, h);
+            UIComponentImpl.prototype["setActualSize"].call(this, w, h);
             super.$setWidth(w);
             super.$setHeight(h);
         }
@@ -303,7 +303,7 @@ export class Image extends egret.Bitmap implements UIComponent {
          * @copy eui.UIComponent#commitProperties
          */
         protected commitProperties(): void {
-            sys.UIComponentImpl.prototype["commitProperties"].call(this);
+            UIComponentImpl.prototype["commitProperties"].call(this);
             if (this.sourceChanged) {
                 this.parseSource();
             }
@@ -491,5 +491,5 @@ export class Image extends egret.Bitmap implements UIComponent {
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-sys.implementUIComponent(Image, egret.Bitmap);
+implementUIComponent(Image, egret.Bitmap);
 registerProperty(Image, "scale9Grid", "egret.Rectangle");

@@ -29,6 +29,7 @@
 
 import { Direction } from "../core/Direction";
 import { Label } from "./Label";
+import { RangeKeys } from "./supportClasses/Range";
 
 export class ProgressBar extends Range {
 
@@ -50,7 +51,7 @@ export class ProgressBar extends Range {
          */
         public constructor() {
             super();
-            this.animation = new sys.Animation(this.animationUpdateHandler, this);
+            this.animation = new Animation(this.animationUpdateHandler, this);
         }
 
         /**
@@ -222,11 +223,11 @@ export class ProgressBar extends Range {
                     this.invalidateDisplayList();
                     animation.stop();
                 }
-                this.slideToValue = this.nearestValidValue(newValue, values[sys.RangeKeys.snapInterval]);
+                this.slideToValue = this.nearestValidValue(newValue, values[RangeKeys.snapInterval]);
                 if (this.slideToValue === this.animationValue)
                     return result;
                 let duration = this._slideDuration *
-                    (Math.abs(this.animationValue - this.slideToValue) / (values[sys.RangeKeys.maximum] - values[sys.RangeKeys.minimum]));
+                    (Math.abs(this.animationValue - this.slideToValue) / (values[RangeKeys.maximum] - values[RangeKeys.minimum]));
                 animation.duration = duration === Infinity ? 0 : duration;
                 animation.from = this.animationValue;
                 animation.to = this.slideToValue;
@@ -249,8 +250,8 @@ export class ProgressBar extends Range {
          */
         private animationUpdateHandler(animation:sys.Animation):void {
             let values = this.$Range;
-            let value = this.nearestValidValue(animation.currentValue, values[sys.RangeKeys.snapInterval]);
-            this.animationValue = Math.min(values[sys.RangeKeys.maximum], Math.max(values[sys.RangeKeys.minimum], value));
+            let value = this.nearestValidValue(animation.currentValue, values[RangeKeys.snapInterval]);
+            this.animationValue = Math.min(values[RangeKeys.maximum], Math.max(values[RangeKeys.minimum], value));
             this.invalidateDisplayList();
         }
         /**

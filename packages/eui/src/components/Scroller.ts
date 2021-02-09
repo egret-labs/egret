@@ -27,10 +27,12 @@
 //
 
 import { IViewport } from "../core/IViewport";
+import { UIKeys } from "../core/UIComponent";
 import { ScrollerThrowEvent } from "../events/ScrollerThrowEvent";
 import { registerProperty } from "../utils/registerProperty";
 import { Component } from "./Component";
 import { Skin } from "./Skin";
+import { TouchScroll } from "./supportClasses/TouchScroll";
 
 //////////////////////////////////////////////////////////////////////////////////////
 let scrollerThrowEvent:ScrollerThrowEvent;
@@ -84,8 +86,8 @@ export class Scroller extends Component {
          */
         public constructor() {
             super();
-            let touchScrollH = new sys.TouchScroll(this.horizontalUpdateHandler, this.horizontalEndHandler, this);
-            let touchScrollV = new sys.TouchScroll(this.verticalUpdateHandler, this.verticalEndHanlder, this);
+            let touchScrollH = new TouchScroll(this.horizontalUpdateHandler, this.horizontalEndHandler, this);
+            let touchScrollV = new TouchScroll(this.verticalUpdateHandler, this.verticalEndHanlder, this);
             this.$Scroller = {
                 0: "auto",          //scrollPolicyV,
                 1: "auto",          //scrollPolicyH,
@@ -441,7 +443,7 @@ export class Scroller extends Component {
             let uiValues = viewport.$UIComponent;
             switch (values[Keys.scrollPolicyH]) {
                 case "auto":
-                    if (viewport.contentWidth > uiValues[sys.UIKeys.width] || viewport.scrollH !== 0) {
+                    if (viewport.contentWidth > uiValues[UIKeys.width] || viewport.scrollH !== 0) {
                         hCanScroll = true;
                     }
                     else {
@@ -460,7 +462,7 @@ export class Scroller extends Component {
             let vCanScroll:boolean;
             switch (values[Keys.scrollPolicyV]) {
                 case "auto":
-                    if (viewport.contentHeight > uiValues[sys.UIKeys.height] || viewport.scrollV !== 0) {
+                    if (viewport.contentHeight > uiValues[UIKeys.height] || viewport.scrollV !== 0) {
                         vCanScroll = true;
                     }
                     else {
@@ -575,10 +577,10 @@ export class Scroller extends Component {
             let viewport = values[Keys.viewport];
             let uiValues = viewport.$UIComponent;
             if (values[Keys.horizontalCanScroll]) {
-                values[Keys.touchScrollH].update(event.$stageX, viewport.contentWidth - uiValues[sys.UIKeys.width], viewport.scrollH);
+                values[Keys.touchScrollH].update(event.$stageX, viewport.contentWidth - uiValues[UIKeys.width], viewport.scrollH);
             }
             if (values[Keys.verticalCanScroll]) {
-                values[Keys.touchScrollV].update(event.$stageY, viewport.contentHeight - uiValues[sys.UIKeys.height], viewport.scrollV);
+                values[Keys.touchScrollV].update(event.$stageY, viewport.contentHeight - uiValues[UIKeys.height], viewport.scrollV);
             }
         }
 
@@ -670,10 +672,10 @@ export class Scroller extends Component {
             let viewport:IViewport = values[Keys.viewport];
             let uiValues = viewport.$UIComponent;
             if (values[Keys.touchScrollH].isStarted()) {
-                values[Keys.touchScrollH].finish(viewport.scrollH, viewport.contentWidth - uiValues[sys.UIKeys.width]);
+                values[Keys.touchScrollH].finish(viewport.scrollH, viewport.contentWidth - uiValues[UIKeys.width]);
             }
             if (values[Keys.touchScrollV].isStarted()) {
-                values[Keys.touchScrollV].finish(viewport.scrollV, viewport.contentHeight - uiValues[sys.UIKeys.height]);
+                values[Keys.touchScrollV].finish(viewport.scrollV, viewport.contentHeight - uiValues[UIKeys.height]);
             }
         }
 

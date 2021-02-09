@@ -27,8 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { mixin } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
-import { State } from "../states/State";
+import { State, StateClient, StateValues } from "../states/State";
 import { registerBindable } from "../utils/registerBindable";
 import { registerProperty } from "../utils/registerProperty";
 import { Component } from "./Component";
@@ -191,7 +192,7 @@ export class Skin extends egret.EventDispatcher {
         /**
          * @private
          */
-        $stateValues:sys.StateValues = new sys.StateValues();
+        $stateValues:sys.StateValues = new StateValues();
 
         /**
          * The list of state for host component.
@@ -238,7 +239,7 @@ export class Skin extends egret.EventDispatcher {
          */
         private commitCurrentState:()=>void;
     }
-sys.mixin(Skin, sys.StateClient);
+mixin(Skin, StateClient);
 registerProperty(Skin, "elementsContent", "Array", true);
 registerProperty(Skin, "states", "State[]");
 registerBindable(Skin.prototype, "hostComponent");

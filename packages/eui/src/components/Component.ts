@@ -30,7 +30,8 @@
 /// <reference path="../core/UIComponent.ts" />
 /// <reference path="../utils/registerProperty.ts" />
 
-import { UIComponent } from "../core/UIComponent";
+import { implementUIComponent, UIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
+import { measure, updateDisplayList } from "../layouts/BasicLayout";
 import { registerProperty } from "../utils/registerProperty";
 import { Skin } from "./Skin";
 
@@ -98,11 +99,11 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         public get hostComponentKey(): string {
-            return this.$Component[sys.ComponentKeys.hostComponentKey];
+            return this.$Component[ComponentKeys.hostComponentKey];
         }
 
         public set hostComponentKey(value: string) {
-            this.$Component[sys.ComponentKeys.hostComponentKey] = value;
+            this.$Component[ComponentKeys.hostComponentKey] = value;
         }
 
         /**
@@ -115,22 +116,22 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         public get skinName(): any {
-            return this.$Component[sys.ComponentKeys.skinName];
+            return this.$Component[ComponentKeys.skinName];
         }
 
         public set skinName(value: any) {
             let values = this.$Component;
-            values[sys.ComponentKeys.skinNameExplicitlySet] = true;
-            if (values[sys.ComponentKeys.skinName] == value)
+            values[ComponentKeys.skinNameExplicitlySet] = true;
+            if (values[ComponentKeys.skinName] == value)
                 return;
             if (value) {
-                values[sys.ComponentKeys.skinName] = value;
+                values[ComponentKeys.skinName] = value;
             } else {
                 let theme = egret.getImplementation("eui.Theme");
                 if (theme) {
                     let skinName = theme.getSkinName(this);
                     if (skinName) {
-                        values[sys.ComponentKeys.skinName] = skinName;
+                        values[ComponentKeys.skinName] = skinName;
                     }
                 }
             }
@@ -194,7 +195,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         public get skin(): Skin {
-            return this.$Component[sys.ComponentKeys.skin];
+            return this.$Component[ComponentKeys.skin];
         }
 
         /**
@@ -211,7 +212,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
                 DEBUG && egret.$error(2202);
             }
             let values = this.$Component;
-            let oldSkin: Skin = values[sys.ComponentKeys.skin];
+            let oldSkin: Skin = values[ComponentKeys.skin];
             if (oldSkin) {
                 let skinParts: string[] = oldSkin.skinParts;
                 let length = skinParts.length;
@@ -233,7 +234,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
                 }
                 oldSkin.hostComponent = null;
             }
-            values[sys.ComponentKeys.skin] = skin;
+            values[ComponentKeys.skin] = skin;
             if (skin) {
                 let skinParts: string[] = skin.skinParts;
                 let length = skinParts.length;
@@ -343,9 +344,9 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
         $setTouchChildren(value: boolean): boolean {
             value = !!value;
             let values = this.$Component;
-            values[sys.ComponentKeys.explicitTouchChildren] = value;
-            if (values[sys.ComponentKeys.enabled]) {
-                values[sys.ComponentKeys.explicitTouchChildren] = value;
+            values[ComponentKeys.explicitTouchChildren] = value;
+            if (values[ComponentKeys.enabled]) {
+                values[ComponentKeys.explicitTouchChildren] = value;
                 return super.$setTouchChildren(value);
             }
             else {
@@ -361,8 +362,8 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
         $setTouchEnabled(value: boolean): void {
             value = !!value;
             let values = this.$Component;
-            values[sys.ComponentKeys.explicitTouchEnabled] = value;
-            if (values[sys.ComponentKeys.enabled]) {
+            values[ComponentKeys.explicitTouchEnabled] = value;
+            if (values[ComponentKeys.enabled]) {
                 super.$setTouchEnabled(value);
             }
         }
@@ -385,7 +386,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         public get enabled(): boolean {
-            return this.$Component[sys.ComponentKeys.enabled];
+            return this.$Component[ComponentKeys.enabled];
         }
 
         public set enabled(value: boolean) {
@@ -401,13 +402,13 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
         $setEnabled(value: boolean): boolean {
 
             let values = this.$Component;
-            if (value === values[sys.ComponentKeys.enabled]) {
+            if (value === values[ComponentKeys.enabled]) {
                 return false;
             }
-            values[sys.ComponentKeys.enabled] = value;
+            values[ComponentKeys.enabled] = value;
             if (value) {
-                this.$touchEnabled = values[sys.ComponentKeys.explicitTouchEnabled];
-                this.$touchChildren = values[sys.ComponentKeys.explicitTouchChildren];
+                this.$touchEnabled = values[ComponentKeys.explicitTouchEnabled];
+                this.$touchChildren = values[ComponentKeys.explicitTouchChildren];
             }
             else {
                 this.$touchEnabled = false;
@@ -436,16 +437,16 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          */
         public get currentState(): string {
             let values = this.$Component;
-            return values[sys.ComponentKeys.explicitState] ?
-                values[sys.ComponentKeys.explicitState] : this.getCurrentState();
+            return values[ComponentKeys.explicitState] ?
+                values[ComponentKeys.explicitState] : this.getCurrentState();
         }
 
         public set currentState(value: string) {
             let values = this.$Component;
-            if (value == values[sys.ComponentKeys.explicitState]) {
+            if (value == values[ComponentKeys.explicitState]) {
                 return;
             }
-            values[sys.ComponentKeys.explicitState] = value;
+            values[ComponentKeys.explicitState] = value;
             this.invalidateState();
         }
 
@@ -460,10 +461,10 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          */
         public invalidateState(): void {
             let values = this.$Component;
-            if (values[sys.ComponentKeys.stateIsDirty])
+            if (values[ComponentKeys.stateIsDirty])
                 return;
 
-            values[sys.ComponentKeys.stateIsDirty] = true;
+            values[ComponentKeys.stateIsDirty] = true;
             this.invalidateProperties();
         }
 
@@ -503,12 +504,12 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          */
         protected createChildren(): void {
             let values = this.$Component;
-            if (!values[sys.ComponentKeys.skinName]) {
+            if (!values[ComponentKeys.skinName]) {
                 let theme = egret.getImplementation("eui.Theme");
                 if (theme) {
                     let skinName = theme.getSkinName(this);
                     if (skinName) {
-                        values[sys.ComponentKeys.skinName] = skinName;
+                        values[ComponentKeys.skinName] = skinName;
                         this.$parseSkinName();
                     }
                 }
@@ -539,12 +540,12 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         protected commitProperties(): void {
-            sys.UIComponentImpl.prototype["commitProperties"].call(this);
+            UIComponentImpl.prototype["commitProperties"].call(this);
             let values = this.$Component;
-            if (values[sys.ComponentKeys.stateIsDirty]) {
-                values[sys.ComponentKeys.stateIsDirty] = false;
-                if (values[sys.ComponentKeys.skin]) {
-                    values[sys.ComponentKeys.skin].currentState = this.currentState;
+            if (values[ComponentKeys.stateIsDirty]) {
+                values[ComponentKeys.stateIsDirty] = false;
+                if (values[ComponentKeys.skin]) {
+                    values[ComponentKeys.skin].currentState = this.currentState;
                 }
             }
         }
@@ -558,33 +559,33 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         protected measure(): void {
-            sys.measure(this);
-            let skin = this.$Component[sys.ComponentKeys.skin];
+            measure(this);
+            let skin = this.$Component[ComponentKeys.skin];
             if (!skin) {
                 return;
             }
             let values = this.$UIComponent;
             if (!isNaN(skin.width)) {
-                values[sys.UIKeys.measuredWidth] = skin.width;
+                values[UIKeys.measuredWidth] = skin.width;
             }
             else {
-                if (values[sys.UIKeys.measuredWidth] < skin.minWidth) {
-                    values[sys.UIKeys.measuredWidth] = skin.minWidth;
+                if (values[UIKeys.measuredWidth] < skin.minWidth) {
+                    values[UIKeys.measuredWidth] = skin.minWidth;
                 }
-                if (values[sys.UIKeys.measuredWidth] > skin.maxWidth) {
-                    values[sys.UIKeys.measuredWidth] = skin.maxWidth;
+                if (values[UIKeys.measuredWidth] > skin.maxWidth) {
+                    values[UIKeys.measuredWidth] = skin.maxWidth;
                 }
             }
 
             if (!isNaN(skin.height)) {
-                values[sys.UIKeys.measuredHeight] = skin.height;
+                values[UIKeys.measuredHeight] = skin.height;
             }
             else {
-                if (values[sys.UIKeys.measuredHeight] < skin.minHeight) {
-                    values[sys.UIKeys.measuredHeight] = skin.minHeight;
+                if (values[UIKeys.measuredHeight] < skin.minHeight) {
+                    values[UIKeys.measuredHeight] = skin.minHeight;
                 }
-                if (values[sys.UIKeys.measuredHeight] > skin.maxHeight) {
-                    values[sys.UIKeys.measuredHeight] = skin.maxHeight;
+                if (values[UIKeys.measuredHeight] > skin.maxHeight) {
+                    values[UIKeys.measuredHeight] = skin.maxHeight;
                 }
             }
         }
@@ -598,7 +599,7 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
          * @language zh_CN
          */
         protected updateDisplayList(unscaledWidth: number, unscaledHeight: number): void {
-            sys.updateDisplayList(this, unscaledWidth, unscaledHeight);
+            updateDisplayList(this, unscaledWidth, unscaledHeight);
         }
 
         /**
@@ -770,4 +771,4 @@ export class Component extends egret.DisplayObjectContainer implements UICompone
         }
     }
 registerProperty(Component, "skinName", "Class");
-sys.implementUIComponent(Component, egret.DisplayObjectContainer, true);
+implementUIComponent(Component, egret.DisplayObjectContainer, true);

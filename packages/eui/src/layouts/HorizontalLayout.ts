@@ -26,9 +26,9 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-import { UIComponent } from "../core/UIComponent";
+import { UIComponent, UIKeys } from "../core/UIComponent";
 import { JustifyAlign } from "./JustifyAlign";
-import { LinearLayoutBase } from "./supportClasses/LinearLayoutBase";
+import { ChildInfo, LinearLayoutBase } from "./supportClasses/LinearLayoutBase";
 
 //////////////////////////////////////////////////////////////////////////////////////
 let UIComponentClass = "eui.UIComponent";
@@ -138,14 +138,14 @@ export class HorizontalLayout extends LinearLayoutBase {
                 }
                 else {
                     let values = layoutElement.$UIComponent;
-                    if (!isNaN(values[sys.UIKeys.percentWidth])) {
-                        totalPercentWidth += values[sys.UIKeys.percentWidth];
+                    if (!isNaN(values[UIKeys.percentWidth])) {
+                        totalPercentWidth += values[UIKeys.percentWidth];
 
-                        childInfo = new sys.ChildInfo();
+                        childInfo = new ChildInfo();
                         childInfo.layoutElement = layoutElement;
-                        childInfo.percent = values[sys.UIKeys.percentWidth];
-                        childInfo.min = values[sys.UIKeys.minWidth];
-                        childInfo.max = values[sys.UIKeys.maxWidth];
+                        childInfo.percent = values[UIKeys.percentWidth];
+                        childInfo.min = values[UIKeys.minWidth];
+                        childInfo.max = values[UIKeys.maxWidth];
                         childInfoArray.push(childInfo);
 
                     }
@@ -248,7 +248,7 @@ export class HorizontalLayout extends LinearLayoutBase {
                     let layoutElementHeight = NaN;
                     let values = layoutElement.$UIComponent;
                     if (!isNaN(layoutElement.percentHeight)) {
-                        let percent = Math.min(100, values[sys.UIKeys.percentHeight]);
+                        let percent = Math.min(100, values[UIKeys.percentHeight]);
                         layoutElementHeight = Math.round(targetHeight * percent * 0.01);
                     }
                     layoutElement.setLayoutBoundsSize(layoutElementWidth, layoutElementHeight);
@@ -459,7 +459,7 @@ export class HorizontalLayout extends LinearLayoutBase {
             }
 
             let values = target.$UIComponent;
-            if (values[sys.UIKeys.width] <= 0 || values[sys.UIKeys.height] <= 0) {
+            if (values[UIKeys.width] <= 0 || values[UIKeys.height] <= 0) {
                 this.startIndex = this.endIndex = -1;
                 return false;
             }
@@ -473,7 +473,7 @@ export class HorizontalLayout extends LinearLayoutBase {
                 this.endIndex = -1;
                 return false;
             }
-            let maxVisibleX = target.scrollH + values[sys.UIKeys.width];
+            let maxVisibleX = target.scrollH + values[UIKeys.width];
             if (maxVisibleX < this.$paddingLeft) {
                 this.startIndex = -1;
                 this.endIndex = -1;

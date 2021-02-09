@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-import { Component } from "../components/Component";
+import { Component, ComponentKeys } from "../components/Component";
 
 interface ThemeData {
         /**
@@ -253,10 +253,10 @@ export class Theme extends egret.EventDispatcher {
             let length = list.length;
             for (let i = 0; i < length; i++) {
                 let client = list[i];
-                if (!client.$Component[sys.ComponentKeys.skinNameExplicitlySet]) {
+                if (!client.$Component[ComponentKeys.skinNameExplicitlySet]) {
                     let skinName = this.getSkinName(client);
                     if (skinName) {
-                        client.$Component[sys.ComponentKeys.skinName] = skinName;
+                        client.$Component[ComponentKeys.skinName] = skinName;
                         client.$parseSkinName();
                     }
                 }

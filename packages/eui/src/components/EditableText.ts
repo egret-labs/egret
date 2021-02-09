@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { IDisplayText } from "../core/IDisplayText";
-import { UIComponent } from "../core/UIComponent";
+import { implementUIComponent, UIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { registerBindable } from "../utils/registerBindable";
 
@@ -37,7 +37,7 @@ export const enum EditableTextKeys {
         textColorUser,
         asPassword
     }
-let UIImpl = sys.UIComponentImpl;
+let UIImpl = UIComponentImpl;
 export class EditableText extends egret.TextField implements UIComponent, IDisplayText {
 
         /**
@@ -102,7 +102,7 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
          */
         $getText(): string {
             let value = super.$getText();
-            if (value == this.$EditableText[sys.EditableTextKeys.promptText]) {
+            if (value == this.$EditableText[EditableTextKeys.promptText]) {
                 value = "";
             }
             return value;
@@ -113,11 +113,11 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
          * @param value
          */
         $setText(value: string): boolean {
-            let promptText = this.$EditableText[sys.EditableTextKeys.promptText];
+            let promptText = this.$EditableText[EditableTextKeys.promptText];
             if (promptText != value || promptText == null) {
                 this.$isShowPrompt = false;
-                this.textColor = this.$EditableText[sys.EditableTextKeys.textColorUser];
-                this.displayAsPassword = this.$EditableText[sys.EditableTextKeys.asPassword];
+                this.textColor = this.$EditableText[EditableTextKeys.textColorUser];
+                this.displayAsPassword = this.$EditableText[EditableTextKeys.asPassword];
             }
             if (!this.$isFocusIn) {
                 if (value == "" || value == null) {
@@ -143,7 +143,7 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
          * @param nestLevel
          */
         public $onAddToStage(stage: egret.Stage, nestLevel: number): void {
-            sys.UIComponentImpl.prototype["$onAddToStage"].call(this, stage, nestLevel);
+            UIComponentImpl.prototype["$onAddToStage"].call(this, stage, nestLevel);
             this.addEventListener(egret.FocusEvent.FOCUS_IN, this.onfocusIn, this);
             this.addEventListener(egret.FocusEvent.FOCUS_OUT, this.onfocusOut, this);
             this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouchBegin, this);
@@ -177,14 +177,14 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
          * @language zh_CN
          */
         public get prompt(): string {
-            return this.$EditableText[sys.EditableTextKeys.promptText];
+            return this.$EditableText[EditableTextKeys.promptText];
         }
         public set prompt(value: string) {
             let values = this.$EditableText;
-            let promptText = values[sys.EditableTextKeys.promptText];
+            let promptText = values[EditableTextKeys.promptText];
             if (promptText == value)
                 return;
-            values[sys.EditableTextKeys.promptText] = value;
+            values[EditableTextKeys.promptText] = value;
             let text = this.text;
             if (!text || text == promptText) {
                 this.showPromptText();
@@ -217,7 +217,7 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
             if (this.$promptColor != value) {
                 this.$promptColor = value;
                 let text = this.text;
-                if (!text || text == this.$EditableText[sys.EditableTextKeys.promptText]) {
+                if (!text || text == this.$EditableText[EditableTextKeys.promptText]) {
                     this.showPromptText();
                 }
             }
@@ -260,11 +260,11 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
             }
             this.$isFocusIn = true;
             this.$isShowPrompt = false;
-            this.displayAsPassword = this.$EditableText[sys.EditableTextKeys.asPassword];
+            this.displayAsPassword = this.$EditableText[EditableTextKeys.asPassword];
             let values = this.$EditableText;
             let text = this.text;
-            if (!text || text == values[sys.EditableTextKeys.promptText]) {
-                this.textColor = values[sys.EditableTextKeys.textColorUser];
+            if (!text || text == values[EditableTextKeys.promptText]) {
+                this.textColor = values[EditableTextKeys.textColorUser];
                 this.text = "";
             }
         }
@@ -276,14 +276,14 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
             this.$isShowPrompt = true;
             super.$setTextColor(this.$promptColor);
             super.$setDisplayAsPassword(false);
-            this.text = values[sys.EditableTextKeys.promptText];
+            this.text = values[EditableTextKeys.promptText];
         }
         /**
          * @private
          */
         $setTextColor(value: number): boolean {
             value = +value | 0;
-            this.$EditableText[sys.EditableTextKeys.textColorUser] = value;
+            this.$EditableText[EditableTextKeys.textColorUser] = value;
             if (!this.$isShowPrompt) {
                 super.$setTextColor(value);
             }
@@ -293,7 +293,7 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
          * @private
          */
         $setDisplayAsPassword(value: boolean): boolean {
-            this.$EditableText[sys.EditableTextKeys.asPassword] = value;
+            this.$EditableText[EditableTextKeys.asPassword] = value;
             if (!this.$isShowPrompt) {
                 super.$setDisplayAsPassword(value);
             }
@@ -339,11 +339,11 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
                 availableWidth = this._widthConstraint;
                 this._widthConstraint = NaN;
             }
-            else if (!isNaN(values[sys.UIKeys.explicitWidth])) {
-                availableWidth = values[sys.UIKeys.explicitWidth];
+            else if (!isNaN(values[UIKeys.explicitWidth])) {
+                availableWidth = values[UIKeys.explicitWidth];
             }
-            else if (values[sys.UIKeys.maxWidth] != 100000) {
-                availableWidth = values[sys.UIKeys.maxWidth];
+            else if (values[UIKeys.maxWidth] != 100000) {
+                availableWidth = values[UIKeys.maxWidth];
             }
 
             super.$setWidth(availableWidth);
@@ -506,10 +506,10 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
                 return;
             }
             let values = this.$UIComponent;
-            if (!isNaN(values[sys.UIKeys.explicitHeight])) {
+            if (!isNaN(values[UIKeys.explicitHeight])) {
                 return;
             }
-            if (layoutWidth == values[sys.UIKeys.measuredWidth]) {
+            if (layoutWidth == values[UIKeys.measuredWidth]) {
                 return;
             }
             this._widthConstraint = layoutWidth;
@@ -534,5 +534,5 @@ export class EditableText extends egret.TextField implements UIComponent, IDispl
         public getPreferredBounds(bounds: egret.Rectangle): void {
         }
     }
-sys.implementUIComponent(EditableText, egret.TextField);
+implementUIComponent(EditableText, egret.TextField);
 registerBindable(EditableText.prototype, "text");

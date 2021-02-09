@@ -27,7 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-import { Component } from "../components/Component";
+import { Component, ComponentKeys } from "../components/Component";
 import { Skin } from "../components/Skin";
 import { IOverride } from "./IOverride";
 
@@ -126,16 +126,16 @@ export class AddItems implements IOverride {
             if (!target || !container)
                 return;
             switch (this.position) {
-                case sys.AddPosition.FIRST:
+                case AddPosition.FIRST:
                     index = 0;
                     break;
-                case sys.AddPosition.LAST:
+                case AddPosition.LAST:
                     index = -1;
                     break;
-                case sys.AddPosition.BEFORE:
+                case AddPosition.BEFORE:
                     index = container.getChildIndex(relative);
                     break;
-                case sys.AddPosition.AFTER:
+                case AddPosition.AFTER:
                     index = container.getChildIndex(relative) + 1;
                     break;
             }
@@ -143,7 +143,7 @@ export class AddItems implements IOverride {
                 index = container.numChildren;
             }
             if (egret.is(container, "eui.Component")) {
-                (<Skin>(<Component>container).$Component[sys.ComponentKeys.skin]).$elementsContent.push(target);
+                (<Skin>(<Component>container).$Component[ComponentKeys.skin]).$elementsContent.push(target);
             }
             container.addChildAt(target, index);
         }
@@ -160,7 +160,7 @@ export class AddItems implements IOverride {
                 container.removeChild(target);
             }
             if (egret.is(container, "eui.Component")) {
-                let arr = (<Skin>(<Component>container).$Component[sys.ComponentKeys.skin]).$elementsContent;
+                let arr = (<Skin>(<Component>container).$Component[ComponentKeys.skin]).$elementsContent;
                 let idx = arr.indexOf(target);
                 if (idx > -1) {
                     arr.splice(idx, 1);
