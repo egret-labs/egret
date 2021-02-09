@@ -1,7 +1,7 @@
 import { RES } from '@egret/assetsmanager/dist/legacy'
 import { AudioFactory, WebAudioInstance } from '@egret/audio';
 import { Tween } from '@egret/tween';
-// import * as eui from '@egret/eui';
+import * as eui from '@egret/eui';
 class Main extends egret.DisplayObjectContainer {
 
     constructor() {
