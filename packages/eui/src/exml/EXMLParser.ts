@@ -27,8 +27,8 @@
 //
 
 import { AddPosition } from "../states/AddItems";
-import { EXClass, EXState, EXBinding, EXVariable, EXFunction, EXCodeBlock, EXSetProperty, EXAddItems, EXSetStateProperty } from "./CodeFactory";
-import { EXMLConfig, NS_W, NS_S } from "./EXMLConfig";
+import { EXAddItems, EXBinding, EXClass, EXCodeBlock, EXFunction, EXSetProperty, EXSetStateProperty, EXState, EXVariable } from "./CodeFactory";
+import { EXMLConfig, NS_S, NS_W } from "./EXMLConfig";
 
 //////////////////////////////////////////////////////////////////////////////////////
 export let exmlConfig:EXMLConfig;

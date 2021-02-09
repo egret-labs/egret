@@ -32,7 +32,7 @@
 /// <reference path="../utils/registerProperty.ts" />
 
 import { IViewport } from "../core/IViewport";
-import { UIKeys, UIComponentImpl, implementUIComponent, mixin } from "../core/UIComponent";
+import { implementUIComponent, mixin, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { BasicLayout } from "../layouts/BasicLayout";
 import { LayoutBase } from "../layouts/supportClasses/LayoutBase";

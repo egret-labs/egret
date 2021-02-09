@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { UIComponent } from "../../core/UIComponent";
+import { Animation } from "./Animation";
 import { RangeKeys } from "./Range";
 
 export const enum Keys {

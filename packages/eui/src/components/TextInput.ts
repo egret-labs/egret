@@ -12,6 +12,7 @@ export const enum TextInputKeys {
 import { Component } from "./Component";
 import { EditableText } from "./EditableText";
 import { Label } from "./Label";
+
 import FocusEvent = egret.FocusEvent;
 export class TextInput extends Component {
         constructor() {

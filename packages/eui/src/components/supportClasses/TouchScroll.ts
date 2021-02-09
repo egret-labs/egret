@@ -27,6 +27,7 @@
 //
 
 import { ScrollerThrowEvent } from "../../events/ScrollerThrowEvent";
+import { Animation } from "./Animation";
 
 //////////////////////////////////////////////////////////////////////////////////////
 let MAX_VELOCITY_COUNT = 4;

@@ -29,7 +29,7 @@
 
 /// <reference path="supportClasses/DefaultAssetAdapter.ts" />
 
-import { UIComponent, getAssets, implementUIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
+import { getAssets, implementUIComponent, UIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { registerProperty } from "../utils/registerProperty";
 
 export class Image extends egret.Bitmap implements UIComponent {

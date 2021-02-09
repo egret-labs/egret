@@ -30,7 +30,7 @@
 /// <reference path="../core/UIComponent.ts" />
 
 import { IDisplayText } from "../core/IDisplayText";
-import { UIComponent, getAssets, implementUIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
+import { getAssets, implementUIComponent, UIComponent, UIComponentImpl, UIKeys } from "../core/UIComponent";
 import { PropertyEvent } from "../events/PropertyEvent";
 import { registerBindable } from "../utils/registerBindable";
 
