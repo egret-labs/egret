@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open",
     "build": "echo helloworld"
   },
   "dependencies": {
     "@egret/assetsmanager": "workspace:*",
     "@egret/audio": "workspace:*",
+    "@egret/eui": "workspace:*",
     "@egret/tween": "workspace:*"
   },
   "peerDependencies": {

@@ -8,6 +8,9 @@
   "modules": [
     {
       "name": "egret"
+    },
+    {
+      "name": "eui"
     }
   ],
   "eui": {

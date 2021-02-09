@@ -1,10 +1,14 @@
 import { RES } from '@egret/assetsmanager/dist/legacy'
 import { AudioFactory, WebAudioInstance } from '@egret/audio';
 import { Tween } from '@egret/tween';
+// import * as eui from '@egret/eui';
 class Main extends egret.DisplayObjectContainer {
 
     constructor() {
         super();
+
+
+
         console.log(i18n.name);
         // this.run();
         this.runTween();
@@ -20,6 +24,12 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     async runTween() {
+
+        const label = new eui.Label();
+        label.x = label.y = 100;
+        label.text = 'helloworld';
+        this.addChild(label)
+
         const text = new egret.TextField();
         text.text = "Hello,World";
         text.x = text.y = 50;
