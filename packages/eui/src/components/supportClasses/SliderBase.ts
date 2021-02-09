@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIComponent } from "../../core/UIComponent";
 import { RangeKeys } from "./Range";
 
 export const enum Keys {
@@ -100,7 +101,7 @@ export class SliderBase extends Range {
          * @skinPart
          * @language zh_CN
          */
-        public thumb:eui.UIComponent = null;
+        public thumb:UIComponent = null;
 
         /**
          * [SkinPart] Track display object.
@@ -112,7 +113,7 @@ export class SliderBase extends Range {
          * @skinPart
          * @language zh_CN
          */
-        public track:eui.UIComponent = null;
+        public track:UIComponent = null;
 
         /**
          * Duration in milliseconds for the sliding animation when you tap on the track to move a thumb.

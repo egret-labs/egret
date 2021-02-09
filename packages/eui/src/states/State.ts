@@ -132,11 +132,11 @@ export class StateClient {
          * @private
          * 为此组件定义的视图状态。
          */
-        public get states():eui.State[] {
+        public get states():State[] {
             return this.$stateValues.states;
         }
 
-        public set states(value:eui.State[]) {
+        public set states(value:State[]) {
             if (!value)
                 value = [];
             let values = this.$stateValues;
@@ -177,7 +177,7 @@ export class StateClient {
             if (!values.parent) {
                 return;
             }
-            let destination:eui.State = values.statesMap[values.currentState];
+            let destination:State = values.statesMap[values.currentState];
             if (!destination) {
                 if (values.states.length > 0) {
                     values.currentState = values.states[0].name;
@@ -249,7 +249,7 @@ export class StateValues {
         /**
          * @private
          */
-        public states:eui.State[] = [];
+        public states:State[] = [];
 
         /**
          * @private

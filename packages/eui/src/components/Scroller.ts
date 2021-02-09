@@ -31,8 +31,10 @@ import { UIKeys } from "../core/UIComponent";
 import { ScrollerThrowEvent } from "../events/ScrollerThrowEvent";
 import { registerProperty } from "../utils/registerProperty";
 import { Component } from "./Component";
+import { HScrollBar } from "./HScrollBar";
 import { Skin } from "./Skin";
 import { TouchScroll } from "./supportClasses/TouchScroll";
+import { VScrollBar } from "./VScrollBar";
 
 //////////////////////////////////////////////////////////////////////////////////////
 let scrollerThrowEvent:ScrollerThrowEvent;
@@ -162,7 +164,7 @@ export class Scroller extends Component {
         /**
          * @private
          */
-        $getThrowInfo(currentPos:number, toPos:number):eui.ScrollerThrowEvent {
+        $getThrowInfo(currentPos:number, toPos:number):ScrollerThrowEvent {
             if (!scrollerThrowEvent) {
                 scrollerThrowEvent = new ScrollerThrowEvent(ScrollerThrowEvent.THROW, false, false, currentPos, toPos);
             }
@@ -189,7 +191,7 @@ export class Scroller extends Component {
          * @skinPart
          * @language zh_CN
          */
-        public horizontalScrollBar:eui.HScrollBar = null;
+        public horizontalScrollBar:HScrollBar = null;
         /**
          * the vertical scroll bar
          *
@@ -202,7 +204,7 @@ export class Scroller extends Component {
          * @skinPart
          * @language zh_CN
          */
-        public verticalScrollBar:eui.VScrollBar = null;
+        public verticalScrollBar:VScrollBar = null;
 
         /**
          * Indicates under what conditions the scroller can be moved and the vertical scroll bar is displayed.

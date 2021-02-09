@@ -27,7 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-import { UIKeys } from "../core/UIComponent";
+import { Component } from "../components/Component";
+import { Group } from "../components/Group";
+import { UIComponent, UIKeys } from "../core/UIComponent";
 import { LayoutBase } from "./supportClasses/LayoutBase";
 
 export class BasicLayout extends LayoutBase {
@@ -108,7 +110,7 @@ function formatRelative(value:number|string, total:number):number {
         let percent = +str.substring(0, index);
         return percent * 0.01 * total;
     }
-export function measure(target:eui.Group|eui.Component):void {
+export function measure(target:Group|Component):void {
         if (!target) {
             return;
         }
@@ -117,7 +119,7 @@ export function measure(target:eui.Group|eui.Component):void {
         let bounds = egret.$TempRectangle;
         let count = target.numChildren;
         for (let i = 0; i < count; i++) {
-            let layoutElement = <eui.UIComponent> (target.getChildAt(i));
+            let layoutElement = <UIComponent> (target.getChildAt(i));
             if (!egret.is(layoutElement, UIComponentClass) || !layoutElement.$includeInLayout) {
                 continue;
             }
@@ -171,7 +173,7 @@ export function measure(target:eui.Group|eui.Component):void {
 
         target.setMeasuredSize(width, height);
     }
-export function updateDisplayList(target:eui.Group|eui.Component,
+export function updateDisplayList(target:Group|Component,
                                       unscaledWidth:number, unscaledHeight:number):egret.Point {
         if (!target)
             return;
@@ -182,7 +184,7 @@ export function updateDisplayList(target:eui.Group|eui.Component,
         let maxY = 0;
         let bounds = egret.$TempRectangle;
         for (let i = 0; i < count; i++) {
-            let layoutElement = <eui.UIComponent> (target.getChildAt(i));
+            let layoutElement = <UIComponent> (target.getChildAt(i));
             if (!egret.is(layoutElement, UIComponentClass) || !layoutElement.$includeInLayout) {
                 continue;
             }

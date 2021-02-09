@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { Direction } from "../core/Direction";
+import { UIComponent } from "../core/UIComponent";
 import { Label } from "./Label";
 import { RangeKeys } from "./supportClasses/Range";
 
@@ -66,7 +67,7 @@ export class ProgressBar extends Range {
          * @skinPart
          * @language zh_CN
          */
-        public thumb:eui.UIComponent = null;
+        public thumb:UIComponent = null;
         /**
          * the label of the progressbar.
          *

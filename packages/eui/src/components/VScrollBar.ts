@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { PropertyEvent } from "../events/PropertyEvent";
 import { ScrollBarBase } from "./supportClasses/ScrollBarBase";
 
 export class VScrollBar extends ScrollBarBase {
@@ -71,7 +72,7 @@ export class VScrollBar extends ScrollBarBase {
         /**
          * @inheritDoc
          */
-        protected onPropertyChanged(event:eui.PropertyEvent):void {
+        protected onPropertyChanged(event:PropertyEvent):void {
             switch (event.property) {
                 case "scrollV":
                 case "contentHeight":

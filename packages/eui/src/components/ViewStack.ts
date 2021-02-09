@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { ICollection } from "../collections/ICollection";
+import { UIComponent } from "../core/UIComponent";
 import { CollectionEvent } from "../events/CollectionEvent";
 import { CollectionEventKind } from "../events/CollectionEventKind";
 import { PropertyEvent } from "../events/PropertyEvent";
@@ -235,7 +236,7 @@ export class ViewStack extends Group implements ICollection {
          */
         private showOrHide(child:egret.DisplayObject, visible:boolean):void {
             if (egret.is(child, "eui.UIComponent")) {
-                (<eui.UIComponent><any>child).includeInLayout = visible;
+                (<UIComponent><any>child).includeInLayout = visible;
             }
             child.visible = visible;
         }

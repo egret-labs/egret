@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 import { IViewport } from "../../core/IViewport";
+import { UIComponent } from "../../core/UIComponent";
 import { PropertyEvent } from "../../events/PropertyEvent";
 import { Component } from "../Component";
 
@@ -60,7 +61,7 @@ export class ScrollBarBase extends Component {
          * @skinPart
          * @language zh_CN
          */
-        public thumb:eui.UIComponent = null;
+        public thumb:UIComponent = null;
 
         /**
          * @private
@@ -144,7 +145,7 @@ export class ScrollBarBase extends Component {
          * @param event
          * @language zh_CN
          */
-        protected onPropertyChanged(event:eui.PropertyEvent):void{
+        protected onPropertyChanged(event:PropertyEvent):void{
 
         }
         /**

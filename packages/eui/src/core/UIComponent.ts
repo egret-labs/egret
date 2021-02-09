@@ -1454,7 +1454,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
                     for (let i = 0; i < length; i++) {
                         let child = children[i];
                         if (egret.is(child, UIComponentClass)) {
-                            (<eui.UIComponent>child).validateSize(true);
+                            (<UIComponent>child).validateSize(true);
                         }
                     }
                 }
@@ -1578,8 +1578,8 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
             let parent = this.$parent;
             if (!parent || !this.$includeInLayout || !egret.is(parent, UIComponentClass))
                 return;
-            (<eui.UIComponent><any>parent).invalidateSize();
-            (<eui.UIComponent><any>parent).invalidateDisplayList();
+            (<UIComponent><any>parent).invalidateSize();
+            (<UIComponent><any>parent).invalidateDisplayList();
         }
 
         /**

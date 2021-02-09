@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { UIComponent } from "../../core/UIComponent";
 import { LayoutBase } from "./LayoutBase";
 
 export class LinearLayoutBase extends LayoutBase {
@@ -597,7 +598,7 @@ export class ChildInfo {
         /**
          * @private
          */
-        public layoutElement:eui.UIComponent = null;
+        public layoutElement:UIComponent = null;
 
 
         /**

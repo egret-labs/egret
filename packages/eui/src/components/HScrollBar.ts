@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
+import { PropertyEvent } from "../events/PropertyEvent";
 import { ScrollBarBase } from "./supportClasses/ScrollBarBase";
 
 export class HScrollBar extends ScrollBarBase {
@@ -70,7 +71,7 @@ export class HScrollBar extends ScrollBarBase {
         /**
          * @inheritDoc
          */
-        protected onPropertyChanged(event:eui.PropertyEvent):void {
+        protected onPropertyChanged(event:PropertyEvent):void {
             switch (event.property) {
                 case "scrollH":
                 case "contentWidth":

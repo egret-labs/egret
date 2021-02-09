@@ -25,6 +25,9 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
+import { ScrollerThrowEvent } from "../../events/ScrollerThrowEvent";
+
 //////////////////////////////////////////////////////////////////////////////////////
 let MAX_VELOCITY_COUNT = 4;
 let VELOCITY_WEIGHTS:number[] = [1, 1.33, 1.66, 2];
@@ -237,7 +240,7 @@ export class TouchScroll {
                 posTo = currentScrollPos;
             }
             if (this.target["$getThrowInfo"]) {
-                let event:eui.ScrollerThrowEvent = this.target["$getThrowInfo"](currentScrollPos, posTo);
+                let event:ScrollerThrowEvent = this.target["$getThrowInfo"](currentScrollPos, posTo);
                 posTo = event.toPos;
             }
             if (duration > 0) {
