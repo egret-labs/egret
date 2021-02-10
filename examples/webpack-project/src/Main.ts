@@ -41,6 +41,8 @@ class Main extends egret.DisplayObjectContainer {
         text.x = text.y = 50;
         this.addChild(text)
         Tween.get(text).to({ x: 400, y: 400 }, 1000)
+        const x = { zIndex: 1 } as { zIndex: number }
+        Tween.get(this).to({ b: 1 });
     }
 
 

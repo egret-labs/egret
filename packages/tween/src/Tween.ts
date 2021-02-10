@@ -658,7 +658,7 @@ export class Tween<T = any> extends egret.EventDispatcher {
      * @returns {egret.Tween} Tween对象本身
      * @language zh_CN
      */
-
+    to<X extends this>(props: Props<any>, duration?: number, ease?: Function): Tween<T>
     public to(props: Props<T>, duration?: number, ease?: Function): Tween<T> {
         if (isNaN(duration!) || duration! < 0) {
             duration = 0;
