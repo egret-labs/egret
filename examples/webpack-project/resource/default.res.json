@@ -2,29 +2,14 @@
     "groups": [
         {
             "name": "preload",
-            "keys": "1_jpg,1_json"
+            "keys": "bg_jpg"
         }
     ],
     "resources": [
         {
-            "url": "1.jpg",
+            "url": "assets/bg.jpg",
             "type": "image",
-            "name": "1_jpg"
-        },
-        {
-            "url": "1.json",
-            "type": "json",
-            "name": "1_json"
-        },
-        {
-            "url": "1.json",
-            "type": "text",
-            "name": "1_txt"
-        },
-        {
-            "url": "num2.fnt",
-            "type": "font",
-            "name": "num2_fnt"
+            "name": "bg_jpg"
         }
     ]
 }

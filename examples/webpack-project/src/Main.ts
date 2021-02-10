@@ -11,10 +11,15 @@ class Main extends egret.DisplayObjectContainer {
 
         console.log(i18n.name);
         // this.run();
-        this.runTween();
-        this.runEui();
+        this.execute();
 
 
+    }
+
+    async execute() {
+
+        await this.runEui();
+        await this.runTween();
     }
 
     async run() {
@@ -28,7 +33,7 @@ class Main extends egret.DisplayObjectContainer {
 
         const label = new eui.Label();
         label.x = label.y = 100;
-        label.text = 'helloworld';
+        label.text = 'hello,world';
         this.addChild(label)
 
         const text = new egret.TextField();
@@ -40,12 +45,22 @@ class Main extends egret.DisplayObjectContainer {
 
 
     async runEui() {
-        console.log(111)
-        console.log(222)
+
         const context = eui.Context.getInstance();
         context.getTheme = async () => generateEUI;
+        context.getAssets = async (source) => RES.getResAsync(source)
         context.initialize();
 
+        await RES.loadConfig('default.res.json', 'resource');
+        const img = new eui.Image();
+        img.source = 'bg_jpg';
+        this.addChild(img);
+
+
+        const component = new eui.Component();
+        component.skinName = skins.MyComponent;
+        this.addChild(component);
+        component.x = component.y = 200;
 
     }
 }

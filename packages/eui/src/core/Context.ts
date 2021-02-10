@@ -86,6 +86,9 @@ export class Context {
 
     getTheme: () => Promise<any>
 
+
+    getAssets: (source: string) => Promise<any>
+
     static getInstance() {
         if (!this._instance) {
             this._instance = new Context();
