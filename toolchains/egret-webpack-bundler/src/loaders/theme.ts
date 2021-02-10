@@ -46,6 +46,8 @@ export default class ThemePlugin extends AbstractInlinePlugin {
                 const theme = euiCompiler.getThemes()[0];
                 const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
                 const themeJsContent = [
+                    `var eui = require('@egret/eui')`,
+                    `window.eui = eui`,
                     `window.skins = window.skins || {};`,
                     `window.generateEUI = window.generateEUI || {`,
                     `   paths: {},styles: undefined,`,

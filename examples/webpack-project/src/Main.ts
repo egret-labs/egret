@@ -43,7 +43,7 @@ class Main extends egret.DisplayObjectContainer {
         console.log(111)
         console.log(222)
         const context = eui.Context.getInstance();
-        context.getTheme = async () => { generateEUI };
+        context.getTheme = async () => generateEUI;
         context.initialize();
 
 
