@@ -29,6 +29,7 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         const exmls = project.getExmlRoots();
         this.options.dirs = exmls;
 
+
         const theme = euiCompiler.getThemes()[0];
         const dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
         if (theme.data.autoGenerateExmlsList) {
@@ -46,8 +47,6 @@ export default class ThemePlugin extends AbstractInlinePlugin {
                 const theme = euiCompiler.getThemes()[0];
                 const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
                 const themeJsContent = [
-                    `var eui = require('@egret/eui')`,
-                    `window.eui = eui`,
                     `window.skins = window.skins || {};`,
                     `window.generateEUI = window.generateEUI || {`,
                     `   paths: {},styles: undefined,`,
@@ -57,6 +56,14 @@ export default class ThemePlugin extends AbstractInlinePlugin {
                 ].concat(requires).concat([
                     `module.exports = window.generateEUI;`
                 ]);
+                // 检查 eui 是在 package.json （新模式）还是 egretProperties.json（老模式）中
+                const euiInPackageJson = !project.getModules().includes('eui');
+                if (euiInPackageJson) {
+                    themeJsContent.unshift(
+                        `window.eui = require('@egret/eui')`,
+                    )
+                }
+
                 return themeJsContent
             }
         } as LineEmitter
