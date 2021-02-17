@@ -42,7 +42,9 @@
     "webpack": "5.17.0",
     "webpack-dev-middleware": "4.1.0",
     "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572",
-    "webpack-merge": "~4.2.2"
+    "webpack-merge": "~4.2.2",
+    "memfs": "~3.2.0",
+    "unionfs": "~4.4.0"
   },
   "author": "",
   "license": "ISC",
