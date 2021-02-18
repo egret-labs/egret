@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { getAssetsFileSystem } from '../assets/AssetsFileSystem';
 import { createProject } from '../egretproject';
 import { fileChanged, readFileAsync } from '../loaders/utils';
 
@@ -48,5 +49,7 @@ async function execute(compiler: webpack.Compiler, compilation: webpack.Compilat
     }
     const manifest = { initial, game: ['main.js'] };
     const manifestContent = JSON.stringify(manifest, null, '\t');
-    compilation.emitAsset('manifest.json', new webpack.sources.RawSource(manifestContent));
+    const assetsFileSystem = getAssetsFileSystem();
+    assetsFileSystem.updateCompilation(compilation);
+    assetsFileSystem.update('manifest.json', manifestContent);
 };

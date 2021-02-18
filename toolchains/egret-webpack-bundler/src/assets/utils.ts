@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as memfs from 'memfs';
 import { resolve, sep } from 'path';
 import { ufs } from 'unionfs';
+import * as path from 'path';
 export const props = [
     'constants',
     'F_OK',
@@ -143,6 +144,7 @@ function link<T extends { [index: string]: any }>(fs: T, rewrites: string[] | st
             }
 
             args[0] = filename;
+            // console.log(method, filename)
             return func.apply(fs, args);
         };
     }
@@ -161,5 +163,6 @@ function link<T extends { [index: string]: any }>(fs: T, rewrites: string[] | st
 export function createFileSystem(outputRoot: string) {
     const lfs = link(fs, ['.', outputRoot]);
     ufs.use(lfs).use(new memfs.Volume() as any);
+    (ufs as any).join = path.join;
     return ufs;
 }

@@ -3,6 +3,7 @@ import express from 'express';
 import * as path from 'path';
 import * as ts from 'typescript';
 import webpack from 'webpack';
+import { createFileSystem } from './assets/utils';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { openUrl } from './open';
@@ -116,7 +117,8 @@ export class EgretWebpackBundler {
         compilerApp.use(allowCrossDomain);
         const middlewareOptions: any = {
             stats: webpackStatsOptions,
-            publicPath: undefined
+            publicPath: undefined,
+            outputFileSystem: createFileSystem(path.join(compiler.context, 'cache_library'))
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
         compilerApp.use(webpackHotMiddleware(compiler));
