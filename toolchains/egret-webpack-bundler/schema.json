@@ -1,0 +1,26 @@
+{
+    "title": "WebpackBundleOptions",
+    "type": "object",
+    "properties": {
+        "libraryType": {
+            "enum": [
+                "black",
+                "brown",
+                "blue"
+            ],
+            "type": "string",
+            "description": "设置发布的库为 library.js 还是 library.min.js"
+        },
+        "defines": {
+            "type": "object"
+        },
+        "typescript": {
+            "type": "object"
+        }
+    },
+    "additionalProperties": true,
+    "required": [
+        "typescript",
+        "libraryType"
+    ]
+}
