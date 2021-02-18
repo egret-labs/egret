@@ -30,13 +30,7 @@ export class AssetsFileSystem {
 
     private map: Map<string, AssetFile> = new Map();
 
-    private currentCompilation!: Compilation;
     private compiler!: Compiler;
-
-    updateCompilation(compilation: Compilation) {
-        this.currentCompilation = compilation;
-        this.compiler = this.currentCompilation.compiler;
-    }
 
     async add(input: Pick<AssetFile, 'filePath' | 'dependencies'>) {
         const file = input as AssetFile;
@@ -82,13 +76,14 @@ export class AssetsFileSystem {
         return false;
     }
 
-    update(filePath: string, content: Buffer | string) {
-        this.currentCompilation.emitAsset(filePath, new sources.RawSource(content));
+    update(compilation: Compilation, filePath: string, content: Buffer | string) {
+        compilation.emitAsset(filePath, new sources.RawSource(content));
     }
 
     private isParsed = false;
 
     async parse(compiler: Compiler) {
+        this.compiler = compiler;
         if (this.isParsed) {
             return;
         }
