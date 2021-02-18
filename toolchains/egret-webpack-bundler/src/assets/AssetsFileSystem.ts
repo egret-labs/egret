@@ -11,6 +11,21 @@ interface AssetFile {
     mtime: string
 }
 
+
+const log: MethodDecorator = (target: any, key, descriptor) => {
+    const method = target[key]
+    descriptor.value = function (this: any) {
+        const result = method.apply(this, arguments);
+        const p = arguments;
+        result.then((v: boolean) => {
+            console.log('call', key, 'param', p, 'result', v);
+        })
+
+
+        return result;
+    } as any;
+}
+
 export class AssetsFileSystem {
 
     private map: Map<string, AssetFile> = new Map();
@@ -41,15 +56,30 @@ export class AssetsFileSystem {
         }
     }
 
-    needUpdate(filePath: string) {
+    // @log
+    async needUpdate(filePath: string) {
         const file = this.map.get(filePath);
         if (!file) {
             throw new Error(filePath);
         }
         const { dependencies } = file;
-        // const statAsync = util.promisify(this.compiler.inputFileSystem.stat);
-        // for (let d of dependencies) {s
-        return true;
+        const statAsync = util.promisify(this.compiler.inputFileSystem.stat);
+        for (let d of dependencies) {
+            const dFile = this.map.get(d);
+            if (!dFile) {
+                return true;
+            }
+            try {
+                const mtime = (await statAsync(d))?.mtime.toTimeString();
+                if (mtime !== dFile.mtime) {
+                    return true;
+                }
+            }
+            catch (e) {
+                return true;
+            }
+        }
+        return false;
     }
 
     update(filePath: string, content: Buffer | string) {
