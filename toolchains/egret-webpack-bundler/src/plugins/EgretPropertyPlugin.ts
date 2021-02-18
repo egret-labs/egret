@@ -51,5 +51,8 @@ async function execute(compiler: webpack.Compiler, compilation: webpack.Compilat
     const manifestContent = JSON.stringify(manifest, null, '\t');
     const assetsFileSystem = getAssetsFileSystem();
     assetsFileSystem.updateCompilation(compilation);
+    await assetsFileSystem.add({ filePath: 'manifest.json', dependencies: ['egretProperties.json'] })
     assetsFileSystem.update('manifest.json', manifestContent);
+    await assetsFileSystem.output();
+
 };
