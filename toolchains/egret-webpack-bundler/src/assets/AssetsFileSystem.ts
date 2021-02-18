@@ -1,7 +1,6 @@
-import { Compilation, Compiler, sources } from 'webpack';
-import * as fs from 'fs'
-import * as util from 'util';
 import * as yaml from 'js-yaml';
+import * as util from 'util';
+import { Compilation, Compiler, sources } from 'webpack';
 
 interface AssetFile {
 
@@ -55,6 +54,29 @@ export class AssetsFileSystem {
 
     update(filePath: string, content: Buffer | string) {
         this.currentCompilation.emitAsset(filePath, new sources.RawSource(content));
+    }
+
+    private isParsed = false;
+
+    async parse(compiler: Compiler) {
+        if (this.isParsed) {
+            return;
+        }
+        this.isParsed = true;
+        const readFileAsync = util.promisify(compiler.outputFileSystem.readFile);
+        try {
+            const buffer = await readFileAsync('dist/assets-file-manifest.yaml');
+            const content = buffer?.toString()!;
+            const data = yaml.load(content) as any;;
+            for (let filePath in data) {
+                const { dependencies, mtime } = data[filePath]
+                const file = { filePath, dependencies, mtime };
+                this.map.set(filePath, file);
+            }
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
     async output() {

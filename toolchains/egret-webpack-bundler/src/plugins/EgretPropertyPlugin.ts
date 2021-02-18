@@ -14,6 +14,14 @@ export default class EgretPropertyPlugin {
     public apply(compiler: webpack.Compiler) {
 
         const pluginName = this.constructor.name;
+        compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
+            const asset = getAssetsFileSystem();
+            await asset.parse(compiler);
+        })
+        compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
+            const asset = getAssetsFileSystem();
+            await asset.parse(compiler);
+        })
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
             const fullFilepath = path.join(compiler.context, 'egretProperties.json');
             compilation.fileDependencies.add(fullFilepath);
