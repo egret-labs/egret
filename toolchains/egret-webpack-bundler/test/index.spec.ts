@@ -37,7 +37,7 @@ describe('第一个测试', () => {
 
     describe('测试manifest', () => {
         it('测试不存在的模块', async () => {
-            const { compilation } = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'legacy' }, libraryType: 'debug' });
+            const { compilation } = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'modern' }, libraryType: 'debug' });
             expect(compilation.errors.length).toEqual(4);
         });
         it('测试存在的模块', async () => {

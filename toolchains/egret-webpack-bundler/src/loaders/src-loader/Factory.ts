@@ -146,7 +146,7 @@ export class Factory {
                 list.splice(index, 0, ...dependencyFiles);
             }
         });
-
+        // require('fs').writeFileSync('1.log', JSON.stringify(this.files))
         return list;
     }
 }

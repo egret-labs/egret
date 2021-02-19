@@ -64,7 +64,7 @@ function getExpression(node: any): any {
 /**
  * 判断是否是一个新的作用域节点，一般为 {}
  */
-function isBlockScope(node: any): boolean {
+function isBlockScope(node: ts.Node): boolean {
     return (ts as any).isBlockScope(node);
 }
 
@@ -83,8 +83,8 @@ function isBlockScope(node: any): boolean {
  * forEachChild(A) 将逐步迭代 A b c d e F 节点，不会迭代 g 节点
  * 迭代到b时可以return false阻止迭代其子节点 d e，也可以return [ d ] 限制只迭代 d
  */
-function forEachChild(node: any, callback: (node: any) => void | any[] | boolean) {
-    const walk = (child: any) => {
+function forEachChild(node: ts.Node, callback: (node: ts.Node) => void | any[] | boolean) {
+    const walk = (child: ts.Node) => {
         if (child.kind !== ts.SyntaxKind.TypeReference) { // 忽略类型检查
             const walkChildren = callback(child);
             if (!isBlockScope(child)) {
@@ -176,10 +176,10 @@ function collectNodeDeclarations(node: any, declarations: Declarations) {
  */
 function collectNodeDepenDencies(node: any, dependencies: Dependencies) {
     let walkChildren: any = false;
-    const addDependency = (name: string, type: string) => {
+    const addDependency = (name: string, type: DependencyType) => {
         if (!/^(undefined|null)$/i.test(name)) {
             dependencies[name] = {
-                type: type as DependencyType
+                type
             };
         }
     };
@@ -212,7 +212,9 @@ function collectNodeDepenDencies(node: any, dependencies: Dependencies) {
             (node.heritageClauses || []).forEach((clause: any) => {
                 (clause.types || []).forEach((cl: any) => {
                     const { expression } = cl;
+
                     const identifier = getExpression(expression);
+                    console.log(identifier)
                     if (typeof identifier === 'string') {
                         addDependency(identifier, 'Extend');
                     } else if (identifier && identifier.kind) {
@@ -263,7 +265,7 @@ function collectGlobals(scopes: Declarations[], dependencies: Dependencies): Dep
  * @param {String} namespace 当前所在namespace
  * @param {Array<Object>} scopes 上级们作用域
  */
-function collectDependencies(node: any, namespace: string = '', scopes: Declarations[] = []): Dependencies {
+function collectDependencies(node: ts.Node, namespace: string = '', scopes: Declarations[] = []): Dependencies {
     const locals: Declarations = {};
     const dependencies: Dependencies = {};
 
@@ -312,7 +314,7 @@ function collectDependencies(node: any, namespace: string = '', scopes: Declarat
  *    "fn": {},
  *  }
  */
-function collectDefines(node: any, namespace: string = ''): Defines {
+function collectDefines(node: ts.Node, namespace: string = ''): Defines {
     const declarations: Declarations = {};
     forEachChild(node, (child) => collectNodeDeclarations(child, declarations));
 
@@ -349,7 +351,7 @@ function collectDefines(node: any, namespace: string = ''): Defines {
 /**
  * 通过export/import判断文件是否是模块化的
  */
-function judgeIsModule(node: any): boolean {
+function judgeIsModule(node: ts.Node): boolean {
     let ret = false;
     forEachChild(node, (child) => {
         if (hasModifier(child, ts.SyntaxKind.ExportKeyword) ||
