@@ -46,15 +46,15 @@ async function execute(compiler: webpack.Compiler, compilation: webpack.Compilat
             const filename = libraryType == 'debug' ? asset.debug : asset.release;
             initial.push(filename);
             try {
-                // const content = await readFileAsync(compiler, filename);
-                // const source = new webpack.sources.RawSource(content, false);
-                // compilation.emitAsset(filename, source);
+                const content = await readFileAsync(compiler, filename);
+                const source = new webpack.sources.RawSource(content, false);
+                compilation.emitAsset(filename, source);
             }
             catch (e) {
-                // const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                // const webpackError = new webpack.WebpackError(message);
-                // webpackError.file = 'egretProperties.json';
-                // compilation.getErrors().push(webpackError);
+                const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
+                const webpackError = new webpack.WebpackError(message);
+                webpackError.file = 'egretProperties.json';
+                compilation.getErrors().push(webpackError);
             }
         }
     }
