@@ -59,8 +59,7 @@ async function execute(compiler: webpack.Compiler, compilation: webpack.Compilat
     const manifestContent = JSON.stringify(manifest, null, '\t');
     const assetsFileSystem = getAssetsFileSystem();
     if (await assetsFileSystem.needUpdate('manifest.json')) {
-        await assetsFileSystem.add({ filePath: 'manifest.json', dependencies: ['egretProperties.json'] })
-        assetsFileSystem.update(compilation, 'manifest.json', manifestContent);
+        assetsFileSystem.update(compilation, { filePath: 'manifest.json', dependencies: ['egretProperties.json'] }, manifestContent);
     }
     else {
 

@@ -32,7 +32,7 @@ export class AssetsFileSystem {
 
     private compiler!: Compiler;
 
-    async add(input: Pick<AssetFile, 'filePath' | 'dependencies'>) {
+    private async add(input: Pick<AssetFile, 'filePath' | 'dependencies'>) {
         const file = input as AssetFile;
         const statAsync = util.promisify(this.compiler.inputFileSystem.stat);
         try {
@@ -76,7 +76,9 @@ export class AssetsFileSystem {
         return false;
     }
 
-    update(compilation: Compilation, filePath: string, content: Buffer | string) {
+    update(compilation: Compilation, input: Pick<AssetFile, 'filePath' | 'dependencies'>, content: Buffer | string) {
+        const { filePath } = input;
+        this.add(input);
         compilation.emitAsset(filePath, new sources.RawSource(content));
     }
 
