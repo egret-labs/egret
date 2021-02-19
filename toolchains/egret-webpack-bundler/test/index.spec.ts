@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { Factory } from '../src/loaders/src-loader/Factory';
 import * as bundler from './test-bundler';
 const projectRoot = path.join(__dirname, 'simple-project');
 
@@ -27,12 +28,16 @@ describe('第一个测试', () => {
     });
 
     describe('测试 TypeScript', () => {
-
         it('测试 legacy', async () => {
-            const { store } = await bundler.compile(projectRoot, { typescript: { mode: 'legacy' }, libraryType: 'debug' });
-            const context = {} as any;
-            const mainJs = store.readFileSync('test/simple-project/dist/main.js', 'utf-8').toString();
-        })
+            const factory = new Factory({ context: 'test/simple-project' });
+            factory.fs = require('fs')
+            factory.update();
+            const list = factory.sortUnmodules();
+            const nodeFileIndex = list.findIndex(v => v.includes('testcore/Node.ts'));
+            const checkNodeFileIndex = list.findIndex(v => v.includes('testcore/CheckNode.ts'));
+            expect(nodeFileIndex).toBeLessThan(checkNodeFileIndex);
+        }
+        )
     })
 
     describe('测试manifest', () => {

@@ -214,7 +214,6 @@ function collectNodeDepenDencies(node: any, dependencies: Dependencies) {
                     const { expression } = cl;
 
                     const identifier = getExpression(expression);
-                    console.log(identifier)
                     if (typeof identifier === 'string') {
                         addDependency(identifier, 'Extend');
                     } else if (identifier && identifier.kind) {
