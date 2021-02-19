@@ -8,6 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
+    "build:schema": "json2ts -i schema.json -o foo.d.ts --style.singleQuote --style.tabWidth=4",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest"
@@ -46,7 +47,8 @@
     "webpack-merge": "~4.2.2",
     "memfs": "~3.2.0",
     "unionfs": "~4.4.0",
-    "ajv": "~7.1.1"
+    "ajv": "~7.1.1",
+    "json-schema-to-typescript": "~10.1.3"
   },
   "author": "",
   "license": "ISC",

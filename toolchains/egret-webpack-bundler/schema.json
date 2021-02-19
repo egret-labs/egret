@@ -4,21 +4,91 @@
     "properties": {
         "libraryType": {
             "enum": [
-                "black",
-                "brown",
-                "blue"
+                "debug",
+                "release"
             ],
             "type": "string",
             "description": "设置发布的库为 library.js 还是 library.min.js"
         },
         "defines": {
+            "description": "编译宏常量定义",
             "type": "object"
         },
         "typescript": {
-            "type": "object"
+            "type": "object",
+            "description": "TypeScript 相关配置",
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "legacy",
+                        "modern"
+                    ],
+                    "description": "编译模式\nmodern 模式为完全ES6 Module的方式，底层实现采用 ts-loader。\nlegacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理"
+                },
+                "tsconfigPath": {
+                    "type": "string",
+                    "default": " tsconfig.json",
+                    "description": "编译采用的 tsconfig.json 路径，默认为 tsconfig.json"
+                }
+            },
+            "additionalProperties": false
+        },
+        "html": {
+            "type": "object",
+            "properties": {
+                "templateFilePath": {
+                    "type": "string"
+                }
+            }
+        },
+        "parseEgretProperty": {
+            "type": "boolean"
+        },
+        "assets": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "executeBundle": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "exml": {
+            "type": "object",
+            "description": "是否启动 EXML 相关功能",
+            "properties": {
+                "watch": {
+                    "type": "boolean",
+                    "description": "EXML增量编译"
+                }
+            }
+        },
+        "subpackages": {
+            "type": "array",
+            "description": "是否发布子包及子包规则",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "matcher": {
+                        "type": "object",
+                        "tsType": "(filepath:string)=>boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
         }
     },
-    "additionalProperties": true,
+    "additionalProperties": false,
     "required": [
         "typescript",
         "libraryType"
