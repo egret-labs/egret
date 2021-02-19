@@ -54,10 +54,10 @@ export class AssetsFileSystem {
     async needUpdate(filePath: string) {
         const file = this.map.get(filePath);
         if (!file) {
-            throw new Error(filePath);
+            return true;
         }
         const { dependencies } = file;
-        const statAsync = util.promisify(this.compiler.inputFileSystem.stat);
+        const statAsync = util.promisify(this.compiler.inputFileSystem.stat.bind(this.compiler.inputFileSystem));
         for (let d of dependencies) {
             const dFile = this.map.get(d);
             if (!dFile) {
@@ -90,7 +90,7 @@ export class AssetsFileSystem {
             return;
         }
         this.isParsed = true;
-        const readFileAsync = util.promisify(compiler.outputFileSystem.readFile);
+        const readFileAsync = util.promisify(compiler.outputFileSystem.readFile.bind(compiler.outputFileSystem));
         try {
             const buffer = await readFileAsync('dist/assets-file-manifest.yaml');
             const content = buffer?.toString()!;
@@ -102,12 +102,11 @@ export class AssetsFileSystem {
             }
         }
         catch (e) {
-            console.log(e)
         }
     }
 
     async output() {
-        const writeFileAsync = util.promisify(this.compiler.outputFileSystem.writeFile);
+        const writeFileAsync = util.promisify(this.compiler.outputFileSystem.writeFile.bind(this.compiler.outputFileSystem));
 
         const result: any = {};
         for (let x of this.map) {

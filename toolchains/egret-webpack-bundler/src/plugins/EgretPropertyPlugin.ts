@@ -12,7 +12,6 @@ export default class EgretPropertyPlugin {
     }
 
     public apply(compiler: webpack.Compiler) {
-
         const pluginName = this.constructor.name;
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
             const asset = getAssetsFileSystem();

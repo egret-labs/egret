@@ -195,7 +195,7 @@ export function generateConfig(
     const validator = ajv.compile(schema);
     const result = validator(options);
     if (!result) {
-        console.log(validator.errors);
+        // console.log(validator.errors);
     }
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
