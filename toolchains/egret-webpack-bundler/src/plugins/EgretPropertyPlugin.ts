@@ -30,6 +30,10 @@ export default class EgretPropertyPlugin {
                 });
             }
         });
+        compiler.hooks.afterEmit.tapPromise(pluginName, async () => {
+            const assetsFileSystem = getAssetsFileSystem();
+            await assetsFileSystem.output();
+        })
     }
 }
 
@@ -42,26 +46,23 @@ async function execute(compiler: webpack.Compiler, compilation: webpack.Compilat
             const filename = libraryType == 'debug' ? asset.debug : asset.release;
             initial.push(filename);
             try {
-                const content = await readFileAsync(compiler, filename);
-                const source = new webpack.sources.RawSource(content, false);
-                compilation.emitAsset(filename, source);
+                // const content = await readFileAsync(compiler, filename);
+                // const source = new webpack.sources.RawSource(content, false);
+                // compilation.emitAsset(filename, source);
             }
             catch (e) {
-                const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                const webpackError = new webpack.WebpackError(message);
-                webpackError.file = 'egretProperties.json';
-                compilation.getErrors().push(webpackError);
+                // const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
+                // const webpackError = new webpack.WebpackError(message);
+                // webpackError.file = 'egretProperties.json';
+                // compilation.getErrors().push(webpackError);
             }
         }
     }
-    const manifest = { initial, game: ['main.js'] };
-    const manifestContent = JSON.stringify(manifest, null, '\t');
+
     const assetsFileSystem = getAssetsFileSystem();
     if (await assetsFileSystem.needUpdate('manifest.json')) {
+        const manifest = { initial, game: ['main.js'] };
+        const manifestContent = JSON.stringify(manifest, null, '\t');
         assetsFileSystem.update(compilation, { filePath: 'manifest.json', dependencies: ['egretProperties.json'] }, manifestContent);
     }
-    else {
-
-    }
-    await assetsFileSystem.output();
 };

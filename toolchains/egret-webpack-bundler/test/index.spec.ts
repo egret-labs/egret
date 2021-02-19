@@ -27,8 +27,8 @@ describe('第一个测试', () => {
     });
 
     it('测试 manifest', async () => {
-        const { store, compilation } = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'legacy' }, libraryType: 'debug' });
-        // console.log(store.readdirSync('.'))
+        const { store, compiler } = await bundler.compile(projectRoot, { parseEgretProperty: true, typescript: { mode: 'legacy' }, libraryType: 'debug' });
+        console.log(store.readdirSync('/Users/egret/Documents/egretengine/egret/toolchains/egret-webpack-bundler/test/simple-project'))
         // console.log(compilation.errors)
         // const manifestContent = store.readFileSync('test/simple-project/dist/manifest.json', 'utf-8').toString();
         // const manifest = JSON.parse(manifestContent);

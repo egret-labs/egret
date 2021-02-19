@@ -1,7 +1,7 @@
 import * as yaml from 'js-yaml';
 import * as util from 'util';
 import { Compilation, Compiler, sources } from 'webpack';
-
+import * as path from 'path';
 interface AssetFile {
 
     filePath: string
@@ -120,7 +120,8 @@ export class AssetsFileSystem {
                 '!!null': 'camelcase'
             }
         });
-        await writeFileAsync('dist/assets-file-manifest.yaml', output)
+        const filepath = path.join(this.compiler.context, 'dist/assets-file-manifest.yaml');
+        await writeFileAsync(filepath, output)
     }
 
 }
