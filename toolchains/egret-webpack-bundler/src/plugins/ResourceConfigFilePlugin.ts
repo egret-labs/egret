@@ -35,7 +35,7 @@ export default class ResourceConfigFilePlugin {
                     factory.compilation = compilation;
                     factory.parse(file, content.toString());
                     if (executeBundle) {
-                        factory.execute();
+                        await factory.execute();
                     }
                     factory.emitConfig();
                 }

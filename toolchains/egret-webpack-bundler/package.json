@@ -21,7 +21,7 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "/test/index.spec\\.(ts|tsx)$"
+    "testRegex": "/test/texture-merger.spec\\.(ts|tsx)$"
   },
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",

@@ -2,20 +2,24 @@
     "groups": [
         {
             "name": "preload",
-            "keys": "1_png,1_json"
+            "keys": "rank_no1_png,rank_no2_png,rank_no3_png"
         }
     ],
     "resources": [
         {
-            "url": "spritesheet/1.png",
+            "url": "spritesheet/rank_no1.png",
             "type": "image",
-            "name": "1_png"
+            "name": "rank_no1_png"
         },
         {
-            "url": "spritesheet/1.json",
-            "type": "spritesheet",
-            "name": "1_json",
-            "subkey": "rank_no1,rank_no2,rank_no3,x"
+            "url": "spritesheet/rank_no2.png",
+            "type": "image",
+            "name": "rank_no2_png"
+        },
+        {
+            "url": "spritesheet/rank_no3.png",
+            "type": "image",
+            "name": "rank_no3_png"
         }
     ]
 }

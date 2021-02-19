@@ -95,10 +95,11 @@ async function executeTextureMerger(compilation: webpack.Compilation, root: stri
     for (const entity of entities) {
         const content = await readFileAsync(compiler, entity.path);
         const json = texturemrger.parseConfig('yaml', content.toString());
-        json.root = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
+        const relativeRoot = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
+        json.root = path.dirname(entity.path);
         const output = await texturemrger.executeMerge(json);
-        const jsonOutputFilePath = `${json.root}/${json.outputName}.json`;
-        const imageOutputFilePath = `${json.root}/${json.outputName}.png`;
+        const jsonOutputFilePath = `${relativeRoot}/${json.outputName}.json`;
+        const imageOutputFilePath = `${relativeRoot}/${json.outputName}.png`;
         const spriteSheetRelativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
         const spriteSheetImageRelativeFilePath = path.relative('resource', imageOutputFilePath).split('\\').join('/');
         const spriteSheetResourceConfig = {

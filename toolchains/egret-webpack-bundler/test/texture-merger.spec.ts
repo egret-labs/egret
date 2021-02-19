@@ -5,8 +5,10 @@ const projectRoot = path.join(__dirname, 'simple-project');
 describe('TextureMerger', () => {
 
     it('测试纹理合并', async () => {
-        const { compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json', executeBundle: true }], typescript: { mode: 'legacy' }, libraryType: 'debug' });
-        const defaultResConfig = compilation.assets['resource/default.res.json'].source();
-        const json = JSON.parse(defaultResConfig);
+        const { store, compilation } = await bundler.compile(projectRoot, { assets: [{ file: 'resource/default.res.json', executeBundle: true }], typescript: { mode: 'modern' }, libraryType: 'debug' });
+        const defaultResConfig = store.readFileSync('test/simple-project/dist/resource/default.res.json').toString();
+        const json = JSON.parse(defaultResConfig)
+        expect(json.resources.find((v: { name: string; }) => v.name === 'rank_no1_png')).toEqual(undefined)
+        expect(json.resources.find((v: { name: string; }) => v.name === 'spritesheet_json')).toBeTruthy()
     });
 });
