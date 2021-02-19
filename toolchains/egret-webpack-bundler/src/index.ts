@@ -1,4 +1,5 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
+import Ajv from 'ajv';
 import express from 'express';
 import * as path from 'path';
 import * as ts from 'typescript';
@@ -15,6 +16,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
+const schema = require('../schema.json');
 
 export type WebpackBundleOptions = {
 
@@ -189,6 +191,12 @@ export function generateConfig(
 
 ): webpack.Configuration {
 
+    const ajv = new Ajv();
+    const validator = ajv.compile(schema);
+    const result = validator(options);
+    if (!result) {
+        console.log(validator.errors);
+    }
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
     const mode = devServer ? 'development' : 'production';
