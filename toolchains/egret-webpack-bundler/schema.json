@@ -57,7 +57,10 @@
                         "type": "boolean"
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": false,
+                "required": [
+                    "file"
+                ]
             }
         },
         "exml": {
@@ -84,7 +87,26 @@
                         "tsType": "(filepath:string)=>boolean"
                     }
                 },
+                "required": [
+                    "name",
+                    "matcher"
+                ],
                 "additionalProperties": false
+            }
+        },
+        "devServer": {
+            "type": "object",
+            "description": "调试服务器相关功能",
+            "properties": {
+                "port": {
+                    "type": "number",
+                    "description": "启动端口，默认值为3000",
+                    "default": 3000
+                },
+                "open": {
+                    "type": "boolean",
+                    "description": "编译完成后打开浏览器"
+                }
             }
         }
     },

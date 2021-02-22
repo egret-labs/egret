@@ -4,7 +4,7 @@ import * as webpack from 'webpack';
 import { fileChanged, readFileAsync } from '../loaders/utils';
 import { ResourceConfigFactory } from './ResourceConfigFactory';
 
-export type ResourceConfigFilePluginOptions = [{ file: string, executeBundle?: boolean }];
+export type ResourceConfigFilePluginOptions = { file: string, executeBundle?: boolean }[];
 
 export default class ResourceConfigFilePlugin {
 

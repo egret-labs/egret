@@ -1,15 +1,16 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
-import { validate } from 'schema-utils';
 import express from 'express';
 import * as path from 'path';
+import { validate } from 'schema-utils';
 import * as ts from 'typescript';
 import webpack from 'webpack';
 import { createFileSystem } from './assets/utils';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { openUrl } from './open';
+import { WebpackBundleOptions } from './options';
 import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
-import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
+import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -18,80 +19,81 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const schema = require('../schema.json');
 
-export type WebpackBundleOptions = {
+export { WebpackBundleOptions } from './options'
+// export type WebpackBundleOptions = {
 
-    /**
-     * 设置发布的库为 library.js 还是 library.min.js
-     */
-    libraryType: 'debug' | 'release'
+//     /**
+//      * 设置发布的库为 library.js 还是 library.min.js
+//      */
+//     libraryType: 'debug' | 'release'
 
-    /**
-     * 编译宏常量定义
-     */
-    defines?: {
-        [key: string]: string | number | boolean
-    },
+//     /**
+//      * 编译宏常量定义
+//      */
+//     defines?: {
+//         [key: string]: string | number | boolean
+//     },
 
-    /**
-     * 是否启动 EXML 相关功能
-     */
-    exml?: {
-        /**
-         * EXML增量编译
-         */
-        watch: boolean
-    }
+//     /**
+//      * 是否启动 EXML 相关功能
+//      */
+//     exml?: {
+//         /**
+//          * EXML增量编译
+//          */
+//         watch: boolean
+//     }
 
-    /**
-     * TypeScript 相关配置
-     */
-    typescript?: {
-        /**
-         * 编译模式
-         * modern 模式为完全ES6 Module的方式，底层实现采用 ts-loader
-         * legacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理
-         */
-        mode: 'legacy' | 'modern',
+//     /**
+//      * TypeScript 相关配置
+//      */
+//     typescript?: {
+//         /**
+//          * 编译模式
+//          * modern 模式为完全ES6 Module的方式，底层实现采用 ts-loader
+//          * legacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理
+//          */
+//         mode: 'legacy' | 'modern',
 
-        /**
-         * 编译采用的 tsconfig.json 路径，默认为 tsconfig.json
-         */
-        tsconfigPath?: string
+//         /**
+//          * 编译采用的 tsconfig.json 路径，默认为 tsconfig.json
+//          */
+//         tsconfigPath?: string
 
-        // minify?: import("@egret/ts-minify-transformer").TransformOptions
+//         // minify?: import("@egret/ts-minify-transformer").TransformOptions
 
-    }
+//     }
 
-    html?: {
-        templateFilePath: string
-    }
+//     html?: {
+//         templateFilePath: string
+//     }
 
-    /**
-     * 是否发布子包及子包规则
-     */
-    subpackages?: { name: string, matcher: (filepath: string) => boolean }[],
+//     /**
+//      * 是否发布子包及子包规则
+//      */
+//     subpackages?: { name: string, matcher: (filepath: string) => boolean }[],
 
-    /**
-     * 自定义的 webpack 配置
-     */
-    webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
+//     /**
+//      * 自定义的 webpack 配置
+//      */
+//     webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
 
-    parseEgretProperty?: boolean
+//     parseEgretProperty?: boolean
 
-    assets?: ResourceConfigFilePluginOptions
-}
+//     assets?: ResourceConfigFilePluginOptions
+// }
 
-export type WebpackDevServerOptions = {
-    /**
-     * 启动端口，默认值为3000
-     */
-    port?: number
+// export type WebpackDevServerOptions = {
+//     /**
+//      * 启动端口，默认值为3000
+//      */
+//     port?: number
 
-    /**
-     * 编译完成后打开浏览器
-     */
-    open?: boolean
-}
+//     /**
+//      * 编译完成后打开浏览器
+//      */
+//     open?: boolean
+// }
 
 export class EgretWebpackBundler {
 
@@ -102,7 +104,7 @@ export class EgretWebpackBundler {
 
     }
 
-    startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
+    startDevServer(options: WebpackBundleOptions) {
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
 
@@ -124,10 +126,10 @@ export class EgretWebpackBundler {
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
         compilerApp.use(webpackHotMiddleware(compiler));
-        const port = options.port || 3000;
+        const port = options.devServer?.port || 3000;
         startExpressServer(compilerApp, port);
         compilerApp.use(express.static(this.projectRoot));
-        if (options.open) {
+        if (options.devServer?.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }
     }
@@ -235,10 +237,10 @@ export function generateConfig(
         config.optimization!.moduleIds = 'named';
         config.optimization!.chunkIds = 'named';
     }
-    if (options.webpackConfig) {
-        const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
-        config = webpackMerge(config, customWebpackConfig);
-    }
+    // if (options.webpackConfig) {
+    //     const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
+    //     config = webpackMerge(config, customWebpackConfig);
+    // }
     if (devServer) {
         return Object.assign(config, {
             devServer: {
@@ -300,7 +302,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
                     emitClassName()
                 ];
                 if (options.defines) {
-                    before.push(emitDefine(options.defines));
+                    before.push(emitDefine(options.defines as any));
                 }
                 return {
                     before

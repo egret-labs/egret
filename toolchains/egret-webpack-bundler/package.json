@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build:schema": "json2ts -i schema.json -o foo.d.ts --style.singleQuote --style.tabWidth=4",
+    "build:schema": "json2ts -i schema.json -o src/options.ts --style.singleQuote --style.tabWidth=4",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest"
@@ -41,7 +41,7 @@
     "source-map-loader": "2.0.0",
     "ts-loader": "8.0.14",
     "typescript": "^3.8.3",
-    "webpack": "5.17.0",
+    "webpack": "5.23.0",
     "webpack-dev-middleware": "4.1.0",
     "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572",
     "webpack-merge": "~4.2.2",
