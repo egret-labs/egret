@@ -52,12 +52,19 @@ export class AssetsFileSystem {
 
     // @log
     async needUpdate(filePath: string) {
+        const statAsync = util.promisify(this.compiler.inputFileSystem.stat.bind(this.compiler.inputFileSystem));
         const file = this.map.get(filePath);
         if (!file) {
             return true;
         }
+        if (file.mtime) {
+            const mtime = (await statAsync(file.filePath))?.mtime.toTimeString();
+            if (mtime !== file.mtime) {
+                return true;
+            }
+        }
         const { dependencies } = file;
-        const statAsync = util.promisify(this.compiler.inputFileSystem.stat.bind(this.compiler.inputFileSystem));
+
         for (let d of dependencies) {
             const dFile = this.map.get(d);
             if (!dFile) {
