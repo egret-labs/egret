@@ -1,4 +1,4 @@
-import { Compilation, sources, WebpackError } from "webpack";
+import { Compilation, WebpackError } from "webpack";
 import { createProject } from "../../egretproject";
 import { readFileAsync } from "../../loaders/utils";
 import { getAssetsFileSystem } from "../AssetsFileSystem";
@@ -32,7 +32,6 @@ export class EgretPropertyTransaction extends Transaction {
                 if (await assetsFileSystem.needUpdate(filename)) {
                     try {
                         const content = await readFileAsync(compiler, filename);
-                        const source = new sources.RawSource(content, false);
                         assetsFileSystem.update(compilation, { filePath: filename, dependencies: [] }, content);
                     }
                     catch (e) {

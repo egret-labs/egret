@@ -2,6 +2,7 @@ import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import express from 'express';
 import * as path from 'path';
 import { validate } from 'schema-utils';
+import { ValidationError } from 'schema-utils/declarations/validate';
 import * as ts from 'typescript';
 import webpack from 'webpack';
 import { createFileSystem } from './assets/utils';
@@ -193,7 +194,15 @@ export function generateConfig(
 
 ): webpack.Configuration {
 
-    validate(schema, options);
+    try {
+        validate(schema, options);
+    }
+    catch (e) {
+        if (e instanceof ValidationError) {
+            console.log(e.message);
+        }
+    }
+
 
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
