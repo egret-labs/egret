@@ -1,8 +1,7 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import express from 'express';
 import * as path from 'path';
-import { validate } from 'schema-utils';
-import { ValidationError } from 'schema-utils/declarations/validate';
+import { validate, ValidationError } from 'schema-utils';
 import * as ts from 'typescript';
 import webpack from 'webpack';
 import { createFileSystem } from './assets/utils';

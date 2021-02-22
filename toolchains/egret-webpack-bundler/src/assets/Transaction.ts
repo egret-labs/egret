@@ -6,9 +6,5 @@ export abstract class Transaction {
 
     abstract get fileDependencies(): string[]
 
-    onStart(compilation: Compilation) {
-
-    }
-
     abstract execute(compilation: Compilation): Promise<void>
 }
