@@ -14,7 +14,7 @@
     "@egret/tween": "workspace:*"
   },
   "peerDependencies": {
-    "webpack": "^5.17.0"
+    "webpack": "5.23.0"
   },
   "devDependencies": {
     "webpack-cli": "^4.4.0",
