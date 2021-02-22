@@ -1,8 +1,8 @@
-import * as path from 'path';
 import * as webpack from 'webpack';
 import { getAssetsFileSystem } from '../assets/AssetsFileSystem';
-import { createProject } from '../egretproject';
-import { fileChanged, readFileAsync } from '../loaders/utils';
+import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
+import * as path from 'path';
+import { fileChanged } from '../loaders/utils';
 
 export default class EgretPropertyPlugin {
 
@@ -12,7 +12,24 @@ export default class EgretPropertyPlugin {
     }
 
     public apply(compiler: webpack.Compiler) {
+
         const pluginName = this.constructor.name;
+        compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+            const transaction = new EgretPropertyTransaction(this.options.libraryType);
+            transaction.onStart(compilation);
+            const fullPaths = transaction.fileDependencies.map(p => path.join(compiler.context, p));
+            for (let fullFilepath of fullPaths) {
+                compilation.fileDependencies.add(fullFilepath);
+                if (fileChanged(compiler, fullFilepath)) {
+                    compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
+                        await transaction.execute(compilation);
+                    });
+                    break;
+                }
+            }
+        });
+
+
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
             const asset = getAssetsFileSystem();
             await asset.parse(compiler);
@@ -21,48 +38,10 @@ export default class EgretPropertyPlugin {
             const asset = getAssetsFileSystem();
             await asset.parse(compiler);
         })
-        compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
-            const fullFilepath = path.join(compiler.context, 'egretProperties.json');
-            compilation.fileDependencies.add(fullFilepath);
-            if (fileChanged(compiler, fullFilepath)) {
-                compilation.hooks.processAssets.tapPromise(pluginName, async (assets) => {
-                    await execute(compiler, compilation, this.options.libraryType);
-                });
-            }
-        });
+
         compiler.hooks.afterEmit.tapPromise(pluginName, async () => {
             const assetsFileSystem = getAssetsFileSystem();
             await assetsFileSystem.output();
         })
     }
 }
-
-async function execute(compiler: webpack.Compiler, compilation: webpack.Compilation, libraryType: 'debug' | 'release') {
-    const project = createProject(compiler.context);
-    const egretModules = project.getModulesConfig('web');
-    const initial: string[] = [];
-    for (const m of egretModules) {
-        for (const asset of m.target) {
-            const filename = libraryType == 'debug' ? asset.debug : asset.release;
-            initial.push(filename);
-            try {
-                const content = await readFileAsync(compiler, filename);
-                const source = new webpack.sources.RawSource(content, false);
-                compilation.emitAsset(filename, source);
-            }
-            catch (e) {
-                const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                const webpackError = new webpack.WebpackError(message);
-                webpackError.file = 'egretProperties.json';
-                compilation.getErrors().push(webpackError);
-            }
-        }
-    }
-
-    const assetsFileSystem = getAssetsFileSystem();
-    if (await assetsFileSystem.needUpdate('manifest.json')) {
-        const manifest = { initial, game: ['main.js'] };
-        const manifestContent = JSON.stringify(manifest, null, '\t');
-        assetsFileSystem.update(compilation, { filePath: 'manifest.json', dependencies: ['egretProperties.json'] }, manifestContent);
-    }
-};

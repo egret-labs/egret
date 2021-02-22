@@ -1,5 +1,5 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
-import Ajv from 'ajv';
+import { validate } from 'schema-utils';
 import express from 'express';
 import * as path from 'path';
 import * as ts from 'typescript';
@@ -191,12 +191,8 @@ export function generateConfig(
 
 ): webpack.Configuration {
 
-    const ajv = new Ajv();
-    const validator = ajv.compile(schema);
-    const result = validator(options);
-    if (!result) {
-        // console.log(validator.errors);
-    }
+    validate(schema, options);
+
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
     const mode = devServer ? 'development' : 'production';
