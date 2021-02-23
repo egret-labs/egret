@@ -30,20 +30,6 @@ export class ResourceConfigFactory {
 
     }
 
-    async execute() {
-        const compilation = this.compilation;
-        const compiler = compilation.compiler;
-        await executeTextureMerger(compilation, path.join(compiler.context, 'resource'), this);
-        for (const resource of this.config.resources as ResourceConfig[]) {
-            if (!resource.isEmitted) {
-                const filepath = 'resource/' + resource.url;
-                const assetFullPath = path.join(compiler.context, filepath);
-                const assetbuffer = await readFileAsync(compiler, assetFullPath);
-                compilation.emitAsset(filepath, new webpack.sources.RawSource(assetbuffer));
-            }
-        }
-    }
-
     removeResource(name: string) {
         const index = this.config.resources.findIndex((r) => r.name === name);
         if (index >= 0) {

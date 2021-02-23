@@ -16,7 +16,7 @@ export default class EgretPropertyPlugin {
     public apply(compiler: webpack.Compiler) {
 
         this.transactions.push(new EgretPropertyTransaction(this.options.libraryType));
-        this.transactions.push(new ResourceConfigTransaction({ file: 'resource/default.res.json' }))
+        this.transactions.push(new ResourceConfigTransaction({ file: 'resource/default.res.json', executeBundle: true }))
 
 
 

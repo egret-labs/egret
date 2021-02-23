@@ -128,7 +128,7 @@ export class EgretWebpackBundler {
         compilerApp.use(webpackHotMiddleware(compiler));
         const port = options.devServer?.port || 3000;
         startExpressServer(compilerApp, port);
-        compilerApp.use(express.static(this.projectRoot));
+        // compilerApp.use(express.static(this.projectRoot));
         if (options.devServer?.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }

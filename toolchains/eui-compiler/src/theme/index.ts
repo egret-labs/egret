@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateAST } from '../util/parser';
 import { AST_Node } from '../exml-ast';
+import { generateAST } from '../util/parser';
 
 export interface ThemeData {
 
@@ -20,8 +20,9 @@ export class ThemeFile {
     private _dependenceMap: { [filename: string]: string[] } = {};
     private _preloads: string[] = [];
 
-    constructor(private projectRoot: string, public filePath: string) {
-        const jsonContent = fs.readFileSync(path.join(projectRoot, filePath), 'utf-8');
+    constructor(projectRoot: string, public filePath: string) {
+        const fullpath = path.join(projectRoot, filePath)
+        const jsonContent = fs.readFileSync(fullpath, 'utf-8');
         const json = JSON.parse(jsonContent) as ThemeData;
         this.data = json;
         const duplicate = json.exmls.filter((item, index, array) => {

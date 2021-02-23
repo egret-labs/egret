@@ -25,7 +25,7 @@ const config: ResourceManagerConfig = {
                     //     nameSelector: p => path.basename(p).replace(/\./gi, "_"),
                     //     groupSelector: p => "preload"
                     // }),
-                    new ExmlPlugin('debug'), // 非 EUI 项目关闭此设置
+                    // new ExmlPlugin('debug'), // 非 EUI 项目关闭此设置
                     // new EuiCompilerPlugin(),//新的 eui 编译器
                     // new IncrementCompilePlugin(),
                     new WebpackDevServerPlugin({ //新的 Webpack 编译器
@@ -34,6 +34,9 @@ const config: ResourceManagerConfig = {
                         typescript: { mode: 'legacy' },
                         html: {
                             templateFilePath: "template/web/index.html"
+                        },
+                        exml: {
+                            watch: true
                         },
                         devServer: {
                             open: true
