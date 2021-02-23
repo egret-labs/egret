@@ -1,8 +1,8 @@
-import { Compilation, WebpackError } from "webpack";
+import { Compilation, Compiler } from "webpack";
 import { createProject } from "../../egretproject";
-import { readFileAsync } from "../../loaders/utils";
 import { getAssetsFileSystem } from "../AssetsFileSystem";
 import { Transaction } from "../Transaction";
+import { CopyFileTransaction } from "./CopyFileTransaction";
 
 export class EgretPropertyTransaction extends Transaction {
 
@@ -14,6 +14,21 @@ export class EgretPropertyTransaction extends Transaction {
         return [
             'egretProperties.json'
         ]
+    }
+
+    async preExecute(compiler: Compiler) {
+
+        const project = createProject(compiler.context);
+        const egretModules = project.getModulesConfig('web');
+        const initial: string[] = [];
+        for (const m of egretModules) {
+            for (const asset of m.target) {
+                const filename = this.libraryType == 'debug' ? asset.debug : asset.release;
+                initial.push(filename);
+                this.addSubTransaction(new CopyFileTransaction(filename));
+
+            }
+        }
     }
 
 
@@ -29,19 +44,6 @@ export class EgretPropertyTransaction extends Transaction {
             for (const asset of m.target) {
                 const filename = this.libraryType == 'debug' ? asset.debug : asset.release;
                 initial.push(filename);
-                if (await assetsFileSystem.needUpdate(filename)) {
-                    try {
-                        const content = await readFileAsync(compiler, filename);
-                        assetsFileSystem.update(compilation, { filePath: filename, dependencies: [] }, content);
-                    }
-                    catch (e) {
-                        const message = `\t模块加载失败:${m.name}\n\t文件访问异常:${filename}`;
-                        const webpackError = new WebpackError(message);
-                        webpackError.file = 'egretProperties.json';
-                        compilation.getErrors().push(webpackError);
-                    }
-                }
-
             }
         }
 
@@ -55,3 +57,4 @@ export class EgretPropertyTransaction extends Transaction {
 
 
 }
+
