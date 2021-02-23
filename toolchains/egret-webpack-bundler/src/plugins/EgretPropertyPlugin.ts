@@ -18,7 +18,13 @@ export default class EgretPropertyPlugin {
         this.transactions.push(new EgretPropertyTransaction(this.options.libraryType));
         this.transactions.push(new ResourceConfigTransaction({ file: 'resource/default.res.json', executeBundle: true }))
 
-
+        compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
+            const asset = getAssetsFileSystem();
+            await asset.parse(compiler);
+            for (const t of this.transactions) {
+                await t.preExecute(compiler);
+            }
+        });
 
         const pluginName = this.constructor.name;
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
@@ -26,13 +32,11 @@ export default class EgretPropertyPlugin {
         });
 
 
-        compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
-            this.transactions.forEach(t => t.preExecute(compiler));
-            const asset = getAssetsFileSystem();
-            await asset.parse(compiler);
-        })
+
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
-            this.transactions.forEach(t => t.preExecute(compiler));
+            for (const t of this.transactions) {
+                await t.preExecute(compiler);
+            }
             const asset = getAssetsFileSystem();
             await asset.parse(compiler);
         })
