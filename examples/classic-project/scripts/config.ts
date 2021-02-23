@@ -38,10 +38,10 @@ const config: ResourceManagerConfig = {
                         devServer: {
                             open: true
                         },
-                        // assets: [{
-                        //     file: "resource/default.res.json",
-                        //     executeBundle: true
-                        // }],
+                        assets: [{
+                            file: "resource/default.res.json",
+                            executeBundle: true
+                        }],
                         parseEgretProperty: true
                     }),
                 ]

@@ -42,8 +42,14 @@ export class AssetsFileSystem {
         catch (e) {
 
         }
+        const existedFile = this.map.get(input.filePath);
+        if (existedFile) {
+            existedFile.dependencies = existedFile.dependencies.concat(input.dependencies)
+        }
+        else {
+            this.map.set(input.filePath, file);
+        }
 
-        this.map.set(input.filePath, file);
         const { dependencies } = file;
         for (let dependencyFilePath of dependencies) {
             await this.add({ filePath: dependencyFilePath, dependencies: [] })

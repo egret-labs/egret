@@ -2,6 +2,7 @@ import * as webpack from 'webpack';
 import { getAssetsFileSystem } from '../assets/AssetsFileSystem';
 import { Transaction } from '../assets/Transaction';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
+import { ResourceConfigTransaction } from '../assets/transactions/ResourceConfigTransaction';
 
 export default class EgretPropertyPlugin {
 
@@ -14,8 +15,10 @@ export default class EgretPropertyPlugin {
 
     public apply(compiler: webpack.Compiler) {
 
-        const transaction = new EgretPropertyTransaction(this.options.libraryType);
-        this.transactions.push(transaction);
+        this.transactions.push(new EgretPropertyTransaction(this.options.libraryType));
+        this.transactions.push(new ResourceConfigTransaction({ file: 'resource/default.res.json' }))
+
+
 
         const pluginName = this.constructor.name;
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {

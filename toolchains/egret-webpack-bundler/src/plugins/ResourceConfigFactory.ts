@@ -12,15 +12,12 @@ export type ResourceConfig = ResourceConfigFile['resources'][0] & {
 
 export class ResourceConfigFactory {
 
-    private configFilePath!: string;
-
     compilation!: webpack.Compilation;
 
     config: ResourceConfigFile = { groups: [], resources: [] };
 
     parse(filename: string, raw: string) {
 
-        this.configFilePath = filename;
         let json: ResourceConfigFile;
         try {
             json = JSON.parse(raw);
@@ -83,8 +80,7 @@ export class ResourceConfigFactory {
             delete r.isEmitted;
         }
         const content = JSON.stringify(this.config);
-        const source = new webpack.sources.RawSource(content, false);
-        this.compilation.emitAsset(this.configFilePath, source);
+        return content;
     }
 
 }

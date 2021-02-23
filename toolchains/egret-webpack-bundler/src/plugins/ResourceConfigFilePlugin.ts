@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
+import { Transaction } from '../assets/Transaction';
 import { fileChanged, readFileAsync } from '../loaders/utils';
 import { ResourceConfigFactory } from './ResourceConfigFactory';
 
@@ -8,11 +9,16 @@ export type ResourceConfigFilePluginOptions = { file: string, executeBundle?: bo
 
 export default class ResourceConfigFilePlugin {
 
+
+    private transactions: Transaction[] = [];
+
     // eslint-disable-next-line no-useless-constructor
     constructor(private options: ResourceConfigFilePluginOptions) {
     }
 
     public apply(compiler: webpack.Compiler) {
+
+        return;
 
         const pluginName = this.constructor.name;
 
@@ -34,9 +40,9 @@ export default class ResourceConfigFilePlugin {
                     const factory = new ResourceConfigFactory();
                     factory.compilation = compilation;
                     factory.parse(file, content.toString());
-                    if (executeBundle) {
-                        await factory.execute();
-                    }
+                    // if (executeBundle) {
+                    //     await factory.execute();
+                    // }
                     factory.emitConfig();
                 }
                 catch (e) {
