@@ -19,6 +19,7 @@ export abstract class Transaction {
 
     static onCompilation(transactions: Transaction[], compilation: Compilation) {
         for (const transaction of transactions) {
+            Transaction.onCompilation(transaction.subTransaction, compilation);
             const fullPaths = transaction.fileDependencies.map(p => path.join(compilation.compiler.context, p));
             for (let fullFilepath of fullPaths) {
                 compilation.fileDependencies.add(fullFilepath);
@@ -28,7 +29,7 @@ export abstract class Transaction {
                     });
                 }
             }
-            Transaction.onCompilation(transaction.subTransaction, compilation);
+
         }
 
     }
