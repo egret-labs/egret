@@ -35,7 +35,7 @@ export default class EgretPropertyPlugin {
             const content = await readFileAsync(compiler, path.join(compiler.context, file));
             factory.parse(file, content.toString());
             for (const t of this.transactions) {
-                await t.preExecute(compiler);
+                await t.prepared(compiler);
             }
         });
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
@@ -49,7 +49,7 @@ export default class EgretPropertyPlugin {
             const content = await readFileAsync(compiler, path.join(compiler.context, file));
             factory.parse(file, content.toString());
             for (const t of this.transactions) {
-                await t.preExecute(compiler);
+                await t.prepared(compiler);
             }
         })
 
@@ -73,7 +73,7 @@ export default class EgretPropertyPlugin {
 
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
             for (const t of this.transactions) {
-                await t.preExecute(compiler);
+                await t.prepared(compiler);
             }
             const asset = getAssetsFileSystem();
             await asset.parse(compiler);

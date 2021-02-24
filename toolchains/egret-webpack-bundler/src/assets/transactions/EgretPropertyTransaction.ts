@@ -16,7 +16,7 @@ export class EgretPropertyTransaction extends Transaction {
         ]
     }
 
-    async preExecute(compiler: Compiler) {
+    async prepared(compiler: Compiler) {
 
         const project = createProject(compiler.context);
         const egretModules = project.getModulesConfig('web');

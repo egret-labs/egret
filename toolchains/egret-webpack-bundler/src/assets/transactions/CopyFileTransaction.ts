@@ -10,7 +10,7 @@ export class CopyFileTransaction extends Transaction {
         super();
     }
 
-    async preExecute(compiler: Compiler) {
+    async prepared(compiler: Compiler) {
     }
 
     get fileDependencies(): string[] {

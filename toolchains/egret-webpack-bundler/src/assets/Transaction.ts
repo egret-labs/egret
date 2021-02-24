@@ -2,14 +2,18 @@ import * as path from 'path';
 import { Compilation, Compiler } from "webpack";
 import { fileChanged } from "../loaders/utils";
 
-export abstract class Transaction {
+export class Transaction {
 
-    abstract get fileDependencies(): string[]
+    get fileDependencies(): string[]
 
-    abstract execute(compilation: Compilation): Promise<void>
+    async execute(compilation: Compilation) {
+
+    }
 
 
-    abstract preExecute(compiler: Compiler): Promise<void>
+    async prepared(compiler: Compiler) {
+
+    }
 
     subTransaction: Transaction[] = [];
 
