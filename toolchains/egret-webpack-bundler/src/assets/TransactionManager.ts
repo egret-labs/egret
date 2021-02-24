@@ -39,7 +39,7 @@ export class TransactionManager {
 
     async execute() {
         for (const [source, transaction] of this.transactions) {
-            await transaction.execute(this);
+            await transaction.onExecute(this);
         }
     }
 

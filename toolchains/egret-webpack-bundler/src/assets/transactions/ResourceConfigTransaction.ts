@@ -10,6 +10,8 @@ export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boo
 
 export class ResourceConfigTransaction extends Transaction {
 
+    private factory!: ResourceConfigFactory;
+
     async onPrepare(manager: TransactionManager) {
 
         const factory = new ResourceConfigFactory();
@@ -22,11 +24,14 @@ export class ResourceConfigTransaction extends Transaction {
             }
 
         }
+        this.factory = factory;
         return { fileDependencies: [] };
     }
 
-    async execute() {
-
+    async onExecute(manager: TransactionManager) {
+        const factory = this.factory;
+        const output = factory.emitConfig();
+        manager.outputFileSystem.emitAsset(this.source, output);
     }
 }
 

@@ -16,7 +16,7 @@ const MockTransction = jest.fn().mockImplementation(class X extends Transaction 
         super(source);
         this.prepare = Transaction.prototype.prepare;
         this.onPrepare = mockPreparedMethod;
-        this.execute = mockExecuteMethod;
+        this.onExecute = mockExecuteMethod;
     }
 } as any);
 
@@ -149,9 +149,9 @@ describe('ResourceConfigTransaction', () => {
             const vfs = memfs.Volume.fromNestedJSON({
                 'resource/default.res.json': fs.readFileSync(path.join('test/simple-project/resource/default.res.json'), 'utf-8'),
                 'resource/spritesheet': {
-                    'rank_no1.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any,
-                    'rank_no2.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any,
-                    'rank_no3.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any
+                    'rank_no1.png': '111',
+                    'rank_no2.png': '111',
+                    'rank_no3.png': '111'
                 }
             });
             manager.inputFileSystem = {
@@ -168,6 +168,8 @@ describe('ResourceConfigTransaction', () => {
             manager.create(ResourceConfigTransaction, 'resource/default.res.json');
             await manager.prepare();
             await manager.execute();
+            expect(store['resource/default.res.json']).not.toBeUndefined();
+            expect(store['resource/spritesheet/rank_no1.png'].toString()).toEqual('111');
         });
     });
 });

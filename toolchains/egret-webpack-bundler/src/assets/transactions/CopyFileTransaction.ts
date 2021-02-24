@@ -11,7 +11,7 @@ export class CopyFileTransaction extends Transaction {
         super(filename);
     }
 
-    async execute(manager: TransactionManager) {
+    async onExecute(manager: TransactionManager) {
         const content = await manager.inputFileSystem.readFileAsync(this.source);
         manager.outputFileSystem.emitAsset(this.source, content);
     }

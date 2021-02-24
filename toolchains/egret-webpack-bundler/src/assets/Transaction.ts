@@ -29,7 +29,7 @@ export class Transaction {
         return { fileDependencies: [] };
     }
 
-    async execute(manager: TransactionManager) {
+    async onExecute(manager: TransactionManager) {
 
     }
 

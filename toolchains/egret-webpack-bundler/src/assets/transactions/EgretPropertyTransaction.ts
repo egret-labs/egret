@@ -48,7 +48,7 @@ export class EgretPropertyTransaction extends Transaction {
         return { fileDependencies: [] };
     }
 
-    async execute(manager: TransactionManager) {
+    async onExecute(manager: TransactionManager) {
         const project = new EgretProjectData();
         const content = await manager.inputFileSystem.readFileAsync('egretProperties.json');
         project.initialize(manager.projectRoot, content);
