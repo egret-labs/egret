@@ -69,27 +69,36 @@ export class EgretProjectData {
         this.reload();
     }
 
+    initialize(projectRoot: string, content: string) {
+        this.projectRoot = projectRoot;
+        this.parse(content);
+    }
+
     hasEUI() {
         return this.egretProperties.modules.some((m) => m.name == 'eui');
     }
 
-    reload() {
+    private parse(content: string) {
+        this.egretProperties = JSON.parse(content);
+        let useGUIorEUI = 0;
+        for (const m of this.egretProperties.modules) {
+            //兼容小写
+            if (m.name == 'dragonbones') {
+                m.name = 'dragonBones';
+            }
+            if (m.name == 'gui' || m.name == 'eui') {
+                useGUIorEUI++;
+            }
+        }
+        if (useGUIorEUI >= 2) {
+        }
+    }
+
+    private reload() {
         const egretPropertiesPath = this.getFilePath('egretProperties.json');
         if (fs.existsSync(egretPropertiesPath)) {
             const content = fs.readFileSync(egretPropertiesPath, 'utf-8');
-            this.egretProperties = JSON.parse(content);
-            let useGUIorEUI = 0;
-            for (const m of this.egretProperties.modules) {
-                //兼容小写
-                if (m.name == 'dragonbones') {
-                    m.name = 'dragonBones';
-                }
-                if (m.name == 'gui' || m.name == 'eui') {
-                    useGUIorEUI++;
-                }
-            }
-            if (useGUIorEUI >= 2) {
-            }
+            this.parse(content);
         }
     }
 

@@ -1,7 +1,9 @@
 import { Compilation, Compiler } from "webpack";
 import { createProject } from "../../egretproject";
+import { EgretProjectData } from "../../egretproject/data";
 import { getAssetsFileSystem } from "../AssetsFileSystem";
 import { Transaction } from "../Transaction";
+import { TransactionManager } from "../TransactionManager";
 import { CopyFileTransaction } from "./CopyFileTransaction";
 
 export class EgretPropertyTransaction extends Transaction {
@@ -29,6 +31,29 @@ export class EgretPropertyTransaction extends Transaction {
 
             }
         }
+    }
+
+    async prepare(manager: TransactionManager) {
+
+    }
+
+    async execute(manager: TransactionManager) {
+        const project = new EgretProjectData();
+        const content = await manager.inputFileSystem.readFileAsync('egretProperties.json');
+        project.initialize(manager.projectRoot, content)
+        // const project = createProject(manager.projectRoot);
+        const egretModules = project.getModulesConfig('web');
+        const initial: string[] = [];
+        for (const m of egretModules) {
+            for (const asset of m.target) {
+                const filename = this.libraryType == 'debug' ? asset.debug : asset.release;
+                initial.push(filename);
+            }
+        }
+
+        const manifest = { initial, game: ['main.js'] };
+        const manifestContent = JSON.stringify(manifest, null, '\t');
+        // assetsFileSystem.update(compilation, { filePath: 'manifest.json', dependencies: this.fileDependencies }, manifestContent);
     }
 
 

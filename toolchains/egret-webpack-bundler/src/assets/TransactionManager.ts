@@ -9,9 +9,15 @@ interface InputFileSystem {
 
 export class TransactionManager {
 
+    constructor(public projectRoot: string) {
+
+    }
+
     transactions: Map<string, Transaction> = new Map();
 
     inputFileSystem!: InputFileSystem
+
+    // outputFileSystem
 
     create<T extends { new(...args: any[]): Transaction }>(transactionClass: T, ...args: ConstructorParameters<T>) {
         const t = new transactionClass(...args);
