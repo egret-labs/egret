@@ -32,19 +32,18 @@ describe('TransactionManager', () => {
             const manager = new TransactionManager('');
             const transaction = manager.create(MockTransction, 'source-file.txt', 2, 3);
             expect(transaction.source).toStrictEqual('source-file.txt');
-        })
+        });
 
         it('manager.transactions have source', () => {
             const manager = new TransactionManager('');
             manager.create(MockTransction, 'source-file.txt', 2, 3);
-            expect(manager.transactions.get('source-file.txt')).toBeInstanceOf(MockTransction)
+            expect(manager.transactions.get('source-file.txt')).toBeInstanceOf(MockTransction);
         });
     });
 
-
     describe('TransactionManager#prepare', () => {
 
-        it(`transaction's prepare should be called`, () => {
+        it('transaction\'s prepare should be called', () => {
             const manager = new TransactionManager('');
             manager.create(MockTransction, 'source-file.txt', 2, 3);
             manager.prepare();
@@ -63,12 +62,12 @@ describe('TransactionManager', () => {
             manager.create(CompositeTransaction, 'source-file-1.txt');
             await manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
-        })
+        });
     });
 
     describe('TransactionManager#execute', () => {
 
-        it(`transaction's execute should be called`, () => {
+        it('transaction\'s execute should be called', () => {
             const manager = new TransactionManager('');
             manager.create(MockTransction, 'source-file.txt', 2, 3);
             manager.prepare();
@@ -76,7 +75,7 @@ describe('TransactionManager', () => {
             expect(mockExecuteMethod).toBeCalledWith(manager);
         });
     });
-})
+});
 
 describe('EgretProperyTransaction', () => {
 
@@ -84,25 +83,24 @@ describe('EgretProperyTransaction', () => {
         const manager = new TransactionManager('.');
         const vfs = memfs.Volume.fromJSON({
             'egretProperties.json': fs.readFileSync(path.join('test/simple-project/egretProperties.json'), 'utf-8')
-        })
+        });
         manager.inputFileSystem = {
             readFileAsync: (file: string) => {
-                return vfs.promises.readFile(file) as Promise<string>
+                return vfs.promises.readFile(file) as Promise<string>;
             }
-        }
+        };
         const store: any = {};
         manager.outputFileSystem = {
             emitAsset: (filepath: string, content: string) => {
                 store[filepath] = content;
             }
-        }
+        };
         manager.create(EgretPropertyTransaction, 'debug');
         await manager.prepare();
         await manager.execute();
         expect(store['manifest.json']).not.toBeUndefined();
-    })
+    });
 });
-
 
 describe('CopyFileTransaction', () => {
 
@@ -110,21 +108,21 @@ describe('CopyFileTransaction', () => {
         const manager = new TransactionManager('.');
         const vfs = memfs.Volume.fromJSON({
             '1.txt': 'HelloWorld'
-        })
+        });
         manager.inputFileSystem = {
             readFileAsync: (file: string) => {
-                return vfs.promises.readFile(file) as Promise<string>
+                return vfs.promises.readFile(file) as Promise<string>;
             }
-        }
+        };
         const store: any = {};
         manager.outputFileSystem = {
             emitAsset: (filepath: string, content: string) => {
                 store[filepath] = content;
             }
-        }
+        };
         manager.create(CopyFileTransaction, '1.txt');
         await manager.prepare();
         await manager.execute();
         expect(store['1.txt'].toString()).toEqual('HelloWorld');
-    })
+    });
 });
