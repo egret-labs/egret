@@ -11,11 +11,8 @@ export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boo
 
 export class ResourceConfigTransaction extends Transaction {
 
-    private factory: ResourceConfigFactory;
-
-    constructor(private options: ResourceConfigFilePluginOption) {
+    constructor(private options: ResourceConfigFilePluginOption, private factory: ResourceConfigFactory) {
         super();
-        this.factory = new ResourceConfigFactory();
     }
 
     get fileDependencies() {
@@ -33,9 +30,9 @@ export class ResourceConfigTransaction extends Transaction {
         //     throw new Error(fullFilepath + '不存在');
         // }
         try {
-            const content = await readFileAsync(compiler, fullFilepath);
+
             const factory = this.factory;
-            factory.parse(file, content.toString());
+
             const root = path.join(compiler.context, 'resource');
             const entities = await getAllTextureMergerConfig(root);
             for (const e of entities) {
@@ -43,7 +40,7 @@ export class ResourceConfigTransaction extends Transaction {
             }
             const config = factory.config;
             for (const x of config.resources as ResourceConfig[]) {
-                if (x.isEmitted) {
+                if (!x.isEmitted) {
                     this.addSubTransaction(new CopyFileTransaction('resource/' + x.url));
                 }
 
@@ -59,33 +56,33 @@ export class ResourceConfigTransaction extends Transaction {
     }
 
     async execute(compilation: Compilation) {
-        const assetsFileSystem = getAssetsFileSystem();
+        // const assetsFileSystem = getAssetsFileSystem();
 
-        const bundleInfo = this.options;
-        const compiler = compilation.compiler;
-        const { file, executeBundle } = bundleInfo;
-        const fullFilepath = path.join(compiler.context, file);
-        // const existed = fs.existsSync(fullFilepath);
-        // if (!existed) {
-        //     throw new Error(fullFilepath + '不存在');
+        // const bundleInfo = this.options;
+        // const compiler = compilation.compiler;
+        // const { file, executeBundle } = bundleInfo;
+        // const fullFilepath = path.join(compiler.context, file);
+        // // const existed = fs.existsSync(fullFilepath);
+        // // if (!existed) {
+        // //     throw new Error(fullFilepath + '不存在');
+        // // }
+        // if (await assetsFileSystem.needUpdate(bundleInfo.file)) {
+        //     try {
+        //         const factory = this.factory;
+        //         factory.compilation = compilation;
+        //         // if (executeBundle) {
+        //         //     await factory.execute();
+        //         // }
+        //         const output = factory.emitConfig();
+        //         assetsFileSystem.update(compilation, { filePath: bundleInfo.file, dependencies: this.fileDependencies }, output);
+        //     }
+        //     catch (e) {
+        //         const message = `\t资源配置处理异常\n\t${e.message}`;
+        //         const webpackError = new WebpackError(message);
+        //         webpackError.file = file;
+        //         compilation.getErrors().push(webpackError);
+        //     }
         // }
-        if (await assetsFileSystem.needUpdate(bundleInfo.file)) {
-            try {
-                const factory = this.factory;
-                factory.compilation = compilation;
-                // if (executeBundle) {
-                //     await factory.execute();
-                // }
-                const output = factory.emitConfig();
-                assetsFileSystem.update(compilation, { filePath: bundleInfo.file, dependencies: this.fileDependencies }, output);
-            }
-            catch (e) {
-                const message = `\t资源配置处理异常\n\t${e.message}`;
-                const webpackError = new WebpackError(message);
-                webpackError.file = file;
-                compilation.getErrors().push(webpackError);
-            }
-        }
 
     }
 }

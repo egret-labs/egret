@@ -29,7 +29,6 @@
 
 declare const VERSION: number;
 console.log(VERSION);
-
 class Main extends eui.UILayer {
 
 

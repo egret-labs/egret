@@ -17,7 +17,6 @@ export class ResourceConfigFactory {
     config: ResourceConfigFile = { groups: [], resources: [] };
 
     parse(filename: string, raw: string) {
-
         let json: ResourceConfigFile;
         try {
             json = JSON.parse(raw);
