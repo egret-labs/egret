@@ -4,7 +4,9 @@ import { fileChanged } from "../loaders/utils";
 
 export class Transaction {
 
-    get fileDependencies(): string[]
+    get fileDependencies(): string[] {
+        return [];
+    }
 
     async execute(compilation: Compilation) {
 
