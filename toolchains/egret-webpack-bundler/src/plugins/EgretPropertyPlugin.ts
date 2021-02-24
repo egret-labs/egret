@@ -2,7 +2,7 @@ import * as webpack from 'webpack';
 import { getAssetsFileSystem } from '../assets/AssetsFileSystem';
 import { Transaction } from '../assets/Transaction';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
-import { ResourceConfigTransaction } from '../assets/transactions/ResourceConfigTransaction';
+import { ResourceConfigTransaction2 } from '../assets/transactions/ResourceConfigTransaction';
 import { readFileAsync } from '../loaders/utils';
 import { ResourceConfigFactory } from './ResourceConfigFactory';
 import * as path from 'path';
@@ -22,7 +22,7 @@ export default class EgretPropertyPlugin {
         const factory = new ResourceConfigFactory();
 
         this.transactions.push(new EgretPropertyTransaction(this.options.libraryType));
-        this.transactions.push(new ResourceConfigTransaction({ file: 'resource/default.res.json', executeBundle: true }, factory));
+        this.transactions.push(new ResourceConfigTransaction2({ file: 'resource/default.res.json', executeBundle: true }, factory));
 
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
             if (this.isInit) {

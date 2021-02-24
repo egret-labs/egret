@@ -3,11 +3,34 @@ import { Compilation, Compiler, WebpackError } from 'webpack';
 import { ResourceConfig, ResourceConfigFactory } from '../../plugins/ResourceConfigFactory';
 import { walkDir } from '../../utils';
 import { Transaction } from '../Transaction';
+import { TransactionManager } from '../TransactionManager';
 import { CopyFileTransaction } from './CopyFileTransaction';
 import { TextureMergerTransaction } from './TextureMergerTransaction';
 export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boolean };
 
 export class ResourceConfigTransaction extends Transaction {
+
+    async onPrepare(manager: TransactionManager) {
+
+        const factory = new ResourceConfigFactory();
+        const content = await manager.inputFileSystem.readFileAsync(this.source);
+        factory.parse(this.source, content);
+        const config = factory.config;
+        for (const x of config.resources as ResourceConfig[]) {
+            if (!x.isEmitted) {
+                manager.create(CopyFileTransaction, 'resource/' + x.url);
+            }
+
+        }
+        return { fileDependencies: [] };
+    }
+
+    async execute() {
+
+    }
+}
+
+export class ResourceConfigTransaction2 extends Transaction {
 
     constructor(private options: ResourceConfigFilePluginOption, private factory: ResourceConfigFactory) {
         super(options.file);

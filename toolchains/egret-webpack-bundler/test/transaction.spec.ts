@@ -5,6 +5,7 @@ import { Transaction } from '../src/assets/Transaction';
 import { TransactionManager } from '../src/assets/TransactionManager';
 import { CopyFileTransaction } from '../src/assets/transactions/CopyFileTransaction';
 import { EgretPropertyTransaction } from '../src/assets/transactions/EgretPropertyTransaction';
+import { ResourceConfigTransaction } from '../src/assets/transactions/ResourceConfigTransaction';
 const mockPreparedMethod = jest.fn();
 
 const mockExecuteMethod = jest.fn();
@@ -13,7 +14,8 @@ const MockTransction = jest.fn().mockImplementation(class X extends Transaction 
 
     constructor(source: string) {
         super(source);
-        this.prepare = mockPreparedMethod;
+        this.prepare = Transaction.prototype.prepare;
+        this.onPrepare = mockPreparedMethod;
         this.execute = mockExecuteMethod;
     }
 } as any);
@@ -105,7 +107,7 @@ describe('CopyFileTransaction', () => {
 describe('EgretProperyTransaction', () => {
 
     describe('EgretPropertyTransaction#execute', () => {
-        it('manifest.json', async () => {
+        it('generate manifest.json and javascript', async () => {
             const manager = new TransactionManager('.');
             const vfs = memfs.Volume.fromNestedJSON({
                 'egretProperties.json': fs.readFileSync(path.join('test/simple-project/egretProperties.json'), 'utf-8'),
@@ -134,6 +136,38 @@ describe('EgretProperyTransaction', () => {
             await manager.execute();
             expect(store['manifest.json']).not.toBeUndefined();
             expect(store['libs/modules/egret/egret.web.js']).not.toBeUndefined();
+        });
+    });
+});
+
+describe('ResourceConfigTransaction', () => {
+
+    describe('ResourceConfigTransaction#execute', () => {
+
+        it('copy resource', async () => {
+            const manager = new TransactionManager('.');
+            const vfs = memfs.Volume.fromNestedJSON({
+                'resource/default.res.json': fs.readFileSync(path.join('test/simple-project/resource/default.res.json'), 'utf-8'),
+                'resource/spritesheet': {
+                    'rank_no1.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any,
+                    'rank_no2.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any,
+                    'rank_no3.png': fs.readFileSync(path.join('test/simple-project/resource/spritesheet/rank_no1.png')) as any
+                }
+            });
+            manager.inputFileSystem = {
+                readFileAsync: (file: string) => {
+                    return vfs.promises.readFile(file) as Promise<string>;
+                }
+            };
+            const store: any = {};
+            manager.outputFileSystem = {
+                emitAsset: (filepath: string, content: string) => {
+                    store[filepath] = content;
+                }
+            };
+            manager.create(ResourceConfigTransaction, 'resource/default.res.json');
+            await manager.prepare();
+            await manager.execute();
         });
     });
 });

@@ -1,4 +1,4 @@
-import { Transaction } from "./Transaction";
+import { Transaction } from './Transaction';
 
 interface InputFileSystem {
 
@@ -12,9 +12,9 @@ interface OutputFileSystem {
 
 }
 
-
 export class TransactionManager {
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(public projectRoot: string) {
 
     }
