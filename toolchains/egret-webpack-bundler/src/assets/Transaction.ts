@@ -3,13 +3,17 @@ import { Compilation, Compiler } from "webpack";
 import { fileChanged } from "../loaders/utils";
 import { TransactionManager } from './TransactionManager';
 
+type TransactionPreparedResult = { fileDependencies: string[] }
+
 export class Transaction {
 
     constructor(readonly source: string) {
     }
 
-    get fileDependencies(): string[] {
-        return [];
+    private preparedResult!: TransactionPreparedResult;
+
+    get fileDependencies() {
+        return this.preparedResult.fileDependencies;
     }
 
     async execute(compilation: Compilation) {
@@ -17,7 +21,11 @@ export class Transaction {
     }
 
     async prepare(manager: TransactionManager) {
+        this.preparedResult = await this.onPrepare(manager);
+    }
 
+    protected async onPrepare(manager: TransactionManager): Promise<TransactionPreparedResult> {
+        return { fileDependencies: [] }
     }
 
 

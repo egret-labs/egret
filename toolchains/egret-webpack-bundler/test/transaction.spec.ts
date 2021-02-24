@@ -40,12 +40,12 @@ describe('TransactionManager', () => {
 
         it(`transaction's prepare should be called`, () => {
             const manager = new TransactionManager();
-            const t = manager.create(MockTransction, 'source-file.txt', 2, 3);
+            manager.create(MockTransction, 'source-file.txt', 2, 3);
             manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
         });
 
-        it('transaction recursive prepare', () => {
+        it('transaction recursive prepare', async () => {
             class CompositeTransaction extends Transaction {
 
                 async prepare(manager: TransactionManager) {
@@ -55,7 +55,7 @@ describe('TransactionManager', () => {
 
             const manager = new TransactionManager();
             manager.create(CompositeTransaction, 'source-file-1.txt');
-            manager.prepare();
+            await manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
         })
     });
