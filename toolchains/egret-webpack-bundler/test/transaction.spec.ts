@@ -77,31 +77,6 @@ describe('TransactionManager', () => {
     });
 });
 
-describe('EgretProperyTransaction', () => {
-
-    it('execute', async () => {
-        const manager = new TransactionManager('.');
-        const vfs = memfs.Volume.fromJSON({
-            'egretProperties.json': fs.readFileSync(path.join('test/simple-project/egretProperties.json'), 'utf-8')
-        });
-        manager.inputFileSystem = {
-            readFileAsync: (file: string) => {
-                return vfs.promises.readFile(file) as Promise<string>;
-            }
-        };
-        const store: any = {};
-        manager.outputFileSystem = {
-            emitAsset: (filepath: string, content: string) => {
-                store[filepath] = content;
-            }
-        };
-        manager.create(EgretPropertyTransaction, 'debug');
-        await manager.prepare();
-        await manager.execute();
-        expect(store['manifest.json']).not.toBeUndefined();
-    });
-});
-
 describe('CopyFileTransaction', () => {
 
     it('execute', async () => {
@@ -124,5 +99,41 @@ describe('CopyFileTransaction', () => {
         await manager.prepare();
         await manager.execute();
         expect(store['1.txt'].toString()).toEqual('HelloWorld');
+    });
+});
+
+describe('EgretProperyTransaction', () => {
+
+    describe('EgretPropertyTransaction#execute', () => {
+        it('manifest.json', async () => {
+            const manager = new TransactionManager('.');
+            const vfs = memfs.Volume.fromNestedJSON({
+                'egretProperties.json': fs.readFileSync(path.join('test/simple-project/egretProperties.json'), 'utf-8'),
+                'libs': {
+                    'modules': {
+                        'egret/egret.js': '',
+                        'egret/egret.web.js': '',
+                        'eui/eui.js': '',
+                        'assetsmanager/assetsmanager.js': ''
+                    }
+                }
+            });
+            manager.inputFileSystem = {
+                readFileAsync: (file: string) => {
+                    return vfs.promises.readFile(file) as Promise<string>;
+                }
+            };
+            const store: any = {};
+            manager.outputFileSystem = {
+                emitAsset: (filepath: string, content: string) => {
+                    store[filepath] = content;
+                }
+            };
+            manager.create(EgretPropertyTransaction, 'debug');
+            await manager.prepare();
+            await manager.execute();
+            expect(store['manifest.json']).not.toBeUndefined();
+            expect(store['libs/modules/egret/egret.web.js']).not.toBeUndefined();
+        });
     });
 });

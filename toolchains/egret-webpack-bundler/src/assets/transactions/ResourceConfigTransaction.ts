@@ -1,8 +1,8 @@
 import * as path from 'path';
-import { Compilation, Compiler, WebpackError } from "webpack";
-import { ResourceConfig, ResourceConfigFactory } from "../../plugins/ResourceConfigFactory";
+import { Compilation, Compiler, WebpackError } from 'webpack';
+import { ResourceConfig, ResourceConfigFactory } from '../../plugins/ResourceConfigFactory';
 import { walkDir } from '../../utils';
-import { Transaction } from "../Transaction";
+import { Transaction } from '../Transaction';
 import { CopyFileTransaction } from './CopyFileTransaction';
 import { TextureMergerTransaction } from './TextureMergerTransaction';
 export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boolean };
@@ -14,14 +14,13 @@ export class ResourceConfigTransaction extends Transaction {
     }
 
     get fileDependencies() {
-        return [this.options.file]
+        return [this.options.file];
     }
 
     async prepare2(compiler: Compiler) {
         const bundleInfo = this.options;
         const { file, executeBundle } = bundleInfo;
         const fullFilepath = path.join(compiler.context, file);
-
 
         // const existed = fs.existsSync(fullFilepath);
         // if (!existed) {
@@ -34,7 +33,7 @@ export class ResourceConfigTransaction extends Transaction {
             const root = path.join(compiler.context, 'resource');
             const entities = await getAllTextureMergerConfig(root);
             for (const e of entities) {
-                const t = new TextureMergerTransaction(e.path, factory)
+                const t = new TextureMergerTransaction(e.path, factory);
                 this.addSubTransaction(t);
                 t.prepare2(compiler);
             }
@@ -45,7 +44,6 @@ export class ResourceConfigTransaction extends Transaction {
                 }
 
             }
-
 
         }
         catch (e) {
@@ -86,8 +84,6 @@ export class ResourceConfigTransaction extends Transaction {
 
     }
 }
-
-
 
 async function getAllTextureMergerConfig(root: string) {
     const entities = await walkDir(root);
