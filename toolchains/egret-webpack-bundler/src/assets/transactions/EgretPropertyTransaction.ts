@@ -7,7 +7,7 @@ import { CopyFileTransaction } from "./CopyFileTransaction";
 export class EgretPropertyTransaction extends Transaction {
 
     constructor(private libraryType: 'debug' | 'release') {
-        super();
+        super('egretProperties.json');
     }
 
     get fileDependencies(): string[] {

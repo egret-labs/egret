@@ -4,6 +4,9 @@ import { fileChanged } from "../loaders/utils";
 
 export class Transaction {
 
+    constructor(readonly source: string) {
+    }
+
     get fileDependencies(): string[] {
         return [];
     }

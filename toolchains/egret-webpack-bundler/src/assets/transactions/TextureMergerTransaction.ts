@@ -13,7 +13,7 @@ export class TextureMergerTransaction extends Transaction {
     private spriteSheetImageResourceConfig!: ResourceConfig;
 
     constructor(private fullfilepath: string, private factory: ResourceConfigFactory) {
-        super();
+        super(fullfilepath);
     }
 
     get fileDependencies() {

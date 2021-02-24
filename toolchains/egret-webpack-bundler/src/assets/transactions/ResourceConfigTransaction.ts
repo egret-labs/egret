@@ -10,7 +10,7 @@ export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boo
 export class ResourceConfigTransaction extends Transaction {
 
     constructor(private options: ResourceConfigFilePluginOption, private factory: ResourceConfigFactory) {
-        super();
+        super(options.file);
     }
 
     get fileDependencies() {

@@ -7,7 +7,7 @@ import { Transaction } from "../Transaction";
 export class CopyFileTransaction extends Transaction {
 
     constructor(private filename: string) {
-        super();
+        super(filename);
     }
 
     async prepared(compiler: Compiler) {

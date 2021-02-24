@@ -6,6 +6,8 @@ export class TransactionManager {
 
     create<T extends { new(...args: any[]): Transaction }>(transactionClass: T, ...args: ConstructorParameters<T>) {
         const t = new transactionClass(...args);
+        this.transactions.set(t.source, t);
+        return t;
     }
 
 }
