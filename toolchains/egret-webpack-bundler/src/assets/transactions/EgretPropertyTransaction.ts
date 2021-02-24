@@ -32,7 +32,7 @@ export class EgretPropertyTransaction extends Transaction {
     }
 
 
-    async execute(compilation: Compilation) {
+    async execute2(compilation: Compilation) {
 
         const assetsFileSystem = getAssetsFileSystem();
 

@@ -16,7 +16,7 @@ export class Transaction {
         return this.preparedResult.fileDependencies;
     }
 
-    async execute(compilation: Compilation) {
+    async execute2(compilation: Compilation) {
 
     }
 
@@ -26,6 +26,10 @@ export class Transaction {
 
     protected async onPrepare(manager: TransactionManager): Promise<TransactionPreparedResult> {
         return { fileDependencies: [] }
+    }
+
+    async execute(manager: TransactionManager) {
+
     }
 
 
@@ -47,7 +51,7 @@ export class Transaction {
                 compilation.fileDependencies.add(fullFilepath);
                 if (fileChanged(compilation.compiler, fullFilepath)) {
                     compilation.hooks.processAssets.tapPromise(transaction.constructor.name, async (assets) => {
-                        await transaction.execute(compilation);
+                        await transaction.execute2(compilation);
                     });
                 }
             }

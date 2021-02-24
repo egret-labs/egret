@@ -16,7 +16,7 @@ export class CopyFileTransaction extends Transaction {
     get fileDependencies(): string[] {
         return [this.filename];
     }
-    async execute(compilation: Compilation): Promise<void> {
+    async execute2(compilation: Compilation): Promise<void> {
 
 
         const compiler = compilation.compiler;

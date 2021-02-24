@@ -60,7 +60,7 @@ export class TextureMergerTransaction extends Transaction {
         this.spriteSheetImageResourceConfig = spriteSheetImageResourceConfig;
     }
 
-    async execute(compilation: Compilation) {
+    async execute2(compilation: Compilation) {
         const output = await texturemrger.executeMerge(this.json);
 
         const filepath = 'resource/' + this.spriteSheetResourceConfig.url;

@@ -4,11 +4,14 @@ import { TransactionManager } from '../src/assets/TransactionManager';
 
 const mockPreparedMethod = jest.fn();
 
+const mockExecuteMethod = jest.fn();
+
 const MockTransction = jest.fn().mockImplementation(class X extends Transaction {
 
     constructor(source: string) {
         super(source);
         this.prepare = mockPreparedMethod;
+        this.execute = mockExecuteMethod;
     }
 } as any);
 
@@ -58,5 +61,16 @@ describe('TransactionManager', () => {
             await manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
         })
+    });
+
+    describe('TransactionManager#execute', () => {
+
+        it(`transaction's execute should be called`, () => {
+            const manager = new TransactionManager();
+            manager.create(MockTransction, 'source-file.txt', 2, 3);
+            manager.prepare();
+            manager.execute();
+            expect(mockExecuteMethod).toBeCalledWith(manager);
+        });
     });
 })

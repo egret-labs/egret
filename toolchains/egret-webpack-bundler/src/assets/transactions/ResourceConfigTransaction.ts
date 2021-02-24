@@ -55,7 +55,7 @@ export class ResourceConfigTransaction extends Transaction {
         }
     }
 
-    async execute(compilation: Compilation) {
+    async execute2(compilation: Compilation) {
         // const assetsFileSystem = getAssetsFileSystem();
 
         // const bundleInfo = this.options;
