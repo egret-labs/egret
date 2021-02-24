@@ -8,7 +8,6 @@ export class CopyFileTransaction extends Transaction {
 
     constructor(private filename: string) {
         super();
-        console.log('copy', filename)
     }
 
     async preExecute(compiler: Compiler) {

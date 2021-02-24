@@ -1,14 +1,16 @@
-import { Compilation } from "webpack";
-import { walkDir } from "../../utils";
-import { Transaction } from "../Transaction";
-import * as path from 'path';
 import * as texturemrger from '@egret/texture-merger-core';
+import * as path from 'path';
+import { Compilation, Compiler } from "webpack";
 import { readFileAsync } from "../../loaders/utils";
-import { ResourceConfigFactory } from "../../plugins/ResourceConfigFactory";
+import { ResourceConfig, ResourceConfigFactory } from "../../plugins/ResourceConfigFactory";
+import { getAssetsFileSystem } from "../AssetsFileSystem";
+import { Transaction } from "../Transaction";
 
 export class TextureMergerTransaction extends Transaction {
 
-    private files: string[] = [];
+    private json!: texturemrger.TexturePackerOptions;
+    private spriteSheetResourceConfig!: ResourceConfig;
+    private spriteSheetImageResourceConfig!: ResourceConfig;
 
     constructor(private fullfilepath: string, private factory: ResourceConfigFactory) {
         super();
@@ -18,12 +20,7 @@ export class TextureMergerTransaction extends Transaction {
         return [this.fullfilepath];
     }
 
-    async preExecute() {
-
-    }
-
-    async execute(compilation: Compilation) {
-        const compiler = compilation.compiler;
+    async preExecute(compiler: Compiler) {
         const factory = this.factory;
         // const entities = await getAllTextureMergerConfig(root);
         // for (const entity of entities) {
@@ -31,7 +28,7 @@ export class TextureMergerTransaction extends Transaction {
         const json = texturemrger.parseConfig('yaml', content.toString());
         const relativeRoot = path.dirname(path.relative(compiler.context, this.fullfilepath)).split('\\').join('/');
         json.root = path.dirname(this.fullfilepath);
-        const output = await texturemrger.executeMerge(json);
+
         const jsonOutputFilePath = `${relativeRoot}/${json.outputName}.json`;
         const imageOutputFilePath = `${relativeRoot}/${json.outputName}.png`;
         const spriteSheetRelativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
@@ -55,9 +52,25 @@ export class TextureMergerTransaction extends Transaction {
             url: spriteSheetImageRelativeFilePath,
             type: 'image'
         };
-        factory.compilation = compilation;;
-        factory.emitResource(output.buffer, spriteSheetImageResourceConfig);
-        factory.emitResource(JSON.stringify(output.config), spriteSheetResourceConfig);
+        factory.addResource(spriteSheetResourceConfig);
+        factory.addResource(spriteSheetImageResourceConfig);
+
+        this.json = json;
+        this.spriteSheetResourceConfig = spriteSheetResourceConfig;
+        this.spriteSheetImageResourceConfig = spriteSheetImageResourceConfig;
+    }
+
+    async execute(compilation: Compilation) {
+        const output = await texturemrger.executeMerge(this.json);
+
+        const filepath = 'resource/' + this.spriteSheetResourceConfig.url;
+        const filepath2 = 'resource/' + this.spriteSheetImageResourceConfig.url;
+        const assetsFileSystem = getAssetsFileSystem();
+        assetsFileSystem.update(compilation, { filePath: filepath, dependencies: [] }, JSON.stringify(output.config));
+        assetsFileSystem.update(compilation, { filePath: filepath2, dependencies: [] }, output.buffer);
+
+        // factory.emitResource(output.buffer, spriteSheetImageResourceConfig);
+        // factory.emitResource(JSON.stringify(output.config), spriteSheetResourceConfig);
 
     }
 }

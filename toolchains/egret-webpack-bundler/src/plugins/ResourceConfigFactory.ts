@@ -1,8 +1,4 @@
-import * as texturemrger from '@egret/texture-merger-core';
-import * as path from 'path';
 import * as webpack from 'webpack';
-import { readFileAsync } from '../loaders/utils';
-import { walkDir } from '../utils';
 
 export type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager')['initConfig']>[1];
 
@@ -36,10 +32,7 @@ export class ResourceConfigFactory {
         }
     }
 
-    emitResource(content: Buffer | string, config: ResourceConfig) {
-        const bufferSource = new webpack.sources.RawSource(content);
-        const fileAssetPath = path.join('resource', config.url);
-        this.compilation.emitAsset(fileAssetPath, bufferSource);
+    addResource(config: ResourceConfig) {
         config.isEmitted = true;
         this.config.resources.push(config);
     }
@@ -68,48 +61,4 @@ export class ResourceConfigFactory {
         return content;
     }
 
-}
-
-async function executeTextureMerger(compilation: webpack.Compilation, root: string, factory: ResourceConfigFactory) {
-    const compiler = compilation.compiler;
-    const entities = await getAllTextureMergerConfig(root);
-    for (const entity of entities) {
-        const content = await readFileAsync(compiler, entity.path);
-        const json = texturemrger.parseConfig('yaml', content.toString());
-        const relativeRoot = path.dirname(path.relative(compiler.context, entity.path)).split('\\').join('/');
-        json.root = path.dirname(entity.path);
-        const output = await texturemrger.executeMerge(json);
-        const jsonOutputFilePath = `${relativeRoot}/${json.outputName}.json`;
-        const imageOutputFilePath = `${relativeRoot}/${json.outputName}.png`;
-        const spriteSheetRelativeFilePath = path.relative('resource', jsonOutputFilePath).split('\\').join('/');
-        const spriteSheetImageRelativeFilePath = path.relative('resource', imageOutputFilePath).split('\\').join('/');
-        const spriteSheetResourceConfig = {
-            name: `${json.outputName}_json`,
-            url: spriteSheetRelativeFilePath,
-            type: 'sheet',
-            subkeys: ''
-        };
-        const subkeys = [];
-        for (const file of json.files) {
-            const name = path.basename(file).split('.').join('_');
-            factory.removeResource(name);
-            subkeys.push(name);
-        }
-        spriteSheetResourceConfig.subkeys = subkeys.join(',');
-
-        const spriteSheetImageResourceConfig = {
-            name: `${json.outputName}_png`,
-            url: spriteSheetImageRelativeFilePath,
-            type: 'image'
-        };
-
-        factory.emitResource(output.buffer, spriteSheetImageResourceConfig);
-        factory.emitResource(JSON.stringify(output.config), spriteSheetResourceConfig);
-
-    }
-}
-
-async function getAllTextureMergerConfig(root: string) {
-    const entities = await walkDir(root);
-    return entities.filter((e) => e.name === 'texture-merger.yaml');
 }

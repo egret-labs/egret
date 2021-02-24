@@ -1,9 +1,7 @@
 import * as path from 'path';
 import { Compilation, Compiler, WebpackError } from "webpack";
-import { readFileAsync } from "../../loaders/utils";
 import { ResourceConfig, ResourceConfigFactory } from "../../plugins/ResourceConfigFactory";
 import { walkDir } from '../../utils';
-import { getAssetsFileSystem } from '../AssetsFileSystem';
 import { Transaction } from "../Transaction";
 import { CopyFileTransaction } from './CopyFileTransaction';
 import { TextureMergerTransaction } from './TextureMergerTransaction';
@@ -36,7 +34,9 @@ export class ResourceConfigTransaction extends Transaction {
             const root = path.join(compiler.context, 'resource');
             const entities = await getAllTextureMergerConfig(root);
             for (const e of entities) {
-                this.addSubTransaction(new TextureMergerTransaction(e.path, factory));
+                const t = new TextureMergerTransaction(e.path, factory)
+                this.addSubTransaction(t);
+                t.preExecute(compiler);
             }
             const config = factory.config;
             for (const x of config.resources as ResourceConfig[]) {
