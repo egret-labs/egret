@@ -20,7 +20,7 @@ export class TextureMergerTransaction extends Transaction {
         return [this.fullfilepath];
     }
 
-    async prepared(compiler: Compiler) {
+    async prepare2(compiler: Compiler) {
         const factory = this.factory;
         // const entities = await getAllTextureMergerConfig(root);
         // for (const entity of entities) {

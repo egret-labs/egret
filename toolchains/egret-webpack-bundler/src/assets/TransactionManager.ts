@@ -10,4 +10,11 @@ export class TransactionManager {
         return t;
     }
 
+    prepare() {
+        for (const [source, transaction] of this.transactions) {
+            console.log(transaction)
+            transaction.prepare(this);
+        }
+    }
+
 }

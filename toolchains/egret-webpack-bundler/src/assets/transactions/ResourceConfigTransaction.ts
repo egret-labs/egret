@@ -17,7 +17,7 @@ export class ResourceConfigTransaction extends Transaction {
         return [this.options.file]
     }
 
-    async prepared(compiler: Compiler) {
+    async prepare2(compiler: Compiler) {
         const bundleInfo = this.options;
         const { file, executeBundle } = bundleInfo;
         const fullFilepath = path.join(compiler.context, file);
@@ -36,7 +36,7 @@ export class ResourceConfigTransaction extends Transaction {
             for (const e of entities) {
                 const t = new TextureMergerTransaction(e.path, factory)
                 this.addSubTransaction(t);
-                t.prepared(compiler);
+                t.prepare2(compiler);
             }
             const config = factory.config;
             for (const x of config.resources as ResourceConfig[]) {

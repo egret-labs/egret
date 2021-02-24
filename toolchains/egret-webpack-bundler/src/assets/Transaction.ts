@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { Compilation, Compiler } from "webpack";
 import { fileChanged } from "../loaders/utils";
+import { TransactionManager } from './TransactionManager';
 
 export class Transaction {
 
@@ -15,8 +16,12 @@ export class Transaction {
 
     }
 
+    async prepare(manager: TransactionManager) {
 
-    async prepared(compiler: Compiler) {
+    }
+
+
+    async prepare2(compiler: Compiler) {
 
     }
 

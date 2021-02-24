@@ -10,7 +10,7 @@ export class CopyFileTransaction extends Transaction {
         super(filename);
     }
 
-    async prepared(compiler: Compiler) {
+    async prepare2(compiler: Compiler) {
     }
 
     get fileDependencies(): string[] {
