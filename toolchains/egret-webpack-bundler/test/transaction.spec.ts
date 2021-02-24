@@ -3,6 +3,7 @@ import * as memfs from 'memfs';
 import * as path from 'path';
 import { Transaction } from '../src/assets/Transaction';
 import { TransactionManager } from '../src/assets/TransactionManager';
+import { CopyFileTransaction } from '../src/assets/transactions/CopyFileTransaction';
 import { EgretPropertyTransaction } from '../src/assets/transactions/EgretPropertyTransaction';
 const mockPreparedMethod = jest.fn();
 
@@ -99,5 +100,31 @@ describe('EgretProperyTransaction', () => {
         await manager.prepare();
         await manager.execute();
         expect(store['manifest.json']).not.toBeUndefined();
+    })
+});
+
+
+describe('CopyFileTransaction', () => {
+
+    it('execute', async () => {
+        const manager = new TransactionManager('.');
+        const vfs = memfs.Volume.fromJSON({
+            '1.txt': 'HelloWorld'
+        })
+        manager.inputFileSystem = {
+            readFileAsync: (file: string) => {
+                return vfs.promises.readFile(file) as Promise<string>
+            }
+        }
+        const store: any = {};
+        manager.outputFileSystem = {
+            emitAsset: (filepath: string, content: string) => {
+                store[filepath] = content;
+            }
+        }
+        manager.create(CopyFileTransaction, '1.txt');
+        await manager.prepare();
+        await manager.execute();
+        expect(store['1.txt'].toString()).toEqual('HelloWorld');
     })
 });

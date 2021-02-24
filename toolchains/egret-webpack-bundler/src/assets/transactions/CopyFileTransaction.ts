@@ -2,12 +2,18 @@ import { Compilation, Compiler, WebpackError } from "webpack";
 import { readFileAsync } from "../../loaders/utils";
 import { getAssetsFileSystem } from "../AssetsFileSystem";
 import { Transaction } from "../Transaction";
+import { TransactionManager } from "../TransactionManager";
 
 
 export class CopyFileTransaction extends Transaction {
 
     constructor(private filename: string) {
         super(filename);
+    }
+
+    async execute(manager: TransactionManager) {
+        const content = await manager.inputFileSystem.readFileAsync(this.source);
+        manager.outputFileSystem.emitAsset(this.source, content);
     }
 
     async prepare2(compiler: Compiler) {
