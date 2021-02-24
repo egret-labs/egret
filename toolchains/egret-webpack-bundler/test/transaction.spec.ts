@@ -89,8 +89,15 @@ describe('EgretProperyTransaction', () => {
                 return vfs.promises.readFile(file) as Promise<string>
             }
         }
+        const store: any = {};
+        manager.outputFileSystem = {
+            emitAsset: (filepath: string, content: string) => {
+                store[filepath] = content;
+            }
+        }
         manager.create(EgretPropertyTransaction, 'debug');
         await manager.prepare();
         await manager.execute();
+        expect(store['manifest.json']).not.toBeUndefined();
     })
 });

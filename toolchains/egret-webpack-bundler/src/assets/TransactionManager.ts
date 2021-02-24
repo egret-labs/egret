@@ -6,6 +6,12 @@ interface InputFileSystem {
 
 }
 
+interface OutputFileSystem {
+
+    emitAsset(filepath: string, content: string): void;
+
+}
+
 
 export class TransactionManager {
 
@@ -15,9 +21,9 @@ export class TransactionManager {
 
     transactions: Map<string, Transaction> = new Map();
 
-    inputFileSystem!: InputFileSystem
+    inputFileSystem!: InputFileSystem;
 
-    // outputFileSystem
+    outputFileSystem!: OutputFileSystem;
 
     create<T extends { new(...args: any[]): Transaction }>(transactionClass: T, ...args: ConstructorParameters<T>) {
         const t = new transactionClass(...args);

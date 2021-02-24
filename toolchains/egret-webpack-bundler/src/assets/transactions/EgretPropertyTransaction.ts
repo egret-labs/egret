@@ -53,6 +53,7 @@ export class EgretPropertyTransaction extends Transaction {
 
         const manifest = { initial, game: ['main.js'] };
         const manifestContent = JSON.stringify(manifest, null, '\t');
+        manager.outputFileSystem.emitAsset('manifest.json', manifestContent);
         // assetsFileSystem.update(compilation, { filePath: 'manifest.json', dependencies: this.fileDependencies }, manifestContent);
     }
 
