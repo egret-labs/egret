@@ -3,7 +3,6 @@ import * as path from 'path';
 import { Compilation, Compiler } from "webpack";
 import { readFileAsync } from "../../loaders/utils";
 import { ResourceConfig, ResourceConfigFactory } from "../ResourceConfigFactory";
-import { getAssetsFileSystem } from "../AssetsFileSystem";
 import { Transaction } from "../Transaction";
 import { TransactionManager } from '../TransactionManager';
 
@@ -52,7 +51,12 @@ export class TextureMergerTransaction extends Transaction {
     }
 
     async onExecute(manager: TransactionManager) {
-        const output = await texturemrger.executeMerge(this.json);
+
+        const images = await Promise.all(this.json.files.map(async (file) => {
+            const contents = await manager.inputFileSystem.readFileAsync(path.join(this.json.root, file));
+            return { path: file, contents }
+        }));
+        const output = await texturemrger.executeMerge(images, this.json);
 
         const filepath = 'resource/' + this.spriteSheetResourceConfig.url;
         const filepath2 = 'resource/' + this.spriteSheetImageResourceConfig.url;
@@ -116,13 +120,13 @@ export class TextureMergerTransaction2 extends Transaction {
     }
 
     async execute2(compilation: Compilation) {
-        const output = await texturemrger.executeMerge(this.json);
+        // const output = await texturemrger.executeMerge(this.json);
 
-        const filepath = 'resource/' + this.spriteSheetResourceConfig.url;
-        const filepath2 = 'resource/' + this.spriteSheetImageResourceConfig.url;
-        const assetsFileSystem = getAssetsFileSystem();
-        assetsFileSystem.update(compilation, { filePath: filepath, dependencies: [] }, JSON.stringify(output.config));
-        assetsFileSystem.update(compilation, { filePath: filepath2, dependencies: [] }, output.buffer);
+        // const filepath = 'resource/' + this.spriteSheetResourceConfig.url;
+        // const filepath2 = 'resource/' + this.spriteSheetImageResourceConfig.url;
+        // const assetsFileSystem = getAssetsFileSystem();
+        // assetsFileSystem.update(compilation, { filePath: filepath, dependencies: [] }, JSON.stringify(output.config));
+        // assetsFileSystem.update(compilation, { filePath: filepath2, dependencies: [] }, output.buffer);
 
         // factory.emitResource(output.buffer, spriteSheetImageResourceConfig);
         // factory.emitResource(JSON.stringify(output.config), spriteSheetResourceConfig);

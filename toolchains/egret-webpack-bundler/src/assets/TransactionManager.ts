@@ -3,7 +3,8 @@ import { Transaction } from './Transaction';
 
 interface InputFileSystem {
 
-    readFileAsync(filepath: string): Promise<string>
+    readFileAsync(filepath: string, encoding: 'utf-8'): Promise<string>
+    readFileAsync(filepath: string): Promise<Buffer>
 
 }
 
@@ -36,7 +37,7 @@ export class TransactionManager {
 
     async initialize() {
         const source = 'resource/default.res.json';
-        const content = await this.inputFileSystem.readFileAsync(source);
+        const content = await this.inputFileSystem.readFileAsync(source, 'utf-8');
         this.factory.parse(source, content);
     }
 
