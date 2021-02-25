@@ -6,6 +6,7 @@ import { TransactionManager } from '../src/assets/TransactionManager';
 import { CopyFileTransaction } from '../src/assets/transactions/CopyFileTransaction';
 import { EgretPropertyTransaction } from '../src/assets/transactions/EgretPropertyTransaction';
 import { ResourceConfigTransaction } from '../src/assets/transactions/ResourceConfigTransaction';
+import { TextureMergerTransaction } from '../src/assets/transactions/TextureMergerTransaction';
 const mockPreparedMethod = jest.fn();
 
 const mockExecuteMethod = jest.fn();
@@ -173,3 +174,54 @@ describe('ResourceConfigTransaction', () => {
         });
     });
 });
+
+describe('Transaction', () => {
+
+    describe('TextureMergerTransaction', () => {
+
+        it('TextureMergerTransaction#execute', async () => {
+
+            function createVFS(root: string) {
+                const vfs = new memfs.Volume();
+
+                function walk(dirRoot: string) {
+                    const items = fs.readdirSync(dirRoot);
+                    for (let item of items) {
+                        const p = path.join(dirRoot, item);
+                        const stat = fs.statSync(p);
+                        if (stat.isDirectory()) {
+                            walk(p);
+                        }
+                        else if (stat.isFile()) {
+                            vfs.mkdirpSync(path.dirname(p));
+                            vfs.writeFileSync(p, fs.readFileSync(p));
+                        }
+                    }
+                }
+                walk(root)
+                return vfs;
+            }
+
+            const manager = new TransactionManager('./test/simple-project');
+
+            const vfs = createVFS('test/simple-project/');
+            manager.inputFileSystem = {
+                readFileAsync: (file: string) => {
+                    return vfs.promises.readFile(path.join(manager.projectRoot, file)) as Promise<string>;
+                }
+            };
+            const store: any = {};
+            manager.outputFileSystem = {
+                emitAsset: (filepath: string, content: string) => {
+                    store[filepath] = content;
+                }
+            };
+
+
+            manager.create(TextureMergerTransaction, 'resource/spritesheet/texture-merger.yaml');
+            await manager.prepare();
+            await manager.execute();
+
+        })
+    })
+})

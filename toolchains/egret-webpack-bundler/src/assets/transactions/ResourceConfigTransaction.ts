@@ -5,16 +5,15 @@ import { walkDir } from '../../utils';
 import { Transaction } from '../Transaction';
 import { TransactionManager } from '../TransactionManager';
 import { CopyFileTransaction } from './CopyFileTransaction';
-import { TextureMergerTransaction } from './TextureMergerTransaction';
+import { TextureMergerTransaction2 } from './TextureMergerTransaction';
 export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boolean };
 
 export class ResourceConfigTransaction extends Transaction {
 
-    private factory!: ResourceConfigFactory;
 
     async onPrepare(manager: TransactionManager) {
 
-        const factory = new ResourceConfigFactory();
+        const factory = manager.factory
         const content = await manager.inputFileSystem.readFileAsync(this.source);
         factory.parse(this.source, content);
         const config = factory.config;
@@ -24,12 +23,11 @@ export class ResourceConfigTransaction extends Transaction {
             }
 
         }
-        this.factory = factory;
         return { fileDependencies: [] };
     }
 
     async onExecute(manager: TransactionManager) {
-        const factory = this.factory;
+        const factory = manager.factory;
         const output = factory.emitConfig();
         manager.outputFileSystem.emitAsset(this.source, output);
     }
@@ -61,7 +59,7 @@ export class ResourceConfigTransaction2 extends Transaction {
             const root = path.join(compiler.context, 'resource');
             const entities = await getAllTextureMergerConfig(root);
             for (const e of entities) {
-                const t = new TextureMergerTransaction(e.path, factory);
+                const t = new TextureMergerTransaction2(e.path, factory);
                 this.addSubTransaction(t);
                 t.prepare2(compiler);
             }

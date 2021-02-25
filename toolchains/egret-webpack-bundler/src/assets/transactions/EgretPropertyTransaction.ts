@@ -38,7 +38,6 @@ export class EgretPropertyTransaction extends Transaction {
         const content = await manager.inputFileSystem.readFileAsync('egretProperties.json');
         project.initialize(manager.projectRoot, content);
         const egretModules = project.getModulesConfig('web');
-        const initial: string[] = [];
         for (const m of egretModules) {
             for (const asset of m.target) {
                 const filename = this.libraryType == 'debug' ? asset.debug : asset.release;

@@ -1,3 +1,4 @@
+import { ResourceConfigFactory } from '../plugins/ResourceConfigFactory';
 import { Transaction } from './Transaction';
 
 interface InputFileSystem {
@@ -14,16 +15,18 @@ interface OutputFileSystem {
 
 export class TransactionManager {
 
-    // eslint-disable-next-line no-useless-constructor
-    constructor(public projectRoot: string) {
-
-    }
 
     transactions: Map<string, Transaction> = new Map();
 
     inputFileSystem!: InputFileSystem;
 
     outputFileSystem!: OutputFileSystem;
+
+    factory = new ResourceConfigFactory();
+
+    // eslint-disable-next-line no-useless-constructor
+    constructor(public projectRoot: string) {
+    }
 
     create<T extends { new(...args: any[]): Transaction }>(transactionClass: T, ...args: ConstructorParameters<T>) {
         const t = new transactionClass(...args);
