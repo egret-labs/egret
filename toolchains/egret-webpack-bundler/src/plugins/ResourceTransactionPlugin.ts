@@ -3,13 +3,14 @@ import { TransactionManager } from '../assets/TransactionManager';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
 import { ResourceConfigTransaction } from '../assets/transactions/ResourceConfigTransaction';
 import { readFileAsync } from '../loaders/utils';
+import { WebpackBundleOptions } from '../options';
 export default class ResourceTransactionPlugin {
 
 
     private transactionManager!: TransactionManager;
 
     // eslint-disable-next-line no-useless-constructor
-    constructor(private options: { libraryType: 'debug' | 'release' }) {
+    constructor(private options: WebpackBundleOptions) {
 
     }
 
@@ -18,7 +19,7 @@ export default class ResourceTransactionPlugin {
     public apply(compiler: webpack.Compiler) {
 
         this.transactionManager = new TransactionManager(compiler.context);
-        this.transactionManager.create(EgretPropertyTransaction, this.options.libraryType);
+        this.transactionManager.create(EgretPropertyTransaction, this.options);
         this.transactionManager.create(ResourceConfigTransaction, 'resource/default.res.json');
         this.transactionManager.inputFileSystem = {
             readFileAsync: (filepath) => {

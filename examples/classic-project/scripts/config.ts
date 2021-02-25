@@ -45,7 +45,10 @@ const config: ResourceManagerConfig = {
                             file: "resource/default.res.json",
                             executeBundle: true
                         }],
-                        parseEgretProperty: true
+                        parseEgretProperty: true,
+                        subpackages: [
+                            { name: 'sub', matcher: (filepath) => !filepath.includes('Main.ts') }
+                        ]
                     }),
                 ]
             }

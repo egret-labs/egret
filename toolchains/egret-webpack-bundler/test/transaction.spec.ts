@@ -136,7 +136,7 @@ describe('EgretProperyTransaction', () => {
                     store[filepath] = content;
                 }
             };
-            manager.create(EgretPropertyTransaction, 'debug');
+            manager.create(EgretPropertyTransaction, { libraryType: 'debug' });
             await manager.prepare();
             await manager.execute();
             expect(store['manifest.json']).not.toBeUndefined();

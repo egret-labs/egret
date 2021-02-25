@@ -83,7 +83,7 @@
                         "type": "string"
                     },
                     "matcher": {
-                        "type": "object",
+                        "type": "function",
                         "tsType": "(filepath:string)=>boolean"
                     }
                 },
