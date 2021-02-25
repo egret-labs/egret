@@ -223,8 +223,8 @@ describe('Transaction', () => {
                 }
             };
 
-            manager.create(ResourceConfigTransaction, 'resource/spritesheet/texture-merger.yaml');
             manager.create(TextureMergerTransaction, 'resource/spritesheet/texture-merger.yaml');
+            manager.create(ResourceConfigTransaction, 'resource/default.res.json');
             await manager.initialize();
             await manager.prepare();
             await manager.execute();
@@ -232,6 +232,61 @@ describe('Transaction', () => {
             const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] };
             expect(json.resources.find((v) => v.name === 'rank_no1_png')).toBeUndefined();
             expect(json.resources.find((v) => v.name === 'spritesheet_json')).not.toBeUndefined();
+            expect(store['resource/spritesheet/rank_no1.png']).toBeUndefined();
+
+        });
+
+        it('TextureMergerTransaction#add', async () => {
+
+            function createVFS(root: string) {
+                const vfs = new memfs.Volume();
+
+                function walk(dirRoot: string) {
+                    const items = fs.readdirSync(dirRoot);
+                    for (const item of items) {
+                        const p = path.join(dirRoot, item);
+                        const stat = fs.statSync(p);
+                        if (stat.isDirectory()) {
+                            walk(p);
+                        }
+                        else if (stat.isFile()) {
+                            vfs.mkdirpSync(path.dirname(p));
+                            vfs.writeFileSync(p, fs.readFileSync(p));
+                        }
+                    }
+                }
+                walk(root);
+                return vfs;
+            }
+
+            const manager = new TransactionManager('./test/simple-project');
+
+            const vfs = createVFS('test/simple-project/');
+            manager.inputFileSystem = {
+                readFileAsync: (file: string) => {
+                    return vfs.promises.readFile(path.join(manager.projectRoot, file)) as any;
+                }
+            };
+            const store: any = {};
+            manager.outputFileSystem = {
+                emitAsset: (filepath: string, content: string) => {
+                    store[filepath] = content;
+                }
+            };
+
+            manager.create(ResourceConfigTransaction, 'resource/default.res.json');
+            await manager.initialize();
+            await manager.addTextureMerger();
+
+            expect(manager.transactions.get('resource/spritesheet/texture-merger.yaml')).not.toBeUndefined();
+            // await manager.prepare();
+            // await manager.execute();
+            // await manager.finish();
+            // const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] };
+            // expect(json.resources.find((v) => v.name === 'rank_no1_png')).toBeUndefined();
+            // expect(json.resources.find((v) => v.name === 'spritesheet_json')).not.toBeUndefined();
+            // expect(store['resource/spritesheet/rank_no1.png']).toBeUndefined();
+
         });
     });
 });

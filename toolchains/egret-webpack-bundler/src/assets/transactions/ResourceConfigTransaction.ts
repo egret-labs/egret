@@ -1,4 +1,3 @@
-import { walkDir } from '../../utils';
 import { ResourceConfig } from '../ResourceConfigFactory';
 import { Transaction } from '../Transaction';
 import { TransactionManager } from '../TransactionManager';
@@ -25,7 +24,3 @@ export class ResourceConfigTransaction extends Transaction {
     }
 }
 
-async function getAllTextureMergerConfig(root: string) {
-    const entities = await walkDir(root);
-    return entities.filter((e) => e.name === 'texture-merger.yaml');
-}

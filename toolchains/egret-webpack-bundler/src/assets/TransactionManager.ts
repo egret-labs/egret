@@ -1,5 +1,7 @@
+import { walkDir } from '../utils';
 import { ResourceConfigFactory } from './ResourceConfigFactory';
 import { Transaction } from './Transaction';
+import { TextureMergerTransaction } from './transactions/TextureMergerTransaction';
 
 interface InputFileSystem {
 
@@ -15,7 +17,6 @@ interface OutputFileSystem {
 }
 
 export class TransactionManager {
-
 
     transactions: Map<string, Transaction> = new Map();
 
@@ -41,6 +42,13 @@ export class TransactionManager {
         this.factory.parse(source, content);
     }
 
+    async addTextureMerger() {
+        const entities = await getAllTextureMergerConfig(this.projectRoot);
+        for (const entity of entities) {
+            this.create(TextureMergerTransaction, entity.path);
+        }
+    }
+
     async prepare() {
         for (const [source, transaction] of this.transactions) {
             await transaction.prepare(this);
@@ -59,4 +67,9 @@ export class TransactionManager {
         this.outputFileSystem.emitAsset('resource/default.res.json', output);
     }
 
+}
+
+async function getAllTextureMergerConfig(root: string) {
+    const entities = await walkDir(root);
+    return entities.filter((e) => e.name === 'texture-merger.yaml');
 }
