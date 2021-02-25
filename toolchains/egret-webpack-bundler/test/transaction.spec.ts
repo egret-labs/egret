@@ -76,7 +76,7 @@ describe('TransactionManager', () => {
             manager.create(MockTransction, 'source-file.txt', 2, 3);
             manager.outputFileSystem = {
                 emitAsset: () => { }
-            }
+            };
             await manager.prepare();
             await manager.execute();
             expect(mockExecuteMethod).toBeCalledWith(manager);
@@ -93,7 +93,7 @@ describe('CopyFileTransaction', () => {
         });
         manager.inputFileSystem = {
             readFileAsync: (file: string) => {
-                return vfs.promises.readFile(file) as Promise<string>;
+                return vfs.promises.readFile(file) as any;
             }
         };
         const store: any = {};
@@ -127,7 +127,7 @@ describe('EgretProperyTransaction', () => {
             });
             manager.inputFileSystem = {
                 readFileAsync: (file: string) => {
-                    return vfs.promises.readFile(file) as Promise<string>;
+                    return vfs.promises.readFile(file) as any;
                 }
             };
             const store: any = {};
@@ -161,7 +161,7 @@ describe('ResourceConfigTransaction', () => {
             });
             manager.inputFileSystem = {
                 readFileAsync: (file: string) => {
-                    return vfs.promises.readFile(file) as Promise<string>;
+                    return vfs.promises.readFile(file) as any;
                 }
             };
             const store: any = {};
@@ -192,7 +192,7 @@ describe('Transaction', () => {
 
                 function walk(dirRoot: string) {
                     const items = fs.readdirSync(dirRoot);
-                    for (let item of items) {
+                    for (const item of items) {
                         const p = path.join(dirRoot, item);
                         const stat = fs.statSync(p);
                         if (stat.isDirectory()) {
@@ -204,7 +204,7 @@ describe('Transaction', () => {
                         }
                     }
                 }
-                walk(root)
+                walk(root);
                 return vfs;
             }
 
@@ -213,7 +213,7 @@ describe('Transaction', () => {
             const vfs = createVFS('test/simple-project/');
             manager.inputFileSystem = {
                 readFileAsync: (file: string) => {
-                    return vfs.promises.readFile(path.join(manager.projectRoot, file)) as Promise<string>;
+                    return vfs.promises.readFile(path.join(manager.projectRoot, file)) as any;
                 }
             };
             const store: any = {};
@@ -223,15 +223,15 @@ describe('Transaction', () => {
                 }
             };
 
-
+            manager.create(ResourceConfigTransaction, 'resource/spritesheet/texture-merger.yaml');
             manager.create(TextureMergerTransaction, 'resource/spritesheet/texture-merger.yaml');
             await manager.initialize();
             await manager.prepare();
             await manager.execute();
             await manager.finish();
-            const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] }
-            expect(json.resources.find(v => v.name === 'rank_no1_png')).toBeUndefined();
-            expect(json.resources.find(v => v.name === 'spritesheet_json')).not.toBeUndefined()
-        })
-    })
-})
+            const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] };
+            expect(json.resources.find((v) => v.name === 'rank_no1_png')).toBeUndefined();
+            expect(json.resources.find((v) => v.name === 'spritesheet_json')).not.toBeUndefined();
+        });
+    });
+});

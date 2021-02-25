@@ -11,20 +11,18 @@ interface AssetFile {
     mtime: string
 }
 
-
 const log: MethodDecorator = (target: any, key, descriptor) => {
-    const method = target[key]
+    const method = target[key];
     descriptor.value = function (this: any) {
         const result = method.apply(this, arguments);
         const p = arguments;
         result.then((v: boolean) => {
             console.log('call', key, 'param', p, 'result', v);
-        })
-
+        });
 
         return result;
     } as any;
-}
+};
 
 export class AssetsFileSystem {
 
@@ -37,22 +35,22 @@ export class AssetsFileSystem {
         const statAsync = util.promisify(this.compiler.inputFileSystem.stat);
         try {
             const mtime = (await statAsync(input.filePath))?.mtime.toTimeString();
-            file.mtime = mtime || "";
+            file.mtime = mtime || '';
         }
         catch (e) {
 
         }
         const existedFile = this.map.get(input.filePath);
         if (existedFile) {
-            existedFile.dependencies = existedFile.dependencies.concat(input.dependencies)
+            existedFile.dependencies = existedFile.dependencies.concat(input.dependencies);
         }
         else {
             this.map.set(input.filePath, file);
         }
 
         const { dependencies } = file;
-        for (let dependencyFilePath of dependencies) {
-            await this.add({ filePath: dependencyFilePath, dependencies: [] })
+        for (const dependencyFilePath of dependencies) {
+            await this.add({ filePath: dependencyFilePath, dependencies: [] });
         }
     }
 
@@ -71,7 +69,7 @@ export class AssetsFileSystem {
         }
         const { dependencies } = file;
 
-        for (let d of dependencies) {
+        for (const d of dependencies) {
             const dFile = this.map.get(d);
             if (!dFile) {
                 return true;
@@ -108,8 +106,8 @@ export class AssetsFileSystem {
             const buffer = await readFileAsync('dist/assets-file-manifest.yaml');
             const content = buffer?.toString()!;
             const data = yaml.load(content) as any;;
-            for (let filePath in data) {
-                const { dependencies, mtime } = data[filePath]
+            for (const filePath in data) {
+                const { dependencies, mtime } = data[filePath];
                 const file = { filePath, dependencies, mtime };
                 this.map.set(filePath, file);
             }
@@ -122,9 +120,9 @@ export class AssetsFileSystem {
         const writeFileAsync = util.promisify(this.compiler.outputFileSystem.writeFile.bind(this.compiler.outputFileSystem));
 
         const result: any = {};
-        for (let x of this.map) {
+        for (const x of this.map) {
             const { dependencies, mtime } = x[1];
-            result[x[0]] = { dependencies, mtime }
+            result[x[0]] = { dependencies, mtime };
         }
         const output = yaml.dump(result, {
             flowLevel: 3,
@@ -134,7 +132,7 @@ export class AssetsFileSystem {
             }
         });
         const filepath = path.join(this.compiler.context, 'dist/assets-file-manifest.yaml');
-        await writeFileAsync(filepath, output)
+        await writeFileAsync(filepath, output);
     }
 
 }
