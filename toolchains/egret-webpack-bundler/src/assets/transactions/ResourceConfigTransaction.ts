@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Compilation, Compiler, WebpackError } from 'webpack';
-import { ResourceConfig, ResourceConfigFactory } from '../../plugins/ResourceConfigFactory';
+import { ResourceConfig, ResourceConfigFactory } from '../ResourceConfigFactory';
 import { walkDir } from '../../utils';
 import { Transaction } from '../Transaction';
 import { TransactionManager } from '../TransactionManager';

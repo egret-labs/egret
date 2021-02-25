@@ -9,8 +9,7 @@ import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlu
 import ThemePlugin from './loaders/theme';
 import { openUrl } from './open';
 import { WebpackBundleOptions } from './options';
-import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
-import ResourceConfigFilePlugin from './plugins/ResourceConfigFilePlugin';
+import ResourceTransactionPlugin from './plugins/ResourceTransactionPlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -19,7 +18,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const schema = require('../schema.json');
 
-export { WebpackBundleOptions } from './options'
+export { WebpackBundleOptions } from './options';
 // export type WebpackBundleOptions = {
 
 //     /**
@@ -236,7 +235,6 @@ export function generateConfig(
     generateWebpackConfig_html(config, options, target);
     genrateWebpackConfig_subpackages(config, options);
     generateWebpackConfig_egretProperty(config, options, target);
-    generateWebpackConfig_resource(config, options);
     if (target === 'lib') {
         config.output!.library = 'xxx';
         config.output!.libraryTarget = 'umd';
@@ -387,16 +385,7 @@ function generateWebpackConfig_egretProperty(config: webpack.Configuration, opti
         return;
     }
     config.plugins?.push(
-        new EgretPropertyPlugin(options)
-    );
-}
-
-function generateWebpackConfig_resource(config: webpack.Configuration, options: WebpackBundleOptions) {
-    if (!options.assets) {
-        return;
-    }
-    config.plugins?.push(
-        new ResourceConfigFilePlugin(options.assets)
+        new ResourceTransactionPlugin(options)
     );
 }
 

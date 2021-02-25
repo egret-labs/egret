@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 
-export type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager')['initConfig']>[1];
+export type ResourceConfigFile = Parameters<typeof import('../../../../packages/assetsmanager/dist')['initConfig']>[1];
 
 export type ResourceConfig = ResourceConfigFile['resources'][0] & {
     isEmitted?: boolean

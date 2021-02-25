@@ -1,4 +1,4 @@
-import { ResourceConfigFactory } from '../plugins/ResourceConfigFactory';
+import { ResourceConfigFactory } from './ResourceConfigFactory';
 import { Transaction } from './Transaction';
 
 interface InputFileSystem {

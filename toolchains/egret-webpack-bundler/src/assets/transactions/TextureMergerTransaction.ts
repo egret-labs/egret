@@ -2,7 +2,7 @@ import * as texturemrger from '@egret/texture-merger-core';
 import * as path from 'path';
 import { Compilation, Compiler } from "webpack";
 import { readFileAsync } from "../../loaders/utils";
-import { ResourceConfig, ResourceConfigFactory } from "../../plugins/ResourceConfigFactory";
+import { ResourceConfig, ResourceConfigFactory } from "../ResourceConfigFactory";
 import { getAssetsFileSystem } from "../AssetsFileSystem";
 import { Transaction } from "../Transaction";
 import { TransactionManager } from '../TransactionManager';
