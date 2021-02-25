@@ -9,6 +9,10 @@ import { TransactionManager } from '../TransactionManager';
 
 export class TextureMergerTransaction extends Transaction {
 
+    private json!: texturemrger.TexturePackerOptions;
+    private spriteSheetResourceConfig!: ResourceConfig;
+    private spriteSheetImageResourceConfig!: ResourceConfig;
+
     async onPrepare(manager: TransactionManager) {
         const factory = manager.factory;
         const content = await manager.inputFileSystem.readFileAsync(this.source);
@@ -41,11 +45,19 @@ export class TextureMergerTransaction extends Transaction {
         };
         factory.addResource(spriteSheetResourceConfig);
         factory.addResource(spriteSheetImageResourceConfig);
+        this.json = json;
+        this.spriteSheetResourceConfig = spriteSheetResourceConfig;
+        this.spriteSheetImageResourceConfig = spriteSheetImageResourceConfig;
         return { fileDependencies: [] };
     }
 
     async onExecute(manager: TransactionManager) {
+        const output = await texturemrger.executeMerge(this.json);
 
+        const filepath = 'resource/' + this.spriteSheetResourceConfig.url;
+        const filepath2 = 'resource/' + this.spriteSheetImageResourceConfig.url;
+        manager.outputFileSystem.emitAsset(filepath, JSON.stringify(output.config));
+        manager.outputFileSystem.emitAsset(filepath2, output.buffer);
     }
 }
 

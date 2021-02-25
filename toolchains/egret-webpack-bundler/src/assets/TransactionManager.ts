@@ -9,7 +9,7 @@ interface InputFileSystem {
 
 interface OutputFileSystem {
 
-    emitAsset(filepath: string, content: string): void;
+    emitAsset(filepath: string, content: string | Buffer): void;
 
 }
 
