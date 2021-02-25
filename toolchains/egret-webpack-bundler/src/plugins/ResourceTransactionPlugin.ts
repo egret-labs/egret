@@ -6,7 +6,6 @@ import { readFileAsync } from '../loaders/utils';
 import { WebpackBundleOptions } from '../options';
 export default class ResourceTransactionPlugin {
 
-
     private transactionManager!: TransactionManager;
 
     // eslint-disable-next-line no-useless-constructor
@@ -22,8 +21,8 @@ export default class ResourceTransactionPlugin {
         this.transactionManager.create(EgretPropertyTransaction, this.options);
         this.transactionManager.create(ResourceConfigTransaction, 'resource/default.res.json');
         this.transactionManager.inputFileSystem = {
-            readFileAsync: (filepath) => {
-                return readFileAsync(compiler, filepath) as any as Promise<string>//TODO
+            readFileAsync: (filepath: string) => {
+                return readFileAsync(compiler, filepath) as any;
             }
         };
 
@@ -41,10 +40,7 @@ export default class ResourceTransactionPlugin {
                 this.isInit = true;
             }
             await this.transactionManager.prepare();
-        })
-
-
-
+        });
 
         const pluginName = this.constructor.name;
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
@@ -52,13 +48,12 @@ export default class ResourceTransactionPlugin {
                 emitAsset: (file, content) => {
                     compilation.emitAsset(file, new webpack.sources.RawSource(content));
                 }
-            }
+            };
             compilation.hooks.processAssets.tapPromise(pluginName, async () => {
                 await this.transactionManager.execute();
                 await this.transactionManager.finish();
-            })
+            });
         });
-
 
         // compiler.hooks.afterEmit.tapPromise(pluginName, async () => {
         //     const assetsFileSystem = getAssetsFileSystem();

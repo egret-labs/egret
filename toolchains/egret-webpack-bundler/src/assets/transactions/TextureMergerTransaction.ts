@@ -1,9 +1,9 @@
 import * as texturemrger from '@egret/texture-merger-core';
 import * as path from 'path';
-import { Compilation, Compiler } from "webpack";
-import { readFileAsync } from "../../loaders/utils";
-import { ResourceConfig, ResourceConfigFactory } from "../ResourceConfigFactory";
-import { Transaction } from "../Transaction";
+import { Compilation, Compiler } from 'webpack';
+import { readFileAsync } from '../../loaders/utils';
+import { ResourceConfig, ResourceConfigFactory } from '../ResourceConfigFactory';
+import { Transaction } from '../Transaction';
 import { TransactionManager } from '../TransactionManager';
 
 export class TextureMergerTransaction extends Transaction {
@@ -54,7 +54,7 @@ export class TextureMergerTransaction extends Transaction {
 
         const images = await Promise.all(this.json.files.map(async (file) => {
             const contents = await manager.inputFileSystem.readFileAsync(path.join(this.json.root, file));
-            return { path: file, contents }
+            return { path: file, contents };
         }));
         const output = await texturemrger.executeMerge(images, this.json);
 
@@ -133,5 +133,4 @@ export class TextureMergerTransaction2 extends Transaction {
 
     }
 }
-
 

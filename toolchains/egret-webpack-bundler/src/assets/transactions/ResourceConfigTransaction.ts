@@ -10,10 +10,9 @@ export type ResourceConfigFilePluginOption = { file: string, executeBundle?: boo
 
 export class ResourceConfigTransaction extends Transaction {
 
-
     async onPrepare(manager: TransactionManager) {
 
-        const factory = manager.factory
+        const factory = manager.factory;
         const config = factory.config;
         for (const x of config.resources as ResourceConfig[]) {
             if (!x.isEmitted) {

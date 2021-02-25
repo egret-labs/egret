@@ -37,7 +37,7 @@ export class EgretPropertyTransaction extends Transaction {
             }
         }
 
-        const subpackages = this.options.subpackages?.map(item => item.name + '.js');
+        const subpackages = this.options.subpackages?.map((item) => item.name + '.js');
         const game = subpackages ? ['main.js'].concat(subpackages) : ['main.js'];
         const manifest = { initial, game };
         const manifestContent = JSON.stringify(manifest, null, '\t');

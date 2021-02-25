@@ -1,9 +1,8 @@
-import { Compilation, Compiler, WebpackError } from "webpack";
-import { readFileAsync } from "../../loaders/utils";
-import { getAssetsFileSystem } from "../AssetsFileSystem";
-import { Transaction } from "../Transaction";
-import { TransactionManager } from "../TransactionManager";
-
+import { Compilation, Compiler, WebpackError } from 'webpack';
+import { readFileAsync } from '../../loaders/utils';
+import { getAssetsFileSystem } from '../AssetsFileSystem';
+import { Transaction } from '../Transaction';
+import { TransactionManager } from '../TransactionManager';
 
 export class CopyFileTransaction extends Transaction {
 
@@ -23,7 +22,6 @@ export class CopyFileTransaction extends Transaction {
         return [this.filename];
     }
     async execute2(compilation: Compilation): Promise<void> {
-
 
         const compiler = compilation.compiler;
         const filename = this.filename;
