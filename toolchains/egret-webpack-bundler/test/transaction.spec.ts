@@ -7,6 +7,28 @@ import { CopyFileTransaction } from '../src/assets/transactions/CopyFileTransact
 import { EgretPropertyTransaction } from '../src/assets/transactions/EgretPropertyTransaction';
 import { ResourceConfigTransaction } from '../src/assets/transactions/ResourceConfigTransaction';
 import { TextureMergerTransaction } from '../src/assets/transactions/TextureMergerTransaction';
+
+function createVFS(root: string) {
+    const vfs = new memfs.Volume();
+
+    function walk(dirRoot: string) {
+        const items = fs.readdirSync(dirRoot);
+        for (const item of items) {
+            const p = path.join(dirRoot, item);
+            const stat = fs.statSync(p);
+            if (stat.isDirectory()) {
+                walk(p);
+            }
+            else if (stat.isFile()) {
+                vfs.mkdirpSync(path.dirname(p));
+                vfs.writeFileSync(p, fs.readFileSync(p));
+            }
+        }
+    }
+    walk(root);
+    return vfs;
+}
+
 const mockPreparedMethod = jest.fn();
 
 const mockExecuteMethod = jest.fn();
@@ -187,27 +209,6 @@ describe('Transaction', () => {
 
         it('TextureMergerTransaction#execute', async () => {
 
-            function createVFS(root: string) {
-                const vfs = new memfs.Volume();
-
-                function walk(dirRoot: string) {
-                    const items = fs.readdirSync(dirRoot);
-                    for (const item of items) {
-                        const p = path.join(dirRoot, item);
-                        const stat = fs.statSync(p);
-                        if (stat.isDirectory()) {
-                            walk(p);
-                        }
-                        else if (stat.isFile()) {
-                            vfs.mkdirpSync(path.dirname(p));
-                            vfs.writeFileSync(p, fs.readFileSync(p));
-                        }
-                    }
-                }
-                walk(root);
-                return vfs;
-            }
-
             const manager = new TransactionManager('./test/simple-project');
 
             const vfs = createVFS('test/simple-project/');
@@ -238,27 +239,6 @@ describe('Transaction', () => {
 
         it('TextureMergerTransaction#add', async () => {
 
-            function createVFS(root: string) {
-                const vfs = new memfs.Volume();
-
-                function walk(dirRoot: string) {
-                    const items = fs.readdirSync(dirRoot);
-                    for (const item of items) {
-                        const p = path.join(dirRoot, item);
-                        const stat = fs.statSync(p);
-                        if (stat.isDirectory()) {
-                            walk(p);
-                        }
-                        else if (stat.isFile()) {
-                            vfs.mkdirpSync(path.dirname(p));
-                            vfs.writeFileSync(p, fs.readFileSync(p));
-                        }
-                    }
-                }
-                walk(root);
-                return vfs;
-            }
-
             const manager = new TransactionManager('./test/simple-project');
 
             const vfs = createVFS('test/simple-project/');
@@ -274,18 +254,18 @@ describe('Transaction', () => {
                 }
             };
 
-            manager.create(ResourceConfigTransaction, 'resource/default.res.json');
             await manager.initialize();
             await manager.addTextureMerger();
-
+            manager.create(ResourceConfigTransaction, 'resource/default.res.json');
             expect(manager.transactions.get('resource/spritesheet/texture-merger.yaml')).not.toBeUndefined();
-            // await manager.prepare();
-            // await manager.execute();
-            // await manager.finish();
-            // const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] };
-            // expect(json.resources.find((v) => v.name === 'rank_no1_png')).toBeUndefined();
-            // expect(json.resources.find((v) => v.name === 'spritesheet_json')).not.toBeUndefined();
-            // expect(store['resource/spritesheet/rank_no1.png']).toBeUndefined();
+            await manager.prepare();
+            await manager.execute();
+            await manager.finish();
+            const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] };
+            expect(json.resources.find((v) => v.name === 'rank_no1_png')).toBeUndefined();
+            expect(json.resources.find((v) => v.name === 'spritesheet_json')).not.toBeUndefined();
+            expect(store['resource/spritesheet/rank_no1.png']).toBeUndefined();
+            expect(store['resource/spritesheet/spritesheet.json']).not.toBeUndefined();
 
         });
     });
