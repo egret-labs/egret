@@ -14,8 +14,6 @@ export class ResourceConfigTransaction extends Transaction {
     async onPrepare(manager: TransactionManager) {
 
         const factory = manager.factory
-        const content = await manager.inputFileSystem.readFileAsync(this.source);
-        factory.parse(this.source, content);
         const config = factory.config;
         for (const x of config.resources as ResourceConfig[]) {
             if (!x.isEmitted) {
@@ -27,9 +25,7 @@ export class ResourceConfigTransaction extends Transaction {
     }
 
     async onExecute(manager: TransactionManager) {
-        const factory = manager.factory;
-        const output = factory.emitConfig();
-        manager.outputFileSystem.emitAsset(this.source, output);
+
     }
 }
 

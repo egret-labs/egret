@@ -20,7 +20,7 @@ export class TransactionManager {
 
     inputFileSystem!: InputFileSystem;
 
-    outputFileSystem!: OutputFileSystem;
+    outputFileSystem!: OutputFileSystem
 
     factory = new ResourceConfigFactory();
 
@@ -34,6 +34,12 @@ export class TransactionManager {
         return t;
     }
 
+    async initialize() {
+        const source = 'resource/default.res.json';
+        const content = await this.inputFileSystem.readFileAsync(source);
+        this.factory.parse(source, content);
+    }
+
     async prepare() {
         for (const [source, transaction] of this.transactions) {
             await transaction.prepare(this);
@@ -44,6 +50,12 @@ export class TransactionManager {
         for (const [source, transaction] of this.transactions) {
             await transaction.onExecute(this);
         }
+    }
+
+    async finish() {
+        const factory = this.factory;
+        const output = factory.emitConfig();
+        this.outputFileSystem.emitAsset('resource/default.res.json', output);
     }
 
 }

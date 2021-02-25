@@ -46,10 +46,10 @@ describe('TransactionManager', () => {
 
     describe('TransactionManager#prepare', () => {
 
-        it('transaction\'s prepare should be called', () => {
+        it('transaction\'s prepare should be called', async () => {
             const manager = new TransactionManager('');
             manager.create(MockTransction, 'source-file.txt', 2, 3);
-            manager.prepare();
+            await manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
         });
 
@@ -65,16 +65,20 @@ describe('TransactionManager', () => {
             manager.create(CompositeTransaction, 'source-file-1.txt');
             await manager.prepare();
             expect(mockPreparedMethod).toBeCalledWith(manager);
+
         });
     });
 
     describe('TransactionManager#execute', () => {
 
-        it('transaction\'s execute should be called', () => {
+        it('transaction\'s execute should be called', async () => {
             const manager = new TransactionManager('');
             manager.create(MockTransction, 'source-file.txt', 2, 3);
-            manager.prepare();
-            manager.execute();
+            manager.outputFileSystem = {
+                emitAsset: () => { }
+            }
+            await manager.prepare();
+            await manager.execute();
             expect(mockExecuteMethod).toBeCalledWith(manager);
         });
     });
@@ -167,8 +171,10 @@ describe('ResourceConfigTransaction', () => {
                 }
             };
             manager.create(ResourceConfigTransaction, 'resource/default.res.json');
+            await manager.initialize();
             await manager.prepare();
             await manager.execute();
+            await manager.finish();
             expect(store['resource/default.res.json']).not.toBeUndefined();
             expect(store['resource/spritesheet/rank_no1.png'].toString()).toEqual('111');
         });
@@ -219,9 +225,13 @@ describe('Transaction', () => {
 
 
             manager.create(TextureMergerTransaction, 'resource/spritesheet/texture-merger.yaml');
+            await manager.initialize();
             await manager.prepare();
             await manager.execute();
-
+            await manager.finish();
+            const json = JSON.parse(store['resource/default.res.json'].toString()) as { resources: any[] }
+            expect(json.resources.find(v => v.name === 'rank_no1_png')).toBeUndefined();
+            expect(json.resources.find(v => v.name === 'spritesheet_json')).not.toBeUndefined()
         })
     })
 })
