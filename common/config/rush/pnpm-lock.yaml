@@ -9,10 +9,7 @@ importers:
       '@egret/egret-webpack-bundler': 'workspace:*'
       '@egret/eui-compiler': 'workspace:*'
   ../../examples/webpack-project:
-    devDependencies:
-      '@egret/egret-webpack-bundler': 'link:../../toolchains/egret-webpack-bundler'
-    specifiers:
-      '@egret/egret-webpack-bundler': 'workspace:*'
+    specifiers: {}
   ../../packages/assetsmanager:
     dependencies:
       '@egret/audio': 'link:../audio'
@@ -63,6 +60,7 @@ importers:
   ../../toolchains/egret-webpack-bundler:
     dependencies:
       '@egret/eui-compiler': 'link:../eui-compiler'
+      '@egret/link-node-modules': 'link:../link-node-modules'
       '@egret/texture-merger-core': 'link:../texture-merger-core'
       '@egret/ts-minify-transformer': 'link:../ts-minify-transformer'
       '@nodelib/fs.walk': 1.2.6
@@ -98,6 +96,7 @@ importers:
       ts-jest: 26.4.4_jest@26.6.3+typescript@3.9.9
     specifiers:
       '@egret/eui-compiler': 'workspace:*'
+      '@egret/link-node-modules': 'workspace:*'
       '@egret/texture-merger-core': 'workspace:*'
       '@egret/ts-minify-transformer': 'workspace:*'
       '@nodelib/fs.walk': ~1.2.6
@@ -165,11 +164,14 @@ importers:
       trim-lines: ^1.1.2
       typescript: 3.9.9
   ../../toolchains/link-node-modules:
+    dependencies:
+      cmd-shim: 4.1.0
     devDependencies:
       '@types/node': 14.14.31
       typescript: 3.9.9
     specifiers:
       '@types/node': ~14.14.13
+      cmd-shim: ~4.1.0
       typescript: 3.9.9
   ../../toolchains/texture-merger-core:
     dependencies:
@@ -1802,6 +1804,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==
+  /chownr/2.0.0:
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
   /chrome-trace-event/1.0.2:
     dependencies:
       tslib: 1.14.1
@@ -1858,12 +1866,20 @@ packages:
       integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==
   /cliui/6.0.0:
     dependencies:
-      string-width: 4.2.0
+      string-width: 4.2.1
       strip-ansi: 6.0.0
       wrap-ansi: 6.2.0
     dev: true
     resolution:
       integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==
+  /cmd-shim/4.1.0:
+    dependencies:
+      mkdirp-infer-owner: 2.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-lb9L7EM4I/ZRVuljLPEtUJOP+xiQVknZ4ZMpMgEp4JzNldPb27HU03hi6K1/6CoIuit/Zm/LQXySErFeXxDprw==
   /co/4.6.0:
     dev: true
     engines:
@@ -4970,6 +4986,16 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==
+  /mkdirp-infer-owner/2.0.0:
+    dependencies:
+      chownr: 2.0.0
+      infer-owner: 1.0.4
+      mkdirp: 1.0.4
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-sdqtiFt3lkOaYvTXSRIUjkIdPTcxgv5+fgqYE/5qgwdw12cOrAuzzgzvVExIkH/ul1oeHN3bCLOWSG3XOqbKKw==
   /mkdirp/0.5.1:
     dependencies:
       minimist: 0.0.8
@@ -4994,7 +5020,6 @@ packages:
     resolution:
       integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   /mkdirp/1.0.4:
-    dev: true
     engines:
       node: '>=10'
     hasBin: true
@@ -6410,7 +6435,7 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==
-  /string-width/4.2.0:
+  /string-width/4.2.1:
     dependencies:
       emoji-regex: 8.0.0
       is-fullwidth-code-point: 3.0.0
@@ -6419,7 +6444,7 @@ packages:
     engines:
       node: '>=8'
     resolution:
-      integrity: sha512-zUz5JD+tgqtuDjMhwIg5uFVV3dtqZ9yQJlZVfq4I01/K5Paj5UHj7VyrQOJvzawSVlKpObApbfD0Ed6yJc+1eg==
+      integrity: sha512-LL0OLyN6AnfV9xqGQpDBwedT2Rt63737LxvsRxbcwpa2aIeynBApG2Sm//F3TaLHIR1aJBN52DWklc06b94o5Q==
   /string.prototype.trimend/1.0.4:
     dependencies:
       call-bind: 1.0.2
@@ -7207,7 +7232,7 @@ packages:
   /wrap-ansi/6.2.0:
     dependencies:
       ansi-styles: 4.3.0
-      string-width: 4.2.0
+      string-width: 4.2.1
       strip-ansi: 6.0.0
     dev: true
     engines:
@@ -7360,7 +7385,7 @@ packages:
       require-directory: 2.1.1
       require-main-filename: 2.0.0
       set-blocking: 2.0.0
-      string-width: 4.2.0
+      string-width: 4.2.1
       which-module: 2.0.0
       y18n: 4.0.1
       yargs-parser: 18.1.3
@@ -7404,4 +7429,3 @@ packages:
     resolution:
       tarball: 'https://codeload.github.com/lukeapage/webpack-hot-middleware/tar.gz/2cdfe0d0111dab6432b8683112fd2d17a5e80572'
     version: 2.25.0
-registry: ''
