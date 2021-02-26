@@ -2,6 +2,18 @@
   "name": "@egret/link-node-modules",
   "entries": [
     {
+      "version": "1.0.3",
+      "tag": "@egret/link-node-modules_v1.0.3",
+      "date": "Fri, 26 Feb 2021 10:52:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "添加 cmd-shim"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
       "tag": "@egret/link-node-modules_v1.0.2",
       "date": "Fri, 26 Feb 2021 07:34:00 GMT",
