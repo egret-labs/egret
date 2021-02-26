@@ -1,6 +1,13 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Fri, 26 Feb 2021 06:35:39 GMT and should not be manually modified.
+This log was last generated on Fri, 26 Feb 2021 07:30:25 GMT and should not be manually modified.
+
+## 2.1.1
+Fri, 26 Feb 2021 07:30:25 GMT
+
+### Patches
+
+- add link node-modules
 
 ## 2.1.0
 Fri, 26 Feb 2021 06:35:39 GMT
