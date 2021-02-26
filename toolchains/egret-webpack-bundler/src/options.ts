@@ -33,13 +33,8 @@ export interface WebpackBundleOptions {
     };
     html?: {
         templateFilePath?: string;
-        [k: string]: unknown;
     };
     parseEgretProperty?: boolean;
-    assets?: {
-        file: string;
-        executeBundle?: boolean;
-    }[];
     /**
      * 是否启动 EXML 相关功能
      */
@@ -48,7 +43,6 @@ export interface WebpackBundleOptions {
          * EXML增量编译
          */
         watch?: boolean;
-        [k: string]: unknown;
     };
     /**
      * 是否发布子包及子包规则
@@ -69,6 +63,5 @@ export interface WebpackBundleOptions {
          * 编译完成后打开浏览器
          */
         open?: boolean;
-        [k: string]: unknown;
     };
 }

@@ -40,28 +40,11 @@
                 "templateFilePath": {
                     "type": "string"
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "parseEgretProperty": {
             "type": "boolean"
-        },
-        "assets": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "file": {
-                        "type": "string"
-                    },
-                    "executeBundle": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "file"
-                ]
-            }
         },
         "exml": {
             "type": "object",
@@ -71,7 +54,8 @@
                     "type": "boolean",
                     "description": "EXML增量编译"
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "subpackages": {
             "type": "array",
@@ -108,7 +92,8 @@
                     "type": "boolean",
                     "description": "编译完成后打开浏览器"
                 }
-            }
+            },
+            "additionalProperties": false
         }
     },
     "additionalProperties": false,
