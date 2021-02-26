@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as webpack from 'webpack';
 import { TransactionManager } from '../assets/TransactionManager';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
@@ -27,6 +29,16 @@ export default class ResourceTransactionPlugin {
         };
 
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
+
+            const packageRoot = path.resolve(__dirname, '../../../../packages/');
+            for (const p of this.transactionManager.project.getPackages()) {
+                const packageDir = path.join(packageRoot, p.name);
+                const linkDir = path.join(compiler.context, 'node_modules', '@egret', p.name);
+                if (!fs.existsSync(linkDir)) {
+                    fs.symlinkSync(packageDir, linkDir, 'junction');
+                }
+            }
+
             if (!this.isInit) {
                 await this.transactionManager.initialize();
                 this.isInit = true;
@@ -35,6 +47,16 @@ export default class ResourceTransactionPlugin {
 
         });
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
+
+            const packageRoot = path.resolve(__dirname, '../../../../packages/');
+            for (const p of this.transactionManager.project.getPackages()) {
+                const packageDir = path.join(packageRoot, p.name);
+                const linkDir = path.join(compiler.context, 'node_modules', '@egret', p.name);
+                if (!fs.existsSync(linkDir)) {
+                    fs.symlinkSync(packageDir, linkDir, 'junction');
+                }
+            }
+
             if (!this.isInit) {
                 await this.transactionManager.initialize();
                 this.isInit = true;

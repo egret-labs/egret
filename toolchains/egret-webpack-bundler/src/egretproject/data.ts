@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import * as _path from 'path';
+import { validate } from 'schema-utils';
 import { getApi } from './api';
 import schema from './egret-properties-schema.json';
+import { EgretProperties } from './typings';
 
 export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
@@ -57,7 +59,7 @@ type SourceCode = {
 }
 
 export class EgretProjectData {
-    private egretProperties: EgretProperty = {
+    private egretProperties: EgretProperty & EgretProperties = {
         modules: [],
         target: { current: 'web' },
         engineVersion: '1'
@@ -81,7 +83,7 @@ export class EgretProjectData {
 
     private parse(content: string) {
         this.egretProperties = JSON.parse(content);
-        // validate(schema,)
+        validate(schema as any, this.egretProperties);
         for (const m of this.egretProperties.modules) {
             //兼容小写
             if (m.name == 'dragonbones') {
@@ -142,25 +144,12 @@ export class EgretProjectData {
     private getModulePath(m: EgretPropertyModule) {
         let modulePath = this.getModulePath2(m);
         modulePath = this.getAbsolutePath(modulePath);
-        let name = m.name;
-        if (this.isWasmProject()) {
-            if (name == 'egret' || name == 'eui' || name == 'dragonBones' || name == 'game') {
-                name += '-wasm';
-            }
-        }
         const searchPaths = [
-            _path.join(modulePath, 'bin', name),
+            _path.join(modulePath, 'bin', m.name),
             _path.join(modulePath, 'bin'),
-            _path.join(modulePath, 'build', name),
+            _path.join(modulePath, 'build', m.name),
             _path.join(modulePath)
         ];
-        // if (m.path) {
-        //     searchPaths.push(modulePath)
-        // }
-        if (this.isWasmProject()) {
-            searchPaths.unshift(_path.join(modulePath, 'bin-wasm'));
-            searchPaths.unshift(_path.join(modulePath, 'bin-wasm', name));
-        }
         const dir = searchPath(searchPaths)!;
         return dir;
     }
@@ -203,22 +192,8 @@ export class EgretProjectData {
         return result;
     }
 
-    private isWasmProject(): boolean {
-        return false;
-    }
-
-    get useTemplate(): boolean {
-        return this.egretProperties.template != undefined;
-    }
-
-    hasModule(name: string): boolean {
-        let result = false;
-        this.egretProperties.modules.forEach(function (module: EgretPropertyModule) {
-            if (module.name == name || module.name == name) {
-                result = true;
-            }
-        });
-        return result;
+    getPackages() {
+        return this.egretProperties.packages || [];
     }
 }
 

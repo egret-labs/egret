@@ -7,7 +7,7 @@
 
 export interface EgretProperties {
     packages?: {
-        name?: string;
+        name: string;
     }[];
     [k: string]: unknown;
 }

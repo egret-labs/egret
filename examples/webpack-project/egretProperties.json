@@ -12,6 +12,9 @@
   ],
   "packages": [
     {
+      "name": "assetsmanager"
+    },
+    {
       "name": "audio"
     },
     {
