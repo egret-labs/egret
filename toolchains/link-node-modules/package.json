@@ -2,6 +2,9 @@
   "name": "@egret/link-node-modules",
   "version": "1.0.1",
   "description": "",
+  "bin": {
+    "link-node-modules": "./bin/cli.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
