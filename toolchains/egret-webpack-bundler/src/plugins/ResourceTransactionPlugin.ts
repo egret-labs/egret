@@ -1,3 +1,4 @@
+import { linkNodeModules } from '@egret/link-node-modules';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
@@ -33,10 +34,7 @@ export default class ResourceTransactionPlugin {
             const packageRoot = path.resolve(__dirname, '../../../../packages/');
             for (const p of this.transactionManager.project.getPackages()) {
                 const packageDir = path.join(packageRoot, p.name);
-                const linkDir = path.join(compiler.context, 'node_modules', '@egret', p.name);
-                if (!fs.existsSync(linkDir)) {
-                    fs.symlinkSync(packageDir, linkDir, 'junction');
-                }
+                await linkNodeModules(packageDir, compiler.context);
             }
 
             if (!this.isInit) {
@@ -51,10 +49,7 @@ export default class ResourceTransactionPlugin {
             const packageRoot = path.resolve(__dirname, '../../../../packages/');
             for (const p of this.transactionManager.project.getPackages()) {
                 const packageDir = path.join(packageRoot, p.name);
-                const linkDir = path.join(compiler.context, 'node_modules', '@egret', p.name);
-                if (!fs.existsSync(linkDir)) {
-                    fs.symlinkSync(packageDir, linkDir, 'junction');
-                }
+                await linkNodeModules(packageDir, compiler.context);
             }
 
             if (!this.isInit) {

@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",
+    "@egret/link-node-modules": "workspace:*",
     "@egret/texture-merger-core": "workspace:*",
     "@egret/ts-minify-transformer": "workspace:*",
     "@nodelib/fs.walk": "~1.2.6",
