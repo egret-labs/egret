@@ -197,8 +197,6 @@ export function generateConfig(
     catch (e) {
         if (e instanceof Error) {
             console.log(e.message);
-            // eslint-disable-next-line no-process-exit
-            process.exit(1);
         }
     }
 

@@ -1,5 +1,5 @@
 import { EgretProjectData } from '../../egretproject/data';
-import { WebpackBundleOptions } from '../../options';
+import { WebpackBundleOptions } from '../../options/typings';
 import { Transaction } from '../Transaction';
 import { TransactionManager } from '../TransactionManager';
 import { CopyFileTransaction } from './CopyFileTransaction';

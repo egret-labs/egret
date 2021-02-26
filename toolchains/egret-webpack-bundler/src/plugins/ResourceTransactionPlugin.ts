@@ -3,7 +3,7 @@ import { TransactionManager } from '../assets/TransactionManager';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
 import { ResourceConfigTransaction } from '../assets/transactions/ResourceConfigTransaction';
 import { readFileAsync } from '../loaders/utils';
-import { WebpackBundleOptions } from '../options';
+import { WebpackBundleOptions } from '../options/typings';
 export default class ResourceTransactionPlugin {
 
     private transactionManager!: TransactionManager;

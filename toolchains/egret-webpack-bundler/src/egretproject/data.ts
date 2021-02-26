@@ -81,17 +81,12 @@ export class EgretProjectData {
 
     private parse(content: string) {
         this.egretProperties = JSON.parse(content);
-        let useGUIorEUI = 0;
+        // validate(schema,)
         for (const m of this.egretProperties.modules) {
             //兼容小写
             if (m.name == 'dragonbones') {
                 m.name = 'dragonBones';
             }
-            if (m.name == 'gui' || m.name == 'eui') {
-                useGUIorEUI++;
-            }
-        }
-        if (useGUIorEUI >= 2) {
         }
     }
 
