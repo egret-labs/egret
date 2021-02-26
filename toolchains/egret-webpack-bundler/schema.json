@@ -77,13 +77,14 @@
             "type": "array",
             "description": "是否发布子包及子包规则",
             "items": {
+                "description": "子包配置",
                 "type": "object",
                 "properties": {
                     "name": {
                         "type": "string"
                     },
                     "matcher": {
-                        "type": "function",
+                        "instanceof": "Function",
                         "tsType": "(filepath:string)=>boolean"
                     }
                 },

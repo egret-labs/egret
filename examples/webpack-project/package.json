@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "egret-compiler run  --config scripts/dev-config.js",
     "build": "echo helloworld"
   },
   "dependencies": {
@@ -13,12 +13,7 @@
     "@egret/eui": "workspace:*",
     "@egret/tween": "workspace:*"
   },
-  "peerDependencies": {
-    "webpack": "5.23.0"
-  },
   "devDependencies": {
-    "webpack-cli": "^4.4.0",
-    "webpack-dev-server": "^4.0.0-beta.0",
     "@egret/egret-webpack-bundler": "workspace:*"
   },
   "author": "",

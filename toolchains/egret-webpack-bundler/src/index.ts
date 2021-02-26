@@ -1,7 +1,7 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import express from 'express';
 import * as path from 'path';
-import { validate, ValidationError } from 'schema-utils';
+import { validate } from 'schema-utils';
 import * as ts from 'typescript';
 import webpack from 'webpack';
 import { createFileSystem } from './assets/utils';
@@ -106,7 +106,6 @@ export class EgretWebpackBundler {
     startDevServer(options: WebpackBundleOptions) {
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
-
         const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
         (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
         webpackConfig.plugins?.push(
@@ -196,17 +195,18 @@ export function generateConfig(
         validate(schema, options);
     }
     catch (e) {
-        if (e instanceof ValidationError) {
+        if (e instanceof Error) {
             console.log(e.message);
+            // eslint-disable-next-line no-process-exit
+            process.exit(1);
         }
     }
-
 
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
     const mode = devServer ? 'development' : 'production';
 
-    let config: webpack.Configuration = {
+    const config: webpack.Configuration = {
         stats: { colors: true, modules: false },
         entry: { main: ['./src/Main.ts'] },
         target: 'web',
