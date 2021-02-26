@@ -2,6 +2,28 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.1.0",
+      "tag": "@egret/egret-webpack-bundler_v2.1.0",
+      "date": "Fri, 26 Feb 2021 06:35:39 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "添加纹理集合并功能"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "添加 options 检查逻辑，当用户传递的 options 参数异常时候会提示报错"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@egret/texture-merger-core\" to `1.0.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.5",
       "tag": "@egret/egret-webpack-bundler_v2.0.5",
       "date": "Fri, 05 Feb 2021 03:52:57 GMT",
