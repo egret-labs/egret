@@ -1,6 +1,7 @@
-import { projectData } from './data';
+import { EgretProjectData } from './data';
 
 export function createProject(projectRoot: string) {
-    projectData.init(projectRoot);
-    return projectData;
+    const project = new EgretProjectData();
+    project.init(projectRoot);
+    return project;
 }

@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "build:schema": "json2ts -i schema.json -o src/options.ts --style.singleQuote --style.tabWidth=4",
+    "build:schema": "json2ts -i ./src/options/schema.json -o src/options/typings.ts --style.singleQuote --style.tabWidth=4",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest"

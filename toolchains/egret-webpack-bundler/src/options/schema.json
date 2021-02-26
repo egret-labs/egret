@@ -1,0 +1,104 @@
+{
+    "title": "WebpackBundleOptions",
+    "type": "object",
+    "properties": {
+        "libraryType": {
+            "enum": [
+                "debug",
+                "release"
+            ],
+            "type": "string",
+            "description": "设置发布的库为 library.js 还是 library.min.js"
+        },
+        "defines": {
+            "description": "编译宏常量定义",
+            "type": "object"
+        },
+        "typescript": {
+            "type": "object",
+            "description": "TypeScript 相关配置",
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "legacy",
+                        "modern"
+                    ],
+                    "description": "编译模式\nmodern 模式为完全ES6 Module的方式，底层实现采用 ts-loader。\nlegacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理"
+                },
+                "tsconfigPath": {
+                    "type": "string",
+                    "default": " tsconfig.json",
+                    "description": "编译采用的 tsconfig.json 路径，默认为 tsconfig.json"
+                }
+            },
+            "additionalProperties": false
+        },
+        "html": {
+            "type": "object",
+            "properties": {
+                "templateFilePath": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "parseEgretProperty": {
+            "type": "boolean"
+        },
+        "exml": {
+            "type": "object",
+            "description": "是否启动 EXML 相关功能",
+            "properties": {
+                "watch": {
+                    "type": "boolean",
+                    "description": "EXML增量编译"
+                }
+            },
+            "additionalProperties": false
+        },
+        "subpackages": {
+            "type": "array",
+            "description": "是否发布子包及子包规则",
+            "items": {
+                "description": "子包配置",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "matcher": {
+                        "instanceof": "Function",
+                        "tsType": "(filepath:string)=>boolean"
+                    }
+                },
+                "required": [
+                    "name",
+                    "matcher"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "devServer": {
+            "type": "object",
+            "description": "调试服务器相关功能",
+            "properties": {
+                "port": {
+                    "type": "number",
+                    "description": "启动端口，默认值为3000",
+                    "default": 3000
+                },
+                "open": {
+                    "type": "boolean",
+                    "description": "编译完成后打开浏览器"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "typescript",
+        "libraryType"
+    ]
+}

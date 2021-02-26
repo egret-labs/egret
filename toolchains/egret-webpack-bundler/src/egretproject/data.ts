@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as _path from 'path';
 import { getApi } from './api';
+import schema from './egret-properties-schema.json';
 
 export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
@@ -135,7 +136,6 @@ export class EgretProjectData {
         return _path.join(this.projectRoot, p).split('\\').join('/');
     }
 
-
     getExmlRoots() {
         return this.egretProperties.eui?.exmlRoot || [];
     }
@@ -227,8 +227,6 @@ export class EgretProjectData {
     }
 }
 
-export const projectData = new EgretProjectData();
-
 class EgretLauncherProxy {
 
     getEgretToolsInstalledByVersion(checkVersion: string) {
@@ -237,6 +235,7 @@ class EgretLauncherProxy {
         const versions: { version: string, path: string }[] = [];
         const result = data[checkVersion];
         if (!result) {
+            // eslint-disable-next-line no-throw-literal
             throw `找不到指定的 egret 版本: ${checkVersion}`;
         }
         return result.root;

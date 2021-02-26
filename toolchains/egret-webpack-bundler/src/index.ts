@@ -8,7 +8,8 @@ import { createFileSystem } from './assets/utils';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { openUrl } from './open';
-import { WebpackBundleOptions } from './options';
+import schema from './options/schema.json';
+import { WebpackBundleOptions } from './options/typings';
 import ResourceTransactionPlugin from './plugins/ResourceTransactionPlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
@@ -16,9 +17,8 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
-const schema = require('../schema.json');
 
-export { WebpackBundleOptions } from './options';
+export { WebpackBundleOptions } from './options/typings';
 // export type WebpackBundleOptions = {
 
 //     /**
@@ -192,7 +192,7 @@ export function generateConfig(
 ): webpack.Configuration {
 
     try {
-        validate(schema, options);
+        validate(schema as any, options);
     }
     catch (e) {
         if (e instanceof Error) {

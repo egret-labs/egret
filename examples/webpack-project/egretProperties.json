@@ -10,6 +10,17 @@
       "name": "egret"
     }
   ],
+  "packages": [
+    {
+      "name": "audio"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "eui"
+    }
+  ],
   "eui": {
     "exmlRoot": [
       "resource/skins",
