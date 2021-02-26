@@ -20,6 +20,7 @@ export async function linkNodeModules(packageDir: string, projectDir: string) {
     if (!fs.existsSync(linkDir)) {
         await fs.promises.symlink(packageDir, linkDir, 'junction');
     };
+
     if (pkgInfo.bin) {
         // eslint-disable-next-line global-require
         const cmdShim = require('cmd-shim');
