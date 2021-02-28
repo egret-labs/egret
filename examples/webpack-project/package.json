@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "egret-compiler run  --config scripts/dev-config.js",
-    "build": "echo helloworld",
-    "postinstall": "link-node-modules ../../toolchains/egret-webpack-bundler"
+    "build": "link-node-modules ../../toolchains/egret-webpack-bundler"
   },
   "devDependencies": {
     "@egret/link-node-modules": "workspace:*"

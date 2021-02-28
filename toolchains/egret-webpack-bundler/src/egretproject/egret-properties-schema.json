@@ -16,7 +16,17 @@
                 ],
                 "additionalProperties": false
             }
+        },
+        "engineVersion": {
+            "type": "string"
+        },
+        "compilerVersion": {
+            "type": "string"
         }
     },
+    "required": [
+        "engineVersion",
+        "compilerVersion"
+    ],
     "additionalProperties": true
 }

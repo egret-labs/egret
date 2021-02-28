@@ -9,5 +9,7 @@ export interface EgretProperties {
     packages?: {
         name: string;
     }[];
+    engineVersion: string;
+    compilerVersion: string;
     [k: string]: unknown;
 }

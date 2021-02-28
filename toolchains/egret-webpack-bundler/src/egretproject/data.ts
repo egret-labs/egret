@@ -8,8 +8,6 @@ import { EgretProperties } from './typings';
 export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
 export type EgretProperty = {
-    engineVersion: string,
-    compilerVersion?: string,
     modules: EgretPropertyModule[],
     target?: {
         current: string
@@ -17,7 +15,6 @@ export type EgretProperty = {
     template?: {
 
     },
-    egret_version?: string;
     eui?: {
         exmlRoot?: string[]
         theme?: string[]
@@ -28,27 +25,6 @@ export type EgretPropertyModule = {
     name: string,
     version?: string,
     path?: string;
-}
-
-export type Package_JSON = {
-
-    /**
-     * 废弃属性
-     */
-    modules?: PACKAGE_JSON_MODULE[];
-
-    typings: string | null;
-
-}
-
-export type PACKAGE_JSON_MODULE = {
-
-    files: string[],
-
-    name: string;
-
-    root: string
-
 }
 
 type SourceCode = {
@@ -62,7 +38,8 @@ export class EgretProjectData {
     private egretProperties: EgretProperty & EgretProperties = {
         modules: [],
         target: { current: 'web' },
-        engineVersion: '1'
+        engineVersion: '1',
+        compilerVersion: '1'
 
     };
 
