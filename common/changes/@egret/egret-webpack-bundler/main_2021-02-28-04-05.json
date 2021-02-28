@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@egret/egret-webpack-bundler",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@egret/egret-webpack-bundler",
+  "email": "wangze@egret.com"
+}
