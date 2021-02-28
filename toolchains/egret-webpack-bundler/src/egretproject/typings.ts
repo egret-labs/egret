@@ -9,7 +9,16 @@ export interface EgretProperties {
     packages?: {
         name: string;
     }[];
+    modules: {
+        name: string;
+        version?: string;
+        path?: string;
+    }[];
     engineVersion: string;
     compilerVersion: string;
+    eui?: {
+        exmlRoot?: string[];
+        themes?: string[];
+    };
     [k: string]: unknown;
 }

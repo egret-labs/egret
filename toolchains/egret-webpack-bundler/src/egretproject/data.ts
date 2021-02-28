@@ -7,25 +7,7 @@ import { EgretProperties } from './typings';
 
 export type Target_Type = 'web' | 'native' | 'mygame' | 'wxgame' | 'baidugame' | 'qgame' | 'oppogame' | 'vivogame' | 'bricks' | 'ios' | 'android' | 'any' | 'none'
 
-export type EgretProperty = {
-    modules: EgretPropertyModule[],
-    target?: {
-        current: string
-    }
-    template?: {
-
-    },
-    eui?: {
-        exmlRoot?: string[]
-        theme?: string[]
-    }
-}
-
-export type EgretPropertyModule = {
-    name: string,
-    version?: string,
-    path?: string;
-}
+export type EgretPropertyModule = EgretProperties['modules'][0];
 
 type SourceCode = {
 
@@ -35,7 +17,7 @@ type SourceCode = {
 }
 
 export class EgretProjectData {
-    private egretProperties: EgretProperty & EgretProperties = {
+    private egretProperties: EgretProperties = {
         modules: [],
         target: { current: 'web' },
         engineVersion: '1',
