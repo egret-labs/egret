@@ -1,4 +1,4 @@
-import { Component } from "../components/Component";
+import { Component } from '../components/Component';
 
 export class Context {
 
@@ -9,10 +9,10 @@ export class Context {
     public mapSkin(hostComponentKey: string, skinName: string): void {
         if (DEBUG) {
             if (!hostComponentKey) {
-                egret.$error(1003, "hostComponentKey");
+                egret.$error(1003, 'hostComponentKey');
             }
             if (!skinName) {
-                egret.$error(1003, "skinName");
+                egret.$error(1003, 'skinName');
             }
         }
         this.skinMap[hostComponentKey] = skinName;
@@ -21,12 +21,12 @@ export class Context {
     async initialize() {
         const data = await this.getTheme();
         if (data && data.skins) {
-            let skinMap = this.skinMap
-            let skins = data.skins;
-            let keys = Object.keys(skins);
-            let length = keys.length;
+            const skinMap = this.skinMap;
+            const skins = data.skins;
+            const keys = Object.keys(skins);
+            const length = keys.length;
             for (let i = 0; i < length; i++) {
-                let key = keys[i];
+                const key = keys[i];
                 if (!skinMap[key]) {
                     this.mapSkin(key, skins[key]);
                 }
@@ -36,8 +36,8 @@ export class Context {
         if (data.styles) {
             this.$styles = data.styles;
         }
-        let paths = data.paths;
-        for (let path in paths) {
+        const paths = data.paths;
+        for (const path in paths) {
             // exmlUpdate(path, paths[path])
         }
 
@@ -51,7 +51,7 @@ export class Context {
     }
 
     public getSkinName(client: Component): string {
-        let skinMap = this.skinMap;
+        const skinMap = this.skinMap;
         let skinName: string = skinMap[client.hostComponentKey];
         if (!skinName) {
             skinName = this.findSkinName(client);
@@ -61,14 +61,14 @@ export class Context {
 
     private findSkinName(prototype: any): string {
         if (!prototype) {
-            return "";
+            return '';
         }
-        let key = prototype["__class__"];
+        const key = prototype.__class__;
         if (key === void 0) {
-            return "";
+            return '';
         }
-        let skinName = this.skinMap[key];
-        if (skinName || key == "eui.Component") {
+        const skinName = this.skinMap[key];
+        if (skinName || key == 'eui.Component') {
             return skinName;
         }
         return this.findSkinName(Object.getPrototypeOf(prototype));
@@ -86,7 +86,6 @@ export class Context {
 
     getTheme: () => Promise<any>
 
-
     getAssets: (source: string) => Promise<any>
 
     static getInstance() {
@@ -98,5 +97,4 @@ export class Context {
 
     private static _instance: Context;
 }
-
 

@@ -28,41 +28,42 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-export class Direction{
-		/**
-		 * Specifies left-to-right direction.
-         * @language en_US
-		 */
-		/**
-		 * 水平从左到右增长
-         * @language zh_CN
-		 */
-		public static LTR:string = "ltr";
-		/**
-		 * Specifies right-to-left direction.
-         * @language en_US
-		 */
-		/**
-		 * 水平从右到左增长
-         * @language zh_CN
-		 */
-		public static RTL:string = "rtl";
-		/**
-		 * Specifies top-to-bottom direction.
-         * @language en_US
-		 */
-		/**
-		 * 竖直从上到下增长
-         * @language zh_CN
-		 */
-		public static TTB:string = "ttb";
-		/**
-		 * Specifies bottom-to-top direction.
-         * @language en_US
-		 */
-		/**
-		 * 竖直从下到上增长
-         * @language zh_CN
-		 */
-		public static BTT:string = "btt";
-	}
+export class Direction {
+
+    /**
+     * Specifies left-to-right direction.
+     * @language en_US
+     */
+    /**
+     * 水平从左到右增长
+     * @language zh_CN
+     */
+    public static LTR: string = 'ltr';
+    /**
+     * Specifies right-to-left direction.
+     * @language en_US
+     */
+    /**
+     * 水平从右到左增长
+     * @language zh_CN
+     */
+    public static RTL: string = 'rtl';
+    /**
+     * Specifies top-to-bottom direction.
+     * @language en_US
+     */
+    /**
+     * 竖直从上到下增长
+     * @language zh_CN
+     */
+    public static TTB: string = 'ttb';
+    /**
+     * Specifies bottom-to-top direction.
+     * @language en_US
+     */
+    /**
+     * 竖直从下到上增长
+     * @language zh_CN
+     */
+    public static BTT: string = 'btt';
+}

@@ -6,6 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --p tsconfig.release.json",
+    "watch": "tsc --p tsconfig.release.json -w",
     "test": "tsc --noEmit"
   },
   "author": "",

@@ -29,10 +29,10 @@
 
 /// <reference path="Validator.ts" />
 
-import { UIEvent } from "../events/UIEvent";
-import { MatrixUtil } from "../utils/MatrixUtil";
-import { registerProperty } from "../utils/registerProperty";
-import { Validator } from "./Validator";
+import { UIEvent } from '../events/UIEvent';
+import { MatrixUtil } from '../utils/MatrixUtil';
+import { registerProperty } from '../utils/registerProperty';
+import { Validator } from './Validator';
 
 export interface UIComponent extends egret.DisplayObject {
 
@@ -786,11 +786,11 @@ export const enum UIKeys {
     layoutHeightExplicitlySet,
     initialized
 }
-let UIComponentClass = "eui.UIComponent";
+const UIComponentClass = 'eui.UIComponent';
 function isDeltaIdentity(m: egret.Matrix): boolean {
     return (m.a === 1 && m.b === 0 && m.c === 0 && m.d === 1);
 }
-let validator = new Validator();
+const validator = new Validator();
 export class UIComponentImpl extends egret.DisplayObject implements UIComponent {
     /**
      * @private
@@ -807,43 +807,42 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     private initializeUIValues(): void {
         this.$UIComponent = {
-            0: NaN,       //left
-            1: NaN,       //right
-            2: NaN,       //top
-            3: NaN,       //bottom
-            4: NaN,       //horizontalCenter
-            5: NaN,       //verticalCenter
-            6: NaN,       //percentWidth
-            7: NaN,       //percentHeight
-            8: NaN,       //explicitWidth
-            9: NaN,       //explicitHeight
-            10: 0,              //width
-            11: 0,              //height
-            12: 0,              //minWidth
-            13: 100000,         //maxWidth
-            14: 0,              //minHeight
-            15: 100000,         //maxHeight
-            16: 0,              //measuredWidth
-            17: 0,              //measuredHeight
-            18: NaN,      //oldPreferWidth
-            19: NaN,      //oldPreferHeight
-            20: 0,              //oldX
-            21: 0,              //oldY
-            22: 0,              //oldWidth
-            23: 0,              //oldHeight
-            24: true,           //invalidatePropertiesFlag
-            25: true,           //invalidateSizeFlag
-            26: true,           //invalidateDisplayListFlag
-            27: false,          //layoutWidthExplicitlySet
-            28: false,          //layoutHeightExplicitlySet
-            29: false,          //initialized
+            0: NaN, //left
+            1: NaN, //right
+            2: NaN, //top
+            3: NaN, //bottom
+            4: NaN, //horizontalCenter
+            5: NaN, //verticalCenter
+            6: NaN, //percentWidth
+            7: NaN, //percentHeight
+            8: NaN, //explicitWidth
+            9: NaN, //explicitHeight
+            10: 0, //width
+            11: 0, //height
+            12: 0, //minWidth
+            13: 100000, //maxWidth
+            14: 0, //minHeight
+            15: 100000, //maxHeight
+            16: 0, //measuredWidth
+            17: 0, //measuredHeight
+            18: NaN, //oldPreferWidth
+            19: NaN, //oldPreferHeight
+            20: 0, //oldX
+            21: 0, //oldY
+            22: 0, //oldWidth
+            23: 0, //oldHeight
+            24: true, //invalidatePropertiesFlag
+            25: true, //invalidateSizeFlag
+            26: true, //invalidateDisplayListFlag
+            27: false, //layoutWidthExplicitlySet
+            28: false, //layoutHeightExplicitlySet
+            29: false //initialized
         };
         this.$includeInLayout = true;
         //if egret
         this.$touchEnabled = true;
         //endif*/
     }
-
 
     /**
      * @private
@@ -867,7 +866,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 提交属性，子类在调用完invalidateProperties()方法后，应覆盖此方法以应用属性
      */
     protected commitProperties(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.oldWidth] != values[UIKeys.width] || values[UIKeys.oldHeight] != values[UIKeys.height]) {
             this.dispatchEventWith(egret.Event.RESIZE);
             values[UIKeys.oldWidth] = values[UIKeys.width];
@@ -928,7 +927,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     $onAddToStage(stage: egret.Stage, nestLevel: number): void {
         this.$super.$onAddToStage.call(this, stage, nestLevel);
         this.checkInvalidateFlag();
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (!values[UIKeys.initialized]) {
             values[UIKeys.initialized] = true;
             this.createChildren();
@@ -942,7 +941,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 检查属性失效标记并应用
      */
     private checkInvalidateFlag(event?: Event): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.invalidatePropertiesFlag]) {
             validator.invalidateProperties(this);
         }
@@ -963,14 +962,14 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set left(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
 
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.left] === value)
             return;
         values[UIKeys.left] = value;
@@ -986,13 +985,13 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set right(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.right] === value)
             return;
         values[UIKeys.right] = value;
@@ -1008,13 +1007,13 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set top(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.top] === value)
             return;
         values[UIKeys.top] = value;
@@ -1030,19 +1029,18 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set bottom(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.bottom] == value)
             return;
         values[UIKeys.bottom] = value;
         this.invalidateParentLayout();
     }
-
 
     /**
      * @private
@@ -1053,13 +1051,13 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set horizontalCenter(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.horizontalCenter] === value)
             return;
         values[UIKeys.horizontalCenter] = value;
@@ -1075,19 +1073,18 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 
     public set verticalCenter(value: any) {
-        if (!value || typeof value == "number") {
+        if (!value || typeof value == 'number') {
             value = +value;
         }
         else {
             value = value.toString().trim();
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.verticalCenter] === value)
             return;
         values[UIKeys.verticalCenter] = value;
         this.invalidateParentLayout();
     }
-
 
     /**
      * @private
@@ -1099,7 +1096,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set percentWidth(value: number) {
         value = +value;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.percentWidth] === value)
             return;
         values[UIKeys.percentWidth] = value;
@@ -1116,7 +1113,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set percentHeight(value: number) {
         value = +value;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.percentHeight] === value)
             return;
         values[UIKeys.percentHeight] = value;
@@ -1155,7 +1152,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     $setWidth(value: number): boolean {
         value = +value;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.width] === value && values[UIKeys.explicitWidth] === value)
             return false;
         values[UIKeys.explicitWidth] = value;
@@ -1193,7 +1190,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     $setHeight(value: number): boolean {
         value = +value;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.height] === value && values[UIKeys.explicitHeight] === value)
             return false;
         values[UIKeys.explicitHeight] = value;
@@ -1216,7 +1213,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set minWidth(value: number) {
         value = +value || 0;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.minWidth] === value) {
             return;
         }
@@ -1235,7 +1232,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set maxWidth(value: number) {
         value = +value || 0;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.maxWidth] === value) {
             return;
         }
@@ -1254,7 +1251,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set minHeight(value: number) {
         value = +value || 0;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.minHeight] === value) {
             return;
         }
@@ -1262,7 +1259,6 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
         this.invalidateSize();
         this.invalidateParentLayout();
     }
-
 
     /**
      * @private
@@ -1274,7 +1270,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
 
     public set maxHeight(value: number) {
         value = +value || 0;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (value < 0 || values[UIKeys.maxHeight] === value) {
             return;
         }
@@ -1290,11 +1286,10 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * @param height 测量高度
      */
     public setMeasuredSize(width: number, height: number): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         values[UIKeys.measuredWidth] = Math.ceil(+width || 0);
         values[UIKeys.measuredHeight] = Math.ceil(+height || 0);
     }
-
 
     /**
      * @private
@@ -1303,7 +1298,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     private setActualSize(w: number, h: number): void {
         let change = false;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.width] !== w) {
             values[UIKeys.width] = w;
             change = true;
@@ -1357,7 +1352,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * @returns
      */
     $setX(value: number): boolean {
-        let change = this.$super.$setX.call(this, value);
+        const change = this.$super.$setX.call(this, value);
         if (change) {
             this.invalidateParentLayout();
             this.invalidateProperties();
@@ -1372,7 +1367,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * @returns
      */
     $setY(value: number): boolean {
-        let change = this.$super.$setY.call(this, value);
+        const change = this.$super.$setY.call(this, value);
         if (change) {
             this.invalidateParentLayout();
             this.invalidateProperties();
@@ -1380,13 +1375,12 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
         return change;
     }
 
-
     /**
      * @private
      * 标记属性失效
      */
     public invalidateProperties(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (!values[UIKeys.invalidatePropertiesFlag]) {
             values[UIKeys.invalidatePropertiesFlag] = true;
             if (this.$stage)
@@ -1399,7 +1393,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 验证组件的属性
      */
     public validateProperties(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.invalidatePropertiesFlag]) {
             this.commitProperties();
             values[UIKeys.invalidatePropertiesFlag] = false;
@@ -1411,7 +1405,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 标记提交过需要验证组件尺寸
      */
     public invalidateSize(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (!values[UIKeys.invalidateSizeFlag]) {
             values[UIKeys.invalidateSizeFlag] = true;
             if (this.$stage)
@@ -1425,20 +1419,20 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     public validateSize(recursive?: boolean): void {
         if (recursive) {
-            let children = this.$children;
+            const children = this.$children;
             if (children) {
-                let length = children.length;
+                const length = children.length;
                 for (let i = 0; i < length; i++) {
-                    let child = children[i];
+                    const child = children[i];
                     if (egret.is(child, UIComponentClass)) {
                         (<UIComponent>child).validateSize(true);
                     }
                 }
             }
         }
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.invalidateSizeFlag]) {
-            let changed = this.measureSizes();
+            const changed = this.measureSizes();
             if (changed) {
                 this.invalidateDisplayList();
                 this.invalidateParentLayout();
@@ -1453,7 +1447,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      */
     private measureSizes(): boolean {
         let changed = false;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (!values[UIKeys.invalidateSizeFlag])
             return changed;
 
@@ -1469,11 +1463,11 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
                 values[UIKeys.measuredHeight] = values[UIKeys.minHeight];
             }
             if (values[UIKeys.measuredHeight] > values[UIKeys.maxHeight]) {
-                values[UIKeys.measuredHeight] = values[UIKeys.maxHeight]
+                values[UIKeys.measuredHeight] = values[UIKeys.maxHeight];
             }
         }
-        let preferredW = this.getPreferredUWidth();
-        let preferredH = this.getPreferredUHeight();
+        const preferredW = this.getPreferredUWidth();
+        const preferredH = this.getPreferredUHeight();
         if (preferredW !== values[UIKeys.oldPreferWidth] ||
             preferredH !== values[UIKeys.oldPreferHeight]) {
             values[UIKeys.oldPreferWidth] = preferredW;
@@ -1488,7 +1482,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 标记需要验证显示列表
      */
     public invalidateDisplayList(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (!values[UIKeys.invalidateDisplayListFlag]) {
             values[UIKeys.invalidateDisplayListFlag] = true;
             if (this.$stage)
@@ -1501,7 +1495,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 验证子项的位置和大小，并绘制其他可视内容
      */
     public validateDisplayList(): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.invalidateDisplayListFlag]) {
             this.updateFinalSize();
             this.updateDisplayList(values[UIKeys.width], values[UIKeys.height]);
@@ -1516,7 +1510,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     private updateFinalSize(): void {
         let unscaledWidth = 0;
         let unscaledHeight = 0;
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         if (values[UIKeys.layoutWidthExplicitlySet]) {
             unscaledWidth = values[UIKeys.width];
         }
@@ -1552,7 +1546,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 标记父级容器的尺寸和显示列表为失效
      */
     protected invalidateParentLayout(): void {
-        let parent = this.$parent;
+        const parent = this.$parent;
         if (!parent || !this.$includeInLayout || !egret.is(parent, UIComponentClass))
             return;
         (<UIComponent><any>parent).invalidateSize();
@@ -1569,11 +1563,11 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
         if (layoutHeight < 0 || layoutWidth < 0) {
             return;
         }
-        let values = this.$UIComponent;
-        let maxWidth = values[UIKeys.maxWidth];
-        let maxHeight = values[UIKeys.maxHeight];
-        let minWidth = Math.min(values[UIKeys.minWidth], maxWidth);
-        let minHeight = Math.min(values[UIKeys.minHeight], maxHeight);
+        const values = this.$UIComponent;
+        const maxWidth = values[UIKeys.maxWidth];
+        const maxHeight = values[UIKeys.maxHeight];
+        const minWidth = Math.min(values[UIKeys.minWidth], maxWidth);
+        const minHeight = Math.min(values[UIKeys.minHeight], maxHeight);
         let width: number;
         let height: number;
         if (isNaN(layoutWidth)) {
@@ -1592,7 +1586,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
             values[UIKeys.layoutHeightExplicitlySet] = true;
             height = Math.max(minHeight, Math.min(maxHeight, layoutHeight));
         }
-        let matrix = this.getAnchorMatrix();
+        const matrix = this.getAnchorMatrix();
         if (isDeltaIdentity(matrix)) {
             this.setActualSize(width, height);
             return;
@@ -1614,14 +1608,14 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 设置组件的布局位置
      */
     public setLayoutBoundsPosition(x: number, y: number): void {
-        let matrix = this.$getMatrix();
+        const matrix = this.$getMatrix();
         if (!isDeltaIdentity(matrix) || this.anchorOffsetX != 0 || this.anchorOffsetY != 0) {
-            let bounds = egret.$TempRectangle;
+            const bounds = egret.$TempRectangle;
             this.getLayoutBounds(bounds);
             x += this.$getX() - bounds.x;
             y += this.$getY() - bounds.y;
         }
-        let changed: boolean = this.$super.$setX.call(this, x);
+        const changed: boolean = this.$super.$setX.call(this, x);
         if (this.$super.$setY.call(this, y) || changed) {
             UIEvent.dispatchUIEvent(this, UIEvent.MOVE);
         }
@@ -1634,7 +1628,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 注意此方法返回值已经包含scale和rotation。
      */
     public getLayoutBounds(bounds: egret.Rectangle): void {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         let w: number;
         if (values[UIKeys.layoutWidthExplicitlySet]) {
             w = values[UIKeys.width];
@@ -1658,14 +1652,13 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
         this.applyMatrix(bounds, w, h);
     }
 
-
     /**
      * @private
      *
      * @returns
      */
     private getPreferredUWidth(): number {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         return isNaN(values[UIKeys.explicitWidth]) ?
             values[UIKeys.measuredWidth] : values[UIKeys.explicitWidth];
     }
@@ -1676,7 +1669,7 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * @returns
      */
     private getPreferredUHeight(): number {
-        let values = this.$UIComponent;
+        const values = this.$UIComponent;
         return isNaN(values[UIKeys.explicitHeight]) ?
             values[UIKeys.measuredHeight] : values[UIKeys.explicitHeight];
     }
@@ -1688,18 +1681,17 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
      * 注意此方法返回值已经包含scale和rotation。
      */
     public getPreferredBounds(bounds: egret.Rectangle): void {
-        let w = this.getPreferredUWidth();
-        let h = this.getPreferredUHeight();
+        const w = this.getPreferredUWidth();
+        const h = this.getPreferredUHeight();
         this.applyMatrix(bounds, w, h);
     }
-
 
     /**
      * @private
      */
     private applyMatrix(bounds: egret.Rectangle, w: number, h: number): void {
         bounds.setTo(0, 0, w, h);
-        let matrix = this.getAnchorMatrix();
+        const matrix = this.getAnchorMatrix();
 
         if (isDeltaIdentity(matrix)) {
             bounds.x += matrix.tx;
@@ -1710,16 +1702,15 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
         }
     }
 
-
     /**
      * @private
      */
     private getAnchorMatrix(): egret.Matrix {
-        let matrix = this.$getMatrix();
-        let offsetX = this.anchorOffsetX;
-        let offsetY = this.anchorOffsetY;
+        const matrix = this.$getMatrix();
+        const offsetX = this.anchorOffsetX;
+        const offsetY = this.anchorOffsetY;
         if (offsetX != 0 || offsetY != 0) {
-            let tempM = egret.$TempMatrix;
+            const tempM = egret.$TempMatrix;
             matrix.$preMultiplyInto(tempM.setTo(1, 0, 0, 1, -offsetX, -offsetY), tempM);
             return tempM;
         }
@@ -1727,47 +1718,47 @@ export class UIComponentImpl extends egret.DisplayObject implements UIComponent 
     }
 }
 function isEmptyFunction(prototype: any, key: string): boolean {
-    if (typeof prototype[key] != "function") {
+    if (typeof prototype[key] != 'function') {
         return false;
     }
     let body = prototype[key].toString();
-    let index = body.indexOf("{");
-    let lastIndex = body.lastIndexOf("}");
+    const index = body.indexOf('{');
+    const lastIndex = body.lastIndexOf('}');
     body = body.substring(index + 1, lastIndex);
-    return body.trim() == "";
+    return body.trim() == '';
 }
 export function mixin(target: any, template: any): void {
-    for (let property in template) {
-        if (property != "prototype" && template.hasOwnProperty(property)) {
+    for (const property in template) {
+        if (property != 'prototype' && template.hasOwnProperty(property)) {
             target[property] = template[property];
         }
     }
-    let prototype = target.prototype;
-    let protoBase = template.prototype;
-    let keys = Object.getOwnPropertyNames(protoBase);
-    let length = keys.length;
+    const prototype = target.prototype;
+    const protoBase = template.prototype;
+    const keys = Object.getOwnPropertyNames(protoBase);
+    const length = keys.length;
     for (let i = 0; i < length; i++) {
-        let key = keys[i];
-        if (key == "__meta__") {
+        const key = keys[i];
+        if (key == '__meta__') {
             continue;
         }
         if (!prototype.hasOwnProperty(key) || isEmptyFunction(prototype, key)) {
-            let value = Object.getOwnPropertyDescriptor(protoBase, key);
+            const value = Object.getOwnPropertyDescriptor(protoBase, key);
             Object.defineProperty(prototype, key, value);
         }
     }
 }
 export function implementUIComponent(descendant: any, base: any, isContainer?: boolean): void {
     mixin(descendant, UIComponentImpl);
-    let prototype = descendant.prototype;
+    const prototype = descendant.prototype;
     prototype.$super = base.prototype;
 
-    registerProperty(descendant, "left", "Percentage");
-    registerProperty(descendant, "right", "Percentage");
-    registerProperty(descendant, "top", "Percentage");
-    registerProperty(descendant, "bottom", "Percentage");
-    registerProperty(descendant, "horizontalCenter", "Percentage");
-    registerProperty(descendant, "verticalCenter", "Percentage");
+    registerProperty(descendant, 'left', 'Percentage');
+    registerProperty(descendant, 'right', 'Percentage');
+    registerProperty(descendant, 'top', 'Percentage');
+    registerProperty(descendant, 'bottom', 'Percentage');
+    registerProperty(descendant, 'horizontalCenter', 'Percentage');
+    registerProperty(descendant, 'verticalCenter', 'Percentage');
     if (isContainer) {
         prototype.$childAdded = function (child: egret.DisplayObject, index: number): void {
             this.invalidateSize();
@@ -1781,121 +1772,121 @@ export function implementUIComponent(descendant: any, base: any, isContainer?: b
 
     if (DEBUG) {//用于调试时查看布局尺寸的便利属性，发行版时移除。
 
-        Object.defineProperty(prototype, "preferredWidth", {
+        Object.defineProperty(prototype, 'preferredWidth', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getPreferredBounds(bounds);
                 return bounds.width;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "preferredHeight", {
+        Object.defineProperty(prototype, 'preferredHeight', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getPreferredBounds(bounds);
                 return bounds.height;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "preferredX", {
+        Object.defineProperty(prototype, 'preferredX', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getPreferredBounds(bounds);
                 return bounds.x;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "preferredY", {
+        Object.defineProperty(prototype, 'preferredY', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getPreferredBounds(bounds);
                 return bounds.y;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutBoundsX", {
+        Object.defineProperty(prototype, 'layoutBoundsX', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getLayoutBounds(bounds);
                 return bounds.x;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutBoundsY", {
+        Object.defineProperty(prototype, 'layoutBoundsY', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getLayoutBounds(bounds);
                 return bounds.y;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutBoundsWidth", {
+        Object.defineProperty(prototype, 'layoutBoundsWidth', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getLayoutBounds(bounds);
                 return bounds.width;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutBoundsHeight", {
+        Object.defineProperty(prototype, 'layoutBoundsHeight', {
             get: function () {
-                let bounds = egret.$TempRectangle;
+                const bounds = egret.$TempRectangle;
                 this.getLayoutBounds(bounds);
                 return bounds.height;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "measuredWidth", {
+        Object.defineProperty(prototype, 'measuredWidth', {
             get: function () {
                 return this.$UIComponent[UIKeys.measuredWidth];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "measuredHeight", {
+        Object.defineProperty(prototype, 'measuredHeight', {
             get: function () {
                 return this.$UIComponent[UIKeys.measuredHeight];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutWidthExplicitlySet", {
+        Object.defineProperty(prototype, 'layoutWidthExplicitlySet', {
             get: function () {
                 return this.$UIComponent[UIKeys.layoutWidthExplicitlySet];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "layoutHeightExplicitlySet", {
+        Object.defineProperty(prototype, 'layoutHeightExplicitlySet', {
             get: function () {
                 return this.$UIComponent[UIKeys.layoutHeightExplicitlySet];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "invalidatePropertiesFlag", {
+        Object.defineProperty(prototype, 'invalidatePropertiesFlag', {
             get: function () {
                 return this.$UIComponent[UIKeys.invalidatePropertiesFlag];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "invalidateSizeFlag", {
+        Object.defineProperty(prototype, 'invalidateSizeFlag', {
             get: function () {
                 return this.$UIComponent[UIKeys.invalidateSizeFlag];
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(prototype, "invalidateDisplayListFlag", {
+        Object.defineProperty(prototype, 'invalidateDisplayListFlag', {
             get: function () {
                 return this.$UIComponent[UIKeys.invalidateDisplayListFlag];
             },

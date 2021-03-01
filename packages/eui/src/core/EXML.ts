@@ -27,30 +27,27 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
-let callBackMap: any = {};
-let parsedClasses: any = {};
-
+const callBackMap: any = {};
+const parsedClasses: any = {};
 
 let innerClassCount = 0;
 
 class ExmlParser {
 
-
     public $parseCode(codeText: string, classStr: string): { new(): any } {
         //传入的是编译后的js字符串
-        let className = classStr ? classStr : "$exmlClass" + innerClassCount++;
-        let geval = eval;
-        let clazz = geval(codeText);
-        let hasClass = true;
+        const className = classStr ? classStr : '$exmlClass' + innerClassCount++;
+        const geval = eval;
+        const clazz = geval(codeText);
+        const hasClass = true;
 
         if (hasClass && clazz) {
             egret.registerClass(clazz, className);
-            let paths = className.split(".");
-            let length = paths.length;
+            const paths = className.split('.');
+            const length = paths.length;
             let definition = __global;
             for (let i = 0; i < length - 1; i++) {
-                let path = paths[i];
+                const path = paths[i];
                 definition = definition[path] || (definition[path] = {});
             }
             if (definition[paths[length - 1]]) {
@@ -69,13 +66,13 @@ class ExmlParser {
     }
 }
 
-let parser = new ExmlParser();
+const parser = new ExmlParser();
 
 /**
  * @private
  */
 function onLoadAllFinished(urls: string[], exmlContents: any, callBack?: (clazz: any[], url: string[]) => void, thisObject?: any) {
-    let clazzes = [];
+    const clazzes = [];
     urls.forEach((url, i) => {
 
         if ((url in parsedClasses) && !exmlContents[url]) {
@@ -83,8 +80,8 @@ function onLoadAllFinished(urls: string[], exmlContents: any, callBack?: (clazz:
             return;
         }
 
-        let text = exmlContents[url];
-        let clazz = $parseURLContent(url, text);
+        const text = exmlContents[url];
+        const clazz = $parseURLContent(url, text);
         clazzes[i] = clazz;
 
     });
@@ -94,16 +91,15 @@ function onLoadAllFinished(urls: string[], exmlContents: any, callBack?: (clazz:
 
 export function exmlUpdate(url: string, clazz: any) {
     parsedClasses[url] = clazz;
-    let list: any[] = callBackMap[url];
+    const list: any[] = callBackMap[url];
     delete callBackMap[url];
-    let length = list ? list.length : 0;
+    const length = list ? list.length : 0;
     for (let i = 0; i < length; i++) {
-        let arr = list[i];
+        const arr = list[i];
         if (arr[0] && arr[1])
             arr[0].call(arr[1], clazz, url);
     }
 }
-
 
 /**
  * @private
@@ -114,7 +110,7 @@ export function $parseURLContentAsJs(url: string, text: string, className: strin
     let clazz: any = null;
     if (text) {
         clazz = parser.$parseCode(text, className);
-        exmlUpdate(url, clazz)
+        exmlUpdate(url, clazz);
     }
 
 }
@@ -123,18 +119,18 @@ export function $parseURLContentAsJs(url: string, text: string, className: strin
  */
 export function $parseURLContent(url: string, text: string | any): any {
     let clazz: any = null;
-    if (text && text["prototype"]) {
+    if (text && text.prototype) {
         clazz = text;
     }
     if (url) {
         if (clazz) {
             parsedClasses[url] = clazz;
         }
-        let list: any[] = callBackMap[url];
+        const list: any[] = callBackMap[url];
         delete callBackMap[url];
-        let length = list ? list.length : 0;
+        const length = list ? list.length : 0;
         for (let i = 0; i < length; i++) {
-            let arr = list[i];
+            const arr = list[i];
             if (arr[0] && arr[1])
                 arr[0].call(arr[1], clazz, url);
         }

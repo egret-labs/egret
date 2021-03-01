@@ -28,34 +28,34 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-export class ScrollPolicy{
-		/**
-		 * Show the scrollbar if the children exceed the owner's dimension.
-         * @language en_US
-		 */
-		/**
-		 * 如果子项超出父级的尺寸，则允许滚动，反之不允许滚动。
-         * @language zh_CN
-		 */
-		public static AUTO:string = "auto";
-		
-		/**
-		 * Never show the scrollbar.
-         * @language en_US
-		 */
-		/**
-		 * 从不允许滚动。
-         * @language zh_CN
-		 */
-		public static OFF:string = "off";
+export class ScrollPolicy {
+    /**
+     * Show the scrollbar if the children exceed the owner's dimension.
+     * @language en_US
+     */
+    /**
+     * 如果子项超出父级的尺寸，则允许滚动，反之不允许滚动。
+     * @language zh_CN
+     */
+    public static AUTO: string = 'auto';
 
-		/**
-		 * Always show the scrollbar.
-         * @language en_US
-		 */
-		/**
-		 * 总是允许滚动。
-         * @language zh_CN
-		 */
-		public static ON:string = "on";
-	}
+    /**
+     * Never show the scrollbar.
+     * @language en_US
+     */
+    /**
+     * 从不允许滚动。
+     * @language zh_CN
+     */
+    public static OFF: string = 'off';
+
+    /**
+     * Always show the scrollbar.
+     * @language en_US
+     */
+    /**
+     * 总是允许滚动。
+     * @language zh_CN
+     */
+    public static ON: string = 'on';
+}
