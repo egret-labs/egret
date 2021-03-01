@@ -1,6 +1,6 @@
 {
   "name": "@egret/link-node-modules",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "bin": {
     "link-node-modules": "./bin/cli.js"

@@ -1,6 +1,13 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Fri, 26 Feb 2021 10:52:45 GMT and should not be manually modified.
+This log was last generated on Mon, 01 Mar 2021 06:25:29 GMT and should not be manually modified.
+
+## 2.1.4
+Mon, 01 Mar 2021 06:25:29 GMT
+
+### Patches
+
+- 添加 egretProperties.json 验证逻辑
 
 ## 2.1.3
 Fri, 26 Feb 2021 10:52:45 GMT
