@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@egret/ts-minify-transformer",
+      "comment": "添加 emitReflect方法并修复 Interface没有递归查找的问题",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@egret/ts-minify-transformer",
+  "email": "wangze@egret.com"
+}
