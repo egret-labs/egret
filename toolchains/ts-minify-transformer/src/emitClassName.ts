@@ -62,6 +62,49 @@ function getInterfaces(node: ts.ClassDeclaration) {
     return result;
 }
 
+export function emitReflect(prefix: string) {
+    return function (ctx: ts.TransformationContext) {
+
+        function visitClassDeclaration(node: ts.ClassDeclaration) {
+            if (isTypeScriptDeclaration(node)) {
+                return node;
+            }
+            const nameNode = node.name;
+            if (nameNode) {
+                const result = getFullName(node);
+                const arrays: ts.Node[] = [
+                    node
+                ];
+                const interfaces = getInterfaces(node).map((item) => `"${prefix}.${item}"`).join(',');
+                const reflectExpression = ts.createIdentifier(`__reflect(${nameNode.getText()}.prototype,"${prefix}.${result.fullname}",[${interfaces}]); `);
+                arrays.push(reflectExpression);
+
+                return ts.createNodeArray(arrays);
+            }
+            else {
+                return node;
+            }
+        }
+
+        function visitor(node: ts.Node): any {
+
+            let result: ts.Node | ts.NodeArray<ts.Node>;
+
+            if (ts.isClassDeclaration(node)) {
+                result = visitClassDeclaration(node);
+            }
+            else {
+                result = ts.visitEachChild(node, visitor, ctx);
+            }
+
+            return result;
+        };
+        return function (sf: ts.SourceFile) {
+            return ts.visitNode(sf, visitor);
+        };
+    };
+}
+
 export function emitClassName() {
     return function (ctx: ts.TransformationContext) {
         function visitClassDeclaration(node: ts.ClassDeclaration) {
@@ -129,9 +172,6 @@ export function emitClassName() {
                 return node;
             }
         }
-
-        // 最外层变量需要挂载到全局对象上
-        const nestLevel = 0;
 
         function visitor(node: ts.Node): any {
 
