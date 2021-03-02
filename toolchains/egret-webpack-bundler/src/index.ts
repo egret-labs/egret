@@ -303,7 +303,7 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
             compilerOptions,
             getCustomTransformers: function (program: ts.Program) {
                 const before = [
-                    emitClassName()
+                    emitClassName(program)
                 ];
                 if (options.defines) {
                     before.push(emitDefine(options.defines as any));

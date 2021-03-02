@@ -7,9 +7,9 @@ export const enum GenerateNameStrategy {
 }
 
 export interface PropertyMinifierOptions {
-	/**
-	 * Prefix of generated names (e.g. '__private__')
-	 */
+    /**
+     * Prefix of generated names (e.g. '__private__')
+     */
     mode: 'debug' | 'release';
 }
 

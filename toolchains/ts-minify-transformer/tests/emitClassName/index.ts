@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import ts from 'typescript';
-import { emitClassName } from '../../';
+import { emitClassName } from '../../src/emitClassName';
 
 describe('emitClassName', () => {
 
     const dirs = fs.readdirSync('./tests/emitClassName/baselines/');
     for (const dir of dirs) {
-        if (dir === 'namespace-complex') {
+        if (dir !== 'reflect') {
             continue;
         }
         it(`transformer-${dir}`, async () => {
@@ -35,7 +35,7 @@ function compile(dir: string) {
 
         const customTransformer = {
             before: [
-                emitClassName()
+                emitClassName(program)
             ]
         };
         const emitResult = program.emit(undefined, (filename, data) => {

@@ -10,7 +10,7 @@ export function build() {
     const emitResult = program.emit(undefined, (filename, data) => {
         ts.sys.writeFile(filename, data);
     }, undefined, undefined, {
-        before: [transformer.emitReflect('eui')],
+        before: [transformer.emitReflect('eui', program)],
         after: []
     });
 
