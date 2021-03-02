@@ -22,7 +22,7 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "/test/transaction.spec\\.(ts|tsx)$"
+    "testRegex": "/test/index.spec\\.(ts|tsx)$"
   },
   "dependencies": {
     "@egret/eui-compiler": "workspace:*",
