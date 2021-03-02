@@ -88,17 +88,51 @@ const debugEmitSolution: EmitSolution = (theme, transformers) => {
     return { filename, content };
 };
 
+const rawEmitSolution: EmitSolution = (theme) => {
+
+    const filename = theme.filePath.replace('thm.json', 'raw.thm.json');
+    const themeData = theme.data;
+    const exmlFiles = themeData.exmls;
+    const result: any = {};
+
+    function walkObject(obj: any) {
+        if (obj.mapping) {
+            delete obj.mapping;
+        }
+        for (const key in obj) {
+            const v = obj[key];
+            if (v && typeof v === 'object') {
+                walkObject(v);
+            }
+        }
+    }
+
+    for (const filename of exmlFiles) {
+        const fullpath = getFilePathRelativeProjectRoot(filename);
+        const content = fs.readFileSync(fullpath, 'utf-8');
+        const skinNode = generateAST(content);
+        walkObject(result);
+        result[filename] = skinNode;
+    }
+
+    return {
+        filename,
+        content: JSON.stringify(result, null, '\t')
+    };
+};
+
 const modes: { [mode: string]: EmitSolution } = {
     'commonjs': javascriptEmitSolution,
     'commonjs2': jsonEmitSolution,
-    'debug': debugEmitSolution
+    'debug': debugEmitSolution,
+    'raw': rawEmitSolution
 };
 
 export class EuiCompiler {
 
     private _transformers: EuiAstTransformer[] = [];
 
-    constructor(root: string, private mode = 'commonjs2') {
+    constructor(root: string, private mode = 'commonjs') {
         initilize(root);
         initTypings();
     }
