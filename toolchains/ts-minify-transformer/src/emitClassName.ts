@@ -48,18 +48,14 @@ function createGlobalExpression(text: string) {
     return ts.createIdentifier(`window["${text}"] = ${text};`);
 }
 
-let flag = false;
+function getInterfaces(node: ts.ClassDeclaration, program: ts.Program) {
 
-function getInterfaces(node: ts.ClassDeclaration | ts.InterfaceDeclaration, program: ts.Program, result: string[]) {
-
+    const result: string[] = [];
     const typeChecker = program.getTypeChecker();
 
     if (node.heritageClauses) {
         for (const h of node.heritageClauses) {
-
-            if (ts.isClassDeclaration(node) && h.token === ts.SyntaxKind.ImplementsKeyword ||
-                ts.isInterfaceDeclaration(node) && h.token === ts.SyntaxKind.ExtendsKeyword
-            ) {
+            if (h.token === ts.SyntaxKind.ImplementsKeyword) {
                 for (const type of h.types) {
                     const name = type.expression;
                     const symbol = typeChecker.getSymbolAtLocation(name)!;
@@ -91,11 +87,7 @@ export function emitReflect(prefix: string, program: ts.Program) {
                 const arrays: ts.Node[] = [
                     node
                 ];
-                const interfacesStr: string[] = [];
-                flag = node.name!.getText() === 'Group'
-                getInterfaces(node, program, interfacesStr);
-
-                const interfaces = interfacesStr.map((item) => `"${prefix}.${item}"`).join(',');
+                const interfaces = getInterfaces(node, program).map((item) => `"${prefix}.${item}"`).join(',');
                 const reflectExpression = ts.createIdentifier(`__reflect(${nameNode.getText()}.prototype,"${prefix}.${result.fullname}",[${interfaces}]); `);
                 arrays.push(reflectExpression);
 
@@ -142,9 +134,7 @@ export function emitClassName(program: ts.Program) {
                     arrays.push(globalExpression);
                 }
 
-                const interfacesStr: string[] = [];
-                getInterfaces(node, program, interfacesStr);
-                const interfaces = interfacesStr.map((item) => `"${item}"`).join(',');
+                const interfaces = getInterfaces(node, program).map((item) => `"${item}"`).join(',');
                 // const interfaces = getInterfaces(node, program).map((item) => `"${item}"`).join(',');
                 const reflectExpression = ts.createIdentifier(`__reflect(${nameNode.getText()}.prototype,"${result.fullname}",[${interfaces}]); `);
                 arrays.push(reflectExpression);
