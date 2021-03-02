@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --p tsconfig.release.json",
-    "watch": "tsc --p tsconfig.release.json -w",
-    "test": "tsc --noEmit"
+    "build": "package-bundler --p tsconfig.release.json",
+    "watch": "package-bundler --p tsconfig.release.json -w",
+    "test": "package-bundler --noEmit"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "3.9.9"
+    "@egret/package-bundler": "workspace:*"
   }
 }
