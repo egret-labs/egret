@@ -9,7 +9,10 @@ importers:
       '@egret/egret-webpack-bundler': 'workspace:*'
       '@egret/eui-compiler': 'workspace:*'
   ../../examples/webpack-project:
-    specifiers: {}
+    devDependencies:
+      '@egret/link-node-modules': 'link:../../toolchains/link-node-modules'
+    specifiers:
+      '@egret/link-node-modules': 'workspace:*'
   ../../packages/assetsmanager:
     dependencies:
       '@egret/audio': 'link:../audio'
@@ -173,6 +176,14 @@ importers:
       '@types/node': ~14.14.13
       cmd-shim: ~4.1.0
       typescript: 3.9.9
+  ../../toolchains/package-bundler:
+    dependencies:
+      '@egret/ts-minify-transformer': 'link:../ts-minify-transformer'
+    devDependencies:
+      typescript: 3.9.9
+    specifiers:
+      '@egret/ts-minify-transformer': 'workspace:*'
+      typescript: ^3.9.9
   ../../toolchains/texture-merger-core:
     dependencies:
       free-tex-packer-core: 0.3.2
@@ -7429,3 +7440,4 @@ packages:
     resolution:
       tarball: 'https://codeload.github.com/lukeapage/webpack-hot-middleware/tar.gz/2cdfe0d0111dab6432b8683112fd2d17a5e80572'
     version: 2.25.0
+registry: ''

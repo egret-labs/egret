@@ -16,10 +16,10 @@ class Main extends egret.DisplayObjectContainer {
     async execute() {
 
         await this.runEui();
-        await this.runTween();
+        // await this.runTween();
     }
 
-    async run() {
+    async runAudio() {
         await RES.loadConfig('default.res.json', 'resource');
         const audioFactory = await RES.getResAsync('bg_mp3') as AudioFactory<WebAudioInstance>;
         const audio = audioFactory.create();
@@ -37,8 +37,7 @@ class Main extends egret.DisplayObjectContainer {
         text.text = 'Hello,World';
         text.x = text.y = 50;
         this.addChild(text);
-        Tween.get(text).to({ x: 400, y: 400 }, 1000);
-        const x = { zIndex: 1 } as { zIndex: number };
+        Tween.get(text).to({ x1: 400, y: 400 }, 1000);
         Tween.get(this).to({ b: 1 });
     }
 
@@ -50,14 +49,13 @@ class Main extends egret.DisplayObjectContainer {
         context.initialize();
 
         await RES.loadConfig('default.res.json', 'resource');
-        const img = new eui.Image();
-        img.source = 'bg_jpg';
-        this.addChild(img);
+        // const img = new eui.Image();
+        // img.source = 'bg_jpg';
+        // this.addChild(img);
 
         const component = new eui.Component();
         component.skinName = skins.MyComponent;
         this.addChild(component);
-        component.x = component.y = 200;
 
     }
 }

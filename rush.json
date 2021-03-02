@@ -422,6 +422,10 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@egret/package-bundler",
+      "projectFolder": "toolchains/package-bundler"
+    },
+    {
       "packageName": "@egret/link-node-modules",
       "projectFolder": "toolchains/link-node-modules",
       "reviewCategory": "production",

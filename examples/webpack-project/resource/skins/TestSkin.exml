@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <e:Skin class="skins.MyComponent"
     xmlns:e="http://ns.egret.com/eui">
-    <e:Label id="labelDisplay" size="30" text="helloworld"/>
+    <e:Label id="labelDisplay" size="30" text="Error" left="200"/>
 </e:Skin>

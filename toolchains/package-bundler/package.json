@@ -1,0 +1,21 @@
+{
+  "name": "@egret/package-bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "bin": {
+    "package-bundler": "./bin/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@egret/ts-minify-transformer": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.9"
+  }
+}
