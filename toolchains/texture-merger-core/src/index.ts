@@ -11,6 +11,8 @@ const options1: freeTexPackerCore.TexturePackerOptions = {
     allowRotation: true,
     detectIdentical: true,
     allowTrim: true,
+    extrude: 2,
+    powerOfTwo: true,
     exporter: 'JsonArray' as freeTexPackerCore.PackerExporterType.JSON_HASH,
     //  {
     //     fileExt: 'json',
