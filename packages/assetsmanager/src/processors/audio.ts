@@ -23,7 +23,7 @@ export const musicProcessor: Processor = {
     onLoadStart: (resource) => {
         return new Observable((s) => {
             const manager = AudioManager.instance;
-            manager.register(resource, SimpleHTMLAudioLoader);
+            manager.register(resource, WebAudioLoader);
             const factory = manager.getFactory(resource.name);
             factory.load().then(() => {
                 s.next(factory);
@@ -43,10 +43,9 @@ class WebAudioLoader extends AbstractAudioLoader {
     async load(url: string): Promise<AudioBuffer> {
 
         const buffer = await loadBuffer(url).toPromise();
-        return new Promise<AudioBuffer>((resolve, reject) => {
-            AudioManager.context.decodeAudioData(buffer, function (decodeData) {
-                resolve(decodeData);
-            });
+        const audioContext: AudioContext = AudioManager.context;
+        return audioContext.decodeAudioData(buffer).then((decodeData) => {
+            return decodeData;
         });
     }
 }
