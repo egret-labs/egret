@@ -4,20 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "echo helloworld"
-  },
-  "dependencies": {
-    "@egret/assetsmanager": "workspace:*",
-    "@egret/audio": "workspace:*"
-  },
-  "peerDependencies": {
-    "webpack": "^5.17.0"
+    "start": "egret-compiler run  --config scripts/dev-config.js",
+    "build": "echo helloworld",
+    "postinstall": "npx @egret/link-node-modules@1.0.4 ../../toolchains/egret-webpack-bundler"
   },
   "devDependencies": {
-    "webpack-cli": "^4.4.0",
-    "webpack-dev-server": "^4.0.0-beta.0",
-    "@egret/egret-webpack-bundler": "workspace:*"
+    "@egret/link-node-modules": "workspace:*"
   },
   "author": "",
   "license": "ISC"

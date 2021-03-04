@@ -8,7 +8,11 @@ interface InterfaceA {
 
 namespace m {
 
-    export interface InterfaceB {
+    export interface InterfaceB extends InterfaceC {
+
+    }
+
+    export interface InterfaceC {
 
     }
 

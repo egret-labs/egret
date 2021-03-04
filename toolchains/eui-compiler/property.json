@@ -237,7 +237,7 @@
         "percentHeight": "number",
         "percentWidth": "number",
         "right": "number",
-        "skinName": "any",
+        "skinName": "skinNameAttribute",
         "super": "egret.DisplayObjectContainer",
         "top": "number",
         "verticalCenter": "number"

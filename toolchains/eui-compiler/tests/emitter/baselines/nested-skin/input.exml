@@ -10,4 +10,7 @@
       </e:skinName>
     </e:Button>
   </e:Group>
+  <e:Group>
+    <e:Component x="0" y="0" skinName="skins.MyComponent2"/>
+  </e:Group>
 </e:Skin>

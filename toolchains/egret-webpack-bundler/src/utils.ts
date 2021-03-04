@@ -1,5 +1,6 @@
 import * as os from 'os';
 import { walk } from '@nodelib/fs.walk';
+import * as path from 'path';
 
 export function getNetworkAddress(): string {
 
@@ -30,6 +31,7 @@ export function walkDir(root: string) {
                 reject(error);
             }
             else {
+                entities.forEach((e) => e.path = path.relative(root, e.path).split('\\').join('/'));
                 resolve(entities);
             }
 

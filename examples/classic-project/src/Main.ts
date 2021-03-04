@@ -27,11 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
 declare const VERSION: number;
 console.log(VERSION);
-
-
 class Main extends eui.UILayer {
 
 
@@ -70,7 +67,6 @@ class Main extends eui.UILayer {
         await platform.login();
         const userInfo = await platform.getUserInfo();
         console.log(userInfo);
-
     }
 
     private async loadResource() {
@@ -88,7 +84,7 @@ class Main extends eui.UILayer {
     }
 
     private loadTheme() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             // load skin theme configuration file, you can manually modify the file. And replace the default skin.
             //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
             let theme = new eui.Theme("resource/default.thm.json", this.stage);

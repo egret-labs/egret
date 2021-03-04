@@ -96,12 +96,8 @@ export function parseConfig(type: 'json' | 'yaml', content: string): TexturePack
     }
 }
 
-export function executeMerge(options: TexturePackerOptions) {
+export function executeMerge(images: { path: string, contents: Buffer }[], options: TexturePackerOptions) {
 
-    const images: any[] = [];
-    for (const file of options.files) {
-        images.push({ path: file, contents: fs.readFileSync(path.join(options.root, file)) });
-    }
     return new Promise<Output>((resolve, reject) => {
         freeTexPackerCore.default(images, options1, (files, error) => {
             if (error) {

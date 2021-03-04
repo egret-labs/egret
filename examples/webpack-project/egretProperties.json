@@ -1,6 +1,6 @@
 {
-  "engineVersion": "5.3.8",
-  "compilerVersion": "5.3.8",
+  "engineVersion": "5.4.0",
+  "compilerVersion": "5.4.0",
   "template": {},
   "target": {
     "current": "web"
@@ -8,6 +8,20 @@
   "modules": [
     {
       "name": "egret"
+    }
+  ],
+  "packages": [
+    {
+      "name": "assetsmanager"
+    },
+    {
+      "name": "audio"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "eui"
     }
   ],
   "eui": {

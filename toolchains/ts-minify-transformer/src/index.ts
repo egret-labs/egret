@@ -8,5 +8,5 @@ export function minifyTransformer(program: ts.Program, config?: Partial<Property
     return (context: ts.TransformationContext) => (file: ts.SourceFile) => minifier.visitSourceFile(file, program, context);
 }
 
-export { emitClassName } from './emitClassName';
+export { emitClassName, emitReflect } from './emitClassName';
 export { emitDefine } from './emitDefine';

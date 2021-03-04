@@ -1,13 +1,16 @@
 import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import express from 'express';
 import * as path from 'path';
+import { validate } from 'schema-utils';
 import * as ts from 'typescript';
 import webpack from 'webpack';
+import { createFileSystem } from './assets/utils';
 import { TypeScriptLegacyPlugin } from './loaders/src-loader/TypeScriptLegacyPlugin';
 import ThemePlugin from './loaders/theme';
 import { openUrl } from './open';
-import EgretPropertyPlugin from './plugins/EgretPropertyPlugin';
-import ResourceConfigFilePlugin, { ResourceConfigFilePluginOptions } from './plugins/ResourceConfigFilePlugin';
+import schema from './options/schema.json';
+import { WebpackBundleOptions } from './options/typings';
+import ResourceTransactionPlugin from './plugins/ResourceTransactionPlugin';
 import { getNetworkAddress } from './utils';
 const middleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -15,80 +18,81 @@ const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 
-export type WebpackBundleOptions = {
+export { WebpackBundleOptions } from './options/typings';
+// export type WebpackBundleOptions = {
 
-    /**
-     * 设置发布的库为 library.js 还是 library.min.js
-     */
-    libraryType: 'debug' | 'release'
+//     /**
+//      * 设置发布的库为 library.js 还是 library.min.js
+//      */
+//     libraryType: 'debug' | 'release'
 
-    /**
-     * 编译宏常量定义
-     */
-    defines?: {
-        [key: string]: string | number | boolean
-    },
+//     /**
+//      * 编译宏常量定义
+//      */
+//     defines?: {
+//         [key: string]: string | number | boolean
+//     },
 
-    /**
-     * 是否启动 EXML 相关功能
-     */
-    exml?: {
-        /**
-         * EXML增量编译
-         */
-        watch: boolean
-    }
+//     /**
+//      * 是否启动 EXML 相关功能
+//      */
+//     exml?: {
+//         /**
+//          * EXML增量编译
+//          */
+//         watch: boolean
+//     }
 
-    /**
-     * TypeScript 相关配置
-     */
-    typescript?: {
-        /**
-         * 编译模式
-         * modern 模式为完全ES6 Module的方式，底层实现采用 ts-loader
-         * legacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理
-         */
-        mode: 'legacy' | 'modern',
+//     /**
+//      * TypeScript 相关配置
+//      */
+//     typescript?: {
+//         /**
+//          * 编译模式
+//          * modern 模式为完全ES6 Module的方式，底层实现采用 ts-loader
+//          * legacy 模式为兼容现有代码的方式，底层在执行 ts-loader 之前先进行了其他内部处理
+//          */
+//         mode: 'legacy' | 'modern',
 
-        /**
-         * 编译采用的 tsconfig.json 路径，默认为 tsconfig.json
-         */
-        tsconfigPath?: string
+//         /**
+//          * 编译采用的 tsconfig.json 路径，默认为 tsconfig.json
+//          */
+//         tsconfigPath?: string
 
-        // minify?: import("@egret/ts-minify-transformer").TransformOptions
+//         // minify?: import("@egret/ts-minify-transformer").TransformOptions
 
-    }
+//     }
 
-    html?: {
-        templateFilePath: string
-    }
+//     html?: {
+//         templateFilePath: string
+//     }
 
-    /**
-     * 是否发布子包及子包规则
-     */
-    subpackages?: { name: string, matcher: (filepath: string) => boolean }[],
+//     /**
+//      * 是否发布子包及子包规则
+//      */
+//     subpackages?: { name: string, matcher: (filepath: string) => boolean }[],
 
-    /**
-     * 自定义的 webpack 配置
-     */
-    webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
+//     /**
+//      * 自定义的 webpack 配置
+//      */
+//     webpackConfig?: webpack.Configuration | ((bundleWebpackConfig: webpack.Configuration) => webpack.Configuration)
 
-    parseEgretProperty?: boolean
+//     parseEgretProperty?: boolean
 
-    assets?: ResourceConfigFilePluginOptions
-}
+//     assets?: ResourceConfigFilePluginOptions
+// }
 
-export type WebpackDevServerOptions = {
-    /**
-     * 启动端口，默认值为3000
-     */
-    port?: number
+// export type WebpackDevServerOptions = {
+//     /**
+//      * 启动端口，默认值为3000
+//      */
+//     port?: number
 
-    /**
-     * 编译完成后打开浏览器
-     */
-    open?: boolean
-}
+//     /**
+//      * 编译完成后打开浏览器
+//      */
+//     open?: boolean
+// }
 
 export class EgretWebpackBundler {
 
@@ -99,10 +103,9 @@ export class EgretWebpackBundler {
 
     }
 
-    startDevServer(options: WebpackBundleOptions & WebpackDevServerOptions) {
+    startDevServer(options: WebpackBundleOptions) {
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
-
         const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
         (webpackConfig.entry! as any).main.unshift(hotMiddlewareScript);
         webpackConfig.plugins?.push(
@@ -116,14 +119,15 @@ export class EgretWebpackBundler {
         compilerApp.use(allowCrossDomain);
         const middlewareOptions: any = {
             stats: webpackStatsOptions,
-            publicPath: undefined
+            publicPath: undefined,
+            outputFileSystem: createFileSystem(path.join(compiler.context, 'cache_library'))
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
         compilerApp.use(webpackHotMiddleware(compiler));
-        const port = options.port || 3000;
+        const port = options.devServer?.port || 3000;
         startExpressServer(compilerApp, port);
-        compilerApp.use(express.static(this.projectRoot));
-        if (options.open) {
+        // compilerApp.use(express.static(this.projectRoot));
+        if (options.devServer?.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }
     }
@@ -187,11 +191,20 @@ export function generateConfig(
 
 ): webpack.Configuration {
 
+    try {
+        validate(schema as any, options);
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            console.log(e.message);
+        }
+    }
+
     context = context.split('/').join(path.sep);
     const needSourceMap = devServer;
     const mode = devServer ? 'development' : 'production';
 
-    let config: webpack.Configuration = {
+    const config: webpack.Configuration = {
         stats: { colors: true, modules: false },
         entry: { main: ['./src/Main.ts'] },
         target: 'web',
@@ -220,7 +233,6 @@ export function generateConfig(
     generateWebpackConfig_html(config, options, target);
     genrateWebpackConfig_subpackages(config, options);
     generateWebpackConfig_egretProperty(config, options, target);
-    generateWebpackConfig_resource(config, options);
     if (target === 'lib') {
         config.output!.library = 'xxx';
         config.output!.libraryTarget = 'umd';
@@ -229,10 +241,10 @@ export function generateConfig(
         config.optimization!.moduleIds = 'named';
         config.optimization!.chunkIds = 'named';
     }
-    if (options.webpackConfig) {
-        const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
-        config = webpackMerge(config, customWebpackConfig);
-    }
+    // if (options.webpackConfig) {
+    //     const customWebpackConfig = typeof options.webpackConfig === 'function' ? options.webpackConfig(config) : options.webpackConfig;
+    //     config = webpackMerge(config, customWebpackConfig);
+    // }
     if (devServer) {
         return Object.assign(config, {
             devServer: {
@@ -291,10 +303,10 @@ function generateWebpackConfig_typescript(config: webpack.Configuration, options
             compilerOptions,
             getCustomTransformers: function (program: ts.Program) {
                 const before = [
-                    emitClassName()
+                    emitClassName(program)
                 ];
                 if (options.defines) {
-                    before.push(emitDefine(options.defines));
+                    before.push(emitDefine(options.defines as any));
                 }
                 return {
                     before
@@ -371,16 +383,7 @@ function generateWebpackConfig_egretProperty(config: webpack.Configuration, opti
         return;
     }
     config.plugins?.push(
-        new EgretPropertyPlugin(options)
-    );
-}
-
-function generateWebpackConfig_resource(config: webpack.Configuration, options: WebpackBundleOptions) {
-    if (!options.assets) {
-        return;
-    }
-    config.plugins?.push(
-        new ResourceConfigFilePlugin(options.assets)
+        new ResourceTransactionPlugin(options)
     );
 }
 

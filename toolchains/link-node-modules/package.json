@@ -1,0 +1,22 @@
+{
+  "name": "@egret/link-node-modules",
+  "version": "1.0.4",
+  "description": "",
+  "bin": {
+    "link-node-modules": "./bin/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "3.9.9",
+    "@types/node": "~14.14.13"
+  },
+  "dependencies": {
+    "cmd-shim": "~4.1.0"
+  }
+}

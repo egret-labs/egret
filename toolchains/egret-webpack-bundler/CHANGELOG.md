@@ -1,6 +1,41 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Fri, 05 Feb 2021 03:52:57 GMT and should not be manually modified.
+This log was last generated on Mon, 01 Mar 2021 06:25:29 GMT and should not be manually modified.
+
+## 2.1.4
+Mon, 01 Mar 2021 06:25:29 GMT
+
+### Patches
+
+- 添加 egretProperties.json 验证逻辑
+
+## 2.1.3
+Fri, 26 Feb 2021 10:52:45 GMT
+
+_Version update only_
+
+## 2.1.2
+Fri, 26 Feb 2021 07:34:00 GMT
+
+_Version update only_
+
+## 2.1.1
+Fri, 26 Feb 2021 07:30:25 GMT
+
+### Patches
+
+- add link node-modules
+
+## 2.1.0
+Fri, 26 Feb 2021 06:35:39 GMT
+
+### Minor changes
+
+- 添加纹理集合并功能
+
+### Patches
+
+- 添加 options 检查逻辑，当用户传递的 options 参数异常时候会提示报错
 
 ## 2.0.5
 Fri, 05 Feb 2021 03:52:57 GMT

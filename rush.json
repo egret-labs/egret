@@ -422,6 +422,16 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@egret/package-bundler",
+      "projectFolder": "toolchains/package-bundler"
+    },
+    {
+      "packageName": "@egret/link-node-modules",
+      "projectFolder": "toolchains/link-node-modules",
+      "reviewCategory": "production",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@egret/assetsmanager",
       "projectFolder": "packages/assetsmanager",
       "reviewCategory": "production"
@@ -429,6 +439,16 @@
     {
       "packageName": "@egret/audio",
       "projectFolder": "packages/audio",
+      "reviewCategory": "production"
+    },
+    {
+      "packageName": "@egret/tween",
+      "projectFolder": "packages/tween",
+      "reviewCategory": "production"
+    },
+    {
+      "packageName": "@egret/eui",
+      "projectFolder": "packages/eui",
       "reviewCategory": "production"
     },
     {

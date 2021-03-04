@@ -48,13 +48,25 @@ function createGlobalExpression(text: string) {
     return ts.createIdentifier(`window["${text}"] = ${text};`);
 }
 
-function getInterfaces(node: ts.ClassDeclaration) {
+function getInterfaces(node: ts.ClassDeclaration, program: ts.Program) {
+
     const result: string[] = [];
+    const typeChecker = program.getTypeChecker();
+
     if (node.heritageClauses) {
         for (const h of node.heritageClauses) {
             if (h.token === ts.SyntaxKind.ImplementsKeyword) {
                 for (const type of h.types) {
-                    result.push(type.expression.getText());
+                    const name = type.expression;
+                    const symbol = typeChecker.getSymbolAtLocation(name)!;
+                    const typeSymbol = typeChecker.getDeclaredTypeOfSymbol(symbol);
+                    const baseTypes = typeSymbol.getBaseTypes();
+                    if (baseTypes) {
+                        for (const baseType of baseTypes) {
+                            result.push(typeChecker.typeToString(baseType));
+                        }
+                    }
+                    result.push(name.getText());
                 }
             }
         }
@@ -62,7 +74,50 @@ function getInterfaces(node: ts.ClassDeclaration) {
     return result;
 }
 
-export function emitClassName() {
+export function emitReflect(prefix: string, program: ts.Program) {
+    return function (ctx: ts.TransformationContext) {
+
+        function visitClassDeclaration(node: ts.ClassDeclaration) {
+            if (isTypeScriptDeclaration(node)) {
+                return node;
+            }
+            const nameNode = node.name;
+            if (nameNode) {
+                const result = getFullName(node);
+                const arrays: ts.Node[] = [
+                    node
+                ];
+                const interfaces = getInterfaces(node, program).map((item) => `"${prefix}.${item}"`).join(',');
+                const reflectExpression = ts.createIdentifier(`__reflect(${nameNode.getText()}.prototype,"${prefix}.${result.fullname}",[${interfaces}]); `);
+                arrays.push(reflectExpression);
+
+                return ts.createNodeArray(arrays);
+            }
+            else {
+                return node;
+            }
+        }
+
+        function visitor(node: ts.Node): any {
+
+            let result: ts.Node | ts.NodeArray<ts.Node>;
+
+            if (ts.isClassDeclaration(node)) {
+                result = visitClassDeclaration(node);
+            }
+            else {
+                result = ts.visitEachChild(node, visitor, ctx);
+            }
+
+            return result;
+        };
+        return function (sf: ts.SourceFile) {
+            return ts.visitNode(sf, visitor);
+        };
+    };
+}
+
+export function emitClassName(program: ts.Program) {
     return function (ctx: ts.TransformationContext) {
         function visitClassDeclaration(node: ts.ClassDeclaration) {
             if (isTypeScriptDeclaration(node)) {
@@ -78,7 +133,9 @@ export function emitClassName() {
                     const globalExpression = createGlobalExpression(result.fullname);
                     arrays.push(globalExpression);
                 }
-                const interfaces = getInterfaces(node).map((item) => `"${item}"`).join(',');
+
+                const interfaces = getInterfaces(node, program).map((item) => `"${item}"`).join(',');
+                // const interfaces = getInterfaces(node, program).map((item) => `"${item}"`).join(',');
                 const reflectExpression = ts.createIdentifier(`__reflect(${nameNode.getText()}.prototype,"${result.fullname}",[${interfaces}]); `);
                 arrays.push(reflectExpression);
 
@@ -130,9 +187,6 @@ export function emitClassName() {
             }
         }
 
-        // 最外层变量需要挂载到全局对象上
-        const nestLevel = 0;
-
         function visitor(node: ts.Node): any {
 
             let result: ts.Node | ts.NodeArray<ts.Node>;
@@ -163,50 +217,4 @@ export function emitClassName() {
             return ts.visitNode(sf, visitor);
         };
     };
-}
-
-function addDependency(moduleName: string) {
-    return function (ctx: ts.TransformationContext) {
-
-        function visitClassDeclaration(node: ts.ClassDeclaration) {
-            // const isExport = node.modifiers ? node.modifiers.some((m) => m.kind === ts.SyntaxKind.ExportKeyword) : false;
-            const binaryExpression = ts.createIdentifier(`require("${moduleName}")`);
-            const arrays = [
-                binaryExpression,
-                node
-
-            ];
-            return ts.createNodeArray(arrays);
-        }
-        function visitor(node: ts.Node): any {
-            if (node.kind === ts.SyntaxKind.ClassDeclaration) {
-                const clz = node as ts.ClassDeclaration;
-                if (clz.name && clz.name.getText() === 'Main') {
-                    return visitClassDeclaration(node as ts.ClassDeclaration);
-                }
-                else {
-                    return ts.visitEachChild(node, visitor, ctx);
-                }
-
-            }
-            else {
-                return ts.visitEachChild(node, visitor, ctx);
-            }
-        };
-
-        function visitor2(node: ts.Node): any {
-            return ts.visitEachChild(node, visitor, ctx);
-        };
-
-        return function (sf: ts.SourceFile) {
-            if (sf.fileName.indexOf('Main.ts') >= 0) {
-                return ts.visitNode(sf, visitor);
-            }
-            else {
-                return ts.visitNode(sf, visitor2);
-            }
-
-        };
-    };
-
 }

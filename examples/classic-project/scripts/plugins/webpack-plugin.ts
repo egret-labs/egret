@@ -2,7 +2,7 @@
 // require('./npm').installDependencies(["@egret/egret-webpack-bundler"]);
 
 
-import { EgretWebpackBundler, WebpackBundleOptions, WebpackDevServerOptions } from '@egret/egret-webpack-bundler';
+import { EgretWebpackBundler, WebpackBundleOptions } from '@egret/egret-webpack-bundler';
 
 /**
  * Webpack 插件
@@ -10,7 +10,7 @@ import { EgretWebpackBundler, WebpackBundleOptions, WebpackDevServerOptions } fr
  */
 export class WebpackDevServerPlugin implements plugins.Command {
 
-    constructor(private options: WebpackBundleOptions & WebpackDevServerOptions) {
+    constructor(private options: WebpackBundleOptions) {
     }
 
     async onFile(file: plugins.File) {

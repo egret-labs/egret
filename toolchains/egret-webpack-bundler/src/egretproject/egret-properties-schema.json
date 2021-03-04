@@ -1,0 +1,72 @@
+{
+    "title": "EgretProperties",
+    "type": "object",
+    "properties": {
+        "packages": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "modules": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    },
+                    "path": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "engineVersion": {
+            "type": "string"
+        },
+        "compilerVersion": {
+            "type": "string"
+        },
+        "eui": {
+            "type": "object",
+            "properties": {
+                "exmlRoot": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "themes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "engineVersion",
+        "compilerVersion",
+        "modules"
+    ],
+    "additionalProperties": true
+}

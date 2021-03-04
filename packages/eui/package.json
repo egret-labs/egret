@@ -1,0 +1,17 @@
+{
+  "name": "@egret/eui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "package-bundler --p tsconfig.release.json",
+    "watch": "package-bundler --p tsconfig.release.json -w",
+    "test": "package-bundler --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@egret/package-bundler": "workspace:*"
+  }
+}
