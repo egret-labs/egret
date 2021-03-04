@@ -23,6 +23,7 @@ export default class ResourceTransactionPlugin {
         this.transactionManager = new TransactionManager(compiler.context);
         this.transactionManager.create(EgretPropertyTransaction, this.options);
         this.transactionManager.create(ResourceConfigTransaction, 'resource/default.res.json');
+
         this.transactionManager.inputFileSystem = {
             readFileAsync: (filepath: string) => {
                 return readFileAsync(compiler, filepath) as any;
@@ -39,6 +40,7 @@ export default class ResourceTransactionPlugin {
 
             if (!this.isInit) {
                 await this.transactionManager.initialize();
+                await this.transactionManager.addTextureMerger();
                 this.isInit = true;
             }
             await this.transactionManager.prepare();
@@ -54,6 +56,7 @@ export default class ResourceTransactionPlugin {
 
             if (!this.isInit) {
                 await this.transactionManager.initialize();
+                await this.transactionManager.addTextureMerger();
                 this.isInit = true;
             }
             await this.transactionManager.prepare();
