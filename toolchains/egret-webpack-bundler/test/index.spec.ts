@@ -1,7 +1,5 @@
 import * as path from 'path';
-import { Factory } from '../src/loaders/src-loader/Factory';
 import * as bundler from './test-bundler';
-import * as fs from 'fs';
 const projectRoot = path.join(__dirname, 'simple-project');
 
 describe('第一个测试', () => {
@@ -14,7 +12,7 @@ describe('第一个测试', () => {
         expect(egret.is(new context.MyComponent(), 'MyComponent')).toBe(true);
         expect(egret.is(new context.MyComponent(), 'InterfaceA')).toBe(true);
         expect(egret.is(new context.MyComponent(), 'm.InterfaceB')).toBe(true);
-        expect(egret.is(new context.MyComponent(), 'm.InterfaceC')).toBe(true);
+        expect(egret.is(new context.MyComponent(), 'InterfaceC')).toBe(true);
 
     });
 

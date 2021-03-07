@@ -26,8 +26,7 @@ export function compile(projectRoot: string, options: lib.WebpackBundleOptions) 
         const store = new Volume();
 
         const handler = (error: any, status: any) => {
-            console.log(error)
-            console.log(status.toString(webpackConfig.stats))
+            console.log(status.toString(webpackConfig.stats));
             resolve({ store, compiler, compilation, report: () => console.log(status.toString(webpackConfig.stats)) });
         };
         compiler.outputFileSystem = store as any;
