@@ -8,11 +8,7 @@ interface InterfaceA {
 
 namespace m {
 
-    export interface InterfaceB extends InterfaceC {
-
-    }
-
-    export interface InterfaceC {
+    export interface InterfaceB {
 
     }
 
@@ -25,6 +21,6 @@ function doSomething() {
 
 }
 
-class MyComponent implements InterfaceA, m.InterfaceB {
+class MyComponent implements InterfaceA {
 
 }
