@@ -66,7 +66,6 @@ function getInterfaces(node: ts.ClassDeclaration, program: ts.Program) {
                             const declaration = baseType.symbol.declarations[0];
 
                             const { fullname } = getFullName(declaration);
-                            console.log(fullname)
                             result.push(fullname);
                         }
                     }
