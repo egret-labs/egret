@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@egret/ts-minify-transformer",
+      "comment": "修复 emitReflect 的接口包含 namespace 时输出错误的 BUG",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@egret/ts-minify-transformer",
+  "email": "wangze@egret.com"
+}
