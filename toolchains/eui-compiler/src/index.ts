@@ -114,6 +114,7 @@ const rawEmitSolution: EmitSolution = (theme) => {
         walkObject(result);
         result[filename] = skinNode;
     }
+    result.skins = theme.data.skins;
 
     return {
         filename,
