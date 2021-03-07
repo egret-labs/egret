@@ -12,13 +12,13 @@ namespace m {
 
     }
 
+    interface InterfaceC {
+
+    }
+
     class B {
 
     }
-}
-
-interface InterfaceC {
-
 }
 
 function doSomething() {

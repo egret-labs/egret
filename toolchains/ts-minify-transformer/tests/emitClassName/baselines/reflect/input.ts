@@ -6,7 +6,17 @@ interface C extends B {
 
 }
 
-class A implements C {
+namespace X {
+    export interface D extends E {
+
+    }
+
+    interface E {
+
+    }
+}
+
+class A implements C, X.D {
 
 }
 

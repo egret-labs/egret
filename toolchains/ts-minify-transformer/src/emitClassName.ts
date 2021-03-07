@@ -63,7 +63,11 @@ function getInterfaces(node: ts.ClassDeclaration, program: ts.Program) {
                     const baseTypes = typeSymbol.getBaseTypes();
                     if (baseTypes) {
                         for (const baseType of baseTypes) {
-                            result.push(typeChecker.typeToString(baseType));
+                            const declaration = baseType.symbol.declarations[0];
+
+                            const { fullname } = getFullName(declaration);
+                            console.log(fullname)
+                            result.push(fullname);
                         }
                     }
                     result.push(name.getText());

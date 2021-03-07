@@ -12,7 +12,7 @@ describe('第一个测试', () => {
         expect(egret.is(new context.MyComponent(), 'MyComponent')).toBe(true);
         expect(egret.is(new context.MyComponent(), 'InterfaceA')).toBe(true);
         expect(egret.is(new context.MyComponent(), 'm.InterfaceB')).toBe(true);
-        expect(egret.is(new context.MyComponent(), 'InterfaceC')).toBe(true);
+        expect(egret.is(new context.MyComponent(), 'm.InterfaceC')).toBe(true);
 
     });
 
