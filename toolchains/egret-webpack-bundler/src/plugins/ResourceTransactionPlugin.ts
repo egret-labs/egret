@@ -1,6 +1,3 @@
-import { linkNodeModules } from '@egret/link-node-modules';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as webpack from 'webpack';
 import { TransactionManager } from '../assets/TransactionManager';
 import { EgretPropertyTransaction } from '../assets/transactions/EgretPropertyTransaction';
@@ -32,11 +29,7 @@ export default class ResourceTransactionPlugin {
 
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
 
-            const packageRoot = path.resolve(__dirname, '../../../../packages/');
-            for (const p of this.transactionManager.project.getPackages()) {
-                const packageDir = path.join(packageRoot, p.name);
-                await linkNodeModules(packageDir, compiler.context);
-            }
+            await this.transactionManager.project.link();
 
             if (!this.isInit) {
                 await this.transactionManager.initialize();
@@ -48,12 +41,7 @@ export default class ResourceTransactionPlugin {
         });
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
 
-            const packageRoot = path.resolve(__dirname, '../../../../packages/');
-            for (const p of this.transactionManager.project.getPackages()) {
-                const packageDir = path.join(packageRoot, p.name);
-                await linkNodeModules(packageDir, compiler.context);
-            }
-
+            await this.transactionManager.project.link();
             if (!this.isInit) {
                 await this.transactionManager.initialize();
                 await this.transactionManager.addTextureMerger();

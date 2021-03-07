@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as _path from 'path';
 import { validate } from 'schema-utils';
+import { linkNodeModules } from '@egret/link-node-modules';
 import { getApi } from './api';
 import schema from './egret-properties-schema.json';
 import { EgretProperties } from './typings';
@@ -16,7 +17,13 @@ type SourceCode = {
     platform: Target_Type
 }
 
-export class EgretProjectData {
+export function createProject(projectRoot: string) {
+    const project = new EgretProject();
+    project.init(projectRoot);
+    return project;
+}
+
+export class EgretProject {
     private egretProperties: EgretProperties = {
         modules: [],
         target: { current: 'web' },
@@ -151,8 +158,14 @@ export class EgretProjectData {
         return result;
     }
 
-    getPackages() {
-        return this.egretProperties.packages || [];
+    async link() {
+        const packages = this.egretProperties.packages || [];
+        const packageRoot = _path.resolve(__dirname, '../../../../packages/');
+        for (const p of packages) {
+            const packageDir = _path.join(packageRoot, p.name);
+            await linkNodeModules(packageDir, this.projectRoot);
+        }
+        return packages;
     }
 }
 

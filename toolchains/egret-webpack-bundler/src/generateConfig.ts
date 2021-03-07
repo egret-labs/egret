@@ -1,4 +1,4 @@
-import { emitClassName, emitDefine, emitReflect } from '@egret/ts-minify-transformer';
+import { emitClassName, emitDefine } from '@egret/ts-minify-transformer';
 import * as path from 'path';
 import { validate } from 'schema-utils';
 import ts from 'typescript';
@@ -100,12 +100,11 @@ export function generateWebpackConfig_typescript(config: webpack.Configuration, 
             compilerOptions,
             getCustomTransformers: function (program: ts.Program) {
                 const before = [
-                    // emitReflect('ddd', program)
                     emitClassName(program)
                 ];
-                // if (options.defines) {
-                //     before.push(emitDefine(options.defines as any));
-                // }
+                if (options.defines) {
+                    before.push(emitDefine(options.defines as any));
+                }
                 return {
                     before
                 };

@@ -2,7 +2,7 @@ import { EuiCompiler } from '@egret/eui-compiler';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as webpack from 'webpack';
-import { createProject } from '../egretproject';
+import { createProject } from '../egretproject/EgretProject';
 import { LineEmitter } from './inline-loader';
 import { AbstractInlinePlugin } from './inline-loader/AbstractInlinePlugin';
 
@@ -29,7 +29,6 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         const exmls = project.getExmlRoots();
         this.options.dirs = exmls;
 
-
         const theme = euiCompiler.getThemes()[0];
         const dirs = this.options.dirs.map((dir) => path.join(compiler.context, dir));
         if (theme.data.autoGenerateExmlsList) {
@@ -38,7 +37,7 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         else {
             this.addFileDependency(path.join(compiler.context, theme.filePath));
         }
-        for (let dir of dirs) {
+        for (const dir of dirs) {
             this.addContextDependency(dir);
         }
         return {
@@ -47,26 +46,26 @@ export default class ThemePlugin extends AbstractInlinePlugin {
                 const theme = euiCompiler.getThemes()[0];
                 const requires = theme.data.exmls.map((exml) => `require("./${path.relative(path.join(compiler.context, 'src'), exml).split('\\').join('/')}");`);
                 const themeJsContent = [
-                    `window.skins = window.skins || {};`,
-                    `window.generateEUI = window.generateEUI || {`,
-                    `   paths: {},styles: undefined,`,
+                    'window.skins = window.skins || {};',
+                    'window.generateEUI = window.generateEUI || {',
+                    '   paths: {},styles: undefined,',
                     `   skins: ${JSON.stringify(theme.data.skins, null)},`,
-                    `};`,
+                    '};'
 
                 ].concat(requires).concat([
-                    `module.exports = window.generateEUI;`
+                    'module.exports = window.generateEUI;'
                 ]);
                 // 检查 eui 是在 package.json （新模式）还是 egretProperties.json（老模式）中
                 const euiInPackageJson = !project.getModules().includes('eui');
                 if (euiInPackageJson) {
                     themeJsContent.unshift(
-                        `window.eui = require('@egret/eui')`,
-                    )
+                        'window.eui = require(\'@egret/eui\')',
+                    );
                 }
 
-                return themeJsContent
+                return themeJsContent;
             }
-        } as LineEmitter
+        } as LineEmitter;
     }
 
     onChange(compilation: webpack.Compilation) {
@@ -80,8 +79,6 @@ export default class ThemePlugin extends AbstractInlinePlugin {
         fs.writeFileSync(filename, content, 'utf-8');
     }
 }
-
-
 
 // 添加watch ignore
 function addWatchIgnore(compiler: webpack.Compiler, ignored: string) {

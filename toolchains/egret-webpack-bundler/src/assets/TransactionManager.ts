@@ -1,5 +1,4 @@
-import { createProject } from '../egretproject';
-import { EgretProjectData } from '../egretproject/data';
+import { createProject, EgretProject } from '../egretproject/EgretProject';
 import { walkDir } from '../utils';
 import { ResourceConfigFactory } from './ResourceConfigFactory';
 import { Transaction } from './Transaction';
@@ -28,7 +27,7 @@ export class TransactionManager {
 
     factory = new ResourceConfigFactory();
 
-    project: EgretProjectData;
+    project: EgretProject;
 
     // eslint-disable-next-line no-useless-constructor
     constructor(public projectRoot: string) {
