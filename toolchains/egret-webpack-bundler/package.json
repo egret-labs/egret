@@ -1,6 +1,6 @@
 {
   "name": "@egret/egret-webpack-bundler",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "",
   "bin": {
     "egret-compiler": "./bin/cli.js"
@@ -33,9 +33,9 @@
     "args": "^5.0.1",
     "copy-webpack-plugin": "^5.1.1",
     "express": "~4.17.1",
+    "fork-ts-checker-webpack-plugin": "6.1.0",
     "fs-extra": "~9.1.0",
     "fs-extra-promise": "~1.0.1",
-    "fork-ts-checker-webpack-plugin": "6.1.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "5.2.0",
     "js-yaml": "~4.0.0",

@@ -1,6 +1,13 @@
 # Change Log - @egret/link-node-modules
 
-This log was last generated on Mon, 01 Mar 2021 06:25:30 GMT and should not be manually modified.
+This log was last generated on Wed, 10 Mar 2021 03:29:24 GMT and should not be manually modified.
+
+## 1.0.5
+Wed, 10 Mar 2021 03:29:24 GMT
+
+### Patches
+
+- 修复link在有org时会报错的问题
 
 ## 1.0.4
 Mon, 01 Mar 2021 06:25:30 GMT

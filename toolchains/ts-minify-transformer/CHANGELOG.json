@@ -2,6 +2,21 @@
   "name": "@egret/ts-minify-transformer",
   "entries": [
     {
+      "version": "1.0.2",
+      "tag": "@egret/ts-minify-transformer_v1.0.2",
+      "date": "Wed, 10 Mar 2021 03:29:25 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "添加 emitReflect方法并修复 Interface没有递归查找的问题"
+          },
+          {
+            "comment": "修复 emitReflect 的接口包含 namespace 时输出错误的 BUG"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "tag": "@egret/ts-minify-transformer_v1.0.1",
       "date": "Fri, 05 Feb 2021 03:02:34 GMT",
