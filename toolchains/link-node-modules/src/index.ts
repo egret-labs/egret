@@ -14,7 +14,6 @@ export async function linkNodeModules(packageDir: string, projectDir: string) {
     const packageContent = await fs.promises.readFile(pkgFilePath, 'utf-8');
     const pkgInfo = JSON.parse(packageContent) as PKG_JSON;
     const packageName = pkgInfo.name;
-
     const linkDir = path.join(projectDir, 'node_modules', packageName);
     // await fs.promises.rmdir(linkDir, { recursive: true });
     if (!fs.existsSync(linkDir)) {
