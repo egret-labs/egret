@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": true,
+        "allowUnreachableCode": true,
+        "newLine": "LF",
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
