@@ -4,15 +4,26 @@ const lib = require('../lib/index');
 const args = require('args');
 const path = require('path');
 args.option('config', 'config-file', '', (value) => {
-    const p = path.join(process.cwd(), value);
-    // eslint-disable-next-line global-require
-    return require(p);
+    if (!value) {
+        return null;
+    }
+    else {
+        const p = path.join(process.cwd(), value);
+        // eslint-disable-next-line global-require
+        return require(p);
+    }
+
 });
 args.command('build', 'build-project', (name, sub, options) => {
     // @ts-ignore
     const config = options.config;
     const bundler = new lib.EgretWebpackBundler(process.cwd(), 'web');
     bundler.build(config);
+});
+args.command('install', 'install-project', (name, sub, options) => {
+    // @ts-ignore
+    const bundler = new lib.EgretWebpackBundler(process.cwd(), 'web');
+    bundler.install();
 });
 args.command('run', 'run-project', (name, sub, options) => {
     // @ts-ignore

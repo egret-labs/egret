@@ -3,6 +3,7 @@ import express from 'express';
 import * as path from 'path';
 import webpack from 'webpack';
 import { createFileSystem } from './assets/utils';
+import { createProject } from './egretproject/EgretProject';
 import { generateConfig } from './generateConfig';
 import { openUrl } from './open';
 import { WebpackBundleOptions } from './options/typings';
@@ -72,9 +73,9 @@ export class EgretWebpackBundler {
         });
     }
 
-    prepare() {
-
-
+    async install() {
+        const project = createProject(this.projectRoot);
+        await project.link();
     }
 }
 

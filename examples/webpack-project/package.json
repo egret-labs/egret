@@ -2,14 +2,11 @@
   "name": "@egret/example-webpack-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "egret-compiler run  --config scripts/dev-config.js",
     "build": "echo helloworld",
-    "postinstall": "npx @egret/link-node-modules@1.0.4 ../../toolchains/egret-webpack-bundler"
-  },
-  "devDependencies": {
-    "@egret/link-node-modules": "workspace:*"
+    "prepare": "egret-compiler install",
+    "postinstall": "npx @egret/link-node-modules@1.0.4 ../../toolchains/egret-webpack-bundler && egret-compiler install"
   },
   "author": "",
   "license": "ISC"

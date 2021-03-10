@@ -1,7 +1,7 @@
+import { linkNodeModules } from '@egret/link-node-modules';
 import * as fs from 'fs';
 import * as _path from 'path';
 import { validate } from 'schema-utils';
-import { linkNodeModules } from '@egret/link-node-modules';
 import { getApi } from './api';
 import schema from './egret-properties-schema.json';
 import { EgretProperties } from './typings';
@@ -165,7 +165,6 @@ export class EgretProject {
             const packageDir = _path.join(packageRoot, p.name);
             await linkNodeModules(packageDir, this.projectRoot);
         }
-        return packages;
     }
 }
 
