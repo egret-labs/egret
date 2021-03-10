@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 // 从目录开始
-function genFileList(path) {
+function convertEol(path) {
     const filesList = [];
     readFile(path, filesList);
     // return filesList;
@@ -36,7 +36,4 @@ function readFile(_path, filesList) {
     });
 }
 
-const res = genFileList(path.resolve(__dirname, '../packages/eui')); // __dirname是当前路径，可以修改
-// let res = genFileList('D:/demo/test');
-// console.log(__dirname);
-// console.log(res)
+convertEol(path.resolve(__dirname, '../packages/egret')); // __dirname是当前路径，可以修改
