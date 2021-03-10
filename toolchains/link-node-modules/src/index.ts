@@ -18,6 +18,7 @@ export async function linkNodeModules(packageDir: string, projectDir: string) {
     const linkDir = path.join(projectDir, 'node_modules', packageName);
     // await fs.promises.rmdir(linkDir, { recursive: true });
     if (!fs.existsSync(linkDir)) {
+        await fs.promises.mkdir(path.resolve(linkDir, '../'), { recursive: true });
         await fs.promises.symlink(packageDir, linkDir, 'junction');
     };
 
