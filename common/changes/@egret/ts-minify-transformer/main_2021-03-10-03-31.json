@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@egret/ts-minify-transformer",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@egret/ts-minify-transformer",
+  "email": "wangze@egret.com"
+}

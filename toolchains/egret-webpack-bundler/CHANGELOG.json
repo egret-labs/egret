@@ -2,6 +2,18 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.1.6",
+      "tag": "@egret/egret-webpack-bundler_v2.1.6",
+      "date": "Wed, 10 Mar 2021 03:31:27 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@egret/link-node-modules\" to `1.0.6`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.5",
       "tag": "@egret/egret-webpack-bundler_v2.1.5",
       "date": "Wed, 10 Mar 2021 03:29:25 GMT",
