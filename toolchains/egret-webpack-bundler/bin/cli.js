@@ -20,7 +20,7 @@ args.command('build', 'build-project', (name, sub, options) => {
     const bundler = new lib.EgretWebpackBundler(process.cwd(), 'web');
     bundler.build(config);
 });
-args.command('install', 'install-project', (name, sub, options) => {
+args.command('prepare', 'prepare-build-project', (name, sub, options) => {
     // @ts-ignore
     const bundler = new lib.EgretWebpackBundler(process.cwd(), 'web');
     bundler.install();

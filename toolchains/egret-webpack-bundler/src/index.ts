@@ -76,6 +76,7 @@ export class EgretWebpackBundler {
     async install() {
         const project = createProject(this.projectRoot);
         await project.link();
+        await project.copy();
     }
 }
 

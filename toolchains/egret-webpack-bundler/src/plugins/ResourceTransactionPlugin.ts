@@ -29,9 +29,8 @@ export default class ResourceTransactionPlugin {
 
         compiler.hooks.watchRun.tapPromise(this.constructor.name, async () => {
 
-            await this.transactionManager.project.link();
-
             if (!this.isInit) {
+                await this.transactionManager.project.link();
                 await this.transactionManager.initialize();
                 await this.transactionManager.addTextureMerger();
                 this.isInit = true;
@@ -41,8 +40,8 @@ export default class ResourceTransactionPlugin {
         });
         compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
 
-            await this.transactionManager.project.link();
             if (!this.isInit) {
+                await this.transactionManager.project.link();
                 await this.transactionManager.initialize();
                 await this.transactionManager.addTextureMerger();
                 this.isInit = true;

@@ -4,9 +4,8 @@
   "description": "",
   "scripts": {
     "start": "egret-compiler run  --config scripts/dev-config.js",
-    "build": "echo helloworld",
-    "prepare": "egret-compiler install",
-    "postinstall": "npx @egret/link-node-modules@1.0.4 ../../toolchains/egret-webpack-bundler && egret-compiler install"
+    "build": "egret-compiler prepare",
+    "postinstall": "npx @egret/link-node-modules@1.0.4 ../../toolchains/egret-webpack-bundler"
   },
   "author": "",
   "license": "ISC"

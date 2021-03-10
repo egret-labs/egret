@@ -1,5 +1,5 @@
 import { linkNodeModules } from '@egret/link-node-modules';
-import * as fs from 'fs';
+import * as fs from 'fs-extra-promise';
 import * as _path from 'path';
 import { validate } from 'schema-utils';
 import { getApi } from './api';
@@ -124,7 +124,7 @@ export class EgretProject {
         return this.getFilePath('libs/modules');
     }
 
-    getConfigByModule(m: EgretPropertyModule, platform: Target_Type) {
+    private getConfigByModule(m: EgretPropertyModule, platform: Target_Type) {
         const name = m.name;
         const sourceDir = this.getModulePath(m);
         let targetDir = _path.join(this.getLibraryFolder(), name);
@@ -156,6 +156,14 @@ export class EgretProject {
         }
         const result = this.egretProperties.modules.map((m) => this.getConfigByModule(m, platform));
         return result;
+    }
+
+    async copy() {
+        const egretModules = this.getModulesConfig('web');
+        for (const m of egretModules) {
+            await fs.ensureDirAsync(_path.dirname(m.targetDir));
+            await fs.copyAsync(m.sourceDir, m.targetDir);
+        }
     }
 
     async link() {
