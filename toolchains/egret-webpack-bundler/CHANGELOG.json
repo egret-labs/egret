@@ -2,6 +2,18 @@
   "name": "@egret/egret-webpack-bundler",
   "entries": [
     {
+      "version": "2.1.7",
+      "tag": "@egret/egret-webpack-bundler_v2.1.7",
+      "date": "Fri, 12 Mar 2021 08:21:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "修复 typescript.mode 为 legacy 时 namespace 中的 class 排序可能存在问题的 bug"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.6",
       "tag": "@egret/egret-webpack-bundler_v2.1.6",
       "date": "Wed, 10 Mar 2021 03:31:27 GMT",

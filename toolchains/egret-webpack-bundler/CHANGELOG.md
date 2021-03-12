@@ -1,6 +1,13 @@
 # Change Log - @egret/egret-webpack-bundler
 
-This log was last generated on Wed, 10 Mar 2021 03:31:27 GMT and should not be manually modified.
+This log was last generated on Fri, 12 Mar 2021 08:21:10 GMT and should not be manually modified.
+
+## 2.1.7
+Fri, 12 Mar 2021 08:21:10 GMT
+
+### Patches
+
+- 修复 typescript.mode 为 legacy 时 namespace 中的 class 排序可能存在问题的 bug
 
 ## 2.1.6
 Wed, 10 Mar 2021 03:31:27 GMT
