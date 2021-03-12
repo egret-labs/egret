@@ -44,7 +44,8 @@ function getExpression(node: any): any {
         return node.text;
     }
     if (node.expression) {
-        if (node.expression.kind === ts.SyntaxKind.PropertyAccessExpression) {
+        if (node.expression.kind === ts.SyntaxKind.PropertyAccessExpression ||
+            node.expression.kind === ts.SyntaxKind.Identifier) {
             const pre = getExpression(node.expression);
             if (typeof pre === 'string' && node.name) {
                 return `${pre}.${node.name.text}`;
@@ -242,7 +243,10 @@ function collectGlobals(scopes: Declarations[], dependencies: Dependencies): Dep
     Object.keys(dependencies).forEach((name) => {
         const rootName = name.split('.')[0];
         const has = scopes.some((locals) => {
-            return !!locals[rootName];
+            return !!locals[rootName] &&
+                // 排除namespace里使用本身名字引用
+                // 例如: namespace core {  A extends core.B {} }
+                !(locals[rootName].type === 'Namespace' && name.includes('.'));
         });
         if (!has && !globals[name]) {
             globals[name] = dependencies[name];

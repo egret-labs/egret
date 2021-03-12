@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as bundler from './test-bundler';
 const projectRoot = path.join(__dirname, 'simple-project');
-
+import { Factory } from '../src/loaders/src-loader/Factory';
 describe('第一个测试', () => {
 
     it('测试 egret.is', async () => {
@@ -27,17 +27,19 @@ describe('第一个测试', () => {
 
     });
 
-    // describe('测试 TypeScript', () => {
-    //     it('测试 legacy', async () => {
-    //         const factory = new Factory({ context: 'test/simple-project' });
-    //         factory.update();
-    //         const list = factory.sortUnmodules();
-    //         const nodeFileIndex = list.findIndex((v) => v.includes('testcore/Node.ts'));
-    //         const checkNodeFileIndex = list.findIndex((v) => v.includes('testcore/CheckNode.ts'));
-    //         expect(nodeFileIndex).toBeLessThan(checkNodeFileIndex);
-    //     }
-    //     );
-    // });
+    describe('测试 TypeScript', () => {
+        it('测试 legacy', async () => {
+            const factory = new Factory({ context: 'test/simple-project' });
+            // eslint-disable-next-line global-require
+            factory.fs = require('fs');
+            factory.update();
+            const list = factory.sortUnmodules();
+            const nodeFileIndex = list.findIndex((v) => v.includes('testcore/Node.ts'));
+            const checkNodeFileIndex = list.findIndex((v) => v.includes('testcore/CheckNode.ts'));
+            expect(nodeFileIndex).toBeLessThan(checkNodeFileIndex);
+        }
+        );
+    });
 
     describe('测试manifest', () => {
         it('测试不存在的模块', async () => {
