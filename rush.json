@@ -452,6 +452,11 @@
       "reviewCategory": "production"
     },
     {
+      "packageName": "@egret/egret",
+      "projectFolder": "packages/egret",
+      "reviewCategory": "production"
+    },
+    {
       "packageName": "@egret/example-webpack-project",
       "projectFolder": "examples/webpack-project"
     },

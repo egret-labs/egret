@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VertexBuffer #constructor() ddd 1`] = `
+Array [
+  Object {
+    "props": Object {
+      "dHeight": 0,
+      "dWidth": 0,
+      "dx": 100,
+      "dy": 100,
+      "img": <img
+        src="111.png"
+      />,
+      "sHeight": 0,
+      "sWidth": 0,
+      "sx": 0,
+      "sy": 0,
+    },
+    "transform": Array [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+    ],
+    "type": "drawImage",
+  },
+]
+`;
