@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@egret/egret-webpack-bundler",
+      "comment": "修复 typescript.mode 为 legacy 时 namespace 中的 class 排序可能存在问题的 bug",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@egret/egret-webpack-bundler",
+  "email": "wangze@egret.com"
+}

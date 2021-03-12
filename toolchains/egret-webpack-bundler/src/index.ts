@@ -24,6 +24,9 @@ export class EgretWebpackBundler {
     }
 
     startDevServer(options: WebpackBundleOptions) {
+
+        const useNewAssetsManager = false;
+
         const webpackStatsOptions = { colors: true, modules: false };
         const webpackConfig = generateConfig(this.projectRoot, options, this.target, true);
         const hotMiddlewareScript = require.resolve('webpack-hot-middleware/client') + '?reload=true';
@@ -40,13 +43,15 @@ export class EgretWebpackBundler {
         const middlewareOptions: any = {
             stats: webpackStatsOptions,
             publicPath: undefined,
-            outputFileSystem: createFileSystem(path.join(compiler.context, 'cache_library'))
+            outputFileSystem: useNewAssetsManager ? createFileSystem(path.join(compiler.context, 'cache_library')) : undefined
         };
         compilerApp.use(middleware(compiler, middlewareOptions));
         compilerApp.use(webpackHotMiddleware(compiler));
         const port = options.devServer?.port || 3000;
         startExpressServer(compilerApp, port);
-        // compilerApp.use(express.static(this.projectRoot));
+        if (!useNewAssetsManager) {
+            compilerApp.use(express.static(this.projectRoot));
+        }
         if (options.devServer?.open) {
             openUrl(`http://localhost:${port}/index.html`);
         }
