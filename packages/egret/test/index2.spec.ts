@@ -14,7 +14,7 @@ describe('TextField', function () {
                 super();
                 const text = new egret.TextField();
                 this.addChild(text);
-                text.text = 'helloworld';
+                text.text = 'Wangze';
             }
         }
         const context = await createEgretEnverionment(Main);
