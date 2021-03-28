@@ -9,9 +9,11 @@ export class SimpleHTMLAudioLoader extends AbstractAudioLoader {
         return new Promise<HTMLAudioElement>((resolve, reject) => {
             const audio = new Audio();
             audio.src = url;
-            audio.addEventListener('canplaythrough', () => {
+            const canplaythroughFunc = () => {
+                audio.removeEventListener('canplaythrough', canplaythroughFunc);
                 resolve(audio);
-            });
+            }
+            audio.addEventListener('canplaythrough', canplaythroughFunc);
             audio.load();
         });
     }

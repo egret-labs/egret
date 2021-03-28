@@ -20,13 +20,15 @@ export class WebAudioInstance extends AbstractAudioInstance {
     }
 
     play() {
+        const context = AudioManager.context;
         this.source.connect(this.gainNode);
+        this.gainNode.connect(context.destination);
         this.source.start();
         this.source.onended = this.onPlayEnded;
     }
 
     mute(value: boolean) {
-        this.gainNode.gain.value = value ? 1 : 0;
+        this.gainNode.gain.value = value ? 0 : 1;
     }
 
 
